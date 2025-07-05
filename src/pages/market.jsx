@@ -2,9 +2,11 @@ import React, { useEffect, useState } from "react";
 import { HiDotsHorizontal } from "react-icons/hi";
 import ScrollableTabsBar from "../common/leftTab";
 import { SearchData, Trades } from "./apiCall";
+import { CiRepeat } from "react-icons/ci";
 export const MarketCom = ({ dark, SetSearchQuery, searchQuery, symbol }) => {
   const [searchData, setSearchData] = useState([]);
   const [tradesData, setTradesData] = useState([]);
+  const [isVolume, setIsVolume] = useState(false);
   const [searchInput, setSearchInput] = useState("");
   useEffect(() => {
     Trades({ searchQuery, setTradesData });
@@ -15,7 +17,20 @@ export const MarketCom = ({ dark, SetSearchQuery, searchQuery, symbol }) => {
   const filteredData = searchData.filter((item) =>
     item.pair_symbol?.toLowerCase().includes(searchInput.toLowerCase())
   );
-
+  const handleToggle = () => {
+    setIsVolume(!isVolume);
+  };
+  const formatToKMB = (num) => {
+    if (num >= 1_000_000_000) {
+      return (num / 1_000_000_000).toFixed(2) + "B";
+    } else if (num >= 1_000_000) {
+      return (num / 1_000_000).toFixed(1) + "M";
+    } else if (num >= 1_000) {
+      return (num / 1_000).toFixed(2) + "K";
+    } else {
+      return (num / 1).toFixed(3);
+    }
+  };
   return (
     <div className="flex flex-col items-center w-full m-0">
       <div
@@ -29,7 +44,7 @@ export const MarketCom = ({ dark, SetSearchQuery, searchQuery, symbol }) => {
           <input
             className={`
     w-full capitalize rounded-lg
-    h-[2rem] p-5 text-[1rem] text-gray-400
+    h-[1.5rem] p-4 text-[1rem] text-gray-400
     border
     hover:border-[#b89c4f]
      border-[${dark ? `#474D57` : `#D8DCE1`}]
@@ -49,10 +64,23 @@ export const MarketCom = ({ dark, SetSearchQuery, searchQuery, symbol }) => {
           {filteredData?.length > 0 ? (
             <div>
               <table className="w-full">
-                <thead>
-                  <th>pair</th>
-                  <th>lastPrice/vol</th>
-                  <th></th>
+                <thead
+                  className={`${
+                    dark ? "text-[#EAECEF]" : "text-black"
+                  } text-[14px]`}
+                >
+                  <th className="text-left pl-2  font-medium capitalize">
+                    pair
+                  </th>
+                  <th className="capitalize text-left">lastPrice/vol</th>
+                  <th className="flex justify-center capitalize cursor-pointer">
+                    <CiRepeat
+                      className={`text-right ${
+                        isVolume ? "text-white" : "text-[#EAECEF]"
+                      }`}
+                      onClick={handleToggle}
+                    />
+                  </th>
                 </thead>
                 <tbody>
                   {filteredData?.map((item) => (
@@ -76,14 +104,16 @@ export const MarketCom = ({ dark, SetSearchQuery, searchQuery, symbol }) => {
                         {item?.current_price}
                       </td>
                       <td
-                        className={` ${
+                        className={`  ${
                           item?.change_in_price > 0
-                            ? "text-[#2EBD85]"
-                            : "text-[#F6465D]"
+                            ? `${!isVolume && "text-[#2EBD85]"}`
+                            : `${!isVolume && "text-[#F6465D]"}`
                         } xl:text-[12px] text-[.6rem] pl-1 pr-1 p-[4px] `}
                       >
-                        {item?.change_in_price > 0 ? "+" : "   "}
-                        {item?.change_in_price}
+                        {!isVolume && item?.change_in_price > 0 ? "+" : "   "}
+                        {!isVolume
+                          ? item?.change_in_price
+                          : formatToKMB(item?.volume)}
                       </td>
                     </tr>
                   ))}

@@ -520,33 +520,28 @@ export const tab = ["Sport", "Cross", "Isolated", "Grid"];
 
 export const supportOptions = [
   {
-    name: "More",
-    item: [
-      {
-        icon: <FaComments className="text-yellow-500" />,
-        title: "Submit Live Chat",
-        desc: "Chat with Customer Support",
-      },
-      {
-        icon: <FaQuestionCircle className="text-yellow-500" />,
-        title: "Support Centre",
-        desc: "Access Support FAQ articles",
-      },
-      {
-        icon: <FaMoneyBill className="text-yellow-500" />,
-        title: "Trading Fees",
-        desc: "View the trading fees",
-      },
-      {
-        icon: <FaBalanceScale className="text-yellow-500" />,
-        title: "Trading Rule",
-        desc: "View the trading rules and limits",
-      },
-      {
-        icon: <FaGlobe className="text-yellow-500" />,
-        title: "Travel Rule",
-        desc: "Enhance transparency and combat financial crimes",
-      },
-    ],
+    icon: <FaComments className="text-yellow-500" />,
+    title: "Submit Live Chat",
+    desc: "Chat with Customer Support",
+  },
+  {
+    icon: <FaQuestionCircle className="text-yellow-500" />,
+    title: "Support Centre",
+    desc: "Access Support FAQ articles",
+  },
+  {
+    icon: <FaMoneyBill className="text-yellow-500" />,
+    title: "Trading Fees",
+    desc: "View the trading fees",
+  },
+  {
+    icon: <FaBalanceScale className="text-yellow-500" />,
+    title: "Trading Rule",
+    desc: "View the trading rules and limits",
+  },
+  {
+    icon: <FaGlobe className="text-yellow-500" />,
+    title: "Travel Rule",
+    desc: "Enhance transparency and combat financial crimes",
   },
 ];
