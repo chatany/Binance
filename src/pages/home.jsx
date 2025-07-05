@@ -111,7 +111,7 @@ export const Home = () => {
       ws.onclose = () => {
         console.log("🔌 WS Closed. Fallback + Reconnect in 3s...");
         if (!fallbackInterval)
-        fallbackInterval = setInterval(fetchRestData, 3000);
+          fallbackInterval = setInterval(fetchRestData, 3000);
         reconnectTimer = setTimeout(startWebSocket, 3000);
       };
     };
@@ -201,7 +201,9 @@ export const Home = () => {
         {/* Top Navbar */}
         <div
           className={`flex flex-wrap justify-between items-center h-[4rem] w-[100vw] border-b-[1px]  p-3 ${
-            dark ? "bg-black border-gray-700 " : "bg-white border-gray-100"
+            dark
+              ? "bg-black border-gray-700 text-[#EAECEF] "
+              : "bg-white text-black border-gray-100"
           }`}
         >
           <div className="flex  lg:w-[50%] items-center text-lg gap-2 font-semibold leading-6 lg:justify-evenly">
@@ -231,7 +233,7 @@ export const Home = () => {
             ].map((item, i) => (
               <div
                 key={i}
-                className="hover:text-amber-400 text-[14px] lg:flex hidden items-center gap-1 cursor-pointer relative  text-[#EAECEF]"
+                className="hover:text-amber-400 text-[14px] lg:flex hidden items-center gap-1 cursor-pointer relative  "
                 onMouseEnter={(e) => {
                   const rect = e.currentTarget.getBoundingClientRect();
                   setHoveredItemIndex(i);
@@ -292,7 +294,7 @@ export const Home = () => {
           {/* Right Navbar */}
           <div className="flex md:gap-5 gap-2 lg:gap-3 items-center  md:mt-0 justify-between lg:pr-10 pr-4 cursor-pointer ">
             <CiSearch className="hover:text-amber-400  h-6 w-6 lg:block hidden" />
-            <div className="hover:text-gray-400 text-[14px] md:flex hidden font-extrabold text-[#EAECEF] leading-6">
+            <div className="hover:text-gray-400 text-[14px] md:flex hidden font-extrabold  leading-6">
               Log In
             </div>
             <div className=" text-[14px] font-medium leading-6 hover:opacity-85 text-black bg-[#fcd535] rounded-sm px-2 py-1">
@@ -332,7 +334,7 @@ export const Home = () => {
               </div>
               <div className="flex flex-col">
                 <div className="lg:text-[18px] text-[10px] font-medium min-w-max">
-                  {tikerData?.symbol.split("USDT")[0] + "/USDT"}
+                  {tikerData?.symbol?.split("USDT")[0] + "/USDT"}
                 </div>
                 <div className="lg:text-[18px] text-gray-400 text-[10px] font-medium min-w-max">
                   Bitcoin Price

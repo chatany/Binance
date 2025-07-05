@@ -9,7 +9,6 @@ export const Order = ({ dark, searchQuery, symbol, lastPrice }) => {
   useEffect(() => {
     Orders({ searchQuery, setOrderData });
   }, [searchQuery]);
-
   return (
     <div className="w-full  flex flex-col h-[57rem] overflow-hidden">
       <div
