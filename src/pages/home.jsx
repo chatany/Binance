@@ -3,6 +3,7 @@ import { CiSearch, CiStar } from "react-icons/ci";
 import { IoDownloadOutline } from "react-icons/io5";
 import { IoSunnyOutline } from "react-icons/io5";
 import { RxHamburgerMenu } from "react-icons/rx";
+import { RiArrowUpDoubleLine } from "react-icons/ri";
 import { TbWorld } from "react-icons/tb";
 import { MdDarkMode } from "react-icons/md";
 import { FaQuestion, FaAngleDown, FaAngleRight } from "react-icons/fa";
@@ -26,6 +27,7 @@ import {
 } from "../Constant";
 import { ChartEmbed } from "./chart";
 import { fetchData, TikerData } from "./apiCall";
+import TopMovers from "./move";
 let val;
 export const Home = () => {
   const [dark, setDark] = useState(true);
@@ -523,13 +525,17 @@ export const Home = () => {
             </div>
           </div>
 
-          <div className="w-[22%]  lg:flex hidden">
+          <div className="w-[22%]  lg:flex hidden flex-col">
             <MarketCom
               dark={dark}
               SetSearchQuery={SetSearchQuery}
               searchQuery={searchQuery}
               symbol={symbol}
             />
+            <div className="max-h-[15rem] flex flex-col items-end">
+              <RiArrowUpDoubleLine className="text-white h-6 w-6" />
+              <TopMovers />
+            </div>
           </div>
         </div>
         <div className="lg:block hidden w-full h-[600px]">
@@ -540,17 +546,23 @@ export const Home = () => {
           >
             <div className="flex   gap-2 items-center text-[14px] leading-4 p-3 w-[40%] font-medium ">
               {tabs.map((tab) => (
-                <button
-                  key={tab}
-                  onClick={() => setActiveTab(tab)}
-                  className={`flex-1 text-center py-2 font-medium transition-colors cursor-pointer duration-300 ${
-                    activeTab === tab
-                      ? "text-yellow-500"
-                      : "text-gray-600 hover:text-yellow-500"
-                  }`}
-                >
-                  {tab}
-                </button>
+                <div className="flex flex-col gap-1" key={tab}>
+                  <button
+                    onClick={() => setActiveTab(tab)}
+                    className={`flex-1 text-center py-2 font-medium transition-colors cursor-pointer duration-300 ${
+                      activeTab === tab
+                        ? "text-yellow-500"
+                        : "text-gray-600 hover:text-yellow-500"
+                    }`}
+                  >
+                    {tab}
+                  </button>
+                  {activeTab === tab && (
+                    <div className="flex justify-center w-full">
+                      <div className="w-[30%] border-b-2 border-amber-300"></div>
+                    </div>
+                  )}
+                </div>
               ))}
             </div>
           </div>
