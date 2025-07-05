@@ -417,7 +417,7 @@ export const Home = () => {
                 </div>
                 <div className="flex flex-col">
                   <div className="md:text-[14px] text-[10px]">
-                    {tikerData?.symbol.split("USDT")[0] + "/USDT"}
+                    {tikerData?.symbol?.split("USDT")[0] + "/USDT"}
                   </div>
                   <div className="md:text-[14px] text-[10px] text-gray-400 min-w-max">
                     Bitcoin Price
@@ -572,7 +572,7 @@ export const Home = () => {
               </div>
               <div className="flex flex-col">
                 <div className="md:text-[14px] text-[10px]">
-                  {tikerData?.symbol.split("USDT")[0] + "/USDT"}
+                  {tikerData?.symbol?.split("USDT")[0] + "/USDT"}
                 </div>
                 <div className="md:text-[14px] text-[10px] text-gray-400 min-w-max">
                   Bitcoin Price
@@ -897,7 +897,7 @@ export const Home = () => {
                 </div>
                 <div className="flex flex-col">
                   <div className="md:text-[14px] text-[10px] min-w-max">
-                    {tikerData?.symbol.split("USDT")[0] + "/USDT"}
+                    {tikerData?.symbol?.split("USDT")[0] + "/USDT"}
                   </div>
                   <div className="md:text-[14px] text-[10px] text-gray-400 min-w-max">
                     Bitcoin Price
