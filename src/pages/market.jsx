@@ -36,7 +36,7 @@ export const MarketCom = ({ dark, SetSearchQuery, searchQuery, symbol }) => {
       <div
         className={`${
           dark
-            ? "bg-[#111] text-white border-gray-700"
+            ? "bg-[#181A20] text-white border-gray-700"
             : "bg-zinc-50 text-black border-gray-200"
         } w-full  max-p-4  border  space-y-4 p-3`}
       >
@@ -60,7 +60,7 @@ export const MarketCom = ({ dark, SetSearchQuery, searchQuery, symbol }) => {
           {/* USDT <div className="border-b-2 border-amber-400 w-[12px]"></div> */}
           <ScrollableTabsBar dark={dark} />
         </div>
-        <div className="h-[23rem] overflow-x-auto overflow-y-auto">
+        <div className="h-[20rem] overflow-x-auto overflow-y-auto">
           {filteredData?.length > 0 ? (
             <div>
               <table className="w-full">
@@ -130,7 +130,7 @@ export const MarketCom = ({ dark, SetSearchQuery, searchQuery, symbol }) => {
       <div
         className={`${
           dark
-            ? "bg-[#111] text-white border-gray-700 "
+            ? "bg-[#181A20] text-white border-[#2B3139]"
             : "bg-zinc-50 border-gray-200 text-black "
         } overflow-x-auto overflow-y-auto w-full   p-3 border space-y-4 `}
       >
@@ -144,7 +144,7 @@ export const MarketCom = ({ dark, SetSearchQuery, searchQuery, symbol }) => {
             <HiDotsHorizontal />
           </div>
         </div>
-        <div className="no-scrollbar h-[25rem] overflow-x-auto overflow-y-auto">
+        <div className="no-scrollbar h-[22rem] overflow-x-auto overflow-y-auto">
           <table className="w-full">
             <thead>
               <tr>

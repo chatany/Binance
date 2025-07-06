@@ -43,6 +43,10 @@ export const Home = () => {
   const handleTheme = () => {
     setDark(!dark);
   };
+  const [open, setOpen] = useState(false);
+  const handleOpen = () => {
+    setOpen(!open);
+  };
   const [tikerData, setTikerData] = useState({
     symbol: "",
     lastPrice: "",
@@ -532,9 +536,24 @@ export const Home = () => {
               searchQuery={searchQuery}
               symbol={symbol}
             />
-            <div className="max-h-[15rem] flex flex-col items-end">
-              <RiArrowUpDoubleLine className="text-white h-6 w-6" />
-              <TopMovers />
+            <div
+              className={`max-h-[24rem] flex flex-col items-end ${
+                dark ? "bg-[#181A20] text-white" : "bg-white text-black"
+              }  p-2`}
+            >
+              <RiArrowUpDoubleLine
+                onClick={handleOpen}
+                className={`${
+                  open ? "transition-transform rotate-180" : ""
+                } h-6 w-6`}
+              />
+              <div
+                className={`${
+                  open ? "h-[20rem]" : "h-[15rem]"
+                } transition-all duration-500 delay-100 w-full`}
+              >
+                <TopMovers />
+              </div>
             </div>
           </div>
         </div>

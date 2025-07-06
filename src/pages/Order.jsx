@@ -14,7 +14,7 @@ export const Order = ({ dark, searchQuery, symbol, lastPrice }) => {
       <div
         className={`${
           dark
-            ? "bg-[#111] border-gray-700 text-white "
+            ? "bg-[#181A20] border-gray-700 text-white "
             : "bg-zinc-50 shadow-xl text-black border-gray-200 "
         } p-4  ${orderBuySell === "Buy" ? "h-full " : " "}   space-y-4`}
       >
@@ -143,7 +143,7 @@ export const Order = ({ dark, searchQuery, symbol, lastPrice }) => {
       <div
         className={`${
           dark
-            ? `bg-[#111] border-gray-700 text-white `
+            ? `bg-[#181A20] border-gray-700 text-white `
             : "bg-zinc-50  text-black border-gray-200"
         } p-2  overflow-hidden ${
           orderBuySell === "Sell" ? "h-full" : "h-[26rem]"

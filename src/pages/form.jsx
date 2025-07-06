@@ -72,8 +72,8 @@ export const Form = ({ dark }) => {
   
   return (
     <div
-      className={`flex sm:flex-row justify-center w-full  gap-3 flex-col items-center p-1 ${
-        dark ? "bg-black" : "bg-white"
+      className={`flex sm:flex-row justify-center w-full  gap-3 flex-col items-center rounded-lg   p-1 ${
+        dark ? "bg-[#181A20]" : "bg-white"
       } `}
     >
       <div className="w-full space-y-2">

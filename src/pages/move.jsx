@@ -22,7 +22,7 @@ const TopMovers = () => {
     activeTab === "All" ? moversData : moversData.slice(0, 3);
 
   return (
-    <div className="bg-[#121212] text-white rounded-xl w-full p-4 shadow-lg">
+    <div className="  rounded-xl w-full p-4 shadow-lg h-full overflow-hidden">
       {/* Header */}
       <div className="flex justify-between items-center mb-3">
         <h2 className="text-lg font-semibold">Top Movers</h2>
@@ -65,7 +65,7 @@ const TopMovers = () => {
       </div>
 
       {/* Movers List */}
-      <div className="space-y-2 overflow-y-auto  max-h-[8rem] no-scrollbar">
+      <div className="space-y-2 overflow-y-auto h-full no-scrollbar">
         {filteredMovers.map((mover, index) => (
           <div
             key={index}
