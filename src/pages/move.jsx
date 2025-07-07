@@ -1,10 +1,19 @@
 import React, { useState, useRef } from "react";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
+import { RiArrowUpDoubleLine } from "react-icons/ri";
+import { useDispatch, useSelector } from "react-redux";
+import { setOpen } from "../store/webSocket";
 
-const TopMovers = () => {
+const TopMovers = ({ dark }) => {
   const tabs = ["All", "Change", "New High/Low", "Fluctuation"];
+  const open = useSelector((state) => state.counter.open);
+  const dispatch = useDispatch();
   const [activeTab, setActiveTab] = useState("All");
   const tabRef = useRef(null);
+  // const [open, setOpen] = useState(false);
+  const handleOpen = () => {
+    dispatch(setOpen(!open));
+  };
   const moversData = [
     { pair: "FIDA/USDT", change: 3.21, time: "16:38:55", trend: "5min Rise" },
     { pair: "GUNJ/USDT", change: 10.18, time: "16:35:28", trend: "2Hr Rise" },
@@ -22,17 +31,30 @@ const TopMovers = () => {
     activeTab === "All" ? moversData : moversData.slice(0, 3);
 
   return (
-    <div className="  rounded-xl w-full p-4 shadow-lg h-full overflow-hidden">
-      {/* Header */}
-      <div className="flex justify-between items-center mb-3">
-        <h2 className="text-lg font-semibold">Top Movers</h2>
-        <a href="#" className="text-xs text-gray-400 hover:underline">
-          FAQ
-        </a>
+    <div
+      className={`${
+        open ? "h-[25rem]" : "h-[20rem]"
+      } transition-all duration-500 delay-100   rounded-lg w-full   overflow-hidden`}
+    >
+      <div
+        className={`flex  ${
+          dark ? "border-[#2B3139]" : "border-[#EAECEF]"
+        } border-b-1 w-full justify-between items-center mb-3 p-2`}
+      >
+        <div className="flex justify-between items-center gap-3">
+          <h2 className="text-[14px] font-semibold">Top Movers</h2>
+          <a href="#" className="text-xs text-gray-400 hover:underline">
+            FAQ
+          </a>
+        </div>
+        <RiArrowUpDoubleLine
+          onClick={handleOpen}
+          className={`${open ? "transition-transform rotate-180" : ""} h-6 w-6`}
+        />
       </div>
 
       {/* Tabs with scroll */}
-      <div className="flex items-center mb-4">
+      <div className="flex items-center mb-4 p-2">
         <button
           onClick={() => scrollTabs(-100)}
           className=" rounded-full cursor-pointer   mr-2"
@@ -47,9 +69,11 @@ const TopMovers = () => {
             <button
               key={tab}
               onClick={() => setActiveTab(tab)}
-              className={`py-1 px-3 rounded-full text-xs whitespace-nowrap
+              className={`py-1 px-3 rounded-md text-xs whitespace-nowrap cursor-pointer
                 ${
-                  activeTab === tab ? "bg-yellow-500 text-black" : "bg-gray-700"
+                  activeTab === tab
+                    ? "bg-[#EAECEF] text-[#202630]"
+                    : "text-[#707A8A]"
                 }`}
             >
               {tab}
@@ -69,8 +93,7 @@ const TopMovers = () => {
         {filteredMovers.map((mover, index) => (
           <div
             key={index}
-            className={`flex justify-between items-center p-3 rounded-lg 
-              ${mover.change > 0 ? "bg-green-800/30" : "bg-red-800/30"}`}
+            className={`flex justify-between items-center p-3 rounded-lg `}
           >
             <div>
               <div className="font-medium text-sm">{mover.pair}</div>

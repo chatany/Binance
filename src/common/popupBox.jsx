@@ -1,6 +1,5 @@
 // SupportMenu.jsx
 import { useState } from "react";
-import React from "react";
 import { FaComments, FaQuestionCircle, FaMoneyBill, FaBalanceScale, FaGlobe } from "react-icons/fa";
 
 const supportOptions = [

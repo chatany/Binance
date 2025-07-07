@@ -28,10 +28,19 @@ import {
 import { ChartEmbed } from "./chart";
 import { fetchData, TikerData } from "./apiCall";
 import TopMovers from "./move";
+import {
+  TopIconBar1,
+  TopIconBar2,
+  TopIconBar3,
+  TopIconBar4,
+} from "./TopIconBars";
+import { Socket } from "./Socket";
+import { useSelector } from "react-redux";
 let val;
 export const Home = () => {
   const [dark, setDark] = useState(true);
   const [activeTab, setActiveTab] = useState("Open Orders (0)");
+  const isOpen = useSelector((state) => state.counter.open);
   const [active, setActive] = useState("Sport");
   const [hoveredItemIndex, setHoveredItemIndex] = useState(null);
   const [hoverPosition, setHoverPosition] = useState({ x: 0, y: 0, width: 0 });
@@ -61,78 +70,6 @@ export const Home = () => {
     fetchData();
     TikerData({ setTikerData, searchQuery });
   }, []);
-  useEffect(() => {
-    let ws;
-    let reconnectTimer;
-    let fallbackInterval;
-
-    const fetchRestData = async () => {
-      try {
-        const res = await fetch(
-          `http://localhost:5000/binance-ticker?url=${searchQuery}`
-        );
-        const data = await res.json();
-        setTikerData({
-          symbol: data?.symbol,
-          lastPrice: data?.lastPrice,
-          highPrice: data?.highPrice,
-          lowPrice: data?.lowPrice,
-          priceChange: data?.priceChange,
-          priceChangePercent: data?.priceChangePercent,
-          quoteVolume: data?.quoteVolume,
-          volume: data?.volume,
-        });
-      } catch (err) {
-        console.error("❌ REST fetch error", err);
-      }
-    };
-
-    const startWebSocket = () => {
-      ws = new WebSocket(`wss://stream.binance.com:9443/ws/btcusdt@ticker`);
-
-      ws.onopen = () => {
-        console.log("✅ WebSocket Connected");
-        if (fallbackInterval) clearInterval(fallbackInterval);
-      };
-
-      ws.onmessage = (event) => {
-        const data = JSON.parse(event.data);
-        setTikerData({
-          symbol: data?.s,
-          lastPrice: data?.l,
-          highPrice: data?.h,
-          lowPrice: data?.l,
-          priceChange: data?.p,
-          priceChangePercent: data?.P,
-          quoteVolume: data?.q,
-          volume: data?.v,
-        });
-      };
-
-      ws.onerror = (err) => {
-        console.error("❌ WS Error", err);
-        ws.close();
-      };
-
-      ws.onclose = () => {
-        console.log("🔌 WS Closed. Fallback + Reconnect in 3s...");
-        if (!fallbackInterval)
-          fallbackInterval = setInterval(fetchRestData, 3000);
-        reconnectTimer = setTimeout(startWebSocket, 3000);
-      };
-    };
-
-    // initial REST fetch for immediate load
-    fetchRestData();
-    startWebSocket();
-
-    return () => {
-      if (ws) ws.close();
-      if (reconnectTimer) clearTimeout(reconnectTimer);
-      if (fallbackInterval) clearInterval(fallbackInterval);
-    };
-  }, []);
-
   const symbol = tikerData?.symbol;
   const lastPrice = parseFloat(tikerData?.lastPrice).toString();
   const CustomSlider = styled(Slider)(({ theme }) => ({
@@ -193,6 +130,7 @@ export const Home = () => {
   }, [show]);
   return (
     <>
+      <Socket searchQuery={searchQuery} />
       {show && (
         <div className="App">
           <MobileSidebar show={show} setShow={setShow} dark={dark} />
@@ -200,16 +138,20 @@ export const Home = () => {
       )}
       <div
         className={`
-        ${dark ? "bg-[#181A20] text-white" : "bg-zinc-50 text-black p-0 m-0"}
+        ${
+          dark
+            ? "bg-[#181A20] text-white"
+            : "bg-[#EAECEF] text-black  flex flex-col gap-1"
+        }
        min-h-screen
          max-w-[100vw]  overflow-hidden `}
       >
         {/* Top Navbar */}
         <div
-          className={`flex flex-wrap justify-between items-center h-[4rem] w-[100vw] border-b-[1px]  p-3 ${
-            dark
-              ? "bg-black border-gray-700 text-[#EAECEF] "
-              : "bg-white text-black border-gray-100"
+          className={`flex flex-wrap justify-between items-center border-b-1 h-[4rem] ${
+            dark ? "border-[#2B3139]" : "border-[#EAECEF]"
+          } w-[100vw]  p-3 ${
+            dark ? "bg-[#181A20] text-[#EAECEF] " : "bg-white text-black "
           }`}
         >
           <div className="flex  lg:w-[50%] items-center text-lg gap-2 font-semibold leading-6 lg:justify-evenly">
@@ -269,9 +211,11 @@ export const Home = () => {
               hoveredItemIndex !== 0 &&
               hoveredItemIndex !== 1 && (
                 <div
-                  className={`absolute w-[30rem]  border ${
+                  className={`absolute w-[30rem]  border-1 ${
                     dark ? "bg-[#161A1E] text-white" : "bg-white text-black"
-                  } border-gray-700 opacity-95  p-2  shadow-lg rounded-md  z-50 hidden lg:block transition-all duration-200`}
+                  }  opacity-95  ${
+                    dark ? "border-[#2B3139]" : "border-[#EAECEF]"
+                  }   p-2  shadow-lg rounded-md  z-50 hidden lg:block transition-all duration-200`}
                   style={{
                     top: `${hoverPosition.y + 5}px`,
                     left: `${hoverPosition.x}px`,
@@ -331,178 +275,18 @@ export const Home = () => {
           </div>
         </div>
         {/* Main Content */}
-        <div className=" justify-between w-[100%]  lg:flex hidden ">
-          <div className=" flex flex-col lg:w-full w-[78%] items-center  ">
-            <div className="hidden  items-center w-full justify-evenly xl:flex  font-normal p-4">
-              <div className="flex gap-1">
-                <CiStar className="h-6 w-6" />
-                <CiStar className="h-6 w-6" />
-              </div>
-              <div className="flex flex-col">
-                <div className="lg:text-[18px] text-[10px] font-medium min-w-max">
-                  {tikerData?.symbol?.split("USDT")[0] + "/USDT"}
-                </div>
-                <div className="lg:text-[18px] text-gray-400 text-[10px] font-medium min-w-max">
-                  Bitcoin Price
-                </div>
-              </div>
-              <div className="flex flex-col">
-                <div className="text-[#2EBD85] lg:text-[16px] leading-5 text-[8px] min-w-max">
-                  {parseFloat(tikerData?.lastPrice).toString()}
-                </div>
-                <div className="lg:text-[14px]  text-[8px] leading-4 min-w-max ">
-                  ${parseFloat(tikerData?.lastPrice).toString()}
-                </div>
-              </div>
-              <div className="flex flex-col">
-                <div className="text-gray-400 lg:text-[12px] text-[8px] min-w-max">
-                  24h Change
-                </div>
-                <div
-                  className={`${
-                    tikerData?.priceChange > 0
-                      ? "text-[#2EBD85]"
-                      : "text-[#F6465D]"
-                  } lg:text-[12px] text-[8px] min-w-max`}
-                >
-                  {parseFloat(tikerData?.priceChange).toString()}
-                  {tikerData?.priceChange > 0 ? " +" : " "}
-                  {parseFloat(tikerData?.priceChangePercent).toString()} %
-                </div>
-              </div>
-              <div className="flex flex-col">
-                <div className="text-gray-400 lg:text-[12px] text-[10px] min-w-max">
-                  24h High
-                </div>
-                <div className="lg:text-[12px] text-[10px] min-w-max">
-                  {parseFloat(tikerData?.highPrice).toString()}
-                </div>
-              </div>
-              <div className="flex flex-col">
-                <div className="text-gray-400 lg:text-[12px] text-[10px] leading-4 min-w-max">
-                  24h Low
-                </div>
-                <div className="lg:text-[12px] text-[10px] leading-4 min-w-max">
-                  {parseFloat(tikerData?.lowPrice).toString()}
-                </div>
-              </div>
-              <div className="flex flex-col">
-                <div className="text-gray-400 md:text-[12px] text-[10px] leading-4 min-w-max">
-                  24h Volume (BTC)
-                </div>
-                <div className="md:text-[12px] text-[10px] leading-4 min-w-max">
-                  {parseFloat(tikerData?.volume).toString()}
-                </div>
-              </div>
-              <div className="flex flex-col">
-                <div className="text-gray-400 md:text-[12px] text-[10px] leading-4 min-w-max">
-                  24h Volume (USDT)
-                </div>
-                <div className="md:text-[12px] text-[10px] leading-4 min-w-max">
-                  {parseFloat(tikerData?.quoteVolume).toString()}
-                </div>
-              </div>
-              <div className="flex flex-col min-w-max">
-                <div className="text-gray-400 md:text-[12px] text-[12px] leading-4 min-w-max">
-                  Token Tags
-                </div>
-                <div className="flex gap-1 md:text-[12px] text-amber-400 text-[10px] leading-4 min-w-max">
-                  <span>Pow</span>
-                  <span>|</span>
-                  <span>Payments</span>
-                  <span>|</span>
-                  <span>Price Protection</span>
-                </div>
-              </div>
-            </div>
-            <div className=" w-full text-xs p-2 max-xl:flex hidden">
-              <div className="max-w-[30%] flex items-center gap-2">
-                <div className="flex gap-1">
-                  <CiStar className="h-6 w-6" />
-                  <CiStar className="h-6 w-6" />
-                </div>
-                <div className="flex flex-col">
-                  <div className="md:text-[14px] text-[10px]">
-                    {tikerData?.symbol?.split("USDT")[0] + "/USDT"}
-                  </div>
-                  <div className="md:text-[14px] text-[10px] text-gray-400 min-w-max">
-                    Bitcoin Price
-                  </div>
-                </div>
-                <div className="flex flex-col">
-                  <div className="text-[#F6465D] md:text-[12px] text-[10px]">
-                    {parseFloat(tikerData?.lastPrice).toString()}
-                  </div>
-                  <div className="md:text-[12px] text-[10px]">$106,250.28</div>
-                </div>
-              </div>
-              <div className="max-w-[70%] flex flex-wrap">
-                <ScrollStatsBar
-                  dark={dark}
-                  items={
-                    <>
-                      <div className="flex flex-col">
-                        <div className="text-gray-400 md:text-[12px] text-[10px]">
-                          24h Change
-                        </div>
-                        <div className="text-green-500 md:text-[12px] text-[10px]">
-                          {parseFloat(tikerData?.priceChange).toString} +{" "}
-                          {parseFloat(tikerData?.priceChangePercent).toString()}{" "}
-                          %
-                        </div>
-                      </div>
-                      <div className="flex flex-col">
-                        <div className="text-gray-400 md:text-[12px] text-[10px]">
-                          24h High
-                        </div>
-                        <div className="md:text-[12px] text-[10px]">
-                          {parseFloat(tikerData?.highPrice).toString()}
-                        </div>
-                      </div>
-                      <div className="flex flex-col">
-                        <div className="text-gray-400md:text-[12px] text-[10px]]">
-                          24h Low
-                        </div>
-                        <div className="md:text-[12px] text-[10px]">
-                          {parseFloat(tikerData?.lowPrice).toString()}
-                        </div>
-                      </div>
-                      <div className="flex flex-col">
-                        <div className="text-gray-400 md:text-[12px] text-[10px]">
-                          24h Volume (BTC)
-                        </div>
-                        <div className="md:text-[12px] text-[10px]">
-                          {parseFloat(tikerData?.volume).toString()}
-                        </div>
-                      </div>
-                      <div className="flex flex-col">
-                        <div className="text-gray-400 md:text-[12px] text-[10px] min-w-max">
-                          24h Volume (USDT)
-                        </div>
-                        <div className="md:text-[11px] text-[12px]">
-                          {parseFloat(tikerData?.quoteVolume).toString()}
-                        </div>
-                      </div>
-                      <div className="flex flex-col">
-                        <div className="text-gray-400 md:text-[12px] text-[10px]">
-                          Token Tags
-                        </div>
-                        <div className="flex gap-1 md:text-[12px] text-[10px] text-amber-400 ">
-                          <span>Pow</span>
-                          <span>|</span>
-                          <span>Payments</span>
-                          <span>|</span>
-                          <span>Price Protection</span>
-                        </div>
-                      </div>
-                    </>
-                  }
-                />
-              </div>
-            </div>
+        <div className=" justify-between w-[100%]  lg:flex hidden gap-1">
+          <div className=" flex flex-col lg:w-full w-[78%] items-center gap-1 ">
+            <TopIconBar1 dark={dark} />
+            <TopIconBar2 dark={dark} />
 
-            <div className="flex  justify-between w-full">
-              <div className="w-[35%] lg:block hidden" id="c">
+            <div className="flex  justify-between w-full gap-1">
+              <div
+                className={`w-[35%] lg:block  transition-all duration-500 delay-100  hidden ${
+                  isOpen ? "h-[72.2rem]" : "h-[67.2rem]"
+                }`}
+                id="c"
+              >
                 <Order
                   dark={dark}
                   searchQuery={searchQuery}
@@ -510,26 +294,24 @@ export const Home = () => {
                   lastPrice={lastPrice}
                 />
               </div>
-              <div className="flex flex-col  w-[100%]">
+              <div className="flex flex-col  w-[100%] gap-1">
                 <div
                   className={`${
-                    dark
-                      ? "bg-gray-800 border-gray-700"
-                      : "bg-zinc-100 border-gray-200 "
-                  } max-h-[800px] border  text-xs w-full bg-gray-800`}
+                    dark ? "bg-[#181A20] " : "bg-white "
+                  } max-h-[800px]   text-xs w-full`}
                 >
-                  <div className="h-full w-full">
+                  <div className="h-full w-full rounded-lg">
                     <ChartEmbed searchQuery={searchQuery} className="w-full" />
                   </div>
                 </div>
-                <div className="w-full">
+                <div className="w-full ">
                   <Form dark={dark} />
                 </div>
               </div>
             </div>
           </div>
 
-          <div className="w-[22%]  lg:flex hidden flex-col">
+          <div className="w-[22%]  lg:flex hidden flex-col gap-1">
             <MarketCom
               dark={dark}
               SetSearchQuery={SetSearchQuery}
@@ -537,33 +319,27 @@ export const Home = () => {
               symbol={symbol}
             />
             <div
-              className={`max-h-[24rem] flex flex-col items-end ${
-                dark ? "bg-[#181A20] text-white" : "bg-white text-black"
-              }  p-2`}
+              className={`max-h-[24rem] flex flex-col  rounded-lg items-end ${
+                dark ? "bg-[#181A20] text-white" : "bg-white text-black w-full"
+              }  `}
             >
-              <RiArrowUpDoubleLine
-                onClick={handleOpen}
-                className={`${
-                  open ? "transition-transform rotate-180" : ""
-                } h-6 w-6`}
-              />
-              <div
-                className={`${
-                  open ? "h-[20rem]" : "h-[15rem]"
-                } transition-all duration-500 delay-100 w-full`}
-              >
-                <TopMovers />
-              </div>
+              <TopMovers dark={dark} />
             </div>
           </div>
         </div>
-        <div className="lg:block hidden w-full h-[600px]">
+        <div
+          className={`lg:block hidden w-full ${
+            dark ? " bg-[#181A20]" : " bg-white "
+          } h-[600px]`}
+        >
           <div
             className={`${
-              dark ? "border-gray-700" : "border-gray-100"
+              dark
+                ? " bg-[#181A20] border-[#2B3139]"
+                : "border-[#EAECEF] bg-white"
             } border-b-[1px]`}
           >
-            <div className="flex   gap-2 items-center text-[14px] leading-4 p-3 w-[40%] font-medium ">
+            <div className="flex   gap-2 items-center text-[14px] leading-4  w-[40%] font-medium p-2 pb-0 ">
               {tabs.map((tab) => (
                 <div className="flex flex-col gap-1" key={tab}>
                   <button
@@ -594,104 +370,21 @@ export const Home = () => {
             </button>
           </div>
         </div>
-        <div className="lg:hidden flex flex-col w-full">
-          <div className=" w-full text-xs p-2 md:flex hidden">
-            <div className="w-full flex items-center gap-2">
-              <div className="flex gap-1">
-                <CiStar className="h-6 w-6" />
-                <CiStar className="h-6 w-6" />
-              </div>
-              <div className="flex flex-col">
-                <div className="md:text-[14px] text-[10px]">
-                  {tikerData?.symbol?.split("USDT")[0] + "/USDT"}
-                </div>
-                <div className="md:text-[14px] text-[10px] text-gray-400 min-w-max">
-                  Bitcoin Price
-                </div>
-              </div>
-              <div className="flex flex-col">
-                <div className="text-[#F6465D] md:text-[12px] text-[10px]">
-                  {parseFloat(tikerData?.lastPrice).toString()}
-                </div>
-                <div className="md:text-[12px] text-[10px]">$106,250.28</div>
-              </div>
-            </div>
-            <div className="w-[70%] flex flex-wrap">
-              <ScrollStatsBar
-                dark={dark}
-                items={
-                  <>
-                    <div className="flex flex-col">
-                      <div className="text-gray-400 md:text-[12px] text-[10px]">
-                        24h Change
-                      </div>
-                      <div className="text-green-500 md:text-[12px] text-[10px]">
-                        {parseFloat(tikerData?.priceChange).toString()} +{" "}
-                        {parseFloat(tikerData?.priceChangePercent).toString()} %
-                      </div>
-                    </div>
-                    <div className="flex flex-col">
-                      <div className="text-gray-400 md:text-[12px] text-[10px]">
-                        24h High
-                      </div>
-                      <div className="md:text-[12px] text-[10px]">
-                        {parseFloat(tikerData?.highPrice).toString()}
-                      </div>
-                    </div>
-                    <div className="flex flex-col">
-                      <div className="text-gray-400md:text-[12px] text-[10px]]">
-                        24h Low
-                      </div>
-                      <div className="md:text-[12px] text-[10px]">
-                        {parseFloat(tikerData?.lowPrice).toString()}
-                      </div>
-                    </div>
-                    <div className="flex flex-col">
-                      <div className="text-gray-400 md:text-[12px] text-[10px]">
-                        24h Volume (BTC)
-                      </div>
-                      <div className="md:text-[12px] text-[10px]">
-                        {parseFloat(tikerData?.volume).toString()}
-                      </div>
-                    </div>
-                    <div className="flex flex-col">
-                      <div className="text-gray-400 md:text-[12px] text-[10px] min-w-max">
-                        24h Volume (USDT)
-                      </div>
-                      <div className="md:text-[11px] text-[12px]">
-                        {parseFloat(tikerData?.quoteVolume).toString()}
-                      </div>
-                    </div>
-                    <div className="flex flex-col">
-                      <div className="text-gray-400 md:text-[12px] text-[10px]">
-                        Token Tags
-                      </div>
-                      <div className="flex gap-1 md:text-[12px] text-[10px] text-amber-400 ">
-                        <span>Pow</span>
-                        <span>|</span>
-                        <span>Payments</span>
-                        <span>|</span>
-                        <span>Price Protection</span>
-                      </div>
-                    </div>
-                  </>
-                }
-              />
-            </div>
-          </div>
-          <div className="w-full md:flex hidden pb-2">
+        <div className="lg:hidden flex flex-col w-full ">
+          <TopIconBar3 dark={dark} />
+          <div className="w-full md:flex hidden pb-2 gap-1">
             <div className="w-[69%]">
-              <div className="h-[500px]  text-xs w-full bg-gray-800 mb-4 rounded-md ">
+              <div className="h-fit  text-xs w-full bg-gray-800 mb-4 rounded-md ">
                 <ChartEmbed
                   searchQuery={searchQuery}
                   className="h-full w-full"
                 />
               </div>
-              <div className="flex justify-between w-full">
+              <div className="flex justify-between w-full gap-1">
                 <div
                   className={`${
-                    dark ? "border-gray-700" : "border-gray-200"
-                  } w-[50%] overflow-x-auto overflow-y-auto h-[30rem] border-gray-200 border`}
+                    dark ? " bg-[#181A20]" : " bg-white"
+                  } w-[50%] overflow-x-auto overflow-y-auto max-h-[22rem] rounded-lg`}
                 >
                   {" "}
                   <table className="w-full">
@@ -699,22 +392,22 @@ export const Home = () => {
                       <tr>
                         <th
                           className={`${
-                            dark ? "bg-black" : "bg-zinc-50"
-                          } text-[12px] text-gray-400 sticky top-0 text-left  z-30`}
+                            dark ? "bg-[#181A20]" : "bg-white"
+                          } text-[12px] text-gray-400 sticky top-0 text-left p-[4px]  z-30`}
                         >
                           Price (USDT)
                         </th>
                         <th
                           className={`${
-                            dark ? "bg-black" : "bg-zinc-50"
-                          } text-[12px] text-gray-400  sticky top-0 text-left  z-30`}
+                            dark ? "bg-[#181A20]" : "bg-white"
+                          } text-[12px] text-gray-400  sticky top-0 text-left p-[4px]  z-30`}
                         >
                           Amount (BTC)
                         </th>
                         <th
                           className={`${
-                            dark ? "bg-black" : "bg-zinc-50"
-                          } text-[12px] text-gray-400 p-2 sticky top-0 text-left  z-30`}
+                            dark ? "bg-[#181A20]" : "bg-white"
+                          } text-[12px] text-gray-400 p-2 sticky top-0 text-left p-[4px]  z-30`}
                         >
                           Time
                         </th>
@@ -723,13 +416,13 @@ export const Home = () => {
                     <tbody>
                       {marketArr.map((item, index) => (
                         <tr key={index}>
-                          <td className="lg:text-[12px] text-[.6rem] pl-1 pr-1 ">
+                          <td className="lg:text-[12px] text-[.6rem] pl-1 pr-1 p-[4px] ">
                             {item.price}
                           </td>
-                          <td className="lg:text-[12px] text-[.6rem] pl-1 pr-1 ">
+                          <td className="lg:text-[12px] text-[.6rem] pl-1 pr-1 p-[4px] ">
                             {item.amount}
                           </td>
-                          <td className="lg:text-[12px] text-[.6rem] pl-1 pr-1">
+                          <td className="lg:text-[12px] text-[.6rem] pl-1 pr-1 p-[4px]">
                             {item.time}
                           </td>
                         </tr>
@@ -739,10 +432,8 @@ export const Home = () => {
                 </div>
                 <div
                   className={`${
-                    dark
-                      ? "bg-black border-gray-700"
-                      : "bg-zinc-50 border-gray-200"
-                  } w-[50%] h-[30rem]  border `}
+                    dark ? "bg-[#181A20]" : "bg-white "
+                  } w-[50%] max-h-[22rem]  rounded-lg`}
                 >
                   {" "}
                   <div className="w-full ">
@@ -780,13 +471,13 @@ export const Home = () => {
                         <tbody>
                           {orderArr.map((item, index) => (
                             <tr key={index}>
-                              <td className="lg:text-[12px] text-[.6rem] pl-1 pr-1 text-red-700">
+                              <td className="lg:text-[12px] text-[.6rem] pl-1 pr-1 p-[4px] text-red-700">
                                 {item.price}
                               </td>
-                              <td className="lg:text-[12px] text-[.6rem] pl-1 pr-1 ">
+                              <td className="lg:text-[12px] text-[.6rem] pl-1 pr-1 p-[4px] ">
                                 {item.amout}
                               </td>
-                              <td className="lg:text-[12px] text-[.6rem] pl-1 pr-1 ">
+                              <td className="lg:text-[12px] text-[.6rem] pl-1 pr-1 p-[4px] ">
                                 {item.total}
                               </td>
                             </tr>
@@ -799,13 +490,13 @@ export const Home = () => {
                     <table className="w-full">
                       <thead className="w-full">
                         <tr>
-                          <th className="text-[12px] text-red-700 text-left  flex items-center">
+                          <th className="text-[12px] text-red-700 text-left  flex items-center p-[4px]">
                             106,135.34
                           </th>
-                          <th className="text-[12px]  text-gray-400 text-left">
+                          <th className="text-[12px]  text-gray-400 text-left p-[4px]">
                             $106,135.34
                           </th>
-                          <th className="flex  items-center p-3">
+                          <th className="flex  items-center p-3 p-[4px]">
                             <FaAngleRight className=" text-[12px]" />
                           </th>
                         </tr>
@@ -813,13 +504,13 @@ export const Home = () => {
                       <tbody>
                         {priceArr.map((item, index) => (
                           <tr key={index}>
-                            <td className="lg:text-[12px] text-[.6rem] pl-1 pr-1 text-green-700">
+                            <td className="lg:text-[12px] text-[.6rem] pl-1 pr-1 text-green-700 p-[4px]">
                               {item.price}
                             </td>
-                            <td className="lg:text-[12px] text-[.6rem] pl-1 pr-1  ">
+                            <td className="lg:text-[12px] text-[.6rem] pl-1 pr-1 p-[4px]  ">
                               {item.amout}
                             </td>
-                            <td className="lg:text-[12px] text-[.6rem] pl-1 pr-1 ">
+                            <td className="lg:text-[12px] text-[.6rem] pl-1 pr-1 p-[4px] ">
                               {item.total}
                             </td>
                           </tr>
@@ -832,8 +523,8 @@ export const Home = () => {
             </div>
             <div
               className={`${
-                dark ? "bg-black" : "bg-white"
-              } w-[30%] space-y-6 P-3`}
+                dark ? "bg-[#181A20]" : "bg-white"
+              } w-[30%] space-y-6 P-3 rounded-lg`}
             >
               <div className=" flex text-[12px] p-2">
                 {tab.map((tab) => (
@@ -843,8 +534,8 @@ export const Home = () => {
                     className={`flex-1 text-center py-2 font-medium transition-colors cursor-pointer duration-300 ${
                       dark
                         ? active === tab
-                          ? "text-yellow-500 border-t-2 bg-black"
-                          : "text-gray-600 hover:text-yellow-500 bg-black"
+                          ? "text-yellow-500 border-t-2 bg-[#181A20]"
+                          : "text-gray-600 hover:text-yellow-500 bg-[#181A20]"
                         : active === tab
                         ? "text-yellow-500 border-t-2 bg-white"
                         : "text-gray-600 hover:text-yellow-500 bg-zinc-100"
@@ -916,93 +607,14 @@ export const Home = () => {
           </div>
           <div className="md:hidden w-full">
             <div className="h-[800px]  text-xs w-full   rounded-md ">
-              <div
-                className={`${
-                  dark ? "bg-gray-800 text-white" : "bg-white text-black"
-                }
-              grid grid-cols-3 p-3 gap-1`}
-              >
-                <div className="flex gap-1">
-                  <CiStar className="h-6 w-6" />
-                  <CiStar className="h-6 w-6" />
-                </div>
-                <div className="flex flex-col">
-                  <div className="md:text-[14px] text-[10px] min-w-max">
-                    {tikerData?.symbol?.split("USDT")[0] + "/USDT"}
-                  </div>
-                  <div className="md:text-[14px] text-[10px] text-gray-400 min-w-max">
-                    Bitcoin Price
-                  </div>
-                </div>
-                <div className="flex flex-col">
-                  <div className="text-red-600 md:text-[12px] text-[10px]">
-                    {parseFloat(tikerData?.lastPrice).toString()}
-                  </div>
-                  <div className="md:text-[12px] text-[10px] min-w-max">
-                    $106,250.28
-                  </div>
-                </div>
-                <div className="flex flex-col">
-                  <div className="text-gray-400 md:text-[12px] text-[10px] min-w-max">
-                    24h Change
-                  </div>
-                  <div className="text-green-500 md:text-[12px] text-[8px] min-w-max">
-                    {parseFloat(tikerData?.priceChange).toString()} +{" "}
-                    {parseFloat(tikerData?.priceChangePercent).toString()} %
-                  </div>
-                </div>
-                <div className="flex flex-col">
-                  <div className="text-gray-400 md:text-[12px] text-[8px]">
-                    24h High
-                  </div>
-                  <div className="md:text-[12px] text-[8px]">
-                    {parseFloat(tikerData?.highPrice).toString()}
-                  </div>
-                </div>
-                <div className="flex flex-col">
-                  <div className="text-gray-400md:text-[12px] text-[8px] min-w-max">
-                    24h Low
-                  </div>
-                  <div className="md:text-[12px] text-[8px]">
-                    {parseFloat(tikerData?.lastPrice).toString()}
-                  </div>
-                </div>
-                <div className="flex flex-col">
-                  <div className="text-gray-400 md:text-[12px] text-[8px] min-w-max">
-                    24h Volume (BTC)
-                  </div>
-                  <div className="md:text-[12px] text-[8px]">
-                    {parseFloat(tikerData?.volume).toString()}
-                  </div>
-                </div>
-                <div className="flex flex-col">
-                  <div className="text-gray-400 md:text-[12px] text-[8px] min-w-max">
-                    24h Volume (USDT)
-                  </div>
-                  <div className="md:text-[20px] text-[8px]">
-                    {parseFloat(tikerData?.quoteVolume).toString()}
-                  </div>
-                </div>
-                <div className="flex flex-col">
-                  <div className="text-gray-400 md:text-[12px] text-[10px]">
-                    Token Tags
-                  </div>
-                  <div className="flex gap-[2px] md:text-[12px] text-[6px] text-amber-400 min-w-max  ">
-                    <span>Pow</span>
-                    <span>|</span>
-                    <span>Payments</span>
-                    <span>|</span>
-                    <span>Price Protection</span>
-                  </div>
-                </div>
-              </div>
+              <TopIconBar4 dark={dark} />
               <ChartEmbed searchQuery={searchQuery} className="h-full w-full" />
             </div>
           </div>
         </div>
         <div
           className={`md:hidden ${
-            dark ? "bg-black " : "bg-white"
+            dark ? "bg-[#181A20] " : "bg-white"
           } w-full fixed bottom-0 z-30 flex  justify-center gap-2 text-white p-5 rounded-[43px,4px,3px,1px] `}
         >
           <div className="w-[50%] flex justify-center bg-[#F6465D] hover:bg-[#c74052] rounded-md h-[2.5rem] cursor-pointer">

@@ -13,7 +13,7 @@ export default function MobileSidebar({ show, setShow, dark }) {
     show && (
       <div
         className={`fixed inset-0 z-50 ${
-          dark ? "bg-black text-white" : "bg-white text-black"
+          dark ? "bg-[#181A20] text-white" : "bg-white text-black"
         }  w-full h-full overflow-y-auto p-4`}
       >
         <div className="flex justify-end items-center mb-4">
