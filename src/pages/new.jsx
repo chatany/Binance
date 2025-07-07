@@ -1,6 +1,5 @@
 import { apiRequest } from "../Helper";
 import CryptoInput from "./common";
-import React from "react";
 export const InputComponent = () => {
  
 

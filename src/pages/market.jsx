@@ -32,15 +32,13 @@ export const MarketCom = ({ dark, SetSearchQuery, searchQuery, symbol }) => {
     }
   };
   return (
-    <div className="flex flex-col items-center w-full m-0">
+    <div className="flex flex-col items-center w-full  gap-1">
       <div
         className={`${
-          dark
-            ? "bg-[#181A20] text-white border-gray-700"
-            : "bg-zinc-50 text-black border-gray-200"
-        } w-full  max-p-4  border  space-y-4 p-3`}
+          dark ? "bg-[#181A20] text-white " : "bg-white text-black "
+        } w-full   rounded-lg `}
       >
-        <div>
+        <div className="pt-5 pr-3 pl-3 pb-0">
           <input
             className={`
     w-full capitalize rounded-lg
@@ -56,11 +54,15 @@ export const MarketCom = ({ dark, SetSearchQuery, searchQuery, symbol }) => {
             onChange={(e) => setSearchInput(e.target.value)}
           />
         </div>
-        <div className="flex text-[12px]  flex-col justify-center items-center p-1">
+        <div
+          className={`flex text-[12px]  flex-col justify-center items-center pr-3 pl-3  border-b-1 ${
+            dark ? "border-[#2B3139]" : "border-[#EAECEF]"
+          }`}
+        >
           {/* USDT <div className="border-b-2 border-amber-400 w-[12px]"></div> */}
           <ScrollableTabsBar dark={dark} />
         </div>
-        <div className="h-[20rem] overflow-x-auto overflow-y-auto">
+        <div className="h-[20rem] overflow-x-auto overflow-y-auto p-2">
           {filteredData?.length > 0 ? (
             <div>
               <table className="w-full">
@@ -76,7 +78,7 @@ export const MarketCom = ({ dark, SetSearchQuery, searchQuery, symbol }) => {
                   <th className="flex justify-center capitalize cursor-pointer">
                     <CiRepeat
                       className={`text-right ${
-                        isVolume ? "text-white" : "text-[#EAECEF]"
+                        dark ? "text-[#EAECEF]" : "text-black "
                       }`}
                       onClick={handleToggle}
                     />
@@ -108,7 +110,7 @@ export const MarketCom = ({ dark, SetSearchQuery, searchQuery, symbol }) => {
                           item?.change_in_price > 0
                             ? `${!isVolume && "text-[#2EBD85]"}`
                             : `${!isVolume && "text-[#F6465D]"}`
-                        } xl:text-[12px] text-[.6rem] pl-1 pr-1 p-[4px] `}
+                        } xl:text-[12px] text-[.6rem] pl-1 pr-1 p-[4px] w-[5rem] text-center `}
                       >
                         {!isVolume && item?.change_in_price > 0 ? "+" : "   "}
                         {!isVolume
@@ -129,12 +131,14 @@ export const MarketCom = ({ dark, SetSearchQuery, searchQuery, symbol }) => {
       </div>
       <div
         className={`${
-          dark
-            ? "bg-[#181A20] text-white border-[#2B3139]"
-            : "bg-zinc-50 border-gray-200 text-black "
-        } overflow-x-auto overflow-y-auto w-full   p-3 border space-y-4 `}
+          dark ? "bg-[#181A20] text-white " : "bg-white text-black "
+        } overflow-x-auto overflow-y-auto w-full rounded-lg    space-y-4 `}
       >
-        <div className="w-full  flex  gap-2 justify-between pl-2 pr-2 pt-1">
+        <div
+          className={`w-full  flex  gap-2 ${
+            dark ? "border-[#2B3139]" : "border-[#EAECEF]"
+          } justify-between border-b-1 p-3`}
+        >
           <div className="flex flex-col items-center text-[12px] gap-[2px]">
             Markets Trade{" "}
             <div className="border-[0.1rem] border-amber-400 w-[30%] h-[2px] "></div>
@@ -150,21 +154,21 @@ export const MarketCom = ({ dark, SetSearchQuery, searchQuery, symbol }) => {
               <tr>
                 <th
                   className={`${
-                    dark ? "bg-black" : "bg-zinc-50"
+                    dark ? "bg-[#181A20]" : "bg-white"
                   } text-[12px] text-gray-400 p-1 sticky top-0 text-center  z-30`}
                 >
                   Price (USDT)
                 </th>
                 <th
                   className={`${
-                    dark ? "bg-black" : "bg-zinc-50"
+                    dark ? "bg-[#181A20]" : "bg-white"
                   } text-[12px] text-gray-400 p-1 sticky top-0 text-center  z-30`}
                 >
                   Amount ({symbol})
                 </th>
                 <th
                   className={`${
-                    dark ? "bg-black" : "bg-zinc-50"
+                    dark ? "bg-[#181A20]" : "bg-white"
                   } text-[12px] text-gray-400 p-2 sticky top-0 text-left  z-30`}
                 >
                   Time

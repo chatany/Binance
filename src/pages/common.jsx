@@ -18,7 +18,7 @@ const CryptoInput = ({ label, unit, step, defaultValue, dark }) => {
       <label className="trade-label">{label}</label>
       <div
         className={`${
-          dark ? " bg-[#1e2329] text-white" : " bg-zinc-50 text-black"
+          dark ? " bg-[#1e2329] text-white" : " bg-white text-black"
         } text-black input-wrapper`}
       >
         <input

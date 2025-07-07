@@ -10,21 +10,25 @@ export const Order = ({ dark, searchQuery, symbol, lastPrice }) => {
     Orders({ searchQuery, setOrderData });
   }, [searchQuery]);
   return (
-    <div className="w-full  flex flex-col h-[57rem] overflow-hidden">
+    <div className="w-full  flex flex-col h-full overflow-hidden rounded-lg">
       <div
         className={`${
           dark
             ? "bg-[#181A20] border-gray-700 text-white "
-            : "bg-zinc-50 shadow-xl text-black border-gray-200 "
-        } p-4  ${orderBuySell === "Buy" ? "h-full " : " "}   space-y-4`}
+            : "bg-white shadow-xl text-black border-gray-200 "
+        }  h-[50%]   `}
       >
-        <div className=" flex items-center justify-between w-full h-fit">
+        <div
+          className={`flex ${
+            dark ? "border-[#2B3139]" : "border-[#EAECEF]"
+          } border-b-1 p-3 items-center justify-between w-full h-fit`}
+        >
           <div className="text-[1rem]">Order</div>
           <div>
             <HiDotsHorizontal />
           </div>
         </div>
-        <div className="flex justify-between w-full h-fit">
+        <div className="flex justify-between w-full h-fit p-2">
           <div className="flex text-[12px]">
             <div onClick={() => setOrderBuySell("")}>
               <svg
@@ -88,16 +92,16 @@ export const Order = ({ dark, searchQuery, symbol, lastPrice }) => {
           </div>
         </div>
         <div
-          className={`overflow-hidden ${
+          className={`overflow-hidden p-4 ${
             orderBuySell === "Buy"
               ? "h-full"
-              : ` ${orderBuySell === "Sell" ? "h-[0px]" : "h-[23rem]"}`
+              : ` ${orderBuySell === "Sell" ? "h-[0px]" : "h-[28.5rem]"}`
           }`}
         >
           <table className="w-full p-2  space-y-4 h-full">
             <thead>
               <tr>
-                <th className="text-[12px] text-gray-400 p-2  pr-2 text-left">
+                <th className="text-[12px] text-gray-400 p-1  pr-1 text-left">
                   Price(USDT)
                 </th>
                 <th className="text-[12px] text-gray-400 p-2 ">
@@ -142,12 +146,8 @@ export const Order = ({ dark, searchQuery, symbol, lastPrice }) => {
       </div>
       <div
         className={`${
-          dark
-            ? `bg-[#181A20] border-gray-700 text-white `
-            : "bg-zinc-50  text-black border-gray-200"
-        } p-2  overflow-hidden ${
-          orderBuySell === "Sell" ? "h-full" : "h-[26rem]"
-        }  space-y-4`}
+          dark ? `bg-[#181A20] text-white ` : "bg-white  text-black "
+        } p-4  overflow-hidden h-[50%] space-y-4`}
       >
         <table className="w-full h-full">
           <thead className="w-full">

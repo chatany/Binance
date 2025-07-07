@@ -96,8 +96,8 @@ button:focus-visible {
   scrollbar-width: none;
 }
 ::-webkit-scrollbar {
-  width: 6px; /* width of the scrollbar */
-  height: 8px; /* for horizontal scrollbars */
+  width: 5px; /* width of the scrollbar */
+  height: 2px; /* for horizontal scrollbars */
 }
 
 /* Track (the background) */
@@ -114,7 +114,7 @@ button:focus-visible {
 
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
-  background: #555;
+  background: #2b0202;
 }
 .scrollbar-hide::-webkit-scrollbar {
   display: none;

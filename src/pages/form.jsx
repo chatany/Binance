@@ -1,25 +1,10 @@
-import { BsInboxes } from "react-icons/bs";
-import React, { useEffect, useState } from "react";
-import { PiRectangle } from "react-icons/pi";
-import { FaSortDown } from "react-icons/fa";
-import { HiDotsHorizontal } from "react-icons/hi";
-import { FaCaretUp } from "react-icons/fa";
 import Box from "@mui/material/Box";
 import Slider from "@mui/material/Slider";
 import { styled } from "@mui/material/styles";
 import CryptoInput from "./common";
+import { useSelector } from "react-redux";
 export const Form = ({ dark }) => {
-  // const [price, setPrice] = useState(107062.38);
-
-  // const increase = () => setPrice((prev) => parseFloat((prev + 1).toFixed(2)));
-  // const decrease = () => setPrice((prev) => parseFloat((prev - 1).toFixed(2)));
-  const [price, setPrice] = useState(107062.38);
-  const [amount, setAmount] = useState(0);
-
-  const increasePrice = () =>
-    setPrice((prev) => parseFloat((prev + 1).toFixed(2)));
-  const decreasePrice = () =>
-    setPrice((prev) => parseFloat((prev - 1).toFixed(2)));
+  const isOpen = useSelector((state) => state.counter.open);
   const CustomSlider = styled(Slider)(({ theme }) => ({
     height: "1px",
     color: "#fff",
@@ -69,14 +54,15 @@ export const Form = ({ dark }) => {
     { value: 75, label: "75" },
     { value: 100, label: "100" },
   ];
-  
   return (
     <div
-      className={`flex sm:flex-row justify-center w-full  gap-3 flex-col items-center rounded-lg   p-1 ${
+      className={`flex sm:flex-row justify-center ${
+        isOpen ? "h-[33rem]" : "h-[28rem]"
+      } w-full  gap-3 flex-col items-center  transition-all duration-500 delay-100 rounded-lg   p-3 ${
         dark ? "bg-[#181A20]" : "bg-white"
       } `}
     >
-      <div className="w-full space-y-2">
+      <div className="w-full space-y-4">
         <div className="p-[5px]">
           <CryptoInput
             label="Price"
@@ -147,7 +133,7 @@ export const Form = ({ dark }) => {
         //     : "bg-zinc-50 text-black border-gray-200"
         // }   border  space-y-2 w-full  text-xl`}
         // id="a"
-        className="w-full space-y-2"
+        className="w-full space-y-4"
       >
         <div style={{ padding: "5px", maxWidth: "100%" }}>
           <CryptoInput

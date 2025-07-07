@@ -33,7 +33,7 @@ const ScrollableTabsBar = ({ dark }) => {
   return (
     <div
       className={`relative w-full flex items-center ${
-        dark ? "bg-gray-900 text-white" : "bg-zinc-50 text-black"
+        dark ? "bg-gray-900 text-white" : "bg-white text-black"
       } bg-gray-900  py-2 px-2 rounded-lg`}
     >
       {/* {showLeft && ( */}

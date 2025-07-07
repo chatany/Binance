@@ -1,9 +1,8 @@
-import React from "react";
-export const TopNav = ({dark}) => {
+export const TopNav = ({ dark }) => {
   return (
     <div
       className={`flex flex-wrap justify-between items-center h-[4rem] w-[100vw] shadow-md border-b-[1px]  p-3 ${
-        dark ? "bg-black border-gray-700 " : "bg-white border-gray-100"
+        dark ? "bg-[#181A20] border-gray-700 " : "bg-white border-gray-100"
       }`}
     >
       <div className="flex  lg:w-[50%] items-center text-lg gap-2 font-medium leading-6 lg:justify-evenly">

@@ -5,7 +5,6 @@ import {
   FaMoneyBill,
   FaQuestionCircle,
 } from "react-icons/fa";
-import React from "react";
 
 export const price = [
   { price: 106237.16, amout: 0.043657, total: 645 + "k", id: 1 },

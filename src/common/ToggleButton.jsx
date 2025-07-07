@@ -1,4 +1,3 @@
-import React from "react";
 export const BuySellToggle = ({activeItem,setActiveItem}) => {
   return (
     <div className="flex border border-gray-600 rounded-md overflow-hidden bg-transparent w-full">
