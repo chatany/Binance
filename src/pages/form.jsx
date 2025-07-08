@@ -12,11 +12,11 @@ export const Form = ({ dark }) => {
     "& .MuiSlider-rail": {
       opacity: 1,
       backgroundColor: `${dark ? "#aaa" : "rgb(245, 245, 245)"}`,
-      height: "4px",
+      height: "2px",
     },
     "& .MuiSlider-track": {
       backgroundColor: `${dark ? "gray" : "gray"}`,
-      height: "6px",
+      height: "3px",
       border: "none",
     },
     "& .MuiSlider-thumb": {
@@ -33,15 +33,16 @@ export const Form = ({ dark }) => {
     },
     "& .MuiSlider-markActive": {
       border: `4px solid ${dark ? "rgb(245, 245, 245)" : "black"}`,
-      width: 20,
-      height: 20,
-      marginTop: -10,
-      marginLeft: -7,
+      width: 14,
+      height: 14,
+      marginTop: -7,
+      marginLeft: -6,
     },
     "& .MuiSlider-valueLabel": {
       display: "none",
     },
     "& .MuiSlider-markLabel": {
+      display: "none",
       color: `${dark ? "#ffffff" : "#000000"}`,
       fontSize: "14px",
     },
@@ -94,7 +95,7 @@ export const Form = ({ dark }) => {
               marks={marks}
               min={0}
               max={100}
-              step={null}
+              step={1}
             />
           </Box>
         </Box>

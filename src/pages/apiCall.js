@@ -1,4 +1,6 @@
+import { useDispatch } from "react-redux";
 import { apiRequest } from "../Helper";
+import { setLastPrice } from "../store/webSocket";
 
 export const fetchData = async () => {
   try {
@@ -27,10 +29,12 @@ export const SearchData = async ({ setSearchData }) => {
 
 export const TikerData = async ({ setTikerData, searchQuery }) => {
   try {
+    const dispatch = useDispatch();
     const { data, status } = await apiRequest({
       method: "get",
       url: `http://localhost:5000/binance-ticker?url=${searchQuery}`,
     });
+    dispatch(setLastPrice(data?.lastPrice));
     setTikerData({
       symbol: data?.symbol,
       lastPrice: data?.lastPrice,

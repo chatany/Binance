@@ -52,10 +52,6 @@ export const Home = () => {
   const handleTheme = () => {
     setDark(!dark);
   };
-  const [open, setOpen] = useState(false);
-  const handleOpen = () => {
-    setOpen(!open);
-  };
   const [tikerData, setTikerData] = useState({
     symbol: "",
     lastPrice: "",
@@ -69,7 +65,7 @@ export const Home = () => {
   useEffect(() => {
     fetchData();
     TikerData({ setTikerData, searchQuery });
-  }, []);
+  }, [searchQuery]);
   const symbol = tikerData?.symbol;
   const lastPrice = parseFloat(tikerData?.lastPrice).toString();
   const CustomSlider = styled(Slider)(({ theme }) => ({
@@ -79,11 +75,11 @@ export const Home = () => {
     "& .MuiSlider-rail": {
       opacity: 1,
       backgroundColor: `${dark ? "#aaa" : "rgb(245, 245, 245)"}`,
-      height: "4px",
+      height: "2px",
     },
     "& .MuiSlider-track": {
       backgroundColor: `${dark ? "gray" : "gray"}`,
-      height: "6px",
+      height: "3px",
       border: "none",
     },
     "& .MuiSlider-thumb": {
@@ -100,15 +96,16 @@ export const Home = () => {
     },
     "& .MuiSlider-markActive": {
       border: `4px solid ${dark ? "rgb(245, 245, 245)" : "black"}`,
-      width: 20,
-      height: 20,
-      marginTop: -10,
-      marginLeft: -7,
+      width: 14,
+      height: 14,
+      marginTop: -7,
+      marginLeft: -6,
     },
     "& .MuiSlider-valueLabel": {
       display: "none",
     },
     "& .MuiSlider-markLabel": {
+      display: "none",
       color: `${dark ? "#ffffff" : "#000000"}`,
       fontSize: "14px",
     },
@@ -143,8 +140,7 @@ export const Home = () => {
             ? "bg-[#181A20] text-white"
             : "bg-[#EAECEF] text-black  flex flex-col gap-1"
         }
-       min-h-screen
-         max-w-[100vw]  overflow-hidden `}
+       min-h-screen`}
       >
         {/* Top Navbar */}
         <div
@@ -251,13 +247,12 @@ export const Home = () => {
               Sign Up
             </div>
             <IoDownloadOutline className="hover:text-amber-400 h-6 w-6 md:flex hidden" />
-            <div>
+            <div onClick={handleClose}>
               <RxHamburgerMenu
-                className="hover:text-amber-400 h-8 w-8 md:hidden flex"
-                onClick={handleClose}
+                className="hover:text-amber-400 h-6 w-6 md:hidden flex"
+                // onClick={handleClose}
               />
             </div>
-
             <TbWorld className="hover:text-amber-400  h-6 w-6 md:flex hidden " />
             <FaQuestion className="hover:text-amber-400  h-6 w-6 md:flex hidden" />
             <IoMdSettings className="hover:text-amber-400  h-6 w-6" />
@@ -457,13 +452,13 @@ export const Home = () => {
                       <table className="w-full">
                         <thead>
                           <tr>
-                            <th className="text-[12px] text-gray-400 text-left ">
+                            <th className="text-[12px] text-gray-400 text-left p-1">
                               Price(USDT)
                             </th>
-                            <th className="text-[12px] text-gray-400 max-p-2 pr-2 text-left">
+                            <th className="text-[12px] text-gray-400 max-p-2 pr-2 text-left p-1">
                               Amount(BTC)
                             </th>
-                            <th className="text-[12px] text-gray-400 max-p-2 pr-2 text-left">
+                            <th className="text-[12px] text-gray-400 max-p-2 pl-4 text-left p-1">
                               Total
                             </th>
                           </tr>
@@ -471,13 +466,13 @@ export const Home = () => {
                         <tbody>
                           {orderArr.map((item, index) => (
                             <tr key={index}>
-                              <td className="lg:text-[12px] text-[.6rem] pl-1 pr-1 p-[4px] text-red-700">
+                              <td className="lg:text-[12px] text-[.6rem] pl-1 pr-1 p-1 text-red-700">
                                 {item.price}
                               </td>
                               <td className="lg:text-[12px] text-[.6rem] pl-1 pr-1 p-[4px] ">
                                 {item.amout}
                               </td>
-                              <td className="lg:text-[12px] text-[.6rem] pl-1 pr-1 p-[4px] ">
+                              <td className="lg:text-[12px] text-[.6rem] pl-3 pr-1 p-[4px] ">
                                 {item.total}
                               </td>
                             </tr>
@@ -490,13 +485,13 @@ export const Home = () => {
                     <table className="w-full">
                       <thead className="w-full">
                         <tr>
-                          <th className="text-[12px] text-red-700 text-left  flex items-center p-[4px]">
+                          <th className="text-[12px] text-red-700 text-left  flex items-center p-1">
                             106,135.34
                           </th>
-                          <th className="text-[12px]  text-gray-400 text-left p-[4px]">
+                          <th className="text-[12px]  text-gray-400 text-left p-1">
                             $106,135.34
                           </th>
-                          <th className="flex  items-center p-3 p-[4px]">
+                          <th className="flex  items-center p-[4px]">
                             <FaAngleRight className=" text-[12px]" />
                           </th>
                         </tr>
