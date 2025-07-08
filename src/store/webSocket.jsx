@@ -14,6 +14,9 @@ export const counterSlice = createSlice({
       quoteVolume: "",
     },
     open: false,
+    orderData: [],
+    tradeData: [],
+    lastPrice: 0,
   },
   reducers: {
     incrementByAmount: (state, action) => {
@@ -22,10 +25,26 @@ export const counterSlice = createSlice({
     setOpen: (state, action) => {
       state.open = action.payload;
     },
+    setOrderData: (state, action) => {
+      state.orderData = action.payload;
+    },
+    setTradeData: (state, action) => {
+      state.tradeData = action.payload;
+    },
+    setLastPrice: (state, action) => {
+      state.lastPrice = action.payload;
+    },
   },
 });
 
-export const { increment, decrement, incrementByAmount, setOpen } =
-  counterSlice.actions;
+export const {
+  increment,
+  decrement,
+  incrementByAmount,
+  setOpen,
+  setOrderData,
+  setTradeData,
+  setLastPrice,
+} = counterSlice.actions;
 
 export default counterSlice.reducer;

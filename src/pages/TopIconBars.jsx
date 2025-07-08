@@ -1,8 +1,10 @@
 import { CiStar } from "react-icons/ci";
 import { useSelector } from "react-redux";
 import ScrollStatsBar from "../common/TopIconBar";
+import { FaArrowDown, FaArrowUp } from "react-icons/fa";
 export const TopIconBar1 = ({ dark }) => {
   const tikerData = useSelector((state) => state.counter.tikerData);
+  const tradesData = useSelector((state) => state.counter.tradeData);
   return (
     <div
       className={`hidden ${
@@ -21,12 +23,16 @@ export const TopIconBar1 = ({ dark }) => {
           Bitcoin Price
         </div>
       </div>
-      <div className="flex flex-col">
-        <div className="text-[#2EBD85] lg:text-[16px] leading-5 text-[8px] min-w-max">
-          {parseFloat(tikerData?.lastPrice).toString()}
+      <div className="flex flex-col gap-0.5">
+        <div
+          className={`${
+            !tradesData[0]?.m ? "text-[#2EBD85] " : "text-[#F6465D] "
+          } text-[20px] leading-5  min-w-max `}
+        >
+          {parseFloat(tikerData?.lastPrice).toFixed(2)}
         </div>
-        <div className="lg:text-[14px]  text-[8px] leading-4 min-w-max ">
-          ${parseFloat(tikerData?.lastPrice).toString()}
+        <div className="lg:text-[12px]  text-[8px] leading-4 min-w-max ">
+          ${parseFloat(tikerData?.lastPrice).toFixed(2)}
         </div>
       </div>
       <div className="flex flex-col">
@@ -92,6 +98,7 @@ export const TopIconBar1 = ({ dark }) => {
 };
 export const TopIconBar2 = ({ dark }) => {
   const tikerData = useSelector((state) => state.counter.tikerData);
+  const tradesData = useSelector((state) => state.counter.tradeData);
   return (
     <div
       className={` w-full   ${
@@ -112,10 +119,16 @@ export const TopIconBar2 = ({ dark }) => {
           </div>
         </div>
         <div className="flex flex-col">
-          <div className="text-[#F6465D] md:text-[12px] text-[10px]">
-            {parseFloat(tikerData?.lastPrice).toString()}
+          <div
+            className={`${
+              !tradesData[0]?.m ? "text-[#2EBD85] " : "text-[#F6465D] "
+            }  md:text-[12px] text-[10px]`}
+          >
+            {parseFloat(tikerData?.lastPrice).toFixed(2)}
           </div>
-          <div className="md:text-[12px] text-[10px]">$106,250.28</div>
+          <div className="md:text-[12px] text-[10px]">
+            ${parseFloat(tikerData?.lastPrice).toFixed(2)}
+          </div>
         </div>
       </div>
       <div className="max-w-[70%] flex flex-wrap">
@@ -185,6 +198,7 @@ export const TopIconBar2 = ({ dark }) => {
 };
 export const TopIconBar3 = ({ dark }) => {
   const tikerData = useSelector((state) => state.counter.tikerData);
+  const tradesData = useSelector((state) => state.counter.tradeData);
   return (
     <div
       className={` w-full text-xs  ${
@@ -205,10 +219,16 @@ export const TopIconBar3 = ({ dark }) => {
           </div>
         </div>
         <div className="flex flex-col">
-          <div className="text-[#F6465D] md:text-[12px] text-[10px]">
-            {parseFloat(tikerData?.lastPrice).toString()}
+          <div
+            className={`${
+              !tradesData[0]?.m ? "text-[#2EBD85] " : "text-[#F6465D] "
+            } md:text-[12px] text-[10px]`}
+          >
+            {parseFloat(tikerData?.lastPrice).toFixed(2)}
           </div>
-          <div className="md:text-[12px] text-[10px]">$106,250.28</div>
+          <div className="md:text-[12px] text-[10px]">
+            ${parseFloat(tikerData?.lastPrice).toFixed(2)}
+          </div>
         </div>
       </div>
       <div className="w-[70%] flex flex-wrap">
@@ -278,6 +298,7 @@ export const TopIconBar3 = ({ dark }) => {
 };
 export const TopIconBar4 = ({ dark }) => {
   const tikerData = useSelector((state) => state.counter.tikerData);
+  const tradesData = useSelector((state) => state.counter.tradeData);
   return (
     <div
       className={`${dark ? "bg-gray-800 text-white" : "bg-white text-black"}
@@ -296,10 +317,16 @@ export const TopIconBar4 = ({ dark }) => {
         </div>
       </div>
       <div className="flex flex-col">
-        <div className="text-red-600 md:text-[12px] text-[10px]">
-          {parseFloat(tikerData?.lastPrice).toString()}
+        <div
+          className={`md:text-[12px] ${
+            !tradesData[0]?.m ? "text-[#2EBD85] " : "text-[#F6465D] "
+          } text-[10px]`}
+        >
+          {parseFloat(tikerData?.lastPrice).toFixed(2)}
         </div>
-        <div className="md:text-[12px] text-[10px] min-w-max">$106,250.28</div>
+        <div className="md:text-[12px] text-[10px] min-w-max">
+          {parseFloat(tikerData?.lastPrice).toFixed(2)}
+        </div>
       </div>
       <div className="flex flex-col">
         <div className="text-gray-400 md:text-[12px] text-[10px] min-w-max">

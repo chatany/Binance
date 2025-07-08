@@ -1,14 +1,19 @@
 import React, { useEffect, useState } from "react";
-import { FaAngleRight } from "react-icons/fa";
+import { FaAngleRight, FaArrowDown, FaArrowUp } from "react-icons/fa";
 import { FaAngleDown } from "react-icons/fa";
 import { HiDotsHorizontal } from "react-icons/hi";
 import { Orders } from "./apiCall";
+import { useSelector } from "react-redux";
 export const Order = ({ dark, searchQuery, symbol, lastPrice }) => {
-  const [orderData, setOrderData] = useState(null);
+  // const [orderData, setOrderData] = useState(null);
+  const orderData = useSelector((state) => state.counter.orderData);
+  const tikerData = useSelector((state) => state.counter.tikerData);
+  const tradesData = useSelector((state) => state.counter.tradeData);
   const [orderBuySell, setOrderBuySell] = useState("");
-  useEffect(() => {
-    Orders({ searchQuery, setOrderData });
-  }, [searchQuery]);
+
+  // useEffect(() => {
+  //   Orders({ searchQuery, setOrderData });
+  // }, [searchQuery]);
   return (
     <div className="w-full  flex flex-col h-full overflow-hidden rounded-lg">
       <div
@@ -105,7 +110,7 @@ export const Order = ({ dark, searchQuery, symbol, lastPrice }) => {
                   Price(USDT)
                 </th>
                 <th className="text-[12px] text-gray-400 p-2 ">
-                  Amount({symbol})
+                  Amount({tikerData?.symbol?.split("USDT")[0]})
                 </th>
                 <th className="text-[12px] text-gray-400 p-1  text-right">
                   Total
@@ -165,11 +170,20 @@ export const Order = ({ dark, searchQuery, symbol, lastPrice }) => {
               </tr>
             )}
             <tr>
-              <th className="text-[14px] text-[#F6465D] p-2 flex items-center text-center w-full ">
-                {lastPrice}
+              <th
+                className={`text-[20px] ${
+                  !tradesData[0]?.m ? "text-[#2EBD85] " : "text-[#F6465D] "
+                }  p-2 flex items-center  w-full gap-2`}
+              >
+                {parseFloat(tikerData?.lastPrice)}
+                {!tradesData[0]?.m ? (
+                  <FaArrowUp className="text-[20px] text-[#2EBD85]" />
+                ) : (
+                  <FaArrowDown className="text-[20px] text-[#F6465D] " />
+                )}
               </th>
               <th className="text-[14px]  text-gray-400 p-2 text-center">
-                ${lastPrice}
+                ${parseFloat(tikerData?.lastPrice)}
               </th>
               <th className="flex  items-center p-3 justify-end">
                 <FaAngleRight className=" text-[12px] text-right" />

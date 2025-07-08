@@ -3,17 +3,21 @@ import { HiDotsHorizontal } from "react-icons/hi";
 import ScrollableTabsBar from "../common/leftTab";
 import { SearchData, Trades } from "./apiCall";
 import { CiRepeat } from "react-icons/ci";
+import { useSelector } from "react-redux";
 export const MarketCom = ({ dark, SetSearchQuery, searchQuery, symbol }) => {
   const [searchData, setSearchData] = useState([]);
-  const [tradesData, setTradesData] = useState([]);
+  const [activeTab, setActiveTab] = useState("Market Trade");
+  // const [tradesData, setTradesData] = useState([]);
   const [isVolume, setIsVolume] = useState(false);
   const [searchInput, setSearchInput] = useState("");
-  useEffect(() => {
-    Trades({ searchQuery, setTradesData });
-  }, [searchQuery]);
+  // useEffect(() => {
+  //   Trades({ searchQuery, setTradesData });
+  // }, [searchQuery]);
   useEffect(() => {
     SearchData({ setSearchData });
   }, []);
+  const tradesData = useSelector((state) => state.counter.tradeData);
+  const tikerData = useSelector((state) => state.counter.tikerData);
   const filteredData = searchData.filter((item) =>
     item.pair_symbol?.toLowerCase().includes(searchInput.toLowerCase())
   );
@@ -31,6 +35,7 @@ export const MarketCom = ({ dark, SetSearchQuery, searchQuery, symbol }) => {
       return (num / 1).toFixed(3);
     }
   };
+
   return (
     <div className="flex flex-col items-center w-full  gap-1">
       <div
@@ -110,7 +115,7 @@ export const MarketCom = ({ dark, SetSearchQuery, searchQuery, symbol }) => {
                           item?.change_in_price > 0
                             ? `${!isVolume && "text-[#2EBD85]"}`
                             : `${!isVolume && "text-[#F6465D]"}`
-                        } xl:text-[12px] text-[.6rem] pl-1 pr-1 p-[4px] w-[5rem] text-center `}
+                        } xl:text-[12px] text-[.6rem] pl-1 pr-1 p-[4px] min-w-max text-center `}
                       >
                         {!isVolume && item?.change_in_price > 0 ? "+" : "   "}
                         {!isVolume
@@ -139,11 +144,11 @@ export const MarketCom = ({ dark, SetSearchQuery, searchQuery, symbol }) => {
             dark ? "border-[#2B3139]" : "border-[#EAECEF]"
           } justify-between border-b-1 p-3`}
         >
-          <div className="flex flex-col items-center text-[12px] gap-[2px]">
+          <div className="flex flex-col items-center text-[14px] gap-[2px]">
             Markets Trade{" "}
             <div className="border-[0.1rem] border-amber-400 w-[30%] h-[2px] "></div>
           </div>
-          <div className="text-[12px]">My Trade</div>
+          <div className="text-[14px]">My Trade</div>
           <div className="text-white">
             <HiDotsHorizontal />
           </div>
@@ -164,7 +169,7 @@ export const MarketCom = ({ dark, SetSearchQuery, searchQuery, symbol }) => {
                     dark ? "bg-[#181A20]" : "bg-white"
                   } text-[12px] text-gray-400 p-1 sticky top-0 text-center  z-30`}
                 >
-                  Amount ({symbol})
+                  Amount ({tikerData?.symbol?.split("USDT")[0]})
                 </th>
                 <th
                   className={`${
@@ -176,49 +181,50 @@ export const MarketCom = ({ dark, SetSearchQuery, searchQuery, symbol }) => {
               </tr>
             </thead>
             <tbody>
-              {tradesData?.map((item, inde) => {
-                const formatTime = (ms) => {
-                  const date = new Date(ms);
+              {Array.isArray(tradesData) &&
+                tradesData?.map((item, inde) => {
+                  const formatTime = (ms) => {
+                    const date = new Date(ms);
+                    return (
+                      `${date.getHours().toString().padStart(2, "0")}:` +
+                      `${date.getMinutes().toString().padStart(2, "0")}:` +
+                      `${date.getSeconds().toString().padStart(2, "0")}`
+                    );
+                  };
+                  const time = formatTime(item?.T);
+                  const price = parseFloat(item?.p).toFixed(2);
+                  const amount = parseFloat(item?.q).toString();
+                  const formatToKMB = (num) => {
+                    if (num >= 1_000_000_000) {
+                      return (num / 1_000_000_000).toFixed(2) + "B";
+                    } else if (num >= 1_000_000) {
+                      return (num / 1_000_000).toFixed(2) + "M";
+                    } else if (num >= 1_000) {
+                      return (num / 1_000).toFixed(2) + "K";
+                    } else {
+                      return (num / 1).toFixed(3);
+                    }
+                  };
+                  const priceNum = formatToKMB(price);
+                  const amounts = formatToKMB(amount);
                   return (
-                    `${date.getHours().toString().padStart(2, "0")}:` +
-                    `${date.getMinutes().toString().padStart(2, "0")}:` +
-                    `${date.getSeconds().toString().padStart(2, "0")}`
+                    <tr key={inde}>
+                      <td
+                        className={`lg:text-[12px] ${
+                          !item?.m ? "text-[#2EBD85]" : "text-[#F6465D]"
+                        } text-[.6rem] pl-1 pr-1 p-[4px] text-center `}
+                      >
+                        {price}
+                      </td>
+                      <td className="lg:text-[12px] text-[.6rem] pl-1 pr-1 p-[4px]  text-center">
+                        {amounts}
+                      </td>
+                      <td className="lg:text-[12px] text-[.6rem] pl-1 pr-1 p-[4px]">
+                        {time}
+                      </td>
+                    </tr>
                   );
-                };
-                const time = formatTime(item?.T);
-                const price = parseFloat(item?.p).toString();
-                const amount = parseFloat(item?.q).toString();
-                const formatToKMB = (num) => {
-                  if (num >= 1_000_000_000) {
-                    return (num / 1_000_000_000).toFixed(2) + "B";
-                  } else if (num >= 1_000_000) {
-                    return (num / 1_000_000).toFixed(2) + "M";
-                  } else if (num >= 1_000) {
-                    return (num / 1_000).toFixed(2) + "K";
-                  } else {
-                    return (num / 1).toFixed(3);
-                  }
-                };
-                const priceNum = formatToKMB(price);
-                const amounts = formatToKMB(amount);
-                return (
-                  <tr key={inde}>
-                    <td
-                      className={`lg:text-[12px] ${
-                        item?.m ? "text-[#2EBD85]" : "text-[#F6465D]"
-                      } text-[.6rem] pl-1 pr-1 p-[4px] text-center `}
-                    >
-                      {priceNum}
-                    </td>
-                    <td className="lg:text-[12px] text-[.6rem] pl-1 pr-1 p-[4px]  text-center">
-                      {amounts}
-                    </td>
-                    <td className="lg:text-[12px] text-[.6rem] pl-1 pr-1 p-[4px]">
-                      {time}
-                    </td>
-                  </tr>
-                );
-              })}
+                })}
             </tbody>
           </table>
         </div>
