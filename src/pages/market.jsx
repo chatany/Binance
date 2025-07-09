@@ -144,90 +144,112 @@ export const MarketCom = ({ dark, SetSearchQuery, searchQuery, symbol }) => {
             dark ? "border-[#2B3139]" : "border-[#EAECEF]"
           } justify-between border-b-1 p-3`}
         >
-          <div className="flex flex-col items-center text-[14px] gap-[2px]">
+          <div
+            className="flex flex-col items-center text-[14px] cursor-pointer gap-[2px]"
+            onClick={() => setActiveTab("Market Trade")}
+          >
             Markets Trade{" "}
-            <div className="border-[0.1rem] border-amber-400 w-[30%] h-[2px] "></div>
+            {activeTab === "Market Trade" && (
+              <div className="border-[0.1rem] border-amber-400 w-[40%] h-[2px] "></div>
+            )}
           </div>
-          <div className="text-[14px]">My Trade</div>
+          <div
+            className="flex flex-col items-center text-[14px] cursor-pointer gap-[2px]"
+            onClick={() => setActiveTab("My Trade")}
+          >
+            My Trade
+            {activeTab === "My Trade" && (
+              <div className="border-[0.1rem] border-amber-400 w-[50%] h-[2px] "></div>
+            )}
+          </div>
           <div className="text-white">
             <HiDotsHorizontal />
           </div>
         </div>
-        <div className="no-scrollbar h-[22rem] overflow-x-auto overflow-y-auto">
-          <table className="w-full">
-            <thead>
-              <tr>
-                <th
-                  className={`${
-                    dark ? "bg-[#181A20]" : "bg-white"
-                  } text-[12px] text-gray-400 p-1 sticky top-0 text-center  z-30`}
-                >
-                  Price (USDT)
-                </th>
-                <th
-                  className={`${
-                    dark ? "bg-[#181A20]" : "bg-white"
-                  } text-[12px] text-gray-400 p-1 sticky top-0 text-center  z-30`}
-                >
-                  Amount ({tikerData?.symbol?.split("USDT")[0]})
-                </th>
-                <th
-                  className={`${
-                    dark ? "bg-[#181A20]" : "bg-white"
-                  } text-[12px] text-gray-400 p-2 sticky top-0 text-left  z-30`}
-                >
-                  Time
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              {Array.isArray(tradesData) &&
-                tradesData?.map((item, inde) => {
-                  const formatTime = (ms) => {
-                    const date = new Date(ms);
+        {activeTab === "Market Trade" && (
+          <div className="no-scrollbar h-[22rem] overflow-x-auto overflow-y-auto">
+            <table className="w-full">
+              <thead>
+                <tr>
+                  <th
+                    className={`${
+                      dark ? "bg-[#181A20]" : "bg-white"
+                    } text-[12px] text-gray-400 p-1 sticky top-0 text-center  z-30`}
+                  >
+                    Price (USDT)
+                  </th>
+                  <th
+                    className={`${
+                      dark ? "bg-[#181A20]" : "bg-white"
+                    } text-[12px] text-gray-400 p-1 sticky top-0 text-center  z-30`}
+                  >
+                    Amount ({tikerData?.symbol?.split("USDT")[0]})
+                  </th>
+                  <th
+                    className={`${
+                      dark ? "bg-[#181A20]" : "bg-white"
+                    } text-[12px] text-gray-400 p-2 sticky top-0 text-left  z-30`}
+                  >
+                    Time
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                {Array.isArray(tradesData) &&
+                  tradesData?.map((item, inde) => {
+                    const formatTime = (ms) => {
+                      const date = new Date(ms);
+                      return (
+                        `${date.getHours().toString().padStart(2, "0")}:` +
+                        `${date.getMinutes().toString().padStart(2, "0")}:` +
+                        `${date.getSeconds().toString().padStart(2, "0")}`
+                      );
+                    };
+                    const time = formatTime(item?.T);
+                    const price = parseFloat(item?.p).toFixed(2);
+                    const amount = parseFloat(item?.q).toString();
+                    const formatToKMB = (num) => {
+                      if (num >= 1_000_000_000) {
+                        return (num / 1_000_000_000).toFixed(2) + "B";
+                      } else if (num >= 1_000_000) {
+                        return (num / 1_000_000).toFixed(2) + "M";
+                      } else if (num >= 1_000) {
+                        return (num / 1_000).toFixed(2) + "K";
+                      } else {
+                        return (num / 1).toFixed(3);
+                      }
+                    };
+                    const priceNum = formatToKMB(price);
+                    const amounts = formatToKMB(amount);
                     return (
-                      `${date.getHours().toString().padStart(2, "0")}:` +
-                      `${date.getMinutes().toString().padStart(2, "0")}:` +
-                      `${date.getSeconds().toString().padStart(2, "0")}`
+                      <tr key={inde}>
+                        <td
+                          className={`lg:text-[12px] ${
+                            !item?.m ? "text-[#2EBD85]" : "text-[#F6465D]"
+                          } text-[.6rem] pl-1 pr-1 p-[4px] text-center `}
+                        >
+                          {price}
+                        </td>
+                        <td className="lg:text-[12px] text-[.6rem] pl-1 pr-1 p-[4px]  text-center">
+                          {amounts}
+                        </td>
+                        <td className="lg:text-[12px] text-[.6rem] pl-1 pr-1 p-[4px]">
+                          {time}
+                        </td>
+                      </tr>
                     );
-                  };
-                  const time = formatTime(item?.T);
-                  const price = parseFloat(item?.p).toFixed(2);
-                  const amount = parseFloat(item?.q).toString();
-                  const formatToKMB = (num) => {
-                    if (num >= 1_000_000_000) {
-                      return (num / 1_000_000_000).toFixed(2) + "B";
-                    } else if (num >= 1_000_000) {
-                      return (num / 1_000_000).toFixed(2) + "M";
-                    } else if (num >= 1_000) {
-                      return (num / 1_000).toFixed(2) + "K";
-                    } else {
-                      return (num / 1).toFixed(3);
-                    }
-                  };
-                  const priceNum = formatToKMB(price);
-                  const amounts = formatToKMB(amount);
-                  return (
-                    <tr key={inde}>
-                      <td
-                        className={`lg:text-[12px] ${
-                          !item?.m ? "text-[#2EBD85]" : "text-[#F6465D]"
-                        } text-[.6rem] pl-1 pr-1 p-[4px] text-center `}
-                      >
-                        {price}
-                      </td>
-                      <td className="lg:text-[12px] text-[.6rem] pl-1 pr-1 p-[4px]  text-center">
-                        {amounts}
-                      </td>
-                      <td className="lg:text-[12px] text-[.6rem] pl-1 pr-1 p-[4px]">
-                        {time}
-                      </td>
-                    </tr>
-                  );
-                })}
-            </tbody>
-          </table>
-        </div>
+                  })}
+              </tbody>
+            </table>
+          </div>
+        )}
+        {activeTab === "My Trade" && (
+          <div className="no-scrollbar h-[22rem] overflow-x-auto overflow-y-auto">
+            <div className="h-full w-full flex justify-center items-center">
+              No Data Found
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );

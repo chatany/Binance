@@ -6,7 +6,12 @@ import { RxHamburgerMenu } from "react-icons/rx";
 import { RiArrowUpDoubleLine } from "react-icons/ri";
 import { TbWorld } from "react-icons/tb";
 import { MdDarkMode } from "react-icons/md";
-import { FaQuestion, FaAngleDown, FaAngleRight } from "react-icons/fa";
+import {
+  FaQuestion,
+  FaAngleDown,
+  FaAngleRight,
+  FaBalanceScale,
+} from "react-icons/fa";
 import { IoMdListBox, IoMdSettings } from "react-icons/io";
 import { Order } from "./Order";
 import { MarketCom } from "./market";
@@ -17,6 +22,7 @@ import MobileSidebar from "./sidebar";
 import { BuySellToggle } from "../common/ToggleButton";
 import ScrollStatsBar from "../common/TopIconBar";
 import {
+  data,
   marketArr,
   marks,
   orderArr,
@@ -67,6 +73,7 @@ export const Home = () => {
     TikerData({ setTikerData, searchQuery });
   }, [searchQuery]);
   const symbol = tikerData?.symbol;
+  const [currentItem, setCurrentItem] = useState("");
   const lastPrice = parseFloat(tikerData?.lastPrice).toString();
   const CustomSlider = styled(Slider)(({ theme }) => ({
     height: "1px",
@@ -181,6 +188,7 @@ export const Home = () => {
                 onMouseEnter={(e) => {
                   const rect = e.currentTarget.getBoundingClientRect();
                   setHoveredItemIndex(i);
+                  setCurrentItem(item);
                   setHoverPosition({
                     x: rect.left,
                     y: rect.bottom,
@@ -207,32 +215,111 @@ export const Home = () => {
               hoveredItemIndex !== 0 &&
               hoveredItemIndex !== 1 && (
                 <div
-                  className={`absolute w-[30rem]  border-1 ${
+                  className={`absolute max-w-[40rem]  border-1 ${
                     dark ? "bg-[#161A1E] text-white" : "bg-white text-black"
                   }  opacity-95  ${
                     dark ? "border-[#2B3139]" : "border-[#EAECEF]"
-                  }   p-2  shadow-lg rounded-md  z-50 hidden lg:block transition-all duration-200`}
+                  }   p-2  shadow-lg rounded-md  z-999 hidden lg:block transition-all duration-200`}
                   style={{
                     top: `${hoverPosition.y + 5}px`,
-                    left: `${hoverPosition.x}px`,
+                    left: `${hoverPosition.x - 110}px`,
                   }}
                   onMouseLeave={() => setHoveredItemIndex(null)}
                   onMouseEnter={() => setHoveredItemIndex(hoveredItemIndex)}
                 >
-                  {supportOptions.map((item, idx) => (
-                    <div
-                      key={idx}
-                      className={`${
-                        dark ? "hover:bg-[#161A1E]" : "hover:bg-gray-100"
-                      } flex items-start gap-3 px-4 py-3  cursor-pointer`}
-                    >
-                      <div className="text-xl">{item.icon}</div>
-                      <div>
-                        <div className="font-semibold">{item.title}</div>
-                        <div className="text-sm ">{item.desc}</div>
-                      </div>
-                    </div>
-                  ))}
+                  {data?.map(
+                    (item, idx) =>
+                      item.category === currentItem && (
+                        <>
+                          {item?.category === "Trade" ||
+                          item?.category === "More" ? (
+                            <div className="flex ">
+                              {item.item.map((ele) => (
+                                <div className="p-3">
+                                  <div className="flex flex-col w-full">
+                                    {ele.section === 1 &&
+                                      ele.array.map((val, ind) => (
+                                        <div
+                                          key={ind}
+                                          className={`${
+                                            dark
+                                              ? "hover:bg-[#161A1E]"
+                                              : "hover:bg-gray-100"
+                                          } items-start gap-3 px-4 py-3 flex w-full cursor-pointer`}
+                                        >
+                                          <div>
+                                            <FaBalanceScale className="h-6 w-6" />
+                                          </div>
+                                          <div className="w-full">
+                                            <div className="font-bold text-[16px] ">
+                                              {val.title}
+                                            </div>
+                                            <div className="text-[12px]">
+                                              {val.description}
+                                            </div>
+                                          </div>
+                                        </div>
+                                      ))}
+                                  </div>
+                                  <div className="flex flex-col w-full ">
+                                    {ele.section === 2 &&
+                                      ele.array.map((val, ind) => (
+                                        <div
+                                          key={ind}
+                                          className={`${
+                                            dark
+                                              ? "hover:bg-[#161A1E]"
+                                              : "hover:bg-gray-100"
+                                          } flex items-start gap-3 px-4 py-3 w-full  cursor-pointer`}
+                                        >
+                                          <div>
+                                            <FaBalanceScale className="h-6 w-6" />
+                                          </div>
+                                          <div>
+                                            <div className="font-bold text-[16px] ">
+                                              {val.title}
+                                            </div>
+                                            <div className="leading-3 text-[12px] ">
+                                              {val.description}
+                                            </div>
+                                          </div>
+                                        </div>
+                                      ))}
+                                  </div>
+                                </div>
+                              ))}
+                            </div>
+                          ) : (
+                            <div className="p-3">
+                              {item.item.map((ele, index) => (
+                                <>
+                                  {
+                                    <div
+                                      key={index}
+                                      className={`${
+                                        dark
+                                          ? "hover:bg-[#161A1E]"
+                                          : "hover:bg-gray-100"
+                                      } flex items-center gap-3 px-2 py-2  cursor-pointer`}
+                                    >
+                                        <FaBalanceScale className="h-6 w-6" />
+                                      <div>
+                                        <div className="font-bold text-[16px] ">
+                                          {ele.title}
+                                        </div>
+                                        <div className=" leading-3 text-[12px] ">
+                                          {ele.description}
+                                        </div>
+                                      </div>
+                                    </div>
+                                  }
+                                </>
+                              ))}
+                            </div>
+                          )}
+                        </>
+                      )
+                  )}
                 </div>
               )}
           </div>
