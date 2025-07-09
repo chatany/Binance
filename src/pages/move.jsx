@@ -1,8 +1,9 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import { RiArrowUpDoubleLine } from "react-icons/ri";
 import { useDispatch, useSelector } from "react-redux";
 import { setOpen } from "../store/webSocket";
+import { TopMoves } from "./apiCall";
 
 const TopMovers = ({ dark }) => {
   const tabs = ["All", "Change", "New High/Low", "Fluctuation"];
@@ -14,6 +15,9 @@ const TopMovers = ({ dark }) => {
   const handleOpen = () => {
     dispatch(setOpen(!open));
   };
+  useEffect(() => {
+    TopMoves();
+  }, []);
   const moversData = [
     { pair: "FIDA/USDT", change: 3.21, time: "16:38:55", trend: "5min Rise" },
     { pair: "GUNJ/USDT", change: 10.18, time: "16:35:28", trend: "2Hr Rise" },

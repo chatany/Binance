@@ -4,9 +4,13 @@ import { FaAngleDown } from "react-icons/fa";
 import { HiDotsHorizontal } from "react-icons/hi";
 import { Orders } from "./apiCall";
 import { useSelector } from "react-redux";
+import styled from "@emotion/styled";
+import { Switch } from "@mui/material";
 export const Order = ({ dark, searchQuery, symbol, lastPrice }) => {
   // const [orderData, setOrderData] = useState(null);
   const orderData = useSelector((state) => state.counter.orderData);
+  const [view, setView] = useState(0.1);
+  const [toggle, setToggle] = useState(false);
   const tikerData = useSelector((state) => state.counter.tikerData);
   const tradesData = useSelector((state) => state.counter.tradeData);
   const [orderBuySell, setOrderBuySell] = useState("");
@@ -29,9 +33,46 @@ export const Order = ({ dark, searchQuery, symbol, lastPrice }) => {
           } border-b-1 p-3 items-center justify-between w-full h-fit`}
         >
           <div className="text-[1rem]">Order</div>
-          <div>
-            <HiDotsHorizontal />
+          <div className="relative cursor-pointer ">
+            <HiDotsHorizontal onClick={() => setToggle(!toggle)} />
           </div>
+          {toggle && (
+            <div className="absolute top-48 left-34">
+              <div
+                className={`w-[10rem] rounded-2xl p-2 ${
+                  dark
+                    ? "bg-[#181A20] border-gray-700 text-white "
+                    : "bg-white shadow-xl text-black border-gray-200 "
+                } space-y-1`}
+              >
+                <div>
+                  <div>Order Book display</div>
+                  <div className="p-2">
+                    <div className="min-w-max">
+                      <input type="checkbox" /> Display Avg &Sum
+                    </div>
+                    <div className="flex gap-1">
+                      <input type="checkbox" />
+                      <div className="min-w-max"> Show Buy/Sell Ratio</div>
+                    </div>
+                    <div>
+                      <input type="checkbox" /> Rounding
+                    </div>
+                  </div>
+                </div>
+                <div>
+                  <div>Book Depth Visualization</div>
+                  <div>
+                    <input type="radio" /> Amount
+                  </div>
+                  <div>
+                    <input type="radio" /> Cumulative
+                  </div>
+                </div>
+                <div>Animations </div>
+              </div>
+            </div>
+          )}
         </div>
         <div className="flex justify-between w-full h-fit p-2">
           <div className="flex text-[12px]">
@@ -119,7 +160,7 @@ export const Order = ({ dark, searchQuery, symbol, lastPrice }) => {
             </thead>
             <tbody>
               {orderData?.bids?.map((item, index) => {
-                const price = parseFloat(item[0]).toString();
+                const price = parseFloat(item[0]).toFixed(2);
                 const amount = parseFloat(item[1]).toString();
                 const total = parseFloat(price * amount).toString();
                 const formatToK = (num) => {
@@ -175,7 +216,7 @@ export const Order = ({ dark, searchQuery, symbol, lastPrice }) => {
                   !tradesData[0]?.m ? "text-[#2EBD85] " : "text-[#F6465D] "
                 }  p-2 flex items-center  w-full gap-2`}
               >
-                {parseFloat(tikerData?.lastPrice)}
+                {parseFloat(tikerData?.lastPrice).toFixed(2)}
                 {!tradesData[0]?.m ? (
                   <FaArrowUp className="text-[20px] text-[#2EBD85]" />
                 ) : (
@@ -192,7 +233,7 @@ export const Order = ({ dark, searchQuery, symbol, lastPrice }) => {
           </thead>
           <tbody>
             {orderData?.asks?.map((item, index) => {
-              const price = parseFloat(item[0]).toString();
+              const price = parseFloat(item[0]).toFixed(2);
               const amount = parseFloat(item[1]).toString();
               const total = parseFloat(price * amount);
               const formatToK = (num) => {

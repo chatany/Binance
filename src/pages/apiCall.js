@@ -76,3 +76,16 @@ export const Trades = async ({ searchQuery, setTradesData }) => {
     console.error("Failed to fetch second API", err);
   }
 };
+export const TopMoves = async () => {
+  try {
+    const { data, status } = await apiRequest({
+      method: "get",
+      url: `https://cache.bitzup.com/exchangeinfo.php`,
+    });
+    // if (status === 200) {
+      console.log(data,"data");
+    // }
+  } catch (err) {
+    console.error("Failed to fetch second API", err);
+  }
+};

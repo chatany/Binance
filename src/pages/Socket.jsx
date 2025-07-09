@@ -114,7 +114,7 @@ export const Socket = ({ searchQuery }) => {
 
     const startWebSocket = () => {
       orderRef.current = new WebSocket(
-        `wss://stream.binance.com:9443/ws/${searchQuery.toLowerCase()}@depth20@1000ms`
+        `wss://stream.binance.com:9443/ws/${searchQuery.toLowerCase()}@depth10`
       );
 
       orderRef.current.onopen = () => {

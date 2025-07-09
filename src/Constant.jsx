@@ -544,3 +544,181 @@ export const supportOptions = [
     desc: "Enhance transparency and combat financial crimes",
   },
 ];
+
+export const data = [
+  {
+    category: "Trade",
+    item: [
+      {
+        section: 1,
+        array: [
+          {
+            title: "Spot",
+            description: "Buy and sell on the Spot market with advanced tools",
+          },
+          {
+            title: "Margin",
+            description: "Increase your profits with leverage",
+          },
+          {
+            title: "P2P",
+            description:
+              "Buy & sell cryptocurrencies using bank transfer and 800+ options",
+          },
+          {
+            title: "Convert & Block Trade",
+            description: "The easiest way to trade at all sizes",
+          },
+        ],
+      },
+      {
+        section: 2,
+        array: [
+          {
+            title: "Advanced",
+            description: "Alpha - Quick access to Web3 via Alpha Trading",
+          },
+          {
+            title: "Trading Bots",
+            description:
+              "Trade smarter with our various automated strategies - easy, fast and reliable",
+          },
+          {
+            title: "Copy Trading",
+            description: "Follow the most popular traders",
+          },
+          {
+            title: "APIs",
+            description: "Unlimited opportunities with one key",
+          },
+        ],
+      },
+    ],
+  },
+  {
+    category: "Futures",
+    item: [
+      {
+        title: "USDⓈ-M Futures",
+        description: "Contracts settled in USDT and USDC",
+      },
+      {
+        title: "COIN-M Futures",
+        description: "Contracts settled in cryptocurrency",
+      },
+      {
+        title: "Options",
+        description: "USDT Options with limited downside and affordable entry",
+      },
+    ],
+  },
+  {
+    category: "Earn",
+    item: [
+      {
+        title: "Overview",
+        description: "One-stop portal for all Earn products",
+      },
+      {
+        title: "Simple Earn",
+        description:
+          "Earn passive income on 300+ crypto assets with flexible and locked terms",
+      },
+      {
+        title: "Advanced Earn",
+        description:
+          "Maximize your returns with our advanced yield investment products",
+      },
+      {
+        title: "Loans",
+        description: "Access quick and easy loans with competitive rates",
+      },
+    ],
+  },
+  {
+    category: "Square",
+    item: [
+      { title: "Square", description: "Stay informed with everything crypto" },
+      {
+        title: "Academy (Learn & Earn)",
+        description: "Earn crypto by learning about blockchain",
+      },
+      {
+        title: "Blog",
+        description: "Expand your knowledge and get the latest insights",
+      },
+      {
+        title: "Research",
+        description:
+          "Institutional-grade analysis, in-depth insights, and more",
+      },
+    ],
+  },
+  {
+    category: "More",
+    item: [
+      {
+        section: 1,
+        array: [
+          {
+            title: "VIP & Institutional",
+            description:
+              "Your trusted digital asset platform for VIPs and institutions",
+          },
+          {
+            title: "Affiliate",
+            description: "Earn up to 50% commission per trade from referrals",
+          },
+          {
+            title: "Referral Program",
+            description:
+              "Invite friends to earn either a commission rebate or a one-time reward",
+          },
+          {
+            title: "Launchpool",
+            description: "Discover and gain access to new token launches",
+          },
+          {
+            title: "Megadrop",
+            description:
+              "Lock your BNB and complete Web3 quests for boosted airdrop rewards",
+          },
+          {
+            title: "Mining Pool",
+            description: "Mine more rewards by connecting to the pool",
+          },
+          { title: "NFT", description: "Explore NFTs from creators worldwide" },
+        ],
+      },
+      {
+        section: 2,
+        array: [
+          { title: "Pay", description: "Send, receive and spend crypto" },
+          {
+            title: "Fan Token",
+            description:
+              "Discover an all-new fandom and unlock unlimited fan experiences",
+          },
+          {
+            title: "Binance Wallet",
+            description: "Access and Navigate Web3 Effortlessly",
+          },
+          {
+            title: "BNB Chain",
+            description: "The most popular blockchain to build your own dApp",
+          },
+          {
+            title: "Charity",
+            description:
+              "Blockchain empowers charity to be more transparent, efficient, and traceable",
+          },
+          {
+            title: "Travel Rule",
+            description:
+              "Enhance transparency and combat financial crimes such as money laundering and terrorism financing",
+          },
+        ],
+      },
+    ],
+  },
+];
