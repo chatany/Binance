@@ -32,7 +32,7 @@ import {
   tabs,
 } from "../Constant";
 import { ChartEmbed } from "./chart";
-import { fetchData, TikerData } from "./apiCall";
+import { fetchData, TikerData, TopMoves } from "./apiCall";
 import TopMovers from "./move";
 import {
   TopIconBar1,
@@ -41,7 +41,7 @@ import {
   TopIconBar4,
 } from "./TopIconBars";
 import { Socket } from "./Socket";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 let val;
 export const Home = () => {
   const [dark, setDark] = useState(true);
@@ -68,10 +68,13 @@ export const Home = () => {
     volume: "",
     quoteVolume: "",
   });
+  console.log(searchQuery,"mover");
+  
   useEffect(() => {
     fetchData();
     TikerData({ setTikerData, searchQuery });
   }, [searchQuery]);
+
   const symbol = tikerData?.symbol;
   const [currentItem, setCurrentItem] = useState("");
   const lastPrice = parseFloat(tikerData?.lastPrice).toString();
@@ -159,7 +162,7 @@ export const Home = () => {
         >
           <div className="flex  lg:w-[50%] items-center text-lg gap-2 font-semibold leading-6 lg:justify-evenly">
             <div className="text-amber-400 font-semibold text-xl">
-              <svg
+              {/* <svg
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 5120 1024"
                 class="lg:h-6 h-5"
@@ -171,7 +174,12 @@ export const Home = () => {
                   p-id="2935"
                   class=""
                 ></path>
-              </svg>
+              </svg> */}
+              {dark ? (
+                <img src="public/bitzup_light_logo.png" className="h-10 w-36" />
+              ) : (
+                <img src="public/bitzup_dark_logo.png" className="h-10 w-36" />
+              )}
             </div>
             {[
               "Buy Crpto",
@@ -302,7 +310,7 @@ export const Home = () => {
                                           : "hover:bg-gray-100"
                                       } flex items-center gap-3 px-2 py-2  cursor-pointer`}
                                     >
-                                        <FaBalanceScale className="h-6 w-6" />
+                                      <FaBalanceScale className="h-6 w-6" />
                                       <div>
                                         <div className="font-bold text-[16px] ">
                                           {ele.title}
@@ -401,11 +409,11 @@ export const Home = () => {
               symbol={symbol}
             />
             <div
-              className={`max-h-[24rem] flex flex-col  rounded-lg items-end ${
+              className={`[26rem] flex flex-col  rounded-lg items-end ${
                 dark ? "bg-[#181A20] text-white" : "bg-white text-black w-full"
               }  `}
             >
-              <TopMovers dark={dark} />
+              <TopMovers dark={dark} SetSearchQuery={SetSearchQuery} />
             </div>
           </div>
         </div>

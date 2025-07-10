@@ -1,6 +1,6 @@
 import { useDispatch } from "react-redux";
 import { apiRequest } from "../Helper";
-import { setLastPrice } from "../store/webSocket";
+import { setAllMovers, setLastPrice, setTopMovers } from "../store/webSocket";
 
 export const fetchData = async () => {
   try {
@@ -76,15 +76,31 @@ export const Trades = async ({ searchQuery, setTradesData }) => {
     console.error("Failed to fetch second API", err);
   }
 };
-export const TopMoves = async () => {
+export const TopMoves = async (dispatch) => {
   try {
     const { data, status } = await apiRequest({
       method: "get",
-      url: `https://cache.bitzup.com/exchangeinfo.php`,
+      url: `http://localhost:5000/binance-Movers`,
     });
-    // if (status === 200) {
-      console.log(data,"data");
-    // }
+    if (status === 200) {
+      dispatch(setTopMovers(data));
+      console.log(data, "data Movers");
+    }
+  } catch (err) {
+    console.error("Failed to fetch second API", err);
+  }
+};
+
+export const allMovers = async (dispatch) => {
+  try {
+    const { data, status } = await apiRequest({
+      method: "get",
+      url: `http://localhost:5000/binance-allMovers`,
+    });
+    if (status === 200) {
+      dispatch(setAllMovers(data));
+      console.log(data, "data Movers");
+    }
   } catch (err) {
     console.error("Failed to fetch second API", err);
   }

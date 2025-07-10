@@ -2,16 +2,21 @@ import React, { useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   incrementByAmount,
+  setAllMovers,
   setOrderData,
+  setTopMovers,
   setTradeData,
 } from "../store/webSocket";
-
+import { allMovers, TopMoves } from "./apiCall";
+import { io } from "socket.io-client";
+const socket = io("https://socket.bitzup.com");
 export const Socket = ({ searchQuery }) => {
   const dispatch = useDispatch();
   const wsRef = useRef(null);
   const orderRef = useRef(null);
   const tradeRef = useRef(null);
   const reconnectTimerRef = useRef(null);
+  const allMover = useSelector((state) => state.counter.allMovers);
   const reconnectTimerRef1 = useRef(null);
   const fallbackIntervalRef = useRef(null);
   const fallbackIntervalRef1 = useRef(null);
@@ -22,6 +27,10 @@ export const Socket = ({ searchQuery }) => {
   useEffect(() => {
     tradesDataRef.current = tradesData; // hamesha latest data rakhne ke liye
   }, [tradesData]);
+  useEffect(() => {
+    TopMoves(dispatch);
+    allMovers(dispatch);
+  }, []);
   useEffect(() => {
     const fetchRestData = async () => {
       try {
@@ -114,7 +123,7 @@ export const Socket = ({ searchQuery }) => {
 
     const startWebSocket = () => {
       orderRef.current = new WebSocket(
-        `wss://stream.binance.com:9443/ws/${searchQuery.toLowerCase()}@depth10`
+        `wss://stream.binance.com:9443/ws/${searchQuery.toLowerCase()}@depth20`
       );
 
       orderRef.current.onopen = () => {
@@ -197,8 +206,8 @@ export const Socket = ({ searchQuery }) => {
       };
 
       tradeRef.current.onerror = (err) => {
-        console.log(err,"po");
-        
+        console.log(err, "po");
+
         tradeRef.current.close();
       };
 
@@ -225,6 +234,19 @@ export const Socket = ({ searchQuery }) => {
         clearInterval(fallbackIntervalRef2.current);
     };
   }, [searchQuery, dispatch]);
-
+  useEffect(() => {
+    socket.on("disconnect", () => {
+      console.log(socket.connected); // false
+    });
+    socket.emit("market", (data) => {
+      console.log(data, "po");
+    });
+    socket.on("market", (event) => {
+      const data = JSON.parse(event);
+      console.log(event, "event");
+      dispatch(setAllMovers(data));
+      dispatch(setTopMovers(data));
+    });
+  }, []);
   return null;
 };
