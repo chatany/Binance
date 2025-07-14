@@ -2,16 +2,21 @@ import React, { useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   incrementByAmount,
+  setAllMovers,
   setOrderData,
+  setTopMovers,
   setTradeData,
 } from "../store/webSocket";
-
+import { allMovers, TopMoves } from "./apiCall";
+import { io } from "socket.io-client";
+const socket = io("https://socket.bitzup.com");
 export const Socket = ({ searchQuery }) => {
   const dispatch = useDispatch();
   const wsRef = useRef(null);
   const orderRef = useRef(null);
   const tradeRef = useRef(null);
   const reconnectTimerRef = useRef(null);
+  const allMover = useSelector((state) => state.counter.allMovers);
   const reconnectTimerRef1 = useRef(null);
   const fallbackIntervalRef = useRef(null);
   const fallbackIntervalRef1 = useRef(null);
@@ -22,6 +27,10 @@ export const Socket = ({ searchQuery }) => {
   useEffect(() => {
     tradesDataRef.current = tradesData; // hamesha latest data rakhne ke liye
   }, [tradesData]);
+  useEffect(() => {
+    TopMoves(dispatch);
+    allMovers(dispatch);
+  }, []);
   useEffect(() => {
     const fetchRestData = async () => {
       try {
@@ -58,7 +67,7 @@ export const Socket = ({ searchQuery }) => {
 
       wsRef.current.onmessage = (event) => {
         const data = JSON.parse(event.data);
-        console.log(data, "socket for tiker");
+        // console.log(data, "socket for tiker");
 
         dispatch(
           incrementByAmount({
@@ -100,7 +109,7 @@ export const Socket = ({ searchQuery }) => {
       if (fallbackIntervalRef.current)
         clearInterval(fallbackIntervalRef.current);
     };
-  }, [searchQuery, dispatch]);
+  }, [searchQuery]);
   useEffect(() => {
     const fetchRestData = async () => {
       try {
@@ -114,7 +123,7 @@ export const Socket = ({ searchQuery }) => {
 
     const startWebSocket = () => {
       orderRef.current = new WebSocket(
-        `wss://stream.binance.com:9443/ws/${searchQuery.toLowerCase()}@depth10`
+        `wss://stream.binance.com:9443/ws/${searchQuery.toLowerCase()}@depth20`
       );
 
       orderRef.current.onopen = () => {
@@ -124,7 +133,7 @@ export const Socket = ({ searchQuery }) => {
 
       orderRef.current.onmessage = (event) => {
         const data = JSON.parse(event.data);
-        console.log(data, "socket for order");
+        // console.log(data, "socket for order");
 
         dispatch(setOrderData(data));
       };
@@ -151,10 +160,10 @@ export const Socket = ({ searchQuery }) => {
         orderRef.current.close();
       }
       if (reconnectTimerRef1.current) clearTimeout(reconnectTimerRef1.current);
-      if (reconnectTimerRef1.current)
+      if (fallbackIntervalRef1.current)
         clearInterval(fallbackIntervalRef1.current);
     };
-  }, [searchQuery, dispatch]);
+  }, [searchQuery]);
   useEffect(() => {
     const fetchRestData = async () => {
       try {
@@ -178,7 +187,7 @@ export const Socket = ({ searchQuery }) => {
 
       tradeRef.current.onmessage = (event) => {
         const data = JSON.parse(event.data);
-        console.log(data, "socket for trade");
+        // console.log(data, "socket for trade");
 
         // always use latest data via ref
         const updatedTrades = tradesDataRef.current
@@ -197,8 +206,6 @@ export const Socket = ({ searchQuery }) => {
       };
 
       tradeRef.current.onerror = (err) => {
-        console.log(err,"po");
-        
         tradeRef.current.close();
       };
 
@@ -224,7 +231,15 @@ export const Socket = ({ searchQuery }) => {
       if (reconnectTimerRef2.current)
         clearInterval(fallbackIntervalRef2.current);
     };
-  }, [searchQuery, dispatch]);
-
+  }, [searchQuery]);
+  useEffect(() => {
+    socket.on("disconnect", () => {});
+    socket.emit("market", (data) => {});
+    socket.on("market", (event) => {
+      const data = JSON.parse(event);
+      dispatch(setAllMovers(data));
+      dispatch(setTopMovers(data));
+    });
+  }, []);
   return null;
 };

@@ -76,18 +76,20 @@ export const MarketCom = ({ dark, SetSearchQuery, searchQuery, symbol }) => {
                     dark ? "text-[#EAECEF]" : "text-black"
                   } text-[14px]`}
                 >
-                  <th className="text-left pl-2  font-medium capitalize">
-                    pair
-                  </th>
-                  <th className="capitalize text-left">lastPrice/vol</th>
-                  <th className="flex justify-center capitalize cursor-pointer">
-                    <CiRepeat
-                      className={`text-right ${
-                        dark ? "text-[#EAECEF]" : "text-black "
-                      }`}
-                      onClick={handleToggle}
-                    />
-                  </th>
+                  <tr>
+                    <th className="text-left pl-2  font-medium capitalize">
+                      pair
+                    </th>
+                    <th className="capitalize text-left">lastPrice/vol</th>
+                    <th className="flex justify-center capitalize cursor-pointer">
+                      <CiRepeat
+                        className={`text-right ${
+                          dark ? "text-[#EAECEF]" : "text-black "
+                        }`}
+                        onClick={handleToggle}
+                      />
+                    </th>
+                  </tr>
                 </thead>
                 <tbody>
                   {filteredData?.map((item) => (
