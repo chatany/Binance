@@ -8,6 +8,7 @@ import { useState } from "react";
 export const Form = ({ dark }) => {
   const isOpen = useSelector((state) => state.counter.open);
   const [active, setActive] = useState("Sport");
+  const userData = JSON.parse(localStorage.getItem("userData")) || {};
   const CustomSlider = styled(Slider)(({ theme }) => ({
     height: "1px",
     color: "#fff",
@@ -62,11 +63,15 @@ export const Form = ({ dark }) => {
     <div
       className={` ${
         isOpen ? "h-[33rem]" : "h-[28rem]"
-      }  transition-all duration-500 delay-100 rounded-lg  ${
+      }   transition-all duration-500 delay-1000 rounded-lg  ${
         dark ? "bg-[#181A20]" : "bg-white"
       }`}
     >
-      <div className={` ${dark ? "border-[#2B3139]" : "border-[#EAECEF]"} border-b-1`}>
+      <div
+        className={` ${
+          dark ? "border-[#2B3139]" : "border-[#EAECEF]"
+        } border-b-1`}
+      >
         <div className=" flex text-[12px] p-2 w-[50%]">
           {tab.map((tab) => (
             <button
@@ -90,7 +95,7 @@ export const Form = ({ dark }) => {
       <div
         className={`flex sm:flex-row justify-center w-full  gap-3 flex-col items-center  `}
       >
-        <div className="w-full space-y-2">
+        <div className={`w-full  transition-all duration-500 delay-1000 ${isOpen ? "space-y-6" : "space-y-2"}`}>
           <div className="p-[5px]">
             <CryptoInput
               label="Price"
@@ -152,7 +157,7 @@ export const Form = ({ dark }) => {
           </div>
           <div className="w-full flex justify-center">
             <button className="w-[100%]  bg-[#2EBD85] hover:bg-[#0e9e67]  m-2 py-2 rounded-md h-[3rem] text-[16px] font-semibold cursor-pointer">
-              Log In
+              {userData ? "Buy" : " Log In"}
             </button>
           </div>
         </div>
@@ -163,7 +168,7 @@ export const Form = ({ dark }) => {
           //     : "bg-zinc-50 text-black border-gray-200"
           // }   border  space-y-2 w-full  text-xl`}
           // id="a"
-          className="w-full space-y-2"
+          className={`w-full  transition-all duration-500 delay-100 ${isOpen ? "space-y-6" : "space-y-2"} `}
         >
           <div style={{ padding: "5px", maxWidth: "100%" }}>
             <CryptoInput
@@ -225,7 +230,7 @@ export const Form = ({ dark }) => {
           </div>
           <div className="w-full flex justify-center">
             <button className="w-[100%] bg-[#F6465D] hover:bg-[#c74052] cursor-pointer  h-[3rem]  py-2 m-2 rounded-md text-[16px] font-semibold">
-              Log In
+              {userData ? "Sell" : " Log In"}
             </button>
           </div>
         </div>

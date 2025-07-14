@@ -9,35 +9,27 @@ import { Socket } from "./pages/Socket";
 import { Login } from "./Login/Login";
 import { Register } from "./Login/Register";
 import { Forgotpass } from "./Login/ForgotPassword";
+import ToastProvider from "./Toastify/ToastProvider";
+import { ResetPassword } from "./Login/ResetPassword";
 function App() {
   return (
-    <Router>
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/order" element={<Order />} />
-        <Route path="/chart" element={<ChartEmbed />} />
-        <Route path="/Market" element={<MarketCom />} />
-        <Route path="/input" element={<InputComponent />} />
-        <Route path="/w" element={<Socket />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
-        <Route path="/forgot" element={<Forgotpass />} />
-      </Routes>
-    </Router>
-    // <div style={{ padding: "10px", maxWidth: "375px" }}>
-    //   <CryptoInput
-    //     label="Price"
-    //     unit="USDT"
-    //     step={0.01}
-    //     defaultValue="107814.08"
-    //   />
-    //   <CryptoInput
-    //     label="Amount"
-    //     unit="BTC"
-    //     step={0.00001}
-    //     defaultValue="0.00002"
-    //   />
-    // </div>
+    <>
+      <ToastProvider />
+      <Router>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/order" element={<Order />} />
+          <Route path="/chart" element={<ChartEmbed />} />
+          <Route path="/Market" element={<MarketCom />} />
+          <Route path="/input" element={<InputComponent />} />
+          <Route path="/w" element={<Socket />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+          <Route path="/forgot" element={<Forgotpass />} />
+          <Route path="/Reset/:userId" element={<ResetPassword />} />
+        </Routes>
+      </Router>
+    </>
   );
 }
 

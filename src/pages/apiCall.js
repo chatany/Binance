@@ -1,6 +1,11 @@
 import { useDispatch } from "react-redux";
 import { apiRequest } from "../Helper";
-import { setAllMovers, setLastPrice, setTopMovers } from "../store/webSocket";
+import {
+  setAllMovers,
+  setCountryData,
+  setLastPrice,
+  setTopMovers,
+} from "../store/webSocket";
 
 export const fetchData = async () => {
   try {
@@ -29,12 +34,10 @@ export const SearchData = async ({ setSearchData }) => {
 
 export const TikerData = async ({ setTikerData, searchQuery }) => {
   try {
-    const dispatch = useDispatch();
     const { data, status } = await apiRequest({
       method: "get",
       url: `http://localhost:5000/binance-ticker?url=${searchQuery}`,
     });
-    dispatch(setLastPrice(data?.lastPrice));
     setTikerData({
       symbol: data?.symbol,
       lastPrice: data?.lastPrice,
@@ -84,7 +87,6 @@ export const TopMoves = async (dispatch) => {
     });
     if (status === 200) {
       dispatch(setTopMovers(data));
-      console.log(data, "data Movers");
     }
   } catch (err) {
     console.error("Failed to fetch second API", err);
@@ -99,9 +101,26 @@ export const allMovers = async (dispatch) => {
     });
     if (status === 200) {
       dispatch(setAllMovers(data));
-      console.log(data, "data Movers");
     }
   } catch (err) {
     console.error("Failed to fetch second API", err);
   }
+};
+
+export const country = async (dispatch) => {
+  try {
+    const { data, status } = await apiRequest({
+      method: "get",
+      url: `https://test.bitzup.com/onboarding/user/get-all-countries`,
+    });
+    if (status === 200) {
+      dispatch(setCountryData(data.data));
+    }
+  } catch (err) {
+    console.error("Failed to fetch second API", err);
+  }
+};
+
+export const register = async ({ user, setUserData }) => {
+  
 };

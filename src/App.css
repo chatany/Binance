@@ -98,7 +98,7 @@
     padding: 4px;
   }
 }
-@media (max-width: 1100px) {
+@media (max-width: 1260px) {
   .trade-label {
     font-size: 12px;
   }

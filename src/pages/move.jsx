@@ -18,7 +18,6 @@ const TopMovers = ({ dark, SetSearchQuery }) => {
   const scrollTabs = (offset) => {
     tabRef.current.scrollBy({ left: offset, behavior: "smooth" });
   };
-  console.log(movers, "lo3");
 
   const filteredData = () => {
     return activeTab !== "All" ? movers[activeTab] : allMovers;
@@ -83,10 +82,10 @@ const TopMovers = ({ dark, SetSearchQuery }) => {
       </div>
 
       {/* Movers List */}
-      <div className={`space-y-2 overflow-y-auto max-h-[13rem] no-scrollbar`}>
-        {filteredData()?.map((mover, index) => (
+      <div className={`space-y-2 overflow-y-auto ${open ?"max-h-[18rem]" :"max-h-[13rem]"} no-scrollbar`}>
+        {filteredData()?.map((mover,index) => (
           <div
-            key={mover?.pair_id}
+            key={index}
             className={`flex justify-between items-center p-3 rounded-lg cursor-pointer `}
             onClick={() => {
               SetSearchQuery(mover?.pair_symbol);

@@ -67,7 +67,7 @@ export const Socket = ({ searchQuery }) => {
 
       wsRef.current.onmessage = (event) => {
         const data = JSON.parse(event.data);
-        console.log(data, "socket for tiker");
+        // console.log(data, "socket for tiker");
 
         dispatch(
           incrementByAmount({
@@ -109,7 +109,7 @@ export const Socket = ({ searchQuery }) => {
       if (fallbackIntervalRef.current)
         clearInterval(fallbackIntervalRef.current);
     };
-  }, [searchQuery, dispatch]);
+  }, [searchQuery]);
   useEffect(() => {
     const fetchRestData = async () => {
       try {
@@ -133,7 +133,7 @@ export const Socket = ({ searchQuery }) => {
 
       orderRef.current.onmessage = (event) => {
         const data = JSON.parse(event.data);
-        console.log(data, "socket for order");
+        // console.log(data, "socket for order");
 
         dispatch(setOrderData(data));
       };
@@ -160,10 +160,10 @@ export const Socket = ({ searchQuery }) => {
         orderRef.current.close();
       }
       if (reconnectTimerRef1.current) clearTimeout(reconnectTimerRef1.current);
-      if (reconnectTimerRef1.current)
+      if (fallbackIntervalRef1.current)
         clearInterval(fallbackIntervalRef1.current);
     };
-  }, [searchQuery, dispatch]);
+  }, [searchQuery]);
   useEffect(() => {
     const fetchRestData = async () => {
       try {
@@ -187,7 +187,7 @@ export const Socket = ({ searchQuery }) => {
 
       tradeRef.current.onmessage = (event) => {
         const data = JSON.parse(event.data);
-        console.log(data, "socket for trade");
+        // console.log(data, "socket for trade");
 
         // always use latest data via ref
         const updatedTrades = tradesDataRef.current
@@ -206,8 +206,6 @@ export const Socket = ({ searchQuery }) => {
       };
 
       tradeRef.current.onerror = (err) => {
-        console.log(err, "po");
-
         tradeRef.current.close();
       };
 
@@ -233,17 +231,12 @@ export const Socket = ({ searchQuery }) => {
       if (reconnectTimerRef2.current)
         clearInterval(fallbackIntervalRef2.current);
     };
-  }, [searchQuery, dispatch]);
+  }, [searchQuery]);
   useEffect(() => {
-    socket.on("disconnect", () => {
-      console.log(socket.connected); // false
-    });
-    socket.emit("market", (data) => {
-      console.log(data, "po");
-    });
+    socket.on("disconnect", () => {});
+    socket.emit("market", (data) => {});
     socket.on("market", (event) => {
       const data = JSON.parse(event);
-      console.log(event, "event");
       dispatch(setAllMovers(data));
       dispatch(setTopMovers(data));
     });

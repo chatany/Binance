@@ -25,12 +25,14 @@ export const counterSlice = createSlice({
       volume: "",
       quoteVolume: "",
     },
+    loading: false,
     open: false,
     orderData: [],
     tradeData: [],
     lastPrice: 0,
     movers: { Hot: [], Losers: [], Gainers: [], "24h Vol": [] },
     allMovers: [],
+    countryData: [],
   },
   reducers: {
     incrementByAmount: (state, action) => {
@@ -90,7 +92,6 @@ export const counterSlice = createSlice({
     },
     setAllMovers: (state, action) => {
       const start = action.payload;
-      console.log(start, "start");
 
       if (state.allMovers.length > 0) {
         state.allMovers = state.allMovers.map((item) => {
@@ -104,11 +105,18 @@ export const counterSlice = createSlice({
         state.allMovers = start;
       }
     },
+    setLoading: (state, action) => {
+      state.loading = action.payload;
+    },
+    setCountryData: (state, action) => {
+      state.countryData = action.payload;
+    },
   },
 });
 
 export const {
   increment,
+  setCountryData,
   decrement,
   incrementByAmount,
   setOpen,
@@ -116,6 +124,7 @@ export const {
   setTradeData,
   setTopMovers,
   setAllMovers,
+  setLoading,
   setLastPrice,
 } = counterSlice.actions;
 

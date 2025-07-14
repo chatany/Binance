@@ -141,7 +141,7 @@ export const TopIconBar2 = ({ dark }) => {
                   24h Change
                 </div>
                 <div className="text-green-500 md:text-[12px] text-[10px]">
-                  {parseFloat(tikerData?.priceChange).toString} +{" "}
+                  {parseFloat(tikerData?.priceChange).toString()} +{" "}
                   {parseFloat(tikerData?.priceChangePercent).toString()} %
                 </div>
               </div>

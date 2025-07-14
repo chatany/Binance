@@ -27,8 +27,21 @@ export const apiRequest = async ({
       status: response.status,
     };
   } catch (error) {
-    console.error("API Error:", error);
-    throw error;
+    if (error.response) {
+      // The request was made and server responded with non-2xx
+      return {
+        data: error.response.data,
+        status: error.response.status,
+      };
+    } else if (error.request) {
+      // The request was made but no response
+      console.error("No response received:", error.request);
+      throw error;
+    } else {
+      // Something happened setting up the request
+      console.error("Error setting up request:", error.message);
+      throw error;
+    }
   }
 };
 // axiosInstance.interceptors.request.use(

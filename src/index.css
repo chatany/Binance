@@ -3,9 +3,10 @@
 :root {
   /* font-family: "Binance PLEX", "IBM Plex Sans", "Noto Sans", system-ui, Avenir,
     Helvetica, Arial, sans-serif; */
-  font-family: Binance PLEX, Arial, sans-serif !important;
+  font-family: BinancePlex, Arial, sans-serif;
   line-height: 1.5;
-  font-weight: 600;
+  font-weight: 500;
+  
 
   color-scheme: light dark;
   color: rgba(255, 255, 255, 0.87);
@@ -19,6 +20,13 @@
 .binance-font {
   font-family: "Arial";
 }
+
+input:-webkit-autofill {
+  -webkit-box-shadow: 0 0 0px 1000px #D9D9D940 inset;
+  -webkit-text-fill-color: #757575;
+  transition: background-color 5000s ease-in-out 0s;
+}
+
 /* a {
   font-weight: 500;
   color: #646cff;
