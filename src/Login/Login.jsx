@@ -12,6 +12,7 @@ export const Login = () => {
   const navigate = useNavigate();
   const { loading } = useSelector((state) => state.counter);
   const [timer, setTimer] = useState(0);
+  const [error, setError] = useState("");
   const [userData, setUserData] = useState({
     email: "",
     password: "",
@@ -75,6 +76,7 @@ export const Login = () => {
     });
   }, []);
   const handle = (key, e) => {
+    setError("");
     setUserData((prev) => ({
       ...prev,
       [key]: e.target.value,
@@ -128,7 +130,8 @@ export const Login = () => {
           navigate("/");
         }
       } else if (status === 200 && data?.status == 0) {
-        showError(data?.message);
+        // showError(data?.message);
+        setError(data?.message);
       }
     } catch (err) {
     } finally {
@@ -136,7 +139,8 @@ export const Login = () => {
   };
   const verify = async () => {
     if (userData?.otp === " " || userData?.otp.length < 6) {
-      showError("please provide valid otp send to your email.");
+      // showError("please provide valid otp send to your email.");
+      setError("please provide valid otp send to your email.");
       return;
     }
     try {
@@ -151,7 +155,8 @@ export const Login = () => {
         navigate("/");
       }
       if (status === 200 && data?.status == 0) {
-        showError(data?.message);
+        // showError(data?.message);
+        setError(data?.message);
         setUserData((prev) => ({
           ...prev,
           otp: "",
@@ -164,8 +169,11 @@ export const Login = () => {
   };
   return (
     <div className="min-h-[100vh] w-full flex justify-center items-center bg-white font-medium">
-      <div className="w-[400px] h-[30rem] md:border-1 border-[#2B3139] rounded-2xl p-4">
-        <div className="p-4 flex flex-col h-full justify-between">
+      <div
+        className="w-[400px] h-[30rem] md:border-1 border-[#EDEDED] rounded-2xl p-4"
+        style={{ boxShadow: "0px 0px 40px 0px rgb(0,0,0,0.06)" }}
+      >
+        <div className="p-4 flex flex-col h-full gap-8">
           <div className=" text-black text-[20px] capitalize font-bold">
             BitzUp Account Login
           </div>
@@ -180,6 +188,7 @@ export const Login = () => {
     focus:outline-none 
      transition-colors duration-300 delay-200"
               onChange={(e) => handle("email", e)}
+              onFocus={() => setError("")}
             />
           </div>
           <div className="relative text-black">
@@ -192,6 +201,7 @@ export const Login = () => {
                focus:outline-none outline-none
     h-[3rem] p-4 text-[1rem] text-[#757575]
      transition-colors duration-300 delay-200"
+              onFocus={() => setError("")}
               onChange={(e) => handle("password", e)}
               type={showPassword ? "password" : "text"}
             />
@@ -203,13 +213,20 @@ export const Login = () => {
               )}
             </div>
           </div>
-          <div className=" text-[12px] flex flex-col gap-2 leading-3 text-[#2EDBAD] cursor-pointer">
-            <div onClick={handleForgotNavigate} className="hover:underline">
-              Forgot Password
+          <div className="flex flex-col gap-2.0">
+            <div className=" text-[12px] flex flex-col gap-2 leading-3 text-[#2EDBAD] cursor-pointer">
+              <div onClick={handleForgotNavigate} className="hover:underline">
+                Forgot Password
+              </div>
+              <div onClick={handleRegisterNavigate} className="hover:underline">
+                Create a BitzUp Account
+              </div>
             </div>
-            <div onClick={handleRegisterNavigate} className="hover:underline">
-              Create a BitzUp Account
-            </div>
+            {error && (
+              <div className="text-[14px] leading-4 text-[#F6465D] flex justify-center font-medium">
+                {error}
+              </div>
+            )}
           </div>
           <div className="flex w-full justify-center">
             <button

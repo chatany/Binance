@@ -1,34 +1,61 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 
-const CryptoInput = ({ label, unit, step, defaultValue, dark }) => {
-  const [value, setValue] = useState(defaultValue);
+const CryptoInput = ({
+  label,
+  unit,
+  step,
+  value,
+  onChange,
+  dark,
+  defaultValue,
+  decimalQuantity = 2,
+}) => {
+  const minStep = Math.pow(10, -decimalQuantity);
 
-  const increase = () =>
-    setValue((prev) => (parseFloat(prev) + step).toFixed(2));
-  const decrease = () =>
-    setValue((prev) => (parseFloat(prev) - step).toFixed(2));
-  useEffect(() => {
-    if (value === "") {
-      setValue(defaultValue);
+  const handleChange = (e) => {
+    let val = e.target.value;
+
+    // Allow only numbers and dot
+    if (!/^(\d+(\.\d*)?|\.\d*)?$/.test(val)) return;
+
+    // Restrict decimal digits
+    if (val.includes(".")) {
+      const [intPart, decPart] = val.split(".");
+      if (decPart.length > decimalQuantity) {
+        val = intPart + "." + decPart.slice(0, decimalQuantity);
+      }
     }
-  }, [value]);
+    onChange(val);
+  };
 
+  const increase = () => {
+    let num = parseFloat(value || 0) + minStep;
+    let result = num.toFixed(decimalQuantity);
+    onChange(result);
+  };
+
+  const decrease = () => {
+    let num = parseFloat(value || 0) - minStep;
+    if (num < 0) num = 0;
+    let result = num.toFixed(decimalQuantity);
+    onChange(result);
+  };
   return (
     <div className="trade-input">
-      <label className="trade-label">{label}</label>
       <div
         className={`${
-          dark ? " bg-[#1e2329] text-white" : " bg-white text-black"
-        } text-black input-wrapper`}
+          dark ? "bg-[#1e2329] text-white" : "bg-white text-black"
+        } input-wrapper`}
       >
+        <label className="trade-label p-2 text-[#848E9C]">{label}</label>
         <input
           type="text"
+          defaultValue={defaultValue}
           value={value}
-          step={0.01}
-          onChange={(e) => setValue(e.target.value)}
+          onChange={handleChange}
           className={`${
             dark ? "text-white" : "text-black"
-          } input-field form-control text-end  `}
+          } input-field form-control text-end`}
         />
         <div className="right-section">
           <span className={`${dark ? "text-white" : "text-black"} unit`}>
@@ -40,7 +67,7 @@ const CryptoInput = ({ label, unit, step, defaultValue, dark }) => {
             }`}
           >
             <button
-              className={`up-btn`}
+              className="up-btn"
               onClick={increase}
               style={{
                 borderBottom: `1px solid ${dark ? "#474D57" : "#474D57"}`,

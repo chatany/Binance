@@ -44,15 +44,16 @@ export const apiRequest = async ({
     }
   }
 };
-// axiosInstance.interceptors.request.use(
-//   (config) => {
-//     // const token = localStorage.getItem("token");
-//     // if (token) {
-//       config.headers["Authorization"] = `Bearer dpdT8rSuHG9ztPpu_SKH`;
-//     // }
-//     return config;
-//   },
-//   (error) => {
-//     return Promise.reject(error);
-//   }
-// );
+axiosInstance.interceptors.request.use(
+  (config) => {
+    const userData = JSON.parse(localStorage.getItem("userData")) || {};
+    const { token } = userData;
+    if (token) {
+      config.headers["Authorization"] = `Bearer ${token}`;
+    }
+    return config;
+  },
+  (error) => {
+    return Promise.reject(error);
+  }
+);
