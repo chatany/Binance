@@ -3,13 +3,15 @@ import { FaAngleRight, FaArrowDown, FaArrowUp } from "react-icons/fa";
 import { FaAngleDown } from "react-icons/fa";
 import { HiDotsHorizontal } from "react-icons/hi";
 import { Orders } from "./apiCall";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import styled from "@emotion/styled";
 import { Switch } from "@mui/material";
+import { setCurrentPrice } from "../store/webSocket";
 export const Order = ({ dark, searchQuery, symbol, lastPrice }) => {
   // const [orderData, setOrderData] = useState(null);
   const orderData = useSelector((state) => state.counter.orderData);
   const [view, setView] = useState(0.1);
+  const dispatch = useDispatch();
   const [toggle, setToggle] = useState(false);
   const tikerData = useSelector((state) => state.counter.tikerData);
   const tradesData = useSelector((state) => state.counter.tradeData);
@@ -173,7 +175,13 @@ export const Order = ({ dark, searchQuery, symbol, lastPrice }) => {
                 const totalAmount = formatToK(total);
 
                 return (
-                  <tr key={index}>
+                  <tr
+                    key={index}
+                    onClick={() => {
+                      dispatch(setCurrentPrice(price));
+                    }}
+                    className="cursor-pointer"
+                  >
                     <td className="lg:text-[12px] text-[.6rem] pl-1 pr-1 p-[4px] text-[#F6465D]">
                       {price}
                     </td>
@@ -245,7 +253,13 @@ export const Order = ({ dark, searchQuery, symbol, lastPrice }) => {
               };
               const totalAmount = formatToK(total);
               return (
-                <tr key={index}>
+                <tr
+                  key={index}
+                  onClick={() => {
+                    dispatch(setCurrentPrice(price));
+                  }}
+                  className="cursor-pointer"
+                >
                   <td className="lg:text-[12px] text-[.6rem] pl-1 pr-1 text-[#2EBD85] p-[4px] text-left">
                     {price}
                   </td>

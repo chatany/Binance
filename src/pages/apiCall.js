@@ -4,6 +4,8 @@ import {
   setAllMovers,
   setCountryData,
   setLastPrice,
+  setOpenOrderData,
+  setOrderHistory,
   setTopMovers,
 } from "../store/webSocket";
 
@@ -36,7 +38,7 @@ export const TikerData = async ({ setTikerData, searchQuery }) => {
   try {
     const { data, status } = await apiRequest({
       method: "get",
-      url: `http://localhost:5000/binance-ticker?url=${searchQuery}`,
+      url: `https://api.binance.com/api/v3/ticker/24hr?symbol=${searchQuery}`,
     });
     setTikerData({
       symbol: data?.symbol,
@@ -121,6 +123,47 @@ export const country = async (dispatch) => {
   }
 };
 
-export const register = async ({ user, setUserData }) => {
-  
+export const buysellBalance = async (pairId, setBalance) => {
+  try {
+    const { data, status } = await apiRequest({
+      method: "post",
+      url: `https://test.bitzup.com/blockchain/wallet/get-buy-sell-balance`,
+      data: { pair_id: pairId },
+    });
+    if (status === 200) {
+      setBalance(data?.data);
+    }
+  } catch (err) {
+    console.error("Failed to fetch second API", err);
+  }
+};
+
+export const openOrders = async (pairId, userId, dispatch) => {
+  const userI = userId.trim();
+
+  try {
+    const { data, status } = await apiRequest({
+      method: "get",
+      url: `https://test.bitzup.com/order/user/get-open-orders?user_id=${userI}&pair_id=${pairId}`,
+    });
+    if (status === 200 && data?.status == 1) {
+      console.log(data, "data");
+      dispatch(setOpenOrderData(data?.data));
+    }
+  } catch (err) {
+    console.error("Failed to fetch second API", err);
+  }
+};
+export const OrderHistory = async (dispatch) => {
+  try {
+    const { data, status } = await apiRequest({
+      method: "post",
+      url: `https://test.bitzup.com/blockchain/wallet/get-all-buy-sell-order`,
+      data:{}
+    });
+    dispatch(setOrderHistory(data?.data))
+    
+  } catch (err) {
+    console.error("Failed to fetch second API", err);
+  }
 };

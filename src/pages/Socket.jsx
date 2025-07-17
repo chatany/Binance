@@ -3,12 +3,15 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   incrementByAmount,
   setAllMovers,
+  setCurrentPrice,
   setOrderData,
+  setPairId,
   setTopMovers,
   setTradeData,
 } from "../store/webSocket";
 import { allMovers, TopMoves } from "./apiCall";
 import { io } from "socket.io-client";
+import { CircularProgressbarWithChildren } from "react-circular-progressbar";
 const socket = io("https://socket.bitzup.com");
 export const Socket = ({ searchQuery }) => {
   const dispatch = useDispatch();
@@ -25,7 +28,7 @@ export const Socket = ({ searchQuery }) => {
   const tradesDataRef = useRef([]);
   const tradesData = useSelector((state) => state.counter.tradeData);
   useEffect(() => {
-    tradesDataRef.current = tradesData; // hamesha latest data rakhne ke liye
+    tradesDataRef.current = tradesData; // 
   }, [tradesData]);
   useEffect(() => {
     TopMoves(dispatch);
@@ -35,9 +38,10 @@ export const Socket = ({ searchQuery }) => {
     const fetchRestData = async () => {
       try {
         const res = await fetch(
-          `http://localhost:5000/binance-ticker?url=${searchQuery}`
+          `https://api.binance.com/api/v3/ticker/24hr?symbol=${searchQuery}`
         );
         const data = await res.json();
+        dispatch(setCurrentPrice(data?.lastPrice));
         dispatch(
           incrementByAmount({
             symbol: data?.symbol,
@@ -54,7 +58,7 @@ export const Socket = ({ searchQuery }) => {
         console.error("❌ REST fetch error", err);
       }
     };
-
+    
     const startWebSocket = () => {
       wsRef.current = new WebSocket(
         `wss://stream.binance.com:9443/ws/${searchQuery.toLowerCase()}@ticker@1000ms`
@@ -114,7 +118,7 @@ export const Socket = ({ searchQuery }) => {
     const fetchRestData = async () => {
       try {
         const res = await fetch(
-          `http://localhost:5000/binance-order?url=${searchQuery}`
+          `https://api.binance.com/api/v3/depth?symbol=${searchQuery}`
         );
         const data = await res.json();
         dispatch(setOrderData(data));
@@ -168,7 +172,7 @@ export const Socket = ({ searchQuery }) => {
     const fetchRestData = async () => {
       try {
         const res = await fetch(
-          `http://localhost:5000/binance-Trades?url=${searchQuery}`
+          `https://api.binance.com/api/v3/aggTrades?symbol=${searchQuery}&limit=20`
         );
         const data = await res.json();
         dispatch(setTradeData(data));

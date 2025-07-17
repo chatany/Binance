@@ -4,7 +4,7 @@ import { FaCaretUp } from "react-icons/fa";
 import { FaSortDown } from "react-icons/fa";
 import { IoEye } from "react-icons/io5";
 import { useDispatch, useSelector } from "react-redux";
-import { country, register } from "../pages/apiCall";
+import { country } from "../pages/apiCall";
 import { IoIosCloseCircle } from "react-icons/io";
 import { apiRequest } from "../Helper";
 import { showError, showSuccess } from "../Toastify/toastServices";
@@ -111,7 +111,6 @@ export const Register = () => {
           otp: "",
         }));
       } else {
-
       }
     } catch (err) {
       setError(err);
@@ -191,7 +190,10 @@ export const Register = () => {
       className="min-h-[100vh] w-full flex justify-center items-center bg-white font-medium"
       // style={{ fontFamily: "IBM Plex Sans sans-serif Arial" }}
     >
-      <div className="w-[400px] h-[40rem] md:border-1 border-[#2B3139] rounded-2xl p-4 text-[14px]">
+      <div
+        className="w-[400px] h-[40rem] md:border-1 border-[#EDEDED] rounded-2xl p-4 text-[14px]"
+        style={{ boxShadow: "0px 0px 40px 0px rgb(0,0,0,0.06)" }}
+      >
         <div className="p-4 flex flex-col h-full gap-5">
           <div className=" text-black text-[20px] capitalize font-bold">
             Create Account

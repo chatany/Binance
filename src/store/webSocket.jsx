@@ -33,6 +33,10 @@ export const counterSlice = createSlice({
     movers: { Hot: [], Losers: [], Gainers: [], "24h Vol": [] },
     allMovers: [],
     countryData: [],
+    currentPrice: 0,
+    pairId: 0,
+    openOrder: [],
+    orderHistory: [],
   },
   reducers: {
     incrementByAmount: (state, action) => {
@@ -58,9 +62,9 @@ export const counterSlice = createSlice({
       //   state.movers = action.payload;
       // }
       if (
-        state.movers.Hot.length > 0 ||
-        state.movers.Losers.length > 0 ||
-        state.movers.Gainers.length > 0
+        state.movers.Hot?.length > 0 ||
+        state.movers.Losers?.length > 0 ||
+        state.movers.Gainers?.length > 0
       ) {
         state.movers.Hot = state.movers.Hot.map((item) => {
           const updatedItem = incoming.find(
@@ -111,6 +115,18 @@ export const counterSlice = createSlice({
     setCountryData: (state, action) => {
       state.countryData = action.payload;
     },
+    setCurrentPrice: (state, action) => {
+      state.currentPrice = action.payload;
+    },
+    setPairId: (state, action) => {
+      state.pairId = action.payload;
+    },
+    setOpenOrderData: (state, action) => {
+      state.openOrder = action.payload;
+    },
+    setOrderHistory: (state, action) => {
+      state.orderHistory = action.payload;
+    },
   },
 });
 
@@ -125,7 +141,11 @@ export const {
   setTopMovers,
   setAllMovers,
   setLoading,
+  setPairId,
+  setOpenOrderData,
+  setCurrentPrice,
   setLastPrice,
+  setOrderHistory,
 } = counterSlice.actions;
 
 export default counterSlice.reducer;
