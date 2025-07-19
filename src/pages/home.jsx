@@ -50,26 +50,38 @@ import {
 } from "./TopIconBars";
 import { Socket } from "./Socket";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { Progressbar } from "../common/CircularBar";
-let val;
+import { ToggleButSell } from "./ToggleBuySell";
+import { OpenOrders } from "../common/openOrders";
+import { Middle } from "./MiddleCom";
 export const Home = () => {
   const [dark, setDark] = useState(true);
   const [activeTab, setActiveTab] = useState("Open Orders");
   const isOpen = useSelector((state) => state.counter.open);
+  const [isLogin, setIsLogin] = useState(false);
   const { openOrder, orderHistory } = useSelector((state) => state.counter);
   const [active, setActive] = useState("Sport");
   const [hoveredItemIndex, setHoveredItemIndex] = useState(null);
   const [hoverPosition, setHoverPosition] = useState({ x: 0, y: 0, width: 0 });
-  const [searchQuery, SetSearchQuery] = useState("BTCUSDT");
+  const [searchParams, setSearchParams] = useSearchParams();
+  const defaultSymbol = searchParams.get("symbol") || "";
+  const [searchQuery, setSearchQuery] = useState(defaultSymbol);
   const userData = JSON.parse(localStorage.getItem("userData")) || {};
   const [activeItem, setActiveItem] = useState("Buy");
-  console.log(orderHistory, "orderHistory");
 
   const [show, setShow] = useState(false);
   const handleTheme = () => {
     setDark(!dark);
   };
+
+  const currencySymbol = searchParams.get("symbol");
+  useEffect(() => {
+    if (currencySymbol && currencySymbol !== searchQuery) {
+      setSearchQuery(currencySymbol);
+    }
+  }, [searchParams]);
+
   const dispatch = useDispatch();
   const [tikerData, setTikerData] = useState({
     symbol: "",
@@ -83,55 +95,12 @@ export const Home = () => {
   });
   useEffect(() => {
     fetchData();
-    // TikerData({ setTikerData, searchQuery });
-    OrderHistory(dispatch);
-  }, [searchQuery]);
+  }, [currencySymbol]);
 
   const symbol = tikerData?.symbol;
   const [currentItem, setCurrentItem] = useState("");
   const lastPrice = parseFloat(tikerData?.lastPrice).toString();
-  const CustomSlider = styled(Slider)(({ theme }) => ({
-    height: "1px",
-    color: "#fff",
 
-    "& .MuiSlider-rail": {
-      opacity: 1,
-      backgroundColor: `${dark ? "#aaa" : "rgb(245, 245, 245)"}`,
-      height: "2px",
-    },
-    "& .MuiSlider-track": {
-      backgroundColor: `${dark ? "gray" : "gray"}`,
-      height: "3px",
-      border: "none",
-    },
-    "& .MuiSlider-thumb": {
-      display: "none",
-    },
-    "& .MuiSlider-mark": {
-      width: 8,
-      height: 8,
-      backgroundColor: `${dark ? "#aaa" : "rgb(245, 245, 245)"}`,
-      border: "1px solid black",
-      transform: "rotate(45deg)",
-      marginTop: -4,
-      marginLeft: -5,
-    },
-    "& .MuiSlider-markActive": {
-      border: `4px solid ${dark ? "rgb(245, 245, 245)" : "black"}`,
-      width: 14,
-      height: 14,
-      marginTop: -7,
-      marginLeft: -6,
-    },
-    "& .MuiSlider-valueLabel": {
-      display: "none",
-    },
-    "& .MuiSlider-markLabel": {
-      display: "none",
-      color: `${dark ? "#ffffff" : "#000000"}`,
-      fontSize: "14px",
-    },
-  }));
   const navigate = useNavigate();
 
   const handleClose = () => {
@@ -150,7 +119,7 @@ export const Home = () => {
   }, [show]);
   return (
     <>
-      <Socket searchQuery={searchQuery} />
+      <Socket searchQuery={currencySymbol} />
       {show && (
         <div className="App">
           <MobileSidebar show={show} setShow={setShow} dark={dark} />
@@ -389,7 +358,7 @@ export const Home = () => {
               >
                 <Order
                   dark={dark}
-                  searchQuery={searchQuery}
+                  searchQuery={currencySymbol}
                   symbol={symbol}
                   lastPrice={lastPrice}
                 />
@@ -400,12 +369,12 @@ export const Home = () => {
                     dark ? "bg-[#181A20] " : "bg-white "
                   } max-h-[800px]   text-xs w-full`}
                 >
-                  <div className="h-full w-full rounded-lg">
-                    <ChartEmbed searchQuery={searchQuery} className="w-full" />
+                  <div className="h-[624px] w-full rounded-lg">
+                    <ChartEmbed searchQuery={currencySymbol} className="w-full" />
                   </div>
                 </div>
                 <div className="w-full ">
-                  <Form dark={dark} searchQuery={searchQuery} />
+                  <Form dark={dark} searchQuery={currencySymbol} />
                 </div>
               </div>
             </div>
@@ -414,8 +383,9 @@ export const Home = () => {
           <div className="w-[22%]  lg:flex hidden flex-col gap-1">
             <MarketCom
               dark={dark}
-              SetSearchQuery={SetSearchQuery}
-              searchQuery={searchQuery}
+              SetSearchQuery={setSearchQuery}
+              setSearchParams={setSearchParams}
+              searchQuery={currencySymbol}
               symbol={symbol}
             />
             <div
@@ -423,7 +393,7 @@ export const Home = () => {
                 dark ? "bg-[#181A20] text-white" : "bg-white text-black w-full"
               }  `}
             >
-              <TopMovers dark={dark} SetSearchQuery={SetSearchQuery} />
+              <TopMovers dark={dark} SetSearchQuery={setSearchQuery} setSearchParams={setSearchParams} />
             </div>
           </div>
         </div>
@@ -432,649 +402,41 @@ export const Home = () => {
             dark ? " bg-[#181A20]" : " bg-white "
           } `}
         >
-          <div
-            className={`${
-              dark
-                ? " bg-[#181A20] border-[#2B3139]"
-                : "border-[#EAECEF] bg-white"
-            } border-b-[1px]`}
-          >
-            <div className="flex   gap-2 items-center text-[14px] leading-4  w-[40%] font-medium p-2 pb-0 ">
-              {tabs.map((tab) => (
-                <div className="flex flex-col gap-1" key={tab}>
-                  <button
-                    onClick={() => setActiveTab(tab)}
-                    className={`flex-1 text-center py-2 font-medium transition-colors cursor-pointer duration-300 ${
-                      activeTab === tab
-                        ? "text-yellow-500"
-                        : "text-gray-600 hover:text-yellow-500"
-                    }`}
-                  >
-                    {tab}
-                  </button>
-                  {activeTab === tab && (
-                    <div className="flex justify-center w-full">
-                      <div className="w-[30%] border-b-2 border-amber-300"></div>
-                    </div>
-                  )}
-                </div>
-              ))}
-            </div>
-          </div>
-          <div className="h-[600px] w-full overflow-y-auto  text-[12px] leading-4 flex-nowrap font-medium">
-            {userData?.token ? (
-              <>
-                {" "}
-                {activeTab === "Open Orders" && (
-                  <>
-                    {/* {Array.isArray(openOrder) && openOrder?.length > 0 ? (
-                      <div className="p-5 ">
-                        {Array.isArray(openOrder) &&
-                          openOrder?.map((item, index) => {
-                            const date = formatDate(item?.created_at);
-                            const percentage =
-                              (item?.executed_base_quantity /
-                                item?.base_quantity) *
-                              100;
-                            return (
-                              <div
-                                className="flex justify-between p-3 border-b-1"
-                                key={index}
-                              >
-                                <div className="flex gap-10">
-                                  <div className="flex flex-col gap-2 justify-center items-center">
-                                    <div>
-                                      {item?.order_type}/{item?.type}
-                                    </div>
-                                    <div className="h-14 w-14 rounded-full">
-                                      <Progressbar value={percentage} />
-                                    </div>
-                                  </div>
-                                  <div className="flex flex-col justify-between">
-                                    <div>BTCUSDT</div>
-                                    <div className="flex gap-4">
-                                      <div className="flex flex-col gap-2">
-                                        <div>Amount</div>
-                                        <div>price</div>
-                                      </div>
-                                      <div className="flex flex-col gap-2">
-                                        <div>{item?.base_quantity}</div>
-                                        <div>{item?.order_price}</div>
-                                      </div>
-                                    </div>
-                                  </div>
-                                </div>
-                                <div className="flex flex-col justify-between">
-                                  <div>{date}</div>
-                                  <div className="justify-end flex">
-                                    <FaRegEdit />
-                                  </div>
-                                  <div className="flex justify-end">Cancel</div>
-                                </div>
-                              </div>
-                            );
-                          })}
-                      </div>
-                    ) : (
-                      <div className="flex justify-center items-center h-full w-full">
-                        No Data found
-                      </div>
-                    )} */}
-                    {/*  {
-            "user_id": "UA8FCF45E1D0",
-            "order_id": "UA8FCF45E1D0-204FA1E2C",
-            "pair_id": 5,
-            "type": "BUY",
-            "order_type": "LIMIT",
-            "base_quantity": "0.00009",
-            "quote_quantity": "10.6558506",
-            "order_price": "118398.34",
-            "stop_limit_price": "0",
-            "oco_stop_limit_price": null,
-            "executed_base_quantity": "0",
-            "executed_quote_quantity": "0",
-            "status": "NEW",
-            "created_at": "2025-07-17T05:43:04.000Z",
-            "updated_at": null
-        } */}
-                    <div className="w-full p-0">
-                      <table className="w-full">
-                        <thead className="h-[3rem]">
-                          <tr className="">
-                            <th className="text-[12px] pl-1 pr-1 p-[4px] text-center text-[#707A8A] capitalize">
-                              Date
-                            </th>
-                            <th className="text-[12px] pl-1 pr-1 p-[4px] text-center text-[#707A8A] capitalize">
-                              Pair
-                            </th>
-                            <th className="text-[12px] pl-1 pr-1 p-[4px] text-center text-[#707A8A] capitalize">
-                              Type
-                            </th>
-                            <th className="text-[12px] pl-1 pr-1 p-[4px] text-center text-[#707A8A] capitalize">
-                              side
-                            </th>
-                            <th className="text-[12px] pl-1 pr-1 p-[4px] text-center text-[#707A8A] capitalize">
-                              price
-                            </th>
-                            <th className="text-[12px] pl-1 pr-1 p-[4px] text-center text-[#707A8A] capitalize">
-                              amount
-                            </th>
-                            <th className="text-[12px] pl-1 pr-1 p-[4px] text-center text-[#707A8A] capitalize">
-                              status
-                            </th>
-                            <th className="text-[12px] pl-1 pr-1 p-[4px] text-center text-[#707A8A] capitalize">
-                              cancel
-                            </th>
-                          </tr>
-                        </thead>
-                        {Array.isArray(openOrder) && openOrder?.length > 0 ? (
-                          <tbody>
-                            {Array.isArray(openOrder) &&
-                              openOrder?.map((item, index) => {
-                                const date = formatDate(item?.created_at);
-                                const percentage =
-                                  (item?.executed_base_quantity /
-                                    item?.base_quantity) *
-                                  100;
-                                return (
-                                  <tr key={index}>
-                                    <td className="lg:text-[12px] text-[.6rem] pl-1 pr-1 p-[4px] text-center capitalize ">
-                                      {date}
-                                    </td>
-                                    <td className="lg:text-[12px] text-[.6rem] pl-1 pr-1 p-[4px] text-center uppercase">
-                                      {"BtcUsdt"}
-                                    </td>
-                                    <td className="lg:text-[12px] text-[.6rem] pl-1 pr-1 p-[4px] text-center capitalize">
-                                      {item?.order_type}
-                                    </td>
-                                    <td className="lg:text-[12px] text-[.6rem] pl-1 pr-1 p-[4px] text-center capitalize">
-                                      {item?.type}
-                                    </td>
-                                    <td className="lg:text-[12px] text-[.6rem] pl-1 pr-1 p-[4px] text-center capitalize">
-                                      {item?.order_price}
-                                    </td>
-                                    <td className="lg:text-[12px] text-[.6rem] pl-1 pr-1 p-[4px] text-center capitalize">
-                                      {item?.base_quantity}
-                                    </td>
-                                    <td className="lg:text-[12px] text-[.6rem] pl-1 pr-1 p-[4px] text-center capitalize">
-                                      {item?.status}
-                                    </td>
-                                    <td className="lg:text-[12px] text-[.6rem] pl-1 pr-1 p-[4px] text-center capitalize">
-                                      cancel
-                                    </td>
-                                  </tr>
-                                );
-                              })}
-                            {/* <tr>
-                            <td className="text-[12px] pl-1 pr-1 p-[4px] text-center capitalize">
-                              10-7-25
-                            </td>
-                            <td className="text-[12px] pl-1 pr-1 p-[4px] text-center capitalize">
-                              {"BtcUsdt"}
-                            </td>
-                            <td className="text-[12px] pl-1 pr-1 p-[4px] text-center capitalize">
-                              {"Limit"}
-                            </td>
-                            <td className="text-[12px] pl-1 pr-1 p-[4px] text-center capitalize">
-                              {"Buy"}
-                            </td>
-                            <td className="text-[12px] pl-1 pr-1 p-[4px] text-center capitalize">
-                              {"118273.01"}
-                            </td>
-                            <td className="text-[12px] pl-1 pr-1 p-[4px] text-center capitalize">
-                              {"0.00082"}
-                            </td>
-                            <td className="text-[12px] pl-1 pr-1 p-[4px] text-center capitalize">
-                              {"New"}
-                            </td>
-                            <td className="text-[12px] pl-1 pr-1 p-[4px] text-center capitalize">
-                              cancel
-                            </td>
-                          </tr> */}
-                          </tbody>
-                        ) : (
-                          <tbody>
-                            <tr>
-                              <td
-                                colSpan={8}
-                                rowSpan={6}
-                                className="text-center text-sm py-4"
-                              >
-                                <div className="flex items-center justify-center h-[300px] text-sm text-gray-400">
-                                  No Data found
-                                </div>
-                              </td>
-                            </tr>
-                          </tbody>
-                        )}
-                      </table>
-                    </div>
-                  </>
-                )}
-                {activeTab === "Order History" && (
-                  <>
-                    {/*   {
-            "fee_symbol": "BTC",
-            "id": 221,
-            "fee_currency": "BTC7B97123",
-            "pair_symbol": "BTCUSDT",
-            "type": "BUY",
-            "stop_limit_price": "0",
-            "order_price": "118755.11",
-            "base_quantity": "0.00012",
-            "quote_quantity": "0",
-            "executed_quote_quantity": "14.2506132",
-            "final_amount": "0.00011988",
-            "executed_base_quantity": "0.00012",
-            "status": "FILLED",
-            "order_type": "LIMIT",
-            "fees": "1.2e-7",
-            "date_time": "2025-07-16T10:57:50.000Z",
-            "order_id": "UA8FCF45E1D0-6CA1D2237"
-        } */}
-                    {/* {
-                      <div className="p-5 h-full">
-                        {Array.isArray(orderHistory) &&
-                          orderHistory?.map((item, index) => {
-                            const date = formatDate(item?.date_time);
-                            return (
-                              <div
-                                className="flex justify-between p-5 border-b-2"
-                                key={index}
-                              >
-                                <div className="flex flex-col justify-between gap-3">
-                                  <div className="flex flex-col gap-1">
-                                    <div>{item?.pair_symbol}</div>
-                                    <div>
-                                      {item?.order_type}/{item?.type}
-                                    </div>
-                                  </div>
-                                  <div className="flex flex-col gap-1">
-                                    <div>Amount</div>
-                                    <div>Price</div>
-                                  </div>
-                                </div>
-                                <div className="flex flex-col justify-between gap-3">
-                                  <div className="flex flex-col gap-1">
-                                    <div>{date}</div>
-                                    <div>{item?.status}</div>
-                                  </div>
-                                  <div className="flex flex-col gap-1">
-                                    <div>
-                                      {item?.executed_base_quantity}/
-                                      {item?.base_quantity}
-                                    </div>
-                                    <div>{item?.order_price}</div>
-                                  </div>
-                                </div>
-                              </div>
-                            );
-                          })}
-                      </div>
-                    } */}
-                    <div>
-                      <table className="w-full">
-                        <thead className="h-[3rem]">
-                          <tr className="">
-                            <th className="text-[12px] pl-1 pr-1 p-[4px] text-center text-[#707A8A] capitalize">
-                              Date
-                            </th>
-                            <th className="text-[12px] pl-1 pr-1 p-[4px] text-center text-[#707A8A] capitalize">
-                              Pair
-                            </th>
-                            <th className="text-[12px] pl-1 pr-1 p-[4px] text-center text-[#707A8A] capitalize">
-                              Type
-                            </th>
-                            <th className="text-[12px] pl-1 pr-1 p-[4px] text-center text-[#707A8A] capitalize">
-                              side
-                            </th>
-                            <th className="text-[12px] pl-1 pr-1 p-[4px] text-center text-[#707A8A] capitalize">
-                              price
-                            </th>
-                            <th className="text-[12px] pl-1 pr-1 p-[4px] text-center text-[#707A8A] capitalize">
-                              amount
-                            </th>
-                            <th className="text-[12px] pl-1 pr-1 p-[4px] text-center text-[#707A8A] capitalize">
-                              status
-                            </th>
-                            <th className="text-[12px] pl-1 pr-1 p-[4px] text-center text-[#707A8A] capitalize">
-                              cancel
-                            </th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                         {Array.isArray(orderHistory) && orderHistory?.length > 0 ? (
-                          <>
-
-                          {Array.isArray(orderHistory) &&
-                            orderHistory?.map((item, index) => {
-                              const date = formatDate(item?.date_time);
-                              const percentage =
-                                (item?.executed_base_quantity /
-                                  item?.base_quantity) *
-                                100;
-                              return (
-                                <tr key={index}>
-                                  <td className="lg:text-[12px] text-[.6rem] pl-1 pr-1 p-[4px] text-center capitalize ">
-                                    {date}
-                                  </td>
-                                  <td className="lg:text-[12px] text-[.6rem] pl-1 pr-1 p-[4px] text-center  uppercase">
-                                    {"btcusdt"}
-                                  </td>
-                                  <td className="lg:text-[12px] text-[.6rem] pl-1 pr-1 p-[4px] text-center capitalize">
-                                    {item?.order_type}
-                                  </td>
-                                  <td className="lg:text-[12px] text-[.6rem] pl-1 pr-1 p-[4px] text-center capitalize">
-                                    {item?.type}
-                                  </td>
-                                  <td className="lg:text-[12px] text-[.6rem] pl-1 pr-1 p-[4px] text-center capitalize">
-                                    {item?.order_price}
-                                  </td>
-                                  <td className="lg:text-[12px] text-[.6rem] pl-1 pr-1 p-[4px] text-center capitalize">
-                                    {item?.base_quantity}
-                                  </td>
-                                  <td className="lg:text-[12px] text-[.6rem] pl-1 pr-1 p-[4px] text-center capitalize">
-                                    {item?.status}
-                                  </td>
-                                  <td className="lg:text-[12px] text-[.6rem] pl-1 pr-1 p-[4px] text-center capitalize">
-                                    cancel
-                                  </td>
-                                </tr>
-                              );
-                            })}
-                            </>):(<tr>
-                              <td
-                                colSpan={8}
-                                rowSpan={6}
-                                className="text-center text-sm py-4"
-                              >
-                                <div className="flex items-center justify-center h-[300px] text-sm text-gray-400">
-                                  No Data found
-                                </div>
-                              </td>
-                            </tr>)
-                         }
-                          {/* <tr>
-                            <td className="text-[12px] pl-1 pr-1 p-[4px] text-center capitalize">
-                              10-7-25
-                            </td>
-                            <td className="text-[12px] pl-1 pr-1 p-[4px] text-center capitalize">
-                              {"BtcUsdt"}
-                            </td>
-                            <td className="text-[12px] pl-1 pr-1 p-[4px] text-center capitalize">
-                              {"Limit"}
-                            </td>
-                            <td className="text-[12px] pl-1 pr-1 p-[4px] text-center capitalize">
-                              {"Buy"}
-                            </td>
-                            <td className="text-[12px] pl-1 pr-1 p-[4px] text-center capitalize">
-                              {"118273.01"}
-                            </td>
-                            <td className="text-[12px] pl-1 pr-1 p-[4px] text-center capitalize">
-                              {"0.00082"}
-                            </td>
-                            <td className="text-[12px] pl-1 pr-1 p-[4px] text-center capitalize">
-                              {"New"}
-                            </td>
-                            <td className="text-[12px] pl-1 pr-1 p-[4px] text-center capitalize">
-                              cancel
-                            </td>
-                          </tr> */}
-                        </tbody>
-                      </table>
-                    </div>
-                  </>
-                )}
-              </>
-            ) : (
-              <button className="flex  items-center ">
-                <pre className="text-yellow-500">Log In </pre>
-                or
-                <pre className="text-yellow-500"> Register Now </pre>
-                to trade
-              </button>
-            )}
-          </div>
+          <OpenOrders dark={dark} />
         </div>
         <div className="lg:hidden flex flex-col w-full ">
           <TopIconBar3 dark={dark} />
           <div className="w-full md:flex hidden pb-2 gap-1">
             <div className="w-[69%]">
-              <div className="h-fit  text-xs w-full bg-gray-800 mb-4 rounded-md ">
+              <div className="h-[400px]  text-xs w-full bg-gray-800 mb-4 rounded-md ">
                 <ChartEmbed
-                  searchQuery={searchQuery}
+                  searchQuery={currencySymbol}
                   className="h-full w-full"
                 />
               </div>
-              <div className="flex justify-between w-full gap-1">
-                <div
-                  className={`${
-                    dark ? " bg-[#181A20]" : " bg-white"
-                  } w-[50%] overflow-x-auto overflow-y-auto max-h-[22rem] rounded-lg`}
-                >
-                  {" "}
-                  <table className="w-full">
-                    <thead>
-                      <tr>
-                        <th
-                          className={`${
-                            dark ? "bg-[#181A20]" : "bg-white"
-                          } text-[12px] text-gray-400 sticky top-0 text-left p-[4px]  z-30`}
-                        >
-                          Price (USDT)
-                        </th>
-                        <th
-                          className={`${
-                            dark ? "bg-[#181A20]" : "bg-white"
-                          } text-[12px] text-gray-400  sticky top-0 text-left p-[4px]  z-30`}
-                        >
-                          Amount (BTC)
-                        </th>
-                        <th
-                          className={`${
-                            dark ? "bg-[#181A20]" : "bg-white"
-                          } text-[12px] text-gray-400 p-2 sticky top-0 text-left p-[4px]  z-30`}
-                        >
-                          Time
-                        </th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {marketArr.map((item, index) => (
-                        <tr key={index}>
-                          <td className="lg:text-[12px] text-[.6rem] pl-1 pr-1 p-[4px] ">
-                            {item.price}
-                          </td>
-                          <td className="lg:text-[12px] text-[.6rem] pl-1 pr-1 p-[4px] ">
-                            {item.amount}
-                          </td>
-                          <td className="lg:text-[12px] text-[.6rem] pl-1 pr-1 p-[4px]">
-                            {item.time}
-                          </td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                </div>
-                <div
-                  className={`${
-                    dark ? "bg-[#181A20]" : "bg-white "
-                  } w-[50%] max-h-[22rem]  rounded-lg`}
-                >
-                  {" "}
-                  <div className="w-full ">
-                    <div className="flex justify-between w-full">
-                      <div className="flex text-[12px] p-2 items-center">
-                        <div>
-                          <IoMdListBox />
-                        </div>
-                        <div>
-                          <IoMdListBox />
-                        </div>
-                        <div>
-                          <IoMdListBox />
-                        </div>
-                      </div>
-                      <div className="text-[12px] p-5">
-                        <FaAngleDown className="h-6 w-6" />
-                      </div>
-                    </div>
-                    <div className="max-h-[9rem] overflow-x-auto overflow-y-auto p-2">
-                      <table className="w-full">
-                        <thead>
-                          <tr>
-                            <th className="text-[12px] text-gray-400 text-left p-1">
-                              Price(USDT)
-                            </th>
-                            <th className="text-[12px] text-gray-400 max-p-2 pr-2 text-left p-1">
-                              Amount(BTC)
-                            </th>
-                            <th className="text-[12px] text-gray-400 max-p-2 pl-4 text-left p-1">
-                              Total
-                            </th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          {orderArr.map((item, index) => (
-                            <tr key={index}>
-                              <td className="lg:text-[12px] text-[.6rem] pl-1 pr-1 p-1 text-red-700">
-                                {item.price}
-                              </td>
-                              <td className="lg:text-[12px] text-[.6rem] pl-1 pr-1 p-[4px] ">
-                                {item.amout}
-                              </td>
-                              <td className="lg:text-[12px] text-[.6rem] pl-3 pr-1 p-[4px] ">
-                                {item.total}
-                              </td>
-                            </tr>
-                          ))}
-                        </tbody>
-                      </table>
-                    </div>
-                  </div>
-                  <div className="overflow-x-auto overflow-y-auto max-h-[50%]  p-2 ">
-                    <table className="w-full">
-                      <thead className="w-full">
-                        <tr>
-                          <th className="text-[12px] text-red-700 text-left  flex items-center p-1">
-                            106,135.34
-                          </th>
-                          <th className="text-[12px]  text-gray-400 text-left p-1">
-                            $106,135.34
-                          </th>
-                          <th className="flex  items-center p-[4px]">
-                            <FaAngleRight className=" text-[12px]" />
-                          </th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {priceArr.map((item, index) => (
-                          <tr key={index}>
-                            <td className="lg:text-[12px] text-[.6rem] pl-1 pr-1 text-green-700 p-[4px]">
-                              {item.price}
-                            </td>
-                            <td className="lg:text-[12px] text-[.6rem] pl-1 pr-1 p-[4px]  ">
-                              {item.amout}
-                            </td>
-                            <td className="lg:text-[12px] text-[.6rem] pl-1 pr-1 p-[4px] ">
-                              {item.total}
-                            </td>
-                          </tr>
-                        ))}
-                      </tbody>
-                    </table>
-                  </div>
-                </div>
-              </div>
+              <Middle dark={dark} />
+              <OpenOrders dark={dark} />
             </div>
             <div
               className={`${
                 dark ? "bg-[#181A20]" : "bg-white"
               } w-[30%] space-y-6 P-3 rounded-lg`}
             >
-              <div className=" flex text-[12px] p-2">
-                {tab.map((tab) => (
-                  <button
-                    key={tab}
-                    onClick={() => setActive(tab)}
-                    className={`flex-1 text-center py-2 font-medium transition-colors cursor-pointer duration-300 ${
-                      dark
-                        ? active === tab
-                          ? "text-yellow-500 border-t-2 bg-[#181A20]"
-                          : "text-gray-600 hover:text-yellow-500 bg-[#181A20]"
-                        : active === tab
-                        ? "text-yellow-500 border-t-2 bg-white"
-                        : "text-gray-600 hover:text-yellow-500 bg-zinc-100"
-                    }`}
-                  >
-                    {tab}
-                  </button>
-                ))}
-              </div>
-              <div className="w-full">
-                {" "}
-                <BuySellToggle
-                  setActiveItem={setActiveItem}
-                  activeItem={activeItem}
-                />
-              </div>
-              <div style={{ padding: "5px" }}>
-                <CryptoInput
-                  label="Price"
-                  unit="USDT"
-                  step={0.01}
-                  dark={dark}
-                  defaultValue="107814.08"
-                />
-                <CryptoInput
-                  label="Amount"
-                  unit="BTC"
-                  dark={dark}
-                  step={0.01}
-                  defaultValue={0.01}
-                />
-              </div>
-              <Box
-                sx={{
-                  display: "flex",
-                  justifyContent: "center",
-                  width: "100%",
-                }}
-              >
-                <Box
-                  sx={{
-                    width: "80%",
-                    display: "flex",
-                    justifyContent: "center",
-                    maxWidth: "100%",
-                  }}
-                >
-                  <CustomSlider
-                    defaultValue={0}
-                    marks={marks}
-                    min={0}
-                    max={100}
-                    step={null}
-                  />
-                </Box>
-              </Box>
-              <div className="flex justify-center items-center">
-                <button
-                  className={`flex  items-center w-[80%] rounded-sm justify-center ${
-                    activeItem === "Buy"
-                      ? "bg-[#0ECB81] hover:bg-green-500"
-                      : "hover:bg-[#F6465D] bg-[#F6465D]"
-                  }  cursor-pointer  h-[2.5rem]`}
-                >
-                  Login
-                </button>
-              </div>
+              <ToggleButSell
+                activeItem={activeItem}
+                setActiveItem={setActiveItem}
+                dark={dark}
+                active={active}
+                searchQuery={currencySymbol}
+                setActive={setActive}
+                close={false}
+              />
             </div>
           </div>
           <div className="md:hidden w-full">
             <div className="h-[800px]  text-xs w-full   rounded-md ">
               <TopIconBar4 dark={dark} />
-              <ChartEmbed searchQuery={searchQuery} className="h-full w-full" />
+              <ChartEmbed searchQuery={currencySymbol} className="h-full w-full" />
             </div>
           </div>
         </div>
@@ -1084,14 +446,44 @@ export const Home = () => {
           } w-full fixed bottom-0 z-30 flex  justify-center gap-2 text-white p-5 rounded-[43px,4px,3px,1px] `}
         >
           <div className="w-[50%] flex justify-center bg-[#F6465D] hover:bg-[#c74052] rounded-md h-[2.5rem] cursor-pointer">
-            <button>Log In</button>
+            <button
+              onClick={() => {
+                setIsLogin(!isLogin);
+              }}
+            >
+              Log In
+            </button>
           </div>
           <div className="w-[50%]  flex justify-center bg-[#0ECB81] hover:bg-[#0e9e67] rounded-md h-[2.5rem] cursor-pointer">
-            <button>Log In</button>
+            <button
+              onClick={() => {
+                setIsLogin(!isLogin);
+              }}
+            >
+              Log In
+            </button>
           </div>
         </div>
+        {isLogin && (
+          <div className="bg-[#00000080] h-[100%] w-full">
+            <div
+              className={`md:hidden ${
+                dark ? "bg-[#181E25] " : "bg-white"
+              } w-full fixed bottom-0 z-50 flex   justify-center gap-2 text-white rounded-[43px,4px,3px,1px] h-[90%] `}
+            >
+              <ToggleButSell
+                activeItem={activeItem}
+                setActiveItem={setActiveItem}
+                dark={dark}
+                active={active}
+                searchQuery={currencySymbol}
+                setActive={setActive}
+                handleClose={() => setIsLogin(!isLogin)}
+              />
+            </div>
+          </div>
+        )}
       </div>
     </>
   );
 };
-export default val;

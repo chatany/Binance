@@ -28,37 +28,38 @@ export const Socket = ({ searchQuery }) => {
   const tradesDataRef = useRef([]);
   const tradesData = useSelector((state) => state.counter.tradeData);
   useEffect(() => {
-    tradesDataRef.current = tradesData; // 
+    tradesDataRef.current = tradesData; //
   }, [tradesData]);
   useEffect(() => {
     TopMoves(dispatch);
     allMovers(dispatch);
   }, []);
   useEffect(() => {
+    if (!searchQuery) return;
     const fetchRestData = async () => {
       try {
-        const res = await fetch(
-          `https://api.binance.com/api/v3/ticker/24hr?symbol=${searchQuery}`
-        );
+        const res = await fetch(`http://localhost:5000/binance-ticker`);
         const data = await res.json();
         dispatch(setCurrentPrice(data?.lastPrice));
-        dispatch(
-          incrementByAmount({
-            symbol: data?.symbol,
-            lastPrice: data?.lastPrice,
-            highPrice: data?.highPrice,
-            lowPrice: data?.lowPrice,
-            priceChange: data?.priceChange,
-            priceChangePercent: data?.priceChangePercent,
-            quoteVolume: data?.quoteVolume,
-            volume: data?.volume,
-          })
-        );
+        if (res.status === 200) {
+          dispatch(
+            incrementByAmount({
+              symbol: data?.symbol,
+              lastPrice: data?.lastPrice,
+              highPrice: data?.highPrice,
+              lowPrice: data?.lowPrice,
+              priceChange: data?.priceChange,
+              priceChangePercent: data?.priceChangePercent,
+              quoteVolume: data?.quoteVolume,
+              volume: data?.volume,
+            })
+          );
+        }
       } catch (err) {
         console.error("❌ REST fetch error", err);
       }
     };
-    
+
     const startWebSocket = () => {
       wsRef.current = new WebSocket(
         `wss://stream.binance.com:9443/ws/${searchQuery.toLowerCase()}@ticker@1000ms`
@@ -100,7 +101,6 @@ export const Socket = ({ searchQuery }) => {
         }, 1000);
       };
     };
-
     fetchRestData();
     startWebSocket();
 
@@ -115,13 +115,14 @@ export const Socket = ({ searchQuery }) => {
     };
   }, [searchQuery]);
   useEffect(() => {
+    if (!searchQuery) return;
     const fetchRestData = async () => {
       try {
-        const res = await fetch(
-          `https://api.binance.com/api/v3/depth?symbol=${searchQuery}`
-        );
+        const res = await fetch(`http://localhost:5000/binance-order`);
         const data = await res.json();
-        dispatch(setOrderData(data));
+        if (res.status === 200) {
+          dispatch(setOrderData(data));
+        }
       } catch (err) {}
     };
 
@@ -169,13 +170,14 @@ export const Socket = ({ searchQuery }) => {
     };
   }, [searchQuery]);
   useEffect(() => {
+    if (!searchQuery) return;
     const fetchRestData = async () => {
       try {
-        const res = await fetch(
-          `https://api.binance.com/api/v3/aggTrades?symbol=${searchQuery}&limit=20`
-        );
+        const res = await fetch(`http://localhost:5000/binance-Trades`);
         const data = await res.json();
-        dispatch(setTradeData(data));
+        if (res.status === 200) {
+          dispatch(setTradeData(data));
+        }
       } catch (err) {}
     };
 
@@ -222,7 +224,6 @@ export const Socket = ({ searchQuery }) => {
         }, 1000);
       };
     };
-
     fetchRestData();
     startWebSocket();
 

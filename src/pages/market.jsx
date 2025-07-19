@@ -4,7 +4,13 @@ import ScrollableTabsBar from "../common/leftTab";
 import { SearchData, Trades } from "./apiCall";
 import { CiRepeat } from "react-icons/ci";
 import { useSelector } from "react-redux";
-export const MarketCom = ({ dark, SetSearchQuery, searchQuery, symbol }) => {
+export const MarketCom = ({
+  dark,
+  SetSearchQuery,
+  searchQuery,
+  symbol,
+  setSearchParams,
+}) => {
   const [searchData, setSearchData] = useState([]);
   const [activeTab, setActiveTab] = useState("Market Trade");
   // const [tradesData, setTradesData] = useState([]);
@@ -77,10 +83,10 @@ export const MarketCom = ({ dark, SetSearchQuery, searchQuery, symbol }) => {
                   } text-[14px]`}
                 >
                   <tr>
-                    <th className="text-left pl-2  font-medium capitalize">
-                      pair
+                    <th className="text-center font-medium capitalize">pair</th>
+                    <th className="capitalize text-end font-light">
+                      lastPrice/vol
                     </th>
-                    <th className="capitalize text-left">lastPrice/vol</th>
                     <th className="flex justify-center capitalize cursor-pointer">
                       <CiRepeat
                         className={`text-right ${
@@ -96,11 +102,11 @@ export const MarketCom = ({ dark, SetSearchQuery, searchQuery, symbol }) => {
                     <tr
                       key={item?.pair_id}
                       onClick={() => {
-                        SetSearchQuery(item?.pair_symbol);
+                        setSearchParams({ symbol: item?.pair_symbol });
                       }}
                       className="cursor-pointer"
                     >
-                      <td className="xl:text-[12px] text-[.6rem] pl-1 pr-1 p-[4px] ">
+                      <td className="xl:text-[12px] text-[.6rem]  p-[3px] w-1/3 ">
                         <div className="flex gap-2 items-center">
                           <img
                             src={item?.coin_icon}
@@ -109,7 +115,7 @@ export const MarketCom = ({ dark, SetSearchQuery, searchQuery, symbol }) => {
                           {`${item?.pair_symbol}`}
                         </div>
                       </td>
-                      <td className="xl:text-[12px] text-[.6rem] pl-1 pr-1 p-[4px] ">
+                      <td className="xl:text-[12px] text-[.6rem]  p-[2px] text-end w-1/3">
                         {item?.current_price}
                       </td>
                       <td
@@ -117,7 +123,7 @@ export const MarketCom = ({ dark, SetSearchQuery, searchQuery, symbol }) => {
                           item?.change_in_price > 0
                             ? `${!isVolume && "text-[#2EBD85]"}`
                             : `${!isVolume && "text-[#F6465D]"}`
-                        } xl:text-[12px] text-[.6rem] pl-1 pr-1 p-[4px] min-w-max text-center `}
+                        } xl:text-[12px] text-[.6rem]  p-[2px] min-w-max text-center w-1/3`}
                       >
                         {!isVolume && item?.change_in_price > 0 ? "+" : "   "}
                         {!isVolume
@@ -176,7 +182,7 @@ export const MarketCom = ({ dark, SetSearchQuery, searchQuery, symbol }) => {
                   <th
                     className={`${
                       dark ? "bg-[#181A20]" : "bg-white"
-                    } text-[12px] text-gray-400 p-1 sticky top-0 text-center  z-30`}
+                    } text-[12px] text-gray-400 p-1 sticky top-0 z-30 text-center`}
                   >
                     Price (USDT)
                   </th>
@@ -190,7 +196,7 @@ export const MarketCom = ({ dark, SetSearchQuery, searchQuery, symbol }) => {
                   <th
                     className={`${
                       dark ? "bg-[#181A20]" : "bg-white"
-                    } text-[12px] text-gray-400 p-2 sticky top-0 text-left  z-30`}
+                    } text-[12px] text-gray-400 p-2 sticky top-0 text-center  z-30`}
                   >
                     Time
                   </th>
@@ -221,21 +227,20 @@ export const MarketCom = ({ dark, SetSearchQuery, searchQuery, symbol }) => {
                         return (num / 1).toFixed(3);
                       }
                     };
-                    const priceNum = formatToKMB(price);
                     const amounts = formatToKMB(amount);
                     return (
                       <tr key={inde}>
                         <td
                           className={`lg:text-[12px] ${
                             !item?.m ? "text-[#2EBD85]" : "text-[#F6465D]"
-                          } text-[.6rem] pl-1 pr-1 p-[4px] text-center `}
+                          } text-[.6rem]  p-[2px] text-center w-1/3 `}
                         >
                           {price}
                         </td>
-                        <td className="lg:text-[12px] text-[.6rem] pl-1 pr-1 p-[4px]  text-center">
+                        <td className="lg:text-[12px] text-[.6rem] p-[2px]  text-center w-1/3">
                           {amounts}
                         </td>
-                        <td className="lg:text-[12px] text-[.6rem] pl-1 pr-1 p-[4px]">
+                        <td className="lg:text-[12px] text-[.6rem] text-center p-[2px] w-1/3">
                           {time}
                         </td>
                       </tr>

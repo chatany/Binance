@@ -37,6 +37,7 @@ export const counterSlice = createSlice({
     pairId: 0,
     openOrder: [],
     orderHistory: [],
+    isSuccess: false,
   },
   reducers: {
     incrementByAmount: (state, action) => {
@@ -127,6 +128,9 @@ export const counterSlice = createSlice({
     setOrderHistory: (state, action) => {
       state.orderHistory = action.payload;
     },
+    setIsSuccess: (state, action) => {
+      state.isSuccess = action.payload;
+    },
   },
 });
 
@@ -138,6 +142,7 @@ export const {
   setOpen,
   setOrderData,
   setTradeData,
+  setIsSuccess,
   setTopMovers,
   setAllMovers,
   setLoading,

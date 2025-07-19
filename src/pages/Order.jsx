@@ -149,13 +149,13 @@ export const Order = ({ dark, searchQuery, symbol, lastPrice }) => {
           <table className="w-full p-2  space-y-4 h-full">
             <thead>
               <tr>
-                <th className="text-[12px] text-gray-400 p-1  pr-1 text-left">
+                <th className="text-[12px] text-gray-400 p-1  pr-1 text-left w-1/3">
                   Price(USDT)
                 </th>
-                <th className="text-[12px] text-gray-400 p-2 ">
+                <th className="text-[12px] text-gray-400 p-2 w-1/3 ">
                   Amount({tikerData?.symbol?.split("USDT")[0]})
                 </th>
-                <th className="text-[12px] text-gray-400 p-1  text-right">
+                <th className="text-[12px] text-gray-400 p-1  text-right w-1/3">
                   Total
                 </th>
               </tr>
@@ -182,13 +182,13 @@ export const Order = ({ dark, searchQuery, symbol, lastPrice }) => {
                     }}
                     className="cursor-pointer"
                   >
-                    <td className="lg:text-[12px] text-[.6rem] pl-1 pr-1 p-[4px] text-[#F6465D]">
+                    <td className="lg:text-[12px] text-[.6rem]  p-[2px] text-[#F6465D] w-1/3">
                       {price}
                     </td>
-                    <td className="lg:text-[12px] text-[.6rem] pl-10 p-[4px]">
+                    <td className="lg:text-[12px] text-[.6rem] text-center  p-[2px] w-1/3">
                       {amount}
                     </td>
-                    <td className="lg:text-[12px] text-[.6rem] pl-5 pr-1 text-right p-[4px]">
+                    <td className="lg:text-[12px] text-[.6rem]  p-[2px] text-right w-1/3">
                       {totalAmount}
                     </td>
                   </tr>
@@ -220,9 +220,9 @@ export const Order = ({ dark, searchQuery, symbol, lastPrice }) => {
             )}
             <tr>
               <th
-                className={`text-[20px] ${
+                className={`text-[16px] ${
                   !tradesData[0]?.m ? "text-[#2EBD85] " : "text-[#F6465D] "
-                }  p-2 flex items-center  w-full gap-2`}
+                }  p-1 flex items-center    gap-1`}
               >
                 {parseFloat(tikerData?.lastPrice).toFixed(2)}
                 {!tradesData[0]?.m ? (
@@ -231,11 +231,11 @@ export const Order = ({ dark, searchQuery, symbol, lastPrice }) => {
                   <FaArrowDown className="text-[20px] text-[#F6465D] " />
                 )}
               </th>
-              <th className="text-[14px]  text-gray-400 p-2 text-center">
+              <th className="text-[14px]  text-gray-400 p-2 text-center w-1/3">
                 ${parseFloat(tikerData?.lastPrice)}
               </th>
-              <th className="flex  items-center p-3 justify-end">
-                <FaAngleRight className=" text-[12px] text-right" />
+              <th className="flex  items-center justify-center w-full">
+                <FaAngleRight className=" text-[14px]" />
               </th>
             </tr>
           </thead>
@@ -260,13 +260,13 @@ export const Order = ({ dark, searchQuery, symbol, lastPrice }) => {
                   }}
                   className="cursor-pointer"
                 >
-                  <td className="lg:text-[12px] text-[.6rem] pl-1 pr-1 text-[#2EBD85] p-[4px] text-left">
+                  <td className="lg:text-[12px] text-[.6rem]  text-[#2EBD85] p-[2px] w-1/3">
                     {price}
                   </td>
-                  <td className="lg:text-[12px] text-[.6rem] pl-1 pr-1  p-[4px] text-center">
+                  <td className="lg:text-[12px] text-[.6rem]  p-[2px] text-center w-1/3">
                     {amount}
                   </td>
-                  <td className="lg:text-[12px] text-[.6rem] pl-1 pr-1 p-[4px] text-right">
+                  <td className="lg:text-[12px] text-[.6rem] p-[2px] text-right w-1/3">
                     {totalAmount}
                   </td>
                 </tr>
