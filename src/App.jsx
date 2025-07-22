@@ -23,7 +23,7 @@ function App() {
       <ToastProvider />
       <Router>
         <Routes>
-          <Route path="/" element={<Navigate to={`/spot/${last}`} replace />} />
+          <Route path="/" element={<Navigate to={`/spot${last}`} replace />} />
           <Route path="/spot/:symbol" element={<Home />} />
           <Route
             path="/spot"
