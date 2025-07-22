@@ -515,7 +515,7 @@ export const tabs = [
   "Funds",
   "Grid Orders",
 ];
-export const tab = ["Sport", "Cross", "Isolated", "Grid"];
+export const tab = ["Spot", "Cross", "Isolated", "Grid"];
 export const marketTabs = ["Limit", "Market", "Stop Limit"];
 export const formatDate = (isoDate) => {
   const date = new Date(isoDate);

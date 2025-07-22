@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { setOpen } from "../store/webSocket";
 import { TopMoves } from "./apiCall";
 
-const TopMovers = ({ dark, SetSearchQuery }) => {
+const TopMovers = ({ dark, SetSearchQuery,setSearchParams }) => {
   const tabs = ["All", "Hot", "Losers", "24h Vol", "Gainers"];
   const open = useSelector((state) => state.counter.open);
   const { allMovers, movers } = useSelector((state) => state.counter);
@@ -26,8 +26,8 @@ const TopMovers = ({ dark, SetSearchQuery }) => {
   return (
     <div
       className={`${
-        open ? "h-[25rem]" : "h-[20rem]"
-      } transition-all duration-500 delay-100   rounded-lg w-full   overflow-hidden`}
+        open ? "h-[20rem]" : "h-[14rem]"
+      } transition-all duration-500 delay-100 max-w-[320px]   rounded-lg w-full   overflow-hidden`}
     >
       <div
         className={`flex  ${
@@ -86,9 +86,9 @@ const TopMovers = ({ dark, SetSearchQuery }) => {
         {filteredData()?.map((mover,index) => (
           <div
             key={index}
-            className={`flex justify-between items-center p-3 rounded-lg cursor-pointer `}
+            className={`flex justify-between items-center p-2 rounded-lg cursor-pointer `}
             onClick={() => {
-              SetSearchQuery(mover?.pair_symbol);
+              setSearchParams({ symbol: mover?.pair_symbol });
             }}
           >
             <div className="flex gap-3 items-center justify-between">
@@ -96,7 +96,7 @@ const TopMovers = ({ dark, SetSearchQuery }) => {
                 <img src={mover?.coin_icon} className="h-6 w-6" />
               </div>
               <div>
-                <div className="font-medium text-sm">{mover?.pair_symbol}</div>
+                <div className="font-medium text-xs">{mover?.pair_symbol}</div>
                 <div className="text-xs text-gray-400">{mover?.volume}</div>
               </div>
             </div>
@@ -116,7 +116,7 @@ const TopMovers = ({ dark, SetSearchQuery }) => {
               >
                 {mover?.change_in_price > 0 && activeTab !== "Losers"
                   ? "+"
-                  : "-"}
+                  : " "}
                 {mover?.change_in_price}%
               </div>
             </div>

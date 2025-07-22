@@ -3,7 +3,7 @@ import { useSelector } from "react-redux";
 import ScrollStatsBar from "../common/TopIconBar";
 import { FaArrowDown, FaArrowUp } from "react-icons/fa";
 export const TopIconBar1 = ({ dark }) => {
-  const tikerData = useSelector((state) => state.counter.tikerData);
+  const { tikerData, iconURL } = useSelector((state) => state.counter);
   const tradesData = useSelector((state) => state.counter.tradeData);
   return (
     <div
@@ -13,7 +13,7 @@ export const TopIconBar1 = ({ dark }) => {
     >
       <div className="flex gap-1">
         <CiStar className="h-6 w-6" />
-        <CiStar className="h-6 w-6" />
+        <img src={iconURL} className="h-6 w-6" />
       </div>
       <div className="flex flex-col">
         <div className="lg:text-[18px] text-[10px] font-medium min-w-max">
@@ -97,7 +97,7 @@ export const TopIconBar1 = ({ dark }) => {
   );
 };
 export const TopIconBar2 = ({ dark }) => {
-  const tikerData = useSelector((state) => state.counter.tikerData);
+  const { tikerData, iconURL } = useSelector((state) => state.counter);
   const tradesData = useSelector((state) => state.counter.tradeData);
   return (
     <div
@@ -108,7 +108,7 @@ export const TopIconBar2 = ({ dark }) => {
       <div className="max-w-[30%] flex items-center gap-1.5">
         <div className="flex gap-1">
           <CiStar className="h-6 w-6" />
-          <CiStar className="h-6 w-6" />
+          <img src={iconURL} className="h-6 w-6" />
         </div>
         <div className="flex flex-col">
           <div className="md:text-[14px] text-[10px]">
@@ -197,7 +197,7 @@ export const TopIconBar2 = ({ dark }) => {
   );
 };
 export const TopIconBar3 = ({ dark }) => {
-  const tikerData = useSelector((state) => state.counter.tikerData);
+  const { tikerData, iconURL } = useSelector((state) => state.counter);
   const tradesData = useSelector((state) => state.counter.tradeData);
   return (
     <div
@@ -208,7 +208,7 @@ export const TopIconBar3 = ({ dark }) => {
       <div className="w-full flex items-center gap-2">
         <div className="flex gap-1">
           <CiStar className="h-6 w-6" />
-          <CiStar className="h-6 w-6" />
+          <img src={iconURL} className="h-6 w-6" />
         </div>
         <div className="flex flex-col">
           <div className="md:text-[14px] text-[10px]">
@@ -297,7 +297,7 @@ export const TopIconBar3 = ({ dark }) => {
   );
 };
 export const TopIconBar4 = ({ dark }) => {
-  const tikerData = useSelector((state) => state.counter.tikerData);
+  const { tikerData, iconURL } = useSelector((state) => state.counter);
   const tradesData = useSelector((state) => state.counter.tradeData);
   return (
     <div
@@ -306,7 +306,7 @@ export const TopIconBar4 = ({ dark }) => {
     >
       <div className="flex gap-1">
         <CiStar className="h-6 w-6" />
-        <CiStar className="h-6 w-6" />
+        <img src={iconURL} className="h-6 w-6" />
       </div>
       <div className="flex flex-col">
         <div className="md:text-[14px] text-[10px] min-w-max">

@@ -1,5 +1,10 @@
 import "./App.css";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Navigate,
+} from "react-router-dom";
 import { Home } from "./pages/home";
 import { Order } from "./pages/Order";
 import { MarketCom } from "./pages/market";
@@ -12,12 +17,25 @@ import { Forgotpass } from "./Login/ForgotPassword";
 import ToastProvider from "./Toastify/ToastProvider";
 import { ResetPassword } from "./Login/ResetPassword";
 function App() {
+  const last = JSON.parse(localStorage.getItem("lastPair"));
   return (
     <>
       <ToastProvider />
       <Router>
         <Routes>
-          <Route path="/" element={<Home />} />
+          <Route
+            path="/"
+            element={<Navigate to={`/spot${last}`} replace />}
+          />
+          <Route path="/spot/:symbol" element={<Home />} />
+          <Route
+            path="/spot"
+            element={<Navigate to={`/spot${last}`} replace />}
+          />
+          <Route
+            path="/spot/:symbol"
+            element={<Navigate to={`/spot${last}`} replace />}
+          />
           <Route path="/order" element={<Order />} />
           <Route path="/chart" element={<ChartEmbed />} />
           <Route path="/Market" element={<MarketCom />} />

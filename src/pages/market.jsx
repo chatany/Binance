@@ -1,23 +1,31 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { HiDotsHorizontal } from "react-icons/hi";
 import ScrollableTabsBar from "../common/leftTab";
-import { SearchData, Trades } from "./apiCall";
+import { SearchData} from "./apiCall";
 import { CiRepeat } from "react-icons/ci";
-import { useSelector } from "react-redux";
-export const MarketCom = ({ dark, SetSearchQuery, searchQuery, symbol }) => {
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { setIconUrl, setRoundingVal } from "../store/webSocket";
+export const MarketCom = ({
+  dark,
+  SetSearchQuery,
+  searchQuery,
+}) => {
   const [searchData, setSearchData] = useState([]);
   const [activeTab, setActiveTab] = useState("Market Trade");
-  // const [tradesData, setTradesData] = useState([]);
   const [isVolume, setIsVolume] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const dispatch = useDispatch();
   const [searchInput, setSearchInput] = useState("");
-  // useEffect(() => {
-  //   Trades({ searchQuery, setTradesData });
-  // }, [searchQuery]);
+  const [showPopup, setShowPopup] = useState(false);
   useEffect(() => {
-    SearchData({ setSearchData });
+    SearchData({ setSearchData, setIsLoading });
   }, []);
-  const tradesData = useSelector((state) => state.counter.tradeData);
-  const tikerData = useSelector((state) => state.counter.tikerData);
+
+  const { tikerData, rounding, tradeData } = useSelector(
+    (state) => state.counter
+  );
+
   const filteredData = searchData.filter((item) =>
     item.pair_symbol?.toLowerCase().includes(searchInput.toLowerCase())
   );
@@ -35,9 +43,44 @@ export const MarketCom = ({ dark, SetSearchQuery, searchQuery, symbol }) => {
       return (num / 1).toFixed(3);
     }
   };
+  const navigate = useNavigate();
+  const handleRounding = (e) => {
+    const val = e.target.checked;
+    dispatch(setRoundingVal(val));
+  };
+  const handlePairClick = (item) => {
+    SetSearchQuery(item);
+    const symbols = item;
+    if (symbols) {
+      navigate(`/spot/${symbols}`);
+    }
+  };
+  useEffect(() => {
+    const icon = searchData.find((item) =>
+      item.pair_symbol?.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+    dispatch(setIconUrl(icon?.coin_icon));
+  }, [searchQuery, isLoading]);
+  const popupRef = useRef(null);
 
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      // If click is outside the popup
+      if (popupRef.current && !popupRef.current.contains(event.target)) {
+        setShowPopup(false);
+      }
+    };
+
+    if (showPopup) {
+      document.addEventListener("mousedown", handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [showPopup]);
   return (
-    <div className="flex flex-col items-center w-full  gap-1">
+    <div className="flex flex-col items-center w-full  gap-1 ">
       <div
         className={`${
           dark ? "bg-[#181A20] text-white " : "bg-white text-black "
@@ -67,7 +110,7 @@ export const MarketCom = ({ dark, SetSearchQuery, searchQuery, symbol }) => {
           {/* USDT <div className="border-b-2 border-amber-400 w-[12px]"></div> */}
           <ScrollableTabsBar dark={dark} />
         </div>
-        <div className="h-[20rem] overflow-x-auto overflow-y-auto p-2">
+        <div className="h-[19rem] overflow-x-auto overflow-y-auto p-2">
           {filteredData?.length > 0 ? (
             <div>
               <table className="w-full">
@@ -77,10 +120,10 @@ export const MarketCom = ({ dark, SetSearchQuery, searchQuery, symbol }) => {
                   } text-[14px]`}
                 >
                   <tr>
-                    <th className="text-left pl-2  font-medium capitalize">
-                      pair
+                    <th className="text-center font-medium capitalize">pair</th>
+                    <th className="capitalize text-end font-light">
+                      lastPrice/vol
                     </th>
-                    <th className="capitalize text-left">lastPrice/vol</th>
                     <th className="flex justify-center capitalize cursor-pointer">
                       <CiRepeat
                         className={`text-right ${
@@ -96,11 +139,11 @@ export const MarketCom = ({ dark, SetSearchQuery, searchQuery, symbol }) => {
                     <tr
                       key={item?.pair_id}
                       onClick={() => {
-                        SetSearchQuery(item?.pair_symbol);
+                        handlePairClick(item?.pair_symbol);
                       }}
                       className="cursor-pointer"
                     >
-                      <td className="xl:text-[12px] text-[.6rem] pl-1 pr-1 p-[4px] ">
+                      <td className="xl:text-[12px] text-[.6rem]  p-[3px] w-1/3 ">
                         <div className="flex gap-2 items-center">
                           <img
                             src={item?.coin_icon}
@@ -109,7 +152,7 @@ export const MarketCom = ({ dark, SetSearchQuery, searchQuery, symbol }) => {
                           {`${item?.pair_symbol}`}
                         </div>
                       </td>
-                      <td className="xl:text-[12px] text-[.6rem] pl-1 pr-1 p-[4px] ">
+                      <td className="xl:text-[12px] text-[.6rem]  p-[2px] text-end w-1/3">
                         {item?.current_price}
                       </td>
                       <td
@@ -117,7 +160,7 @@ export const MarketCom = ({ dark, SetSearchQuery, searchQuery, symbol }) => {
                           item?.change_in_price > 0
                             ? `${!isVolume && "text-[#2EBD85]"}`
                             : `${!isVolume && "text-[#F6465D]"}`
-                        } xl:text-[12px] text-[.6rem] pl-1 pr-1 p-[4px] min-w-max text-center `}
+                        } xl:text-[12px] text-[.6rem]  p-[2px] min-w-max text-center w-1/3`}
                       >
                         {!isVolume && item?.change_in_price > 0 ? "+" : "   "}
                         {!isVolume
@@ -164,19 +207,51 @@ export const MarketCom = ({ dark, SetSearchQuery, searchQuery, symbol }) => {
               <div className="border-[0.1rem] border-amber-400 w-[50%] h-[2px] "></div>
             )}
           </div>
-          <div className="text-white">
-            <HiDotsHorizontal />
+          <div className="relative">
+            <HiDotsHorizontal
+              onClick={() => setShowPopup(!showPopup)}
+              className="h-6 w-6 cursor-pointer"
+            />
+            {showPopup && (
+              <div
+                className={`absolute top-6  ${
+                  dark
+                    ? "bg-[#181A20] border-gray-700 text-white "
+                    : "bg-white  text-black border-gray-200 "
+                } z-50 h-fit w-30 rounded-[12px] right-2 p-4`}
+                ref={popupRef}
+                style={{ boxShadow: "0px 0px 40px 0px rgb(0,0,0,0.40)" }}
+                onMouseLeave={() => setShowPopup(!showPopup)}
+              >
+                <div className="flex flex-col gap-3">
+                  <div className="text-[11px] font-extralight min-w-max">
+                    Trade Display
+                  </div>
+                  <div className="flex gap-1 items-center">
+                    <div>
+                      <input
+                        type="checkbox"
+                        checked={rounding}
+                        name="rounding"
+                        onChange={handleRounding}
+                      />
+                    </div>
+                    <div className="text-[12px]">Rounding</div>
+                  </div>
+                </div>
+              </div>
+            )}
           </div>
         </div>
         {activeTab === "Market Trade" && (
-          <div className="no-scrollbar h-[22rem] overflow-x-auto overflow-y-auto">
+          <div className="no-scrollbar h-[20rem] overflow-x-auto overflow-y-auto">
             <table className="w-full">
               <thead>
                 <tr>
                   <th
                     className={`${
                       dark ? "bg-[#181A20]" : "bg-white"
-                    } text-[12px] text-gray-400 p-1 sticky top-0 text-center  z-30`}
+                    } text-[12px] text-gray-400 p-1 sticky top-0 z-30 text-center`}
                   >
                     Price (USDT)
                   </th>
@@ -190,15 +265,15 @@ export const MarketCom = ({ dark, SetSearchQuery, searchQuery, symbol }) => {
                   <th
                     className={`${
                       dark ? "bg-[#181A20]" : "bg-white"
-                    } text-[12px] text-gray-400 p-2 sticky top-0 text-left  z-30`}
+                    } text-[12px] text-gray-400 p-2 sticky top-0 text-center  z-30`}
                   >
                     Time
                   </th>
                 </tr>
               </thead>
               <tbody>
-                {Array.isArray(tradesData) &&
-                  tradesData?.map((item, inde) => {
+                {Array.isArray(tradeData) &&
+                  tradeData?.map((item, inde) => {
                     const formatTime = (ms) => {
                       const date = new Date(ms);
                       return (
@@ -221,21 +296,20 @@ export const MarketCom = ({ dark, SetSearchQuery, searchQuery, symbol }) => {
                         return (num / 1).toFixed(3);
                       }
                     };
-                    const priceNum = formatToKMB(price);
                     const amounts = formatToKMB(amount);
                     return (
                       <tr key={inde}>
                         <td
                           className={`lg:text-[12px] ${
                             !item?.m ? "text-[#2EBD85]" : "text-[#F6465D]"
-                          } text-[.6rem] pl-1 pr-1 p-[4px] text-center `}
+                          } text-[.6rem]  p-[2px] text-center w-1/3 `}
                         >
                           {price}
                         </td>
-                        <td className="lg:text-[12px] text-[.6rem] pl-1 pr-1 p-[4px]  text-center">
+                        <td className="lg:text-[12px] text-[.6rem] p-[2px]  text-center w-1/3">
                           {amounts}
                         </td>
-                        <td className="lg:text-[12px] text-[.6rem] pl-1 pr-1 p-[4px]">
+                        <td className="lg:text-[12px] text-[.6rem] text-center p-[2px] w-1/3">
                           {time}
                         </td>
                       </tr>

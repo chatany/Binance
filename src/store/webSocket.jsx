@@ -37,6 +37,9 @@ export const counterSlice = createSlice({
     pairId: 0,
     openOrder: [],
     orderHistory: [],
+    isSuccess: false,
+    iconURL: "",
+    rounding: true,
   },
   reducers: {
     incrementByAmount: (state, action) => {
@@ -127,6 +130,15 @@ export const counterSlice = createSlice({
     setOrderHistory: (state, action) => {
       state.orderHistory = action.payload;
     },
+    setIsSuccess: (state, action) => {
+      state.isSuccess = action.payload;
+    },
+    setIconUrl: (state, action) => {
+      state.iconURL = action.payload;
+    },
+    setRoundingVal: (state, action) => {
+      state.rounding = action.payload;
+    },
   },
 });
 
@@ -138,6 +150,8 @@ export const {
   setOpen,
   setOrderData,
   setTradeData,
+  setIconUrl,
+  setIsSuccess,
   setTopMovers,
   setAllMovers,
   setLoading,
@@ -145,6 +159,7 @@ export const {
   setOpenOrderData,
   setCurrentPrice,
   setLastPrice,
+  setRoundingVal,
   setOrderHistory,
 } = counterSlice.actions;
 

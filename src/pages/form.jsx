@@ -6,23 +6,32 @@ import { useDispatch, useSelector } from "react-redux";
 import { marketTabs, tab } from "../Constant";
 import { useEffect, useState } from "react";
 import { MarketInput } from "./inputCom";
-import { buysellBalance, openOrders } from "./apiCall";
+import { buysellBalance, openOrders, OrderHistory } from "./apiCall";
 import { apiRequest } from "../Helper";
+import { useNavigate } from "react-router-dom";
 export const Form = ({ dark, searchQuery }) => {
   const isOpen = useSelector((state) => state.counter.open);
   const { allMovers, currentPrice } = useSelector((state) => state.counter);
+  const success = useSelector((state) => state.counter.isSuccess);
   const [activeTab, setActiveTab] = useState("Limit");
   const [balance, setBalance] = useState(null);
   const [buySliderValue, setBuySliderValue] = useState(0);
   const [sellSliderValue, setSellSliderValue] = useState(0);
   const [buyMarketSliderValue, setBuyMarketSliderValue] = useState(0);
   const [sellMarketSliderValue, setSellMarketSliderValue] = useState(0);
+  const [buyStopSliderValue, setBuyStopSliderValue] = useState(0);
+  const [sellStopSliderValue, setSellStopSliderValue] = useState(0);
   const dispatch = useDispatch();
   const [isSuccess, setIsSuccess] = useState(false);
-  const [active, setActive] = useState("Sport");
+  const [active, setActive] = useState("Spot");
+  const navigate = useNavigate();
   const [error, setError] = useState({
     limitBuyErr: "Base volume is required for LIMIT order type",
     limitSellErr: "Base volume is required for LIMIT order type",
+    marketSellErr: "Base volume is required for Market order type",
+    marketBuyErr: "Base volume is required for Market order type",
+    stopBuyErr: "Base volume is required for Market order type",
+    stopSellErr: "Base volume is required for Market order type",
   });
   const [formValues, setFormValues] = useState({
     limitPrice: currentPrice ?? "",
@@ -31,19 +40,61 @@ export const Form = ({ dark, searchQuery }) => {
     sellAmount: "",
     MarketBuy: "",
     MarketSell: "",
+    stopBuyLimit: "",
+    stopBuyAmount: "",
+    stopBuyStop: "",
+    stopSellLimit: "",
+    stopSellAmount: "",
+    stopSellStop: "",
   });
   useEffect(() => {
     setBuySliderValue(0);
     setSellSliderValue(0);
     setSellMarketSliderValue(0);
     setBuyMarketSliderValue(0);
+    setFormValues((prev) => ({
+      ...prev,
+      limitPrice: "",
+      limitAmount: "",
+      sellPrice: "",
+      sellAmount: "",
+      MarketBuy: "",
+      MarketSell: "",
+      stopBuyLimit: "",
+      stopBuyAmount: "",
+      stopBuyStop: "",
+      stopSellLimit: "",
+      stopSellAmount: "",
+      stopSellStop: "",
+    }));
   }, [searchQuery]);
+  useEffect(() => {
+    setBuySliderValue(0);
+    setSellSliderValue(0);
+    setSellMarketSliderValue(0);
+    setBuyMarketSliderValue(0);
+    setBuyStopSliderValue(0);
+    setSellSliderValue(0);
+    setFormValues((prev) => ({
+      ...prev,
+      limitAmount: "",
+      sellAmount: "",
+      MarketBuy: "",
+      MarketSell: "",
+      stopBuyAmount: "",
+      stopBuyStop: "",
+      stopSellAmount: "",
+      stopSellStop: "",
+    }));
+  }, [isSuccess]);
   useEffect(() => {
     if (currentPrice) {
       setFormValues((prev) => ({
         ...prev,
         limitPrice: parseFloat(currentPrice),
         sellPrice: parseFloat(currentPrice),
+        stopBuyLimit: parseFloat(currentPrice),
+        stopSellLimit: parseFloat(currentPrice),
       }));
     }
   }, [currentPrice]);
@@ -94,11 +145,12 @@ export const Form = ({ dark, searchQuery }) => {
     },
   }));
   useEffect(() => {
-    if (item?.pair_id || isSuccess) {
+    if (item?.pair_id || isSuccess || success) {
       buysellBalance(item?.pair_id, setBalance);
       openOrders(item?.pair_id, userData?.user_id, dispatch);
+      OrderHistory(dispatch);
     }
-  }, [item?.pair_id, isSuccess]);
+  }, [item?.pair_id, isSuccess, success]);
 
   const marks = [
     { value: 0, label: "0" },
@@ -127,6 +179,7 @@ export const Form = ({ dark, searchQuery }) => {
     device_info: "systems",
   };
   const handleBuy = async () => {
+    setIsSuccess(true);
     if (error.limitBuyErr) return;
     try {
       const { data, status } = await apiRequest({
@@ -135,7 +188,6 @@ export const Form = ({ dark, searchQuery }) => {
         data: buyObj,
       });
       if (status === 200) {
-        setIsSuccess(true);
       }
       if (data?.status == 0) {
         setError((prev) => ({
@@ -151,6 +203,7 @@ export const Form = ({ dark, searchQuery }) => {
   };
   const handleSell = async () => {
     if (error.limitSellErr) return;
+    setIsSuccess(true);
     try {
       const { data, status } = await apiRequest({
         method: "post",
@@ -158,7 +211,6 @@ export const Form = ({ dark, searchQuery }) => {
         data: SellObj,
       });
       if (status === 200) {
-        setIsSuccess(true);
       }
       if (data?.status == 0) {
         setError((prev) => ({
@@ -172,9 +224,86 @@ export const Form = ({ dark, searchQuery }) => {
       setIsSuccess(false);
     }
   };
-  const handleChange = (value, key, name, balance) => {
-    console.log(balance, "balance");
-    const p = 48.79248761;
+  const marketObj = {
+    order_type: "Market",
+    // base_volume: formValues.MarketBuy,
+    pair_id: item?.pair_id,
+    user_id: userData?.user_id,
+    quote_volume: formValues.MarketBuy,
+    limit_price: 0,
+    device_type: "windows",
+    device_info: "systems",
+  };
+  const handleMarket = async () => {
+    if (error.marketBuyErr) return;
+    setIsSuccess(true);
+
+    try {
+      const { data, status } = await apiRequest({
+        method: "post",
+        url: `https://test.bitzup.com/order/user/place-buy-order`,
+        data: marketObj,
+      });
+      setIsSuccess(true);
+      if (status === 200) {
+      }
+      if (data?.status == 0) {
+        // setError((prev) => ({
+        //   ...prev,
+        //   limitBuyErr: data?.message,
+        // }));
+      }
+    } catch (err) {
+      console.error("Failed to fetch second API", err);
+    } finally {
+      setIsSuccess(false);
+    }
+  };
+  const marketSellObj = {
+    order_type: "Market",
+    base_volume: formValues.MarketSell,
+    pair_id: item?.pair_id,
+    user_id: userData?.user_id,
+    // quote_volume: formValues.MarketSell,
+    limit_price: 0,
+    device_type: "windows",
+    device_info: "systems",
+  };
+  const handleMarketSell = async () => {
+    if (error.marketSellErr) return;
+    setIsSuccess(true);
+    try {
+      const { data, status } = await apiRequest({
+        method: "post",
+        url: `https://test.bitzup.com/order/user/place-sell-order`,
+        data: marketSellObj,
+      });
+      if (status === 200) {
+      }
+      if (data?.status == 0) {
+        // setError((prev) => ({
+        //   ...prev,
+        //   limitBuyErr: data?.message,
+        // }));
+      }
+    } catch (err) {
+      console.error("Failed to fetch second API", err);
+    } finally {
+      setIsSuccess(false);
+    }
+  };
+  const validateBuyAmount = (val, price, key) => {
+    if (val * price <= 10) {
+      setError((prev) => ({
+        ...prev,
+        [key]:
+          "Amount must be greater than 10 and less than or equal to 9000000",
+      }));
+    } else {
+      setError((prev) => ({ ...prev, [key]: "" }));
+    }
+  };
+  const handleChange = (value, key, name, balance, err) => {
     const a = (balance / 100) * value;
     const b = a / formValues[key];
 
@@ -182,25 +311,119 @@ export const Form = ({ dark, searchQuery }) => {
     const multiplier = Math.pow(10, precision);
     const floored = Math.floor(b * multiplier) / multiplier;
 
-    setFormValues((prev) => ({
-      ...prev,
-      [name]: floored,
-    }));
+    setFormValues((prev) => {
+      const updated = { ...prev, [name]: floored };
+      validateBuyAmount(floored, updated.limitPrice, err);
+      return updated;
+    });
   };
-  const handleSellSlider = (value, name, balance) => {
+  const validateSellAmount = (val, price, key) => {
+    if (val * price <= 10) {
+      setError((prev) => ({
+        ...prev,
+        [key]:
+          "Amount must be greater than 10 and less than or equal to 9000000",
+      }));
+    } else {
+      setError((prev) => ({ ...prev, [key]: "" }));
+    }
+  };
+
+  const handleSellSlider = (value, name, balance, key) => {
     const a = (balance / 100) * value;
     const precision = item?.quantity_decimal || 0;
     const multiplier = Math.pow(10, precision);
     const floored = Math.floor(a * multiplier) / multiplier;
-    setFormValues((prev) => ({
-      ...prev,
-      [name]: floored,
-    }));
+    setFormValues((prev) => {
+      const updated = { ...prev, [name]: floored };
+      validateSellAmount(
+        floored,
+        name === "MarketBuy" ? 1 : updated.sellPrice,
+        key
+      );
+      return updated;
+    });
+    // setFormValues((prev) => ({
+    //   ...prev,
+    //   [name]: floored,
+    // }));
+  };
+  const StopBuyObj = {
+    order_type: "Stop Limit",
+    base_volume: formValues.stopBuyAmount,
+    pair_id: item?.pair_id,
+    user_id: userData?.user_id,
+    quote_volume: 0,
+    limit_price: formValues.stopBuyLimit,
+    stop_price: formValues.stopBuyStop,
+    device_type: "windows",
+    device_info: "systems",
+  };
+  const StopSellObj = {
+    order_type: "Stop Limit",
+    base_volume: formValues.stopSellAmount,
+    pair_id: item?.pair_id,
+    user_id: userData?.user_id,
+    quote_volume: 0,
+    limit_price: formValues.stopSellLimit,
+    stop_price: formValues.stopSellStop,
+    device_type: "windows",
+    device_info: "systems",
+  };
+  const handleStopBuy = async () => {
+    if (error.stopBuyErr) return;
+    setIsSuccess(true);
+
+    try {
+      const { data, status } = await apiRequest({
+        method: "post",
+        url: `https://test.bitzup.com/order/user/place-buy-stop-limit`,
+        data: StopBuyObj,
+      });
+      setIsSuccess(true);
+      if (status === 200) {
+      }
+      if (data?.status == 0) {
+        // setError((prev) => ({
+        //   ...prev,
+        //   limitBuyErr: data?.message,
+        // }));
+      }
+    } catch (err) {
+      console.error("Failed to fetch second API", err);
+    } finally {
+      setIsSuccess(false);
+    }
+  };
+  const handleStopSell = async () => {
+    if (error.stopSellErr) return;
+    setIsSuccess(true);
+    try {
+      const { data, status } = await apiRequest({
+        method: "post",
+        url: `https://test.bitzup.com/order/user/place-sell-stop-limit`,
+        data: StopSellObj,
+      });
+      setIsSuccess(true);
+      if (status === 200) {
+      }
+      if (data?.status == 0) {
+      }
+    } catch (err) {
+      console.error("Failed to fetch second API", err);
+    } finally {
+      setIsSuccess(false);
+    }
+  };
+  const handleNavigate = () => {
+    if (!userData?.token) {
+      navigate("/login");
+    }
   };
 
   return (
     <div
-      className={` ${isOpen ? "h-[33rem]" : "h-[28rem]"}    rounded-lg  ${
+      className={` ${isOpen ? "h-[33rem]" : "h-[27rem]"} w-full    rounded-lg  ${
         dark ? "bg-[#181A20]" : "bg-white"
       }`}
     >
@@ -229,7 +452,7 @@ export const Form = ({ dark, searchQuery }) => {
           ))}
         </div>
       </div>
-      <div className=" flex text-[16px] p-2 w-[50%]">
+      <div className=" flex text-[16px] p-0 w-[50%]">
         {marketTabs.map((tab) => (
           <button
             key={tab}
@@ -253,7 +476,7 @@ export const Form = ({ dark, searchQuery }) => {
           className={`flex sm:flex-row justify-center w-full  gap-3 flex-col items-center  `}
         >
           <div
-            className={`w-full  transition-all duration-500 delay-1000 ${
+            className={`w-[50%]  transition-all duration-500 delay-1000 ${
               isOpen ? "space-y-3" : "space-y-0"
             }`}
           >
@@ -261,7 +484,7 @@ export const Form = ({ dark, searchQuery }) => {
               <CryptoInput
                 label="Price"
                 unit="USDT"
-                step={0.01}
+                // step={0.01}
                 defaultValue={currentPrice}
                 value={formValues.limitPrice}
                 onChange={(val) => {
@@ -281,15 +504,16 @@ export const Form = ({ dark, searchQuery }) => {
                 value={formValues.limitAmount}
                 onChange={(val) => {
                   setFormValues((prev) => ({ ...prev, limitAmount: val }));
-                  if (val * formValues.limitPrice < 10) {
-                    setError((prev) => ({
-                      ...prev,
-                      limitBuyErr:
-                        "Amount must be greater than 10 and less than or equal to 9000000",
-                    }));
-                  } else {
-                    setError((prev) => ({ ...prev, limitBuyErr: "" }));
-                  }
+                  validateBuyAmount(val, formValues.limitPrice, "limitBuyErr");
+                  // if (val * formValues.limitPrice < 10) {
+                  //   setError((prev) => ({
+                  //     ...prev,
+                  //     limitBuyErr:
+                  //       "Amount must be greater than 10 and less than or equal to 9000000",
+                  //   }));
+                  // } else {
+                  //   setError((prev) => ({ ...prev, limitBuyErr: "" }));
+                  // }
                 }}
                 decimalQuantity={item?.quantity_decimal}
                 dark={dark}
@@ -319,7 +543,8 @@ export const Form = ({ dark, searchQuery }) => {
                       newValue,
                       "limitPrice",
                       "limitAmount",
-                      balance?.quote_balance ? balance?.quote_balance : 0
+                      balance?.quote_balance ? balance?.quote_balance : 0,
+                      "limitBuyErr"
                     );
                   }}
                 />
@@ -359,21 +584,18 @@ export const Form = ({ dark, searchQuery }) => {
             </div>
             <div className="w-full flex justify-center">
               <button
-                onClick={handleBuy}
+                onClick={() => {
+                  handleBuy();
+                  handleNavigate();
+                }}
                 className="w-[100%]  bg-[#2EBD85] hover:bg-[#0e9e67]  m-2 py-2 rounded-md h-[3rem] text-[16px] font-semibold cursor-pointer"
               >
-                {userData ? "Buy" : " Log In"}
+                {userData?.token ? "Buy" : " Log In"}
               </button>
             </div>
           </div>
           <div
-            // className={`${
-            //   dark
-            //     ? "bg-[#111] text-white border-gray-700"
-            //     : "bg-zinc-50 text-black border-gray-200"
-            // }   border  space-y-2 w-full  text-xl`}
-            // id="a"
-            className={`w-full  transition-all duration-500 delay-100 ${
+            className={`w-[50%]  transition-all duration-500 delay-100 ${
               isOpen ? "space-y-3" : "space-y-0"
             } `}
           >
@@ -405,15 +627,7 @@ export const Form = ({ dark, searchQuery }) => {
                 value={formValues.sellAmount}
                 onChange={(val) => {
                   setFormValues((prev) => ({ ...prev, sellAmount: val }));
-                  if (val * formValues.sellPrice < 10) {
-                    setError((prev) => ({
-                      ...prev,
-                      limitSellErr:
-                        "Amount must be greater than 10 and less than or equal to 9000000",
-                    }));
-                  } else {
-                    setError((prev) => ({ ...prev, limitSellErr: "" }));
-                  }
+                  validateSellAmount(val, formValues.sellPrice, "limitSellErr");
                 }}
                 decimalQuantity={item?.quantity_decimal}
               />
@@ -439,7 +653,8 @@ export const Form = ({ dark, searchQuery }) => {
                     handleSellSlider(
                       newValue,
                       "sellAmount",
-                      balance?.base_balance ? balance?.base_balance : 0
+                      balance?.base_balance ? balance?.base_balance : 0,
+                      "limitSellErr"
                     );
                   }}
                   step={null}
@@ -481,10 +696,13 @@ export const Form = ({ dark, searchQuery }) => {
             </div>
             <div className="w-full flex justify-center">
               <button
-                onClick={handleSell}
+                onClick={() => {
+                  handleSell();
+                  handleNavigate();
+                }}
                 className="w-[100%] bg-[#F6465D] hover:bg-[#c74052] cursor-pointer  h-[3rem]  py-2 m-2 rounded-md text-[16px] font-semibold"
               >
-                {userData ? "Sell" : " Log In"}
+                {userData?.token ? "Sell" : " Log In"}
               </button>
             </div>
           </div>
@@ -514,22 +732,14 @@ export const Form = ({ dark, searchQuery }) => {
               <MarketInput
                 label="Amount"
                 item={item}
-                unit="BTC"
+                unit={item?.quote_asset_symbol}
                 // step={0.01}
-                decimalQuantity={item?.quantity_decimal}
+                decimalQuantity={item?.quantity_decimal + item?.price_decimal}
                 dark={dark}
                 value={formValues.MarketBuy}
                 onChange={(val) => {
                   setFormValues((prev) => ({ ...prev, MarketBuy: val }));
-                  if (val * formValues.limitPrice < 10) {
-                    setError((prev) => ({
-                      ...prev,
-                      limitBuyErr:
-                        "Amount must be greater than 10 and less than or equal to 9000000",
-                    }));
-                  } else {
-                    setError((prev) => ({ ...prev, limitBuyErr: "" }));
-                  }
+                  validateSellAmount(val, 1, "marketBuyErr");
                 }}
               />
             </div>
@@ -555,13 +765,17 @@ export const Form = ({ dark, searchQuery }) => {
                     handleSellSlider(
                       newValue,
                       "MarketBuy",
-                      balance?.quote_balance ? balance?.quote_balance : 0
+                      balance?.quote_balance ? balance?.quote_balance : 0,
+                      "marketBuyErr"
                     );
                   }}
                   step={null}
                 />
               </Box>
             </Box>
+            <div className="text-red-500 text-[13px] p-2">
+              {error.marketBuyErr}
+            </div>
             <div className="text-[16px] p-2">
               <div className="flex justify-between">
                 <div className="flex justify-between text-[#848E9C]">Avbl</div>
@@ -576,8 +790,14 @@ export const Form = ({ dark, searchQuery }) => {
               </div> */}
             </div>
             <div className="w-full flex justify-center">
-              <button className="w-[100%]  bg-[#2EBD85] hover:bg-[#0e9e67]  m-2 py-2 rounded-md h-[3rem] text-[16px] font-semibold cursor-pointer">
-                {userData ? "Buy" : " Log In"}
+              <button
+                onClick={() => {
+                  handleMarket();
+                  handleNavigate();
+                }}
+                className="w-[100%]  bg-[#2EBD85] hover:bg-[#0e9e67]  m-2 py-2 rounded-md h-[3rem] text-[16px] font-semibold cursor-pointer"
+              >
+                {userData?.token ? "Buy" : " Log In"}
               </button>
             </div>
           </div>
@@ -606,11 +826,19 @@ export const Form = ({ dark, searchQuery }) => {
               </div>
               <MarketInput
                 label="Amount"
-                unit="BTC"
-                step={0.01}
                 dark={dark}
                 item={item}
+                unit={item?.base_asset_symbol}
                 decimalQuantity={item?.quantity_decimal}
+                value={formValues.MarketSell}
+                onChange={(val) => {
+                  setFormValues((prev) => ({ ...prev, MarketSell: val }));
+                  validateSellAmount(
+                    val,
+                    formValues.sellPrice,
+                    "marketSellErr"
+                  );
+                }}
               />
             </div>
             <Box
@@ -625,23 +853,44 @@ export const Form = ({ dark, searchQuery }) => {
                 }}
               >
                 <CustomSlider
-                  defaultValue={0}
+                  value={sellMarketSliderValue}
                   marks={marks}
                   min={0}
                   max={100}
                   step={null}
+                  onChange={(e, newValue) => {
+                    setSellMarketSliderValue(newValue);
+                    handleSellSlider(
+                      newValue,
+                      "MarketSell",
+                      balance?.base_balance ? balance?.base_balance : 0,
+                      "marketSellErr"
+                    );
+                  }}
                 />
               </Box>
             </Box>
+            <div className="text-red-500 text-[13px] p-2">
+              {error.marketSellErr}
+            </div>
             <div className="text-[16px] p-2">
               <div className="flex justify-between">
                 <div className="flex justify-between text-gray-400">Avbl</div>
-                <div> {parseInt(balance?.base_balance)} BTC</div>
+                <div>
+                  {" "}
+                  {parseFloat(balance?.base_balance)} {item?.base_asset_symbol}
+                </div>
               </div>
             </div>
             <div className="w-full flex justify-center">
-              <button className="w-[100%] bg-[#F6465D] hover:bg-[#c74052] cursor-pointer  h-[3rem]  py-2 m-2 rounded-md text-[16px] font-semibold">
-                {userData ? "Sell" : " Log In"}
+              <button
+                onClick={() => {
+                  handleMarketSell();
+                  handleNavigate();
+                }}
+                className="w-[100%] bg-[#F6465D] hover:bg-[#c74052] cursor-pointer  h-[3rem]  py-2 m-2 rounded-md text-[16px] font-semibold"
+              >
+                {userData?.token ? "Sell" : " Log In"}
               </button>
             </div>
           </div>
@@ -664,6 +913,11 @@ export const Form = ({ dark, searchQuery }) => {
                 dark={dark}
                 decimalQuantity={item?.price_decimal}
                 searchQuery={searchQuery}
+                defaultValue={currentPrice}
+                value={formValues.stopBuyStop}
+                onChange={(val) => {
+                  setFormValues((prev) => ({ ...prev, stopBuyStop: val }));
+                }}
               />
               <CryptoInput
                 label="Limit"
@@ -673,14 +927,29 @@ export const Form = ({ dark, searchQuery }) => {
                 dark={dark}
                 decimalQuantity={item?.price_decimal}
                 searchQuery={searchQuery}
+                value={formValues.stopBuyLimit}
+                onChange={(val) => {
+                  setFormValues((prev) => ({ ...prev, stopBuyLimit: val }));
+                }}
               />
               <CryptoInput
                 label="Amount"
-                unit="BTC"
                 step={0.01}
                 decimalQuantity={item?.quantity_decimal}
                 dark={dark}
+                unit={item?.pair_symbol
+                  .toLowerCase()
+                  .split("usdt")[0]
+                  .toUpperCase()}
+                value={formValues.stopBuyAmount}
+                onChange={(val) => {
+                  setFormValues((prev) => ({ ...prev, stopBuyAmount: val }));
+                  validateBuyAmount(val, formValues.stopBuyLimit, "stopBuyErr");
+                }}
               />
+            </div>
+            <div className="text-red-500 text-[13px] p-2">
+              {error.stopBuyErr}
             </div>
             <Box
               sx={{ display: "flex", justifyContent: "center", width: "100%" }}
@@ -695,11 +964,21 @@ export const Form = ({ dark, searchQuery }) => {
                 }}
               >
                 <CustomSlider
-                  defaultValue={0}
+                  value={buyStopSliderValue}
                   marks={marks}
                   min={0}
                   max={100}
-                  step={1}
+                  step={null}
+                  onChange={(e, newValue) => {
+                    setBuyStopSliderValue(newValue);
+                    handleChange(
+                      newValue,
+                      "stopBuyLimit",
+                      "stopBuyAmount",
+                      balance?.quote_balance ? balance?.quote_balance : 0,
+                      "stopBuyErr"
+                    );
+                  }}
                 />
               </Box>
             </Box>
@@ -708,7 +987,7 @@ export const Form = ({ dark, searchQuery }) => {
               <div className="flex justify-between">
                 <div className="flex justify-between text-gray-400">Avbl</div>
                 <span className="">
-                  {parseInt(balance?.quote_balance)} USDT
+                  {parseFloat(balance?.quote_balance)} USDT
                 </span>
               </div>
               {/* <div className="flex justify-between">
@@ -718,8 +997,14 @@ export const Form = ({ dark, searchQuery }) => {
               </div> */}
             </div>
             <div className="w-full flex justify-center">
-              <button className="w-[100%]  bg-[#2EBD85] hover:bg-[#0e9e67]  m-2 py-2 rounded-md h-[3rem] text-[16px] font-semibold cursor-pointer">
-                {userData ? "Buy" : " Log In"}
+              <button
+                onClick={() => {
+                  handleStopBuy();
+                  handleNavigate();
+                }}
+                className="w-[100%]  bg-[#2EBD85] hover:bg-[#0e9e67]  m-2 py-2 rounded-md h-[3rem] text-[16px] font-semibold cursor-pointer"
+              >
+                {userData?.token ? "Buy" : " Log In"}
               </button>
             </div>
           </div>
@@ -739,6 +1024,10 @@ export const Form = ({ dark, searchQuery }) => {
                 step={0.01}
                 dark={dark}
                 decimalQuantity={item?.price_decimal}
+                value={formValues.stopSellStop}
+                onChange={(val) => {
+                  setFormValues((prev) => ({ ...prev, stopSellStop: val }));
+                }}
               />
               <CryptoInput
                 label="Limit"
@@ -748,14 +1037,33 @@ export const Form = ({ dark, searchQuery }) => {
                 dark={dark}
                 defaultValue={currentPrice}
                 decimalQuantity={item?.price_decimal}
+                value={formValues.stopSellLimit}
+                onChange={(val) => {
+                  setFormValues((prev) => ({ ...prev, stopSellLimit: val }));
+                }}
               />
               <CryptoInput
                 label="Amount"
-                unit="BTC"
                 step={0.01}
                 dark={dark}
                 decimalQuantity={item?.quantity_decimal}
+                unit={item?.pair_symbol
+                  .toLowerCase()
+                  .split("usdt")[0]
+                  .toUpperCase()}
+                value={formValues.stopSellAmount}
+                onChange={(val) => {
+                  setFormValues((prev) => ({ ...prev, stopSellAmount: val }));
+                  validateSellAmount(
+                    val,
+                    formValues.stopSellLimit,
+                    "stopSellErr"
+                  );
+                }}
               />
+            </div>
+            <div className="text-red-500 text-[13px] p-2">
+              {error.stopSellErr}
             </div>
             <Box
               sx={{ display: "flex", justifyContent: "center", width: "100%" }}
@@ -769,11 +1077,20 @@ export const Form = ({ dark, searchQuery }) => {
                 }}
               >
                 <CustomSlider
-                  defaultValue={0}
+                  value={sellStopSliderValue}
                   marks={marks}
                   min={0}
-                  max={100}
                   step={null}
+                  max={100}
+                  onChange={(e, newValue) => {
+                    setSellStopSliderValue(newValue);
+                    handleSellSlider(
+                      newValue,
+                      "stopSellAmount",
+                      balance?.base_balance ? balance?.base_balance : 0,
+                      "stopSellErr"
+                    );
+                  }}
                 />
               </Box>
             </Box>
@@ -781,7 +1098,13 @@ export const Form = ({ dark, searchQuery }) => {
             <div className="text-[16px] p-2">
               <div className="flex justify-between">
                 <div className="flex justify-between text-gray-400">Avbl</div>
-                <div>{parseInt(balance?.base_balance)} BTC</div>
+                <div>
+                  {parseFloat(balance?.base_balance)}{" "}
+                  {item?.pair_symbol
+                    .toLowerCase()
+                    .split("usdt")[0]
+                    .toUpperCase()}
+                </div>
               </div>
               {/* <div className="flex justify-between">
                 <div className="underline  text-gray-400">Max Buy</div>
@@ -790,8 +1113,14 @@ export const Form = ({ dark, searchQuery }) => {
               </div> */}
             </div>
             <div className="w-full flex justify-center">
-              <button className="w-[100%] bg-[#F6465D] hover:bg-[#c74052] cursor-pointer  h-[3rem]  py-2 m-2 rounded-md text-[16px] font-semibold">
-                {userData ? "Sell" : " Log In"}
+              <button
+                className="w-[100%] bg-[#F6465D] hover:bg-[#c74052] cursor-pointer  h-[3rem]  py-2 m-2 rounded-md text-[16px] font-semibold"
+                onClick={() => {
+                  handleNavigate();
+                  handleStopSell();
+                }}
+              >
+                {userData?.token ? "Sell" : " Log In"}
               </button>
             </div>
           </div>

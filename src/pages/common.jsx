@@ -8,7 +8,7 @@ const CryptoInput = ({
   onChange,
   dark,
   defaultValue,
-  decimalQuantity = 2,
+  decimalQuantity,
 }) => {
   const minStep = Math.pow(10, -decimalQuantity);
 
@@ -18,13 +18,20 @@ const CryptoInput = ({
     // Allow only numbers and dot
     if (!/^(\d+(\.\d*)?|\.\d*)?$/.test(val)) return;
 
-    // Restrict decimal digits
     if (val.includes(".")) {
       const [intPart, decPart] = val.split(".");
-      if (decPart.length > decimalQuantity) {
+
+      if (decimalQuantity === 0) {
+        // If any value after dot, remove dot and everything after it
+        if (decPart.length > 0) {
+          val = intPart;
+        }
+      } else if (decPart.length > decimalQuantity) {
+        // Limit decimal digits
         val = intPart + "." + decPart.slice(0, decimalQuantity);
       }
     }
+
     onChange(val);
   };
 
@@ -50,7 +57,6 @@ const CryptoInput = ({
         <label className="trade-label p-2 text-[#848E9C]">{label}</label>
         <input
           type="text"
-          defaultValue={defaultValue}
           value={value}
           onChange={handleChange}
           className={`${

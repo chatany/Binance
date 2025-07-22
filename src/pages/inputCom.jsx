@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { SiNike } from "react-icons/si";
 export const MarketInput = ({
   label,
@@ -10,7 +10,7 @@ export const MarketInput = ({
   decimalQuantity,
   value,
 }) => {
-   const handleChange = (e) => {
+  const handleChange = (e) => {
     let val = e.target.value;
 
     // Allow only numbers and dot
@@ -26,6 +26,9 @@ export const MarketInput = ({
     onChange(val);
   };
   const [active, setActive] = useState(item?.base_asset_symbol);
+  useEffect(() => {
+    setActive(item?.base_asset_symbol);
+  }, [item?.base_asset_symbol]);
   console.log(active, "active");
 
   const [show, setShow] = useState(false);
@@ -39,7 +42,6 @@ export const MarketInput = ({
         <label className="trade-label p-2 text-[#848E9C]">{label}</label>
         <input
           type="text"
-          defaultValue={defaultValue}
           value={value}
           onChange={handleChange}
           className={`${
@@ -51,7 +53,7 @@ export const MarketInput = ({
           onMouseEnter={() => setShow(true)}
         >
           <span className={`${dark ? "text-white" : "text-black"} unit`}>
-            {active}
+            {unit}
           </span>
           <div
             className={`btn-group border-l-1 ${
@@ -61,7 +63,7 @@ export const MarketInput = ({
             <button className="down-btn">▼</button>
           </div>
         </div>
-        {show && (
+        {/* {show && (
           <div
             className="absolute top-10 right-2 bg-white pt-2 pb-2 rounded-2xl w-30 z-50"
             style={{ boxShadow: "0px 0px 40px 0px rgb(0,0,0,0.10)" }}
@@ -89,7 +91,7 @@ export const MarketInput = ({
               </div>
             </div>
           </div>
-        )}
+        )} */}
       </div>
     </div>
   );
