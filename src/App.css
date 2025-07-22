@@ -11,7 +11,7 @@
   display: flex;
   align-items: center;
   position: relative;
-  height: 40px;
+  height: 45px;
   transition: border 0.5s ease 0.1s;
 }
 .input-wrapper:focus-within {
@@ -29,6 +29,7 @@
   border: none;
   font-weight: bold;
   padding: 0 6px;
+  width: min-content;
   flex: 1;
   height: 100%;
   font-size: 20px;
@@ -106,6 +107,7 @@
   .input-field {
     font-size: 12px;
     padding: 0 2px;
+    width:10px
   }
 
   .input-wrapper {

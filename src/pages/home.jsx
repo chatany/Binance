@@ -5,6 +5,7 @@ import { IoSunnyOutline } from "react-icons/io5";
 import { RxHamburgerMenu } from "react-icons/rx";
 import { RiArrowUpDoubleLine } from "react-icons/ri";
 import { TbWorld } from "react-icons/tb";
+import { FaRegEdit } from "react-icons/fa";
 import { MdDarkMode } from "react-icons/md";
 import {
   FaQuestion,
@@ -23,6 +24,7 @@ import { BuySellToggle } from "../common/ToggleButton";
 import ScrollStatsBar from "../common/TopIconBar";
 import {
   data,
+  formatDate,
   marketArr,
   marks,
   orderArr,
@@ -32,7 +34,13 @@ import {
   tabs,
 } from "../Constant";
 import { ChartEmbed } from "./chart";
-import { country, fetchData, TikerData, TopMoves } from "./apiCall";
+import {
+  country,
+  fetchData,
+  OrderHistory,
+  TikerData,
+  TopMoves,
+} from "./apiCall";
 import TopMovers from "./move";
 import {
   TopIconBar1,
@@ -43,22 +51,26 @@ import {
 import { Socket } from "./Socket";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { Progressbar } from "../common/CircularBar";
 let val;
 export const Home = () => {
   const [dark, setDark] = useState(true);
-  const [activeTab, setActiveTab] = useState("Open Orders (0)");
+  const [activeTab, setActiveTab] = useState("Open Orders");
   const isOpen = useSelector((state) => state.counter.open);
+  const { openOrder, orderHistory } = useSelector((state) => state.counter);
   const [active, setActive] = useState("Sport");
   const [hoveredItemIndex, setHoveredItemIndex] = useState(null);
   const [hoverPosition, setHoverPosition] = useState({ x: 0, y: 0, width: 0 });
   const [searchQuery, SetSearchQuery] = useState("BTCUSDT");
   const userData = JSON.parse(localStorage.getItem("userData")) || {};
   const [activeItem, setActiveItem] = useState("Buy");
+  console.log(orderHistory, "orderHistory");
 
   const [show, setShow] = useState(false);
   const handleTheme = () => {
     setDark(!dark);
   };
+  const dispatch = useDispatch();
   const [tikerData, setTikerData] = useState({
     symbol: "",
     lastPrice: "",
@@ -71,7 +83,8 @@ export const Home = () => {
   });
   useEffect(() => {
     fetchData();
-    TikerData({ setTikerData, searchQuery });
+    // TikerData({ setTikerData, searchQuery });
+    OrderHistory(dispatch);
   }, [searchQuery]);
 
   const symbol = tikerData?.symbol;
@@ -392,7 +405,7 @@ export const Home = () => {
                   </div>
                 </div>
                 <div className="w-full ">
-                  <Form dark={dark} />
+                  <Form dark={dark} searchQuery={searchQuery} />
                 </div>
               </div>
             </div>
@@ -415,7 +428,7 @@ export const Home = () => {
           </div>
         </div>
         <div
-          className={`lg:block hidden w-full ${
+          className={`lg:block hidden h-full w-full ${
             dark ? " bg-[#181A20]" : " bg-white "
           } `}
         >
@@ -448,9 +461,371 @@ export const Home = () => {
               ))}
             </div>
           </div>
-          <div className="h-[600px] w-full flex justify-center items-center text-[12px] leading-4 flex-nowrap font-medium">
+          <div className="h-[600px] w-full overflow-y-auto  text-[12px] leading-4 flex-nowrap font-medium">
             {userData?.token ? (
-              "No Data Found"
+              <>
+                {" "}
+                {activeTab === "Open Orders" && (
+                  <>
+                    {/* {Array.isArray(openOrder) && openOrder?.length > 0 ? (
+                      <div className="p-5 ">
+                        {Array.isArray(openOrder) &&
+                          openOrder?.map((item, index) => {
+                            const date = formatDate(item?.created_at);
+                            const percentage =
+                              (item?.executed_base_quantity /
+                                item?.base_quantity) *
+                              100;
+                            return (
+                              <div
+                                className="flex justify-between p-3 border-b-1"
+                                key={index}
+                              >
+                                <div className="flex gap-10">
+                                  <div className="flex flex-col gap-2 justify-center items-center">
+                                    <div>
+                                      {item?.order_type}/{item?.type}
+                                    </div>
+                                    <div className="h-14 w-14 rounded-full">
+                                      <Progressbar value={percentage} />
+                                    </div>
+                                  </div>
+                                  <div className="flex flex-col justify-between">
+                                    <div>BTCUSDT</div>
+                                    <div className="flex gap-4">
+                                      <div className="flex flex-col gap-2">
+                                        <div>Amount</div>
+                                        <div>price</div>
+                                      </div>
+                                      <div className="flex flex-col gap-2">
+                                        <div>{item?.base_quantity}</div>
+                                        <div>{item?.order_price}</div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                                <div className="flex flex-col justify-between">
+                                  <div>{date}</div>
+                                  <div className="justify-end flex">
+                                    <FaRegEdit />
+                                  </div>
+                                  <div className="flex justify-end">Cancel</div>
+                                </div>
+                              </div>
+                            );
+                          })}
+                      </div>
+                    ) : (
+                      <div className="flex justify-center items-center h-full w-full">
+                        No Data found
+                      </div>
+                    )} */}
+                    {/*  {
+            "user_id": "UA8FCF45E1D0",
+            "order_id": "UA8FCF45E1D0-204FA1E2C",
+            "pair_id": 5,
+            "type": "BUY",
+            "order_type": "LIMIT",
+            "base_quantity": "0.00009",
+            "quote_quantity": "10.6558506",
+            "order_price": "118398.34",
+            "stop_limit_price": "0",
+            "oco_stop_limit_price": null,
+            "executed_base_quantity": "0",
+            "executed_quote_quantity": "0",
+            "status": "NEW",
+            "created_at": "2025-07-17T05:43:04.000Z",
+            "updated_at": null
+        } */}
+                    <div className="w-full p-0">
+                      <table className="w-full">
+                        <thead className="h-[3rem]">
+                          <tr className="">
+                            <th className="text-[12px] pl-1 pr-1 p-[4px] text-center text-[#707A8A] capitalize">
+                              Date
+                            </th>
+                            <th className="text-[12px] pl-1 pr-1 p-[4px] text-center text-[#707A8A] capitalize">
+                              Pair
+                            </th>
+                            <th className="text-[12px] pl-1 pr-1 p-[4px] text-center text-[#707A8A] capitalize">
+                              Type
+                            </th>
+                            <th className="text-[12px] pl-1 pr-1 p-[4px] text-center text-[#707A8A] capitalize">
+                              side
+                            </th>
+                            <th className="text-[12px] pl-1 pr-1 p-[4px] text-center text-[#707A8A] capitalize">
+                              price
+                            </th>
+                            <th className="text-[12px] pl-1 pr-1 p-[4px] text-center text-[#707A8A] capitalize">
+                              amount
+                            </th>
+                            <th className="text-[12px] pl-1 pr-1 p-[4px] text-center text-[#707A8A] capitalize">
+                              status
+                            </th>
+                            <th className="text-[12px] pl-1 pr-1 p-[4px] text-center text-[#707A8A] capitalize">
+                              cancel
+                            </th>
+                          </tr>
+                        </thead>
+                        {Array.isArray(openOrder) && openOrder?.length > 0 ? (
+                          <tbody>
+                            {Array.isArray(openOrder) &&
+                              openOrder?.map((item, index) => {
+                                const date = formatDate(item?.created_at);
+                                const percentage =
+                                  (item?.executed_base_quantity /
+                                    item?.base_quantity) *
+                                  100;
+                                return (
+                                  <tr key={index}>
+                                    <td className="lg:text-[12px] text-[.6rem] pl-1 pr-1 p-[4px] text-center capitalize ">
+                                      {date}
+                                    </td>
+                                    <td className="lg:text-[12px] text-[.6rem] pl-1 pr-1 p-[4px] text-center uppercase">
+                                      {"BtcUsdt"}
+                                    </td>
+                                    <td className="lg:text-[12px] text-[.6rem] pl-1 pr-1 p-[4px] text-center capitalize">
+                                      {item?.order_type}
+                                    </td>
+                                    <td className="lg:text-[12px] text-[.6rem] pl-1 pr-1 p-[4px] text-center capitalize">
+                                      {item?.type}
+                                    </td>
+                                    <td className="lg:text-[12px] text-[.6rem] pl-1 pr-1 p-[4px] text-center capitalize">
+                                      {item?.order_price}
+                                    </td>
+                                    <td className="lg:text-[12px] text-[.6rem] pl-1 pr-1 p-[4px] text-center capitalize">
+                                      {item?.base_quantity}
+                                    </td>
+                                    <td className="lg:text-[12px] text-[.6rem] pl-1 pr-1 p-[4px] text-center capitalize">
+                                      {item?.status}
+                                    </td>
+                                    <td className="lg:text-[12px] text-[.6rem] pl-1 pr-1 p-[4px] text-center capitalize">
+                                      cancel
+                                    </td>
+                                  </tr>
+                                );
+                              })}
+                            {/* <tr>
+                            <td className="text-[12px] pl-1 pr-1 p-[4px] text-center capitalize">
+                              10-7-25
+                            </td>
+                            <td className="text-[12px] pl-1 pr-1 p-[4px] text-center capitalize">
+                              {"BtcUsdt"}
+                            </td>
+                            <td className="text-[12px] pl-1 pr-1 p-[4px] text-center capitalize">
+                              {"Limit"}
+                            </td>
+                            <td className="text-[12px] pl-1 pr-1 p-[4px] text-center capitalize">
+                              {"Buy"}
+                            </td>
+                            <td className="text-[12px] pl-1 pr-1 p-[4px] text-center capitalize">
+                              {"118273.01"}
+                            </td>
+                            <td className="text-[12px] pl-1 pr-1 p-[4px] text-center capitalize">
+                              {"0.00082"}
+                            </td>
+                            <td className="text-[12px] pl-1 pr-1 p-[4px] text-center capitalize">
+                              {"New"}
+                            </td>
+                            <td className="text-[12px] pl-1 pr-1 p-[4px] text-center capitalize">
+                              cancel
+                            </td>
+                          </tr> */}
+                          </tbody>
+                        ) : (
+                          <tbody>
+                            <tr>
+                              <td
+                                colSpan={8}
+                                rowSpan={6}
+                                className="text-center text-sm py-4"
+                              >
+                                <div className="flex items-center justify-center h-[300px] text-sm text-gray-400">
+                                  No Data found
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        )}
+                      </table>
+                    </div>
+                  </>
+                )}
+                {activeTab === "Order History" && (
+                  <>
+                    {/*   {
+            "fee_symbol": "BTC",
+            "id": 221,
+            "fee_currency": "BTC7B97123",
+            "pair_symbol": "BTCUSDT",
+            "type": "BUY",
+            "stop_limit_price": "0",
+            "order_price": "118755.11",
+            "base_quantity": "0.00012",
+            "quote_quantity": "0",
+            "executed_quote_quantity": "14.2506132",
+            "final_amount": "0.00011988",
+            "executed_base_quantity": "0.00012",
+            "status": "FILLED",
+            "order_type": "LIMIT",
+            "fees": "1.2e-7",
+            "date_time": "2025-07-16T10:57:50.000Z",
+            "order_id": "UA8FCF45E1D0-6CA1D2237"
+        } */}
+                    {/* {
+                      <div className="p-5 h-full">
+                        {Array.isArray(orderHistory) &&
+                          orderHistory?.map((item, index) => {
+                            const date = formatDate(item?.date_time);
+                            return (
+                              <div
+                                className="flex justify-between p-5 border-b-2"
+                                key={index}
+                              >
+                                <div className="flex flex-col justify-between gap-3">
+                                  <div className="flex flex-col gap-1">
+                                    <div>{item?.pair_symbol}</div>
+                                    <div>
+                                      {item?.order_type}/{item?.type}
+                                    </div>
+                                  </div>
+                                  <div className="flex flex-col gap-1">
+                                    <div>Amount</div>
+                                    <div>Price</div>
+                                  </div>
+                                </div>
+                                <div className="flex flex-col justify-between gap-3">
+                                  <div className="flex flex-col gap-1">
+                                    <div>{date}</div>
+                                    <div>{item?.status}</div>
+                                  </div>
+                                  <div className="flex flex-col gap-1">
+                                    <div>
+                                      {item?.executed_base_quantity}/
+                                      {item?.base_quantity}
+                                    </div>
+                                    <div>{item?.order_price}</div>
+                                  </div>
+                                </div>
+                              </div>
+                            );
+                          })}
+                      </div>
+                    } */}
+                    <div>
+                      <table className="w-full">
+                        <thead className="h-[3rem]">
+                          <tr className="">
+                            <th className="text-[12px] pl-1 pr-1 p-[4px] text-center text-[#707A8A] capitalize">
+                              Date
+                            </th>
+                            <th className="text-[12px] pl-1 pr-1 p-[4px] text-center text-[#707A8A] capitalize">
+                              Pair
+                            </th>
+                            <th className="text-[12px] pl-1 pr-1 p-[4px] text-center text-[#707A8A] capitalize">
+                              Type
+                            </th>
+                            <th className="text-[12px] pl-1 pr-1 p-[4px] text-center text-[#707A8A] capitalize">
+                              side
+                            </th>
+                            <th className="text-[12px] pl-1 pr-1 p-[4px] text-center text-[#707A8A] capitalize">
+                              price
+                            </th>
+                            <th className="text-[12px] pl-1 pr-1 p-[4px] text-center text-[#707A8A] capitalize">
+                              amount
+                            </th>
+                            <th className="text-[12px] pl-1 pr-1 p-[4px] text-center text-[#707A8A] capitalize">
+                              status
+                            </th>
+                            <th className="text-[12px] pl-1 pr-1 p-[4px] text-center text-[#707A8A] capitalize">
+                              cancel
+                            </th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                         {Array.isArray(orderHistory) && orderHistory?.length > 0 ? (
+                          <>
+
+                          {Array.isArray(orderHistory) &&
+                            orderHistory?.map((item, index) => {
+                              const date = formatDate(item?.date_time);
+                              const percentage =
+                                (item?.executed_base_quantity /
+                                  item?.base_quantity) *
+                                100;
+                              return (
+                                <tr key={index}>
+                                  <td className="lg:text-[12px] text-[.6rem] pl-1 pr-1 p-[4px] text-center capitalize ">
+                                    {date}
+                                  </td>
+                                  <td className="lg:text-[12px] text-[.6rem] pl-1 pr-1 p-[4px] text-center  uppercase">
+                                    {"btcusdt"}
+                                  </td>
+                                  <td className="lg:text-[12px] text-[.6rem] pl-1 pr-1 p-[4px] text-center capitalize">
+                                    {item?.order_type}
+                                  </td>
+                                  <td className="lg:text-[12px] text-[.6rem] pl-1 pr-1 p-[4px] text-center capitalize">
+                                    {item?.type}
+                                  </td>
+                                  <td className="lg:text-[12px] text-[.6rem] pl-1 pr-1 p-[4px] text-center capitalize">
+                                    {item?.order_price}
+                                  </td>
+                                  <td className="lg:text-[12px] text-[.6rem] pl-1 pr-1 p-[4px] text-center capitalize">
+                                    {item?.base_quantity}
+                                  </td>
+                                  <td className="lg:text-[12px] text-[.6rem] pl-1 pr-1 p-[4px] text-center capitalize">
+                                    {item?.status}
+                                  </td>
+                                  <td className="lg:text-[12px] text-[.6rem] pl-1 pr-1 p-[4px] text-center capitalize">
+                                    cancel
+                                  </td>
+                                </tr>
+                              );
+                            })}
+                            </>):(<tr>
+                              <td
+                                colSpan={8}
+                                rowSpan={6}
+                                className="text-center text-sm py-4"
+                              >
+                                <div className="flex items-center justify-center h-[300px] text-sm text-gray-400">
+                                  No Data found
+                                </div>
+                              </td>
+                            </tr>)
+                         }
+                          {/* <tr>
+                            <td className="text-[12px] pl-1 pr-1 p-[4px] text-center capitalize">
+                              10-7-25
+                            </td>
+                            <td className="text-[12px] pl-1 pr-1 p-[4px] text-center capitalize">
+                              {"BtcUsdt"}
+                            </td>
+                            <td className="text-[12px] pl-1 pr-1 p-[4px] text-center capitalize">
+                              {"Limit"}
+                            </td>
+                            <td className="text-[12px] pl-1 pr-1 p-[4px] text-center capitalize">
+                              {"Buy"}
+                            </td>
+                            <td className="text-[12px] pl-1 pr-1 p-[4px] text-center capitalize">
+                              {"118273.01"}
+                            </td>
+                            <td className="text-[12px] pl-1 pr-1 p-[4px] text-center capitalize">
+                              {"0.00082"}
+                            </td>
+                            <td className="text-[12px] pl-1 pr-1 p-[4px] text-center capitalize">
+                              {"New"}
+                            </td>
+                            <td className="text-[12px] pl-1 pr-1 p-[4px] text-center capitalize">
+                              cancel
+                            </td>
+                          </tr> */}
+                        </tbody>
+                      </table>
+                    </div>
+                  </>
+                )}
+              </>
             ) : (
               <button className="flex  items-center ">
                 <pre className="text-yellow-500">Log In </pre>

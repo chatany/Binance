@@ -509,14 +509,31 @@ export const marks = [
   { value: 100, label: "100" },
 ];
 export const tabs = [
-  "Open Orders (0)",
+  "Open Orders",
   "Order History",
   "Trade History",
   "Funds",
   "Grid Orders",
 ];
 export const tab = ["Sport", "Cross", "Isolated", "Grid"];
+export const marketTabs = ["Limit", "Market", "Stop Limit"];
+export const formatDate = (isoDate) => {
+  const date = new Date(isoDate);
 
+  const day = date.getDate();
+  const month = date.getMonth() + 1; // Month is 0-indexed
+  const year = date.getFullYear();
+
+  let hours = date.getHours();
+  const minutes = date.getMinutes().toString().padStart(2, "0");
+  const seconds = date.getSeconds().toString().padStart(2, "0");
+
+  const ampm = hours >= 12 ? "pm" : "am";
+  hours = hours % 12;
+  hours = hours ? hours : 12; // hour '0' should be '12'
+
+  return `${day}/${month}/${year}, ${hours}:${minutes}:${seconds} ${ampm}`;
+};
 export const supportOptions = [
   {
     icon: <FaComments className="text-yellow-500" />,
