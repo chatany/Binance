@@ -64,7 +64,7 @@ export const Home = () => {
     // If either missing, redirect to last known or default
     if (!symbol) {
       const last = JSON.parse(localStorage.getItem("lastPair"));
-      navigate(`/trade/spot/${last}`, { replace: true });
+      navigate(`/spot/${last}`, { replace: true });
     }
   }, [symbol, navigate]);
   useEffect(() => {
