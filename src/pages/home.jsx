@@ -56,7 +56,7 @@ export const Home = () => {
   };
   useEffect(() => {
     if (symbol) {
-      const pair = `/${symbol}`; // e.g., spot/DOGEUSDT
+      const pair = `${symbol}`; // e.g., spot/DOGEUSDT
       localStorage.setItem("lastPair", JSON.stringify(pair));
     }
   }, [symbol]);
