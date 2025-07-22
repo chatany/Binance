@@ -25,32 +25,32 @@ export const OpenOrders = ({ dark }) => {
 
   const userId = "UA8FCF45E1D0"; // Replace with dynamic userId if needed
 
-  useEffect(() => {
-    const ws = new WebSocket("ws://15.235.143.146:9001");
+  // useEffect(() => {
+  //   const ws = new WebSocket("ws://15.235.143.146:9001");
 
-    ws.onopen = () => {
-      console.log("✅ WebSocket connected123");
-      ws.send(JSON.stringify({ user_id: userId }));
-      console.log("📤 Sent: UA8FCF45E1D0");
-    };
+  //   ws.onopen = () => {
+  //     console.log("✅ WebSocket connected123");
+  //     ws.send(JSON.stringify({ user_id: userId }));
+  //     console.log("📤 Sent: UA8FCF45E1D0");
+  //   };
 
-    ws.onmessage = (event) => {
-      console.log("📩 Message:", event.data);
-    };
+  //   ws.onmessage = (event) => {
+  //     console.log("📩 Message:", event.data);
+  //   };
 
-    ws.onerror = (error) => {
-      console.error("❌ WebSocket error", error);
-    };
+  //   ws.onerror = (error) => {
+  //     console.error("❌ WebSocket error", error);
+  //   };
 
-    ws.onclose = (event) => {
-      console.warn("⚠️ WebSocket closed", event.code, event.reason);
-    };
+  //   ws.onclose = (event) => {
+  //     console.warn("⚠️ WebSocket closed", event.code, event.reason);
+  //   };
 
-    return () => {
-      ws.close();
-      console.log("🔌 Cleaned up WebSocket");
-    };
-  }, []);
+  //   return () => {
+  //     ws.close();
+  //     console.log("🔌 Cleaned up WebSocket");
+  //   };
+  // }, []);
 
   return (
     <div className={`h-fit w-full ${dark ? " bg-[#181A20]" : " bg-white "} `}>
