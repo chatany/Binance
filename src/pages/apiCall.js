@@ -26,7 +26,7 @@ export const SearchData = async ({ setSearchData, setIsLoading }) => {
   try {
     const response1 = await apiRequest({
       method: "get",
-      url: `http://localhost:5000/binance-exchange`,
+      url: `https://server-production-70e4.up.railway.app/binance-exchange`,
     });
     setSearchData(response1?.data);
   } catch (err) {
@@ -60,7 +60,7 @@ export const Orders = async ({ searchQuery, setOrderData }) => {
   try {
     const { data, status } = await apiRequest({
       method: "get",
-      url: `http://localhost:5000/binance-order?url=${searchQuery}`,
+      url: `https://server-production-70e4.up.railway.app/binance-order?url=${searchQuery}`,
     });
     if (status === 200) {
       setOrderData(data);
@@ -74,7 +74,7 @@ export const Trades = async ({ searchQuery, setTradesData }) => {
   try {
     const { data, status } = await apiRequest({
       method: "get",
-      url: `http://localhost:5000/binance-Trades?url=${searchQuery}`,
+      url: `https://server-production-70e4.up.railway.app/binance-Trades?url=${searchQuery}`,
     });
     if (status === 200) {
       setTradesData(data);
@@ -87,7 +87,7 @@ export const TopMoves = async (dispatch) => {
   try {
     const { data, status } = await apiRequest({
       method: "get",
-      url: `http://localhost:5000/binance-Movers`,
+      url: `https://server-production-70e4.up.railway.app/binance-Movers`,
     });
     if (status === 200) {
       dispatch(setTopMovers(data));
@@ -101,7 +101,7 @@ export const allMovers = async (dispatch) => {
   try {
     const { data, status } = await apiRequest({
       method: "get",
-      url: `http://localhost:5000/binance-allMovers`,
+      url: `https://server-production-70e4.up.railway.app/binance-allMovers`,
     });
     if (status === 200) {
       dispatch(setAllMovers(data));
