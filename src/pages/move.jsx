@@ -26,8 +26,8 @@ const TopMovers = ({ dark, SetSearchQuery,setSearchParams }) => {
   return (
     <div
       className={`${
-        open ? "h-[25rem]" : "h-[20rem]"
-      } transition-all duration-500 delay-100   rounded-lg w-full   overflow-hidden`}
+        open ? "h-[20rem]" : "h-[14rem]"
+      } transition-all duration-500 delay-100 max-w-[320px]   rounded-lg w-full   overflow-hidden`}
     >
       <div
         className={`flex  ${

@@ -3,9 +3,7 @@ import { CiSearch, CiStar } from "react-icons/ci";
 import { IoDownloadOutline } from "react-icons/io5";
 import { IoSunnyOutline } from "react-icons/io5";
 import { RxHamburgerMenu } from "react-icons/rx";
-import { RiArrowUpDoubleLine } from "react-icons/ri";
 import { TbWorld } from "react-icons/tb";
-import { FaRegEdit } from "react-icons/fa";
 import { MdDarkMode } from "react-icons/md";
 import {
   FaQuestion,
@@ -13,33 +11,17 @@ import {
   FaAngleRight,
   FaBalanceScale,
 } from "react-icons/fa";
-import { IoMdListBox, IoMdSettings } from "react-icons/io";
+import {  IoMdSettings } from "react-icons/io";
 import { Order } from "./Order";
 import { MarketCom } from "./market";
 import { Form } from "./form";
-import CryptoInput from "./common";
-import { Box, Slider, styled } from "@mui/material";
 import MobileSidebar from "./sidebar";
-import { BuySellToggle } from "../common/ToggleButton";
-import ScrollStatsBar from "../common/TopIconBar";
 import {
   data,
-  formatDate,
-  marketArr,
-  marks,
-  orderArr,
-  priceArr,
-  supportOptions,
-  tab,
-  tabs,
 } from "../Constant";
 import { ChartEmbed } from "./chart";
 import {
-  country,
   fetchData,
-  OrderHistory,
-  TikerData,
-  TopMoves,
 } from "./apiCall";
 import TopMovers from "./move";
 import {
@@ -49,59 +31,47 @@ import {
   TopIconBar4,
 } from "./TopIconBars";
 import { Socket } from "./Socket";
-import { useDispatch, useSelector } from "react-redux";
-import { useNavigate, useSearchParams } from "react-router-dom";
-import { Progressbar } from "../common/CircularBar";
+import { useSelector } from "react-redux";
+import { useNavigate, useParams} from "react-router-dom";
 import { ToggleButSell } from "./ToggleBuySell";
 import { OpenOrders } from "../common/openOrders";
 import { Middle } from "./MiddleCom";
 export const Home = () => {
   const [dark, setDark] = useState(true);
-  const [activeTab, setActiveTab] = useState("Open Orders");
   const isOpen = useSelector((state) => state.counter.open);
   const [isLogin, setIsLogin] = useState(false);
-  const { openOrder, orderHistory } = useSelector((state) => state.counter);
-  const [active, setActive] = useState("Sport");
+  const [active, setActive] = useState("Spot");
   const [hoveredItemIndex, setHoveredItemIndex] = useState(null);
   const [hoverPosition, setHoverPosition] = useState({ x: 0, y: 0, width: 0 });
-  const [searchParams, setSearchParams] = useSearchParams();
-  const defaultSymbol = searchParams.get("symbol") || "";
-  const [searchQuery, setSearchQuery] = useState(defaultSymbol);
+  const navigate = useNavigate();
+  const { symbol } = useParams();
+  const [searchQuery, setSearchQuery] = useState(symbol || "BTCUSDT");
   const userData = JSON.parse(localStorage.getItem("userData")) || {};
   const [activeItem, setActiveItem] = useState("Buy");
+  const serarParams = useParams();
 
   const [show, setShow] = useState(false);
   const handleTheme = () => {
     setDark(!dark);
   };
-
-  const currencySymbol = searchParams.get("symbol");
   useEffect(() => {
-    if (currencySymbol && currencySymbol !== searchQuery) {
-      setSearchQuery(currencySymbol);
+    if (symbol) {
+      const pair = `/${symbol}`; // e.g., spot/DOGEUSDT
+      localStorage.setItem("lastPair", JSON.stringify(pair));
     }
-  }, [searchParams]);
-
-  const dispatch = useDispatch();
-  const [tikerData, setTikerData] = useState({
-    symbol: "",
-    lastPrice: "",
-    priceChange: "",
-    priceChangePercent: "",
-    highPrice: "",
-    lowPrice: "",
-    volume: "",
-    quoteVolume: "",
-  });
+  }, [symbol]);
+  useEffect(() => {
+    // If either missing, redirect to last known or default
+    if (!symbol) {
+      const last = JSON.parse(localStorage.getItem("lastPair"));
+      navigate(`/trade/spot/${last}`, { replace: true });
+    }
+  }, [symbol, navigate]);
   useEffect(() => {
     fetchData();
-  }, [currencySymbol]);
+  }, [symbol]);
 
-  const symbol = tikerData?.symbol;
   const [currentItem, setCurrentItem] = useState("");
-  const lastPrice = parseFloat(tikerData?.lastPrice).toString();
-
-  const navigate = useNavigate();
 
   const handleClose = () => {
     setShow(!show);
@@ -119,7 +89,7 @@ export const Home = () => {
   }, [show]);
   return (
     <>
-      <Socket searchQuery={currencySymbol} />
+      <Socket searchQuery={searchQuery} />
       {show && (
         <div className="App">
           <MobileSidebar show={show} setShow={setShow} dark={dark} />
@@ -145,13 +115,13 @@ export const Home = () => {
           <div className="flex  lg:w-[50%] items-center text-lg gap-2 font-semibold leading-6 lg:justify-evenly">
             <div className="text-amber-400 font-semibold text-xl">
               {dark ? (
-                <img src="public/bitzup_light_logo.png" className="h-10 w-36" />
+                <img src="/bitzup_light_logo.png" className="h-10 w-36" />
               ) : (
-                <img src="public/bitzup_dark_logo.png" className="h-10 w-36" />
+                <img src="/bitzup_dark_logo.png" className="h-10 w-36" />
               )}
             </div>
             {[
-              "Buy Crpto",
+              "Buy Crypto",
               "Markets",
               "Trade",
               "Futures",
@@ -344,7 +314,9 @@ export const Home = () => {
           </div>
         </div>
         {/* Main Content */}
-        <div className=" justify-between w-[100%]  lg:flex hidden gap-1">
+        <div className="w-full flex flex-col items-center gap-1 justify-between">
+
+        <div className=" justify-between  max-w-full lg:flex hidden gap-1">
           <div className=" flex flex-col lg:w-full w-[78%] items-center gap-1 arr ">
             <TopIconBar1 dark={dark} />
             <TopIconBar2 dark={dark} />
@@ -352,29 +324,26 @@ export const Home = () => {
             <div className="flex  justify-between w-full gap-1">
               <div
                 className={`w-[35%] lg:block  transition-all duration-500 delay-100  hidden ${
-                  isOpen ? "h-[72.2rem]" : "h-[67.2rem]"
+                  isOpen ? "h-[64.5rem]" : "h-[58.5rem]"
                 }`}
                 id="c"
               >
                 <Order
                   dark={dark}
-                  searchQuery={currencySymbol}
-                  symbol={symbol}
-                  lastPrice={lastPrice}
                 />
               </div>
-              <div className="flex flex-col  w-[100%] gap-1">
+              <div className="flex flex-col  w-full gap-1">
                 <div
                   className={`${
                     dark ? "bg-[#181A20] " : "bg-white "
-                  } max-h-[800px]   text-xs w-full`}
+                  } max-h-[800px]   text-xs max-w-full`}
                 >
-                  <div className="h-[624px] w-full rounded-lg">
-                    <ChartEmbed searchQuery={currencySymbol} className="w-full" />
+                  <div className="h-[500px] w-full rounded-lg">
+                    <ChartEmbed searchQuery={symbol} className="w-full" />
                   </div>
                 </div>
-                <div className="w-full ">
-                  <Form dark={dark} searchQuery={currencySymbol} />
+                <div className="w-full">
+                  <Form dark={dark} searchQuery={symbol} />
                 </div>
               </div>
             </div>
@@ -384,35 +353,31 @@ export const Home = () => {
             <MarketCom
               dark={dark}
               SetSearchQuery={setSearchQuery}
-              setSearchParams={setSearchParams}
-              searchQuery={currencySymbol}
-              symbol={symbol}
+              searchQuery={searchQuery}
             />
             <div
               className={`[26rem] flex flex-col  rounded-lg items-end ${
                 dark ? "bg-[#181A20] text-white" : "bg-white text-black w-full"
               }  `}
             >
-              <TopMovers dark={dark} SetSearchQuery={setSearchQuery} setSearchParams={setSearchParams} />
+              <TopMovers dark={dark} SetSearchQuery={setSearchQuery} />
             </div>
           </div>
         </div>
         <div
-          className={`lg:block hidden h-full w-full ${
+          className={`lg:block hidden max-w-[1528px] rounded-2xl h-full w-full ${
             dark ? " bg-[#181A20]" : " bg-white "
           } `}
         >
           <OpenOrders dark={dark} />
+        </div>
         </div>
         <div className="lg:hidden flex flex-col w-full ">
           <TopIconBar3 dark={dark} />
           <div className="w-full md:flex hidden pb-2 gap-1">
             <div className="w-[69%]">
               <div className="h-[400px]  text-xs w-full bg-gray-800 mb-4 rounded-md ">
-                <ChartEmbed
-                  searchQuery={currencySymbol}
-                  className="h-full w-full"
-                />
+                <ChartEmbed searchQuery={symbol} className="h-full w-full" />
               </div>
               <Middle dark={dark} />
               <OpenOrders dark={dark} />
@@ -427,7 +392,7 @@ export const Home = () => {
                 setActiveItem={setActiveItem}
                 dark={dark}
                 active={active}
-                searchQuery={currencySymbol}
+                searchQuery={symbol}
                 setActive={setActive}
                 close={false}
               />
@@ -436,7 +401,7 @@ export const Home = () => {
           <div className="md:hidden w-full">
             <div className="h-[800px]  text-xs w-full   rounded-md ">
               <TopIconBar4 dark={dark} />
-              <ChartEmbed searchQuery={currencySymbol} className="h-full w-full" />
+              <ChartEmbed searchQuery={symbol} className="h-full w-full" />
             </div>
           </div>
         </div>
@@ -476,7 +441,7 @@ export const Home = () => {
                 setActiveItem={setActiveItem}
                 dark={dark}
                 active={active}
-                searchQuery={currencySymbol}
+                searchQuery={symbol}
                 setActive={setActive}
                 handleClose={() => setIsLogin(!isLogin)}
               />

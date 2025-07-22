@@ -29,8 +29,8 @@ export const OpenOrders = ({ dark }) => {
     const ws = new WebSocket("ws://15.235.143.146:9001");
 
     ws.onopen = () => {
-      console.log("✅ WebSocket connected");
-      ws.send("UA8FCF45E1D0");
+      console.log("✅ WebSocket connected123");
+      ws.send(JSON.stringify({ user_id: userId }));
       console.log("📤 Sent: UA8FCF45E1D0");
     };
 

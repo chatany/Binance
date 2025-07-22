@@ -38,7 +38,9 @@ export const Socket = ({ searchQuery }) => {
     if (!searchQuery) return;
     const fetchRestData = async () => {
       try {
-        const res = await fetch(`http://localhost:5000/binance-ticker`);
+        const res = await fetch(
+          `http://localhost:5000/binance-ticker?url=${searchQuery.toUpperCase()}`
+        );
         const data = await res.json();
         dispatch(setCurrentPrice(data?.lastPrice));
         if (res.status === 200) {
@@ -73,19 +75,20 @@ export const Socket = ({ searchQuery }) => {
       wsRef.current.onmessage = (event) => {
         const data = JSON.parse(event.data);
         // console.log(data, "socket for tiker");
-
-        dispatch(
-          incrementByAmount({
-            symbol: data?.s,
-            lastPrice: data?.c,
-            highPrice: data?.h,
-            lowPrice: data?.l,
-            priceChange: data?.p,
-            priceChangePercent: data?.P,
-            quoteVolume: data?.q,
-            volume: data?.v,
-          })
-        );
+        if (data) {
+          dispatch(
+            incrementByAmount({
+              symbol: data?.s,
+              lastPrice: data?.c,
+              highPrice: data?.h,
+              lowPrice: data?.l,
+              priceChange: data?.p,
+              priceChangePercent: data?.P,
+              quoteVolume: data?.q,
+              volume: data?.v,
+            })
+          );
+        }
       };
 
       wsRef.current.onerror = (err) => {
@@ -118,7 +121,9 @@ export const Socket = ({ searchQuery }) => {
     if (!searchQuery) return;
     const fetchRestData = async () => {
       try {
-        const res = await fetch(`http://localhost:5000/binance-order`);
+        const res = await fetch(
+          `http://localhost:5000/binance-order?url=${searchQuery.toUpperCase()}`
+        );
         const data = await res.json();
         if (res.status === 200) {
           dispatch(setOrderData(data));
@@ -139,8 +144,9 @@ export const Socket = ({ searchQuery }) => {
       orderRef.current.onmessage = (event) => {
         const data = JSON.parse(event.data);
         // console.log(data, "socket for order");
-
-        dispatch(setOrderData(data));
+        if (data) {
+          dispatch(setOrderData(data));
+        }
       };
 
       orderRef.current.onerror = (err) => {
@@ -173,7 +179,9 @@ export const Socket = ({ searchQuery }) => {
     if (!searchQuery) return;
     const fetchRestData = async () => {
       try {
-        const res = await fetch(`http://localhost:5000/binance-Trades`);
+        const res = await fetch(
+          `http://localhost:5000/binance-Trades?url=${searchQuery.toUpperCase()}`
+        );
         const data = await res.json();
         if (res.status === 200) {
           dispatch(setTradeData(data));
@@ -208,7 +216,9 @@ export const Socket = ({ searchQuery }) => {
         }
 
         // set redux state
-        dispatch(setTradeData(updatedTrades));
+        if (data) {
+          dispatch(setTradeData(updatedTrades));
+        }
       };
 
       tradeRef.current.onerror = (err) => {
@@ -242,8 +252,10 @@ export const Socket = ({ searchQuery }) => {
     socket.emit("market", (data) => {});
     socket.on("market", (event) => {
       const data = JSON.parse(event);
-      dispatch(setAllMovers(data));
-      dispatch(setTopMovers(data));
+      if (data) {
+        dispatch(setAllMovers(data));
+        dispatch(setTopMovers(data));
+      }
     });
   }, []);
   return null;

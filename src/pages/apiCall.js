@@ -21,7 +21,8 @@ export const fetchData = async () => {
   }
 };
 
-export const SearchData = async ({ setSearchData }) => {
+export const SearchData = async ({ setSearchData, setIsLoading }) => {
+  setIsLoading(true);
   try {
     const response1 = await apiRequest({
       method: "get",
@@ -31,6 +32,7 @@ export const SearchData = async ({ setSearchData }) => {
   } catch (err) {
     console.error("Failed to fetch data", err);
   } finally {
+    setIsLoading(false);
   }
 };
 
@@ -133,9 +135,9 @@ export const buysellBalance = async (pairId, setBalance) => {
     if (status === 200) {
       setBalance(data?.data);
     }
-    if (status === 400) {
-      window.location.href = "/login";
-    }
+    // if (status === 400) {
+    //   window.location.href = "/login";
+    // }
   } catch (err) {
     console.error("Failed to fetch second API", err);
   }
@@ -153,7 +155,7 @@ export const openOrders = async (pairId, userId, dispatch) => {
       dispatch(setOpenOrderData(data?.data));
     }
     if (status === 400) {
-      window.location.href = "/login";
+      // window.location.href = "/login";
     }
   } catch (err) {
     console.error("Failed to fetch second API", err);
@@ -167,7 +169,7 @@ export const OrderHistory = async (dispatch) => {
       data: {},
     });
     if (status === 400) {
-      window.location.href = "/login";
+      // window.location.href = "/login";
     }
     dispatch(setOrderHistory(data?.data));
   } catch (err) {

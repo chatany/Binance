@@ -23,7 +23,7 @@ export const Form = ({ dark, searchQuery }) => {
   const [sellStopSliderValue, setSellStopSliderValue] = useState(0);
   const dispatch = useDispatch();
   const [isSuccess, setIsSuccess] = useState(false);
-  const [active, setActive] = useState("Sport");
+  const [active, setActive] = useState("Spot");
   const navigate = useNavigate();
   const [error, setError] = useState({
     limitBuyErr: "Base volume is required for LIMIT order type",
@@ -423,7 +423,7 @@ export const Form = ({ dark, searchQuery }) => {
 
   return (
     <div
-      className={` ${isOpen ? "h-[33rem]" : "h-[28rem]"}    rounded-lg  ${
+      className={` ${isOpen ? "h-[33rem]" : "h-[27rem]"} w-full    rounded-lg  ${
         dark ? "bg-[#181A20]" : "bg-white"
       }`}
     >
@@ -452,7 +452,7 @@ export const Form = ({ dark, searchQuery }) => {
           ))}
         </div>
       </div>
-      <div className=" flex text-[16px] p-2 w-[50%]">
+      <div className=" flex text-[16px] p-0 w-[50%]">
         {marketTabs.map((tab) => (
           <button
             key={tab}
@@ -476,7 +476,7 @@ export const Form = ({ dark, searchQuery }) => {
           className={`flex sm:flex-row justify-center w-full  gap-3 flex-col items-center  `}
         >
           <div
-            className={`w-full  transition-all duration-500 delay-1000 ${
+            className={`w-[50%]  transition-all duration-500 delay-1000 ${
               isOpen ? "space-y-3" : "space-y-0"
             }`}
           >
@@ -595,7 +595,7 @@ export const Form = ({ dark, searchQuery }) => {
             </div>
           </div>
           <div
-            className={`w-full  transition-all duration-500 delay-100 ${
+            className={`w-[50%]  transition-all duration-500 delay-100 ${
               isOpen ? "space-y-3" : "space-y-0"
             } `}
           >

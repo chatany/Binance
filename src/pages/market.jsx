@@ -1,29 +1,31 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { HiDotsHorizontal } from "react-icons/hi";
 import ScrollableTabsBar from "../common/leftTab";
-import { SearchData, Trades } from "./apiCall";
+import { SearchData} from "./apiCall";
 import { CiRepeat } from "react-icons/ci";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { setIconUrl, setRoundingVal } from "../store/webSocket";
 export const MarketCom = ({
   dark,
   SetSearchQuery,
   searchQuery,
-  symbol,
-  setSearchParams,
 }) => {
   const [searchData, setSearchData] = useState([]);
   const [activeTab, setActiveTab] = useState("Market Trade");
-  // const [tradesData, setTradesData] = useState([]);
   const [isVolume, setIsVolume] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const dispatch = useDispatch();
   const [searchInput, setSearchInput] = useState("");
-  // useEffect(() => {
-  //   Trades({ searchQuery, setTradesData });
-  // }, [searchQuery]);
+  const [showPopup, setShowPopup] = useState(false);
   useEffect(() => {
-    SearchData({ setSearchData });
+    SearchData({ setSearchData, setIsLoading });
   }, []);
-  const tradesData = useSelector((state) => state.counter.tradeData);
-  const tikerData = useSelector((state) => state.counter.tikerData);
+
+  const { tikerData, rounding, tradeData } = useSelector(
+    (state) => state.counter
+  );
+
   const filteredData = searchData.filter((item) =>
     item.pair_symbol?.toLowerCase().includes(searchInput.toLowerCase())
   );
@@ -41,9 +43,44 @@ export const MarketCom = ({
       return (num / 1).toFixed(3);
     }
   };
+  const navigate = useNavigate();
+  const handleRounding = (e) => {
+    const val = e.target.checked;
+    dispatch(setRoundingVal(val));
+  };
+  const handlePairClick = (item) => {
+    SetSearchQuery(item);
+    const symbols = item;
+    if (symbols) {
+      navigate(`/spot/${symbols}`);
+    }
+  };
+  useEffect(() => {
+    const icon = searchData.find((item) =>
+      item.pair_symbol?.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+    dispatch(setIconUrl(icon?.coin_icon));
+  }, [searchQuery, isLoading]);
+  const popupRef = useRef(null);
 
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      // If click is outside the popup
+      if (popupRef.current && !popupRef.current.contains(event.target)) {
+        setShowPopup(false);
+      }
+    };
+
+    if (showPopup) {
+      document.addEventListener("mousedown", handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [showPopup]);
   return (
-    <div className="flex flex-col items-center w-full  gap-1">
+    <div className="flex flex-col items-center w-full  gap-1 ">
       <div
         className={`${
           dark ? "bg-[#181A20] text-white " : "bg-white text-black "
@@ -73,7 +110,7 @@ export const MarketCom = ({
           {/* USDT <div className="border-b-2 border-amber-400 w-[12px]"></div> */}
           <ScrollableTabsBar dark={dark} />
         </div>
-        <div className="h-[20rem] overflow-x-auto overflow-y-auto p-2">
+        <div className="h-[19rem] overflow-x-auto overflow-y-auto p-2">
           {filteredData?.length > 0 ? (
             <div>
               <table className="w-full">
@@ -102,7 +139,7 @@ export const MarketCom = ({
                     <tr
                       key={item?.pair_id}
                       onClick={() => {
-                        setSearchParams({ symbol: item?.pair_symbol });
+                        handlePairClick(item?.pair_symbol);
                       }}
                       className="cursor-pointer"
                     >
@@ -170,12 +207,44 @@ export const MarketCom = ({
               <div className="border-[0.1rem] border-amber-400 w-[50%] h-[2px] "></div>
             )}
           </div>
-          <div className="text-white">
-            <HiDotsHorizontal />
+          <div className="relative">
+            <HiDotsHorizontal
+              onClick={() => setShowPopup(!showPopup)}
+              className="h-6 w-6 cursor-pointer"
+            />
+            {showPopup && (
+              <div
+                className={`absolute top-6  ${
+                  dark
+                    ? "bg-[#181A20] border-gray-700 text-white "
+                    : "bg-white  text-black border-gray-200 "
+                } z-50 h-fit w-30 rounded-[12px] right-2 p-4`}
+                ref={popupRef}
+                style={{ boxShadow: "0px 0px 40px 0px rgb(0,0,0,0.40)" }}
+                onMouseLeave={() => setShowPopup(!showPopup)}
+              >
+                <div className="flex flex-col gap-3">
+                  <div className="text-[11px] font-extralight min-w-max">
+                    Trade Display
+                  </div>
+                  <div className="flex gap-1 items-center">
+                    <div>
+                      <input
+                        type="checkbox"
+                        checked={rounding}
+                        name="rounding"
+                        onChange={handleRounding}
+                      />
+                    </div>
+                    <div className="text-[12px]">Rounding</div>
+                  </div>
+                </div>
+              </div>
+            )}
           </div>
         </div>
         {activeTab === "Market Trade" && (
-          <div className="no-scrollbar h-[22rem] overflow-x-auto overflow-y-auto">
+          <div className="no-scrollbar h-[20rem] overflow-x-auto overflow-y-auto">
             <table className="w-full">
               <thead>
                 <tr>
@@ -203,8 +272,8 @@ export const MarketCom = ({
                 </tr>
               </thead>
               <tbody>
-                {Array.isArray(tradesData) &&
-                  tradesData?.map((item, inde) => {
+                {Array.isArray(tradeData) &&
+                  tradeData?.map((item, inde) => {
                     const formatTime = (ms) => {
                       const date = new Date(ms);
                       return (
