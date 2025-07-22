@@ -17,16 +17,13 @@ import { Forgotpass } from "./Login/ForgotPassword";
 import ToastProvider from "./Toastify/ToastProvider";
 import { ResetPassword } from "./Login/ResetPassword";
 function App() {
-  const last = JSON.parse(localStorage.getItem("lastPair"));
+  const last = JSON.parse(localStorage.getItem("lastPair")) || "BTCUSDT";
   return (
     <>
       <ToastProvider />
       <Router>
         <Routes>
-          <Route
-            path="/"
-            element={<Navigate to={`/spot${last}`} replace />}
-          />
+          <Route path="/" element={<Navigate to={`/spot${last}`} replace />} />
           <Route path="/spot/:symbol" element={<Home />} />
           <Route
             path="/spot"
