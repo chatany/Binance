@@ -416,7 +416,7 @@ export const ToggleButSell = ({
     >
       <div
         className={` ${
-          dark ? "border-[#2B3139]" : "border-[#EAECEF]"
+          dark ? "border-[#2B3139] text-[#EAECEF]" : "border-[#EAECEF] text-[#202630]"
         } border-b-1 flex justify-between items-center`}
       >
         <div

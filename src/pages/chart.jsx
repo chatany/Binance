@@ -5,9 +5,9 @@ export const ChartEmbed = ({ searchQuery }) => {
       <iframe
         src={`https://chart.bitzup.com/?market=${query}`}
         title="BTCUSDT Chart"
-        className="w-full h-full rounded-lg"
-        allowFullScreen
-        aria-controls
+        width={"100%"}
+        height={"100%"}
+        style={{border:"none"}}
       />
     </div>
   );

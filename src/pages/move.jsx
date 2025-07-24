@@ -4,12 +4,14 @@ import { RiArrowUpDoubleLine } from "react-icons/ri";
 import { useDispatch, useSelector } from "react-redux";
 import { setOpen } from "../store/webSocket";
 import { TopMoves } from "./apiCall";
+import { useNavigate } from "react-router-dom";
 
-const TopMovers = ({ dark, SetSearchQuery,setSearchParams }) => {
+const TopMovers = ({ dark, SetSearchQuery, setSearchParams }) => {
   const tabs = ["All", "Hot", "Losers", "24h Vol", "Gainers"];
   const open = useSelector((state) => state.counter.open);
   const { allMovers, movers } = useSelector((state) => state.counter);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState("All");
   const tabRef = useRef(null);
   const handleOpen = () => {
@@ -18,7 +20,13 @@ const TopMovers = ({ dark, SetSearchQuery,setSearchParams }) => {
   const scrollTabs = (offset) => {
     tabRef.current.scrollBy({ left: offset, behavior: "smooth" });
   };
-
+  const handlePairClick = (item) => {
+    SetSearchQuery(item);
+    const symbols = item;
+    if (symbols) {
+      navigate(`/spot/${symbols}`);
+    }
+  };
   const filteredData = () => {
     return activeTab !== "All" ? movers[activeTab] : allMovers;
   };
@@ -82,13 +90,17 @@ const TopMovers = ({ dark, SetSearchQuery,setSearchParams }) => {
       </div>
 
       {/* Movers List */}
-      <div className={`space-y-2 overflow-y-auto ${open ?"max-h-[18rem]" :"max-h-[13rem]"} no-scrollbar`}>
-        {filteredData()?.map((mover,index) => (
+      <div
+        className={`space-y-2 overflow-y-auto ${
+          open ? "max-h-[18rem]" : "max-h-[13rem]"
+        } no-scrollbar`}
+      >
+        {filteredData()?.map((mover, index) => (
           <div
             key={index}
             className={`flex justify-between items-center p-2 rounded-lg cursor-pointer `}
             onClick={() => {
-              setSearchParams({ symbol: mover?.pair_symbol });
+              handlePairClick(mover?.pair_symbol);
             }}
           >
             <div className="flex gap-3 items-center justify-between">

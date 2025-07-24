@@ -1,9 +1,9 @@
-import { useDispatch } from "react-redux";
 import { apiRequest } from "../Helper";
 import {
   setAllMovers,
   setCountryData,
-  setLastPrice,
+  setFaverateData,
+  SetHelpCenterData,
   setOpenOrderData,
   setOrderHistory,
   setTopMovers,
@@ -135,9 +135,10 @@ export const buysellBalance = async (pairId, setBalance) => {
     if (status === 200) {
       setBalance(data?.data);
     }
-    // if (status === 400) {
-    //   window.location.href = "/login";
-    // }
+    if (status === 400) {
+      localStorage.clear();
+      // window.location.href = "/login";
+    }
   } catch (err) {
     console.error("Failed to fetch second API", err);
   }
@@ -156,6 +157,7 @@ export const openOrders = async (pairId, userId, dispatch) => {
     }
     if (status === 400) {
       // window.location.href = "/login";
+      localStorage.clear();
     }
   } catch (err) {
     console.error("Failed to fetch second API", err);
@@ -170,6 +172,7 @@ export const OrderHistory = async (dispatch) => {
     });
     if (status === 400) {
       // window.location.href = "/login";
+      localStorage.clear();
     }
     dispatch(setOrderHistory(data?.data));
   } catch (err) {
@@ -186,10 +189,41 @@ export const deleteOpenOrder = async (orderData, dispatch, setIsSuccess) => {
     });
     if (status === 400) {
       // window.location.href = "/login";
+      localStorage.clear();
     }
   } catch (err) {
     console.error("Failed to fetch second API", err);
   } finally {
     dispatch(setIsSuccess(false));
+  }
+};
+
+export const helpCenterApi = async (dispatch) => {
+  try {
+    const { data, status } = await apiRequest({
+      method: "get",
+      url: `https://test.bitzup.com/market/getsupportinfo`,
+    });
+
+    if (status === 200) {
+      dispatch(SetHelpCenterData(data));
+    }
+  } catch (err) {
+    console.error("Failed to fetch second API", err);
+  }
+};
+
+export const getFaverateData = async (dispatch) => {
+  try {
+    const { data, status } = await apiRequest({
+      method: "get",
+      url: `https://test.bitzup.com/onboarding/currency/favorites`,
+    });
+
+    if (status === 200) {
+      dispatch(setFaverateData(data.data));
+    }
+  } catch (err) {
+    console.error("Failed to fetch second API", err);
   }
 };

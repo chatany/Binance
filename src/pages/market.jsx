@@ -1,16 +1,19 @@
 import React, { useEffect, useRef, useState } from "react";
 import { HiDotsHorizontal } from "react-icons/hi";
 import ScrollableTabsBar from "../common/leftTab";
-import { SearchData} from "./apiCall";
+import { getFaverateData, SearchData } from "./apiCall";
 import { CiRepeat } from "react-icons/ci";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { setIconUrl, setRoundingVal } from "../store/webSocket";
-export const MarketCom = ({
-  dark,
-  SetSearchQuery,
-  searchQuery,
-}) => {
+import {
+  setIconUrl,
+  setIsFav,
+  setPairId,
+  setRoundingVal,
+} from "../store/webSocket";
+import { FaStar } from "react-icons/fa";
+import { apiRequest } from "../Helper";
+export const MarketCom = ({ dark, SetSearchQuery, searchQuery }) => {
   const [searchData, setSearchData] = useState([]);
   const [activeTab, setActiveTab] = useState("Market Trade");
   const [isVolume, setIsVolume] = useState(false);
@@ -22,7 +25,7 @@ export const MarketCom = ({
     SearchData({ setSearchData, setIsLoading });
   }, []);
 
-  const { tikerData, rounding, tradeData } = useSelector(
+  const { tikerData, rounding, tradeData, faverateData } = useSelector(
     (state) => state.counter
   );
 
@@ -31,6 +34,24 @@ export const MarketCom = ({
   );
   const handleToggle = () => {
     setIsVolume(!isVolume);
+  };
+  const handleChange = async (pairId, fav) => {
+    const faverae = !fav;
+    const favData = {
+      pair_id: pairId,
+      type: faverae ? faverae : "false",
+    };
+    try {
+      const { data, status } = await apiRequest({
+        method: "post",
+        url: `https://test.bitzup.com/onboarding/currency/add-favorite`,
+        data: favData,
+      });
+    } catch (err) {
+      console.error("Failed to fetch second API", err);
+    } finally {
+      getFaverateData(dispatch);
+    }
   };
   const formatToKMB = (num) => {
     if (num >= 1_000_000_000) {
@@ -59,8 +80,12 @@ export const MarketCom = ({
     const icon = searchData.find((item) =>
       item.pair_symbol?.toLowerCase().includes(searchQuery.toLowerCase())
     );
+    const isFav = faverateData?.some((item) => item?.pair_id === icon?.pair_id);
+
     dispatch(setIconUrl(icon?.coin_icon));
-  }, [searchQuery, isLoading]);
+    dispatch(setPairId(icon?.pair_id));
+    dispatch(setIsFav(isFav));
+  }, [searchQuery, isLoading, faverateData]);
   const popupRef = useRef(null);
 
   useEffect(() => {
@@ -79,6 +104,9 @@ export const MarketCom = ({
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [showPopup]);
+  useEffect(() => {
+    getFaverateData(dispatch);
+  }, []);
   return (
     <div className="flex flex-col items-center w-full  gap-1 ">
       <div
@@ -103,12 +131,13 @@ export const MarketCom = ({
           />
         </div>
         <div
-          className={`flex text-[12px]  flex-col justify-center items-center pr-3 pl-3  border-b-1 ${
+          className={`flex text-[12px]  flex-col justify-center font-semibold items-center p-1 pr-3 pl-3  border-b-1 ${
             dark ? "border-[#2B3139]" : "border-[#EAECEF]"
           }`}
         >
-          {/* USDT <div className="border-b-2 border-amber-400 w-[12px]"></div> */}
-          <ScrollableTabsBar dark={dark} />
+          USDT{" "}
+          <div className="border-b-4 border-amber-400 w-[35px] rounded-full"></div>
+          {/* <ScrollableTabsBar dark={dark} /> */}
         </div>
         <div className="h-[19rem] overflow-x-auto overflow-y-auto p-2">
           {filteredData?.length > 0 ? (
@@ -135,40 +164,50 @@ export const MarketCom = ({
                   </tr>
                 </thead>
                 <tbody>
-                  {filteredData?.map((item) => (
-                    <tr
-                      key={item?.pair_id}
-                      onClick={() => {
-                        handlePairClick(item?.pair_symbol);
-                      }}
-                      className="cursor-pointer"
-                    >
-                      <td className="xl:text-[12px] text-[.6rem]  p-[3px] w-1/3 ">
-                        <div className="flex gap-2 items-center">
-                          <img
-                            src={item?.coin_icon}
-                            className="h-[14px] w-[14px] text-gray-100"
-                          />{" "}
-                          {`${item?.pair_symbol}`}
-                        </div>
-                      </td>
-                      <td className="xl:text-[12px] text-[.6rem]  p-[2px] text-end w-1/3">
-                        {item?.current_price}
-                      </td>
-                      <td
-                        className={`  ${
-                          item?.change_in_price > 0
-                            ? `${!isVolume && "text-[#2EBD85]"}`
-                            : `${!isVolume && "text-[#F6465D]"}`
-                        } xl:text-[12px] text-[.6rem]  p-[2px] min-w-max text-center w-1/3`}
+                  {filteredData?.map((item) => {
+                    const fav = faverateData?.some(
+                      (val) => val?.pair_id === item?.pair_id
+                    );
+                    return (
+                      <tr
+                        key={item?.pair_id}
+                        onClick={() => {
+                          handlePairClick(item?.pair_symbol);
+                        }}
+                        className="cursor-pointer"
                       >
-                        {!isVolume && item?.change_in_price > 0 ? "+" : "   "}
-                        {!isVolume
-                          ? item?.change_in_price
-                          : formatToKMB(item?.volume)}
-                      </td>
-                    </tr>
-                  ))}
+                        <td className="xl:text-[12px] text-[.6rem]  p-[3px] w-1/3 ">
+                          <div className="flex gap-2 items-center">
+                            <FaStar
+                              className={`h-[14px] w-[14px] ${
+                                fav ? "text-yellow-400" : ""
+                              } text-gray-100`}
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                handleChange(item?.pair_id, fav);
+                              }}
+                            />{" "}
+                            {`${item?.pair_symbol}`}
+                          </div>
+                        </td>
+                        <td className="xl:text-[12px] text-[.6rem]  p-[2px] text-end w-1/3">
+                          {item?.current_price}
+                        </td>
+                        <td
+                          className={`  ${
+                            item?.change_in_price > 0
+                              ? `${!isVolume && "text-[#2EBD85]"}`
+                              : `${!isVolume && "text-[#F6465D]"}`
+                          } xl:text-[12px] text-[.6rem]  p-[2px] min-w-max text-center w-1/3`}
+                        >
+                          {!isVolume && item?.change_in_price > 0 ? "+" : "   "}
+                          {!isVolume
+                            ? item?.change_in_price
+                            : formatToKMB(item?.volume)}
+                        </td>
+                      </tr>
+                    );
+                  })}
                 </tbody>
               </table>
             </div>
@@ -216,7 +255,7 @@ export const MarketCom = ({
               <div
                 className={`absolute top-6  ${
                   dark
-                    ? "bg-[#181A20] border-gray-700 text-white "
+                    ? "bg-[#1E2329] border-gray-700 text-white "
                     : "bg-white  text-black border-gray-200 "
                 } z-50 h-fit w-30 rounded-[12px] right-2 p-4`}
                 ref={popupRef}
