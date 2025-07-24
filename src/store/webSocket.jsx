@@ -40,10 +40,16 @@ export const counterSlice = createSlice({
     isSuccess: false,
     iconURL: "",
     rounding: true,
+    helpCenter: [],
+    faverateData: [],
+    isFav: false,
   },
   reducers: {
     incrementByAmount: (state, action) => {
       state.tikerData = action.payload;
+    },
+    SetHelpCenterData: (state, action) => {
+      state.helpCenter = action.payload;
     },
     setOpen: (state, action) => {
       state.open = action.payload;
@@ -139,12 +145,19 @@ export const counterSlice = createSlice({
     setRoundingVal: (state, action) => {
       state.rounding = action.payload;
     },
+    setFaverateData: (state, action) => {
+      state.faverateData = action.payload;
+    },
+    setIsFav: (state, action) => {
+      state.isFav = action.payload;
+    },
   },
 });
 
 export const {
   increment,
   setCountryData,
+  setIsFav,
   decrement,
   incrementByAmount,
   setOpen,
@@ -161,6 +174,8 @@ export const {
   setLastPrice,
   setRoundingVal,
   setOrderHistory,
+  SetHelpCenterData,
+  setFaverateData,
 } = counterSlice.actions;
 
 export default counterSlice.reducer;

@@ -1,5 +1,5 @@
-import React, { useEffect } from "react";
-
+import { RiArrowDownSFill } from "react-icons/ri";
+import { RiArrowUpSFill } from "react-icons/ri";
 const CryptoInput = ({
   label,
   unit,
@@ -79,10 +79,10 @@ const CryptoInput = ({
                 borderBottom: `1px solid ${dark ? "#474D57" : "#474D57"}`,
               }}
             >
-              ▲
+              <RiArrowUpSFill />
             </button>
             <button className="down-btn" onClick={decrease}>
-              ▼
+              <RiArrowDownSFill  />
             </button>
           </div>
         </div>

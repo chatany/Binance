@@ -82,7 +82,7 @@ export const Order = ({ dark }) => {
               <div
                 className={`absolute top-6  z-50 h-fit w-fit rounded-[12px] text-[12px] ${
                   dark
-                    ? "bg-[#181A20] border-gray-700 text-white "
+                    ? "bg-[#1E2329] border-gray-700 text-white "
                     : "bg-white  text-black border-gray-200 "
                 } right-0 p-4`}
                 style={{ boxShadow: "0px 0px 40px 0px rgb(0,0,0,0.10)" }}

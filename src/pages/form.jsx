@@ -427,7 +427,7 @@ export const Form = ({ dark, searchQuery }) => {
         dark ? "bg-[#181A20]" : "bg-white"
       }`}
     >
-      <div
+      {/* <div
         className={` ${
           dark ? "border-[#2B3139]" : "border-[#EAECEF]"
         } border-b-1`}
@@ -451,7 +451,7 @@ export const Form = ({ dark, searchQuery }) => {
             </button>
           ))}
         </div>
-      </div>
+      </div> */}
       <div className=" flex text-[16px] p-0 w-[50%]">
         {marketTabs.map((tab) => (
           <button
