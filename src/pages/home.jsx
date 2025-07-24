@@ -81,11 +81,7 @@ export const Home = () => {
       )}
       <div
         className={`
-        ${
-          dark
-            ? "bg-[#181A20] text-white"
-            : "bg-[#EAECEF] text-black  "
-        }
+        ${dark ? "bg-[#181A20] text-white" : "bg-[#EAECEF] text-black  "}
        min-h-screen flex flex-col gap-1`}
       >
         {/* Top Navbar */}
@@ -192,7 +188,7 @@ export const Home = () => {
         >
           <div
             onClick={() => {
-              setIsLogin(!isLogin);
+              userData?.token ? setIsLogin(!isLogin) : navigate("/login");
             }}
             className="w-[50%] flex justify-center bg-[#F6465D] hover:bg-[#c74052] rounded-md h-[2.5rem] cursor-pointer"
           >
@@ -200,7 +196,7 @@ export const Home = () => {
           </div>
           <div
             onClick={() => {
-              setIsLogin(!isLogin);
+              userData?.token ? setIsLogin(!isLogin) : navigate("/login");
             }}
             className="w-[50%]  flex justify-center bg-[#0ECB81] hover:bg-[#0e9e67] rounded-md h-[2.5rem] cursor-pointer"
           >

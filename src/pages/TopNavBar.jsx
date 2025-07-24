@@ -44,9 +44,9 @@ export const TopNav = ({ dark, setDark, searchQuery, setSearchQuery }) => {
       <div className="flex  lg:w-[50%] items-center text-lg gap-2 font-semibold leading-6 lg:justify-evenly">
         <div className="text-amber-400 font-semibold text-xl">
           {dark ? (
-            <img src="/bitzup_light_logo.png" className="h-10 w-36" />
+            <img src="/bitzup_light_logo.png" className="h-10 w-30 sm:w-36" />
           ) : (
-            <img src="/bitzup_dark_logo.png" className="h-10 w-36" />
+            <img src="/bitzup_dark_logo.png" className="h-10 w-30 sm:w-36" />
           )}
         </div>
         {[
@@ -277,12 +277,12 @@ export const TopNav = ({ dark, setDark, searchQuery, setSearchQuery }) => {
         <IoMdSettings className="hover:text-amber-400  h-6 w-6" />
         {dark ? (
           <IoSunnyOutline
-            className="hover:text-amber-400  h-6 w-6"
+            className="hover:text-amber-400 sm:flex hidden  h-6 w-6"
             onClick={handleTheme}
           />
         ) : (
           <MdDarkMode
-            className="hover:text-amber-400  h-6 w-6 md:h-6 md:w-6"
+            className="hover:text-amber-400 sm:flex hidden h-6 w-6 md:h-6 md:w-6"
             onClick={handleTheme}
           />
         )}
