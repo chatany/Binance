@@ -90,6 +90,8 @@ export const Home = () => {
           setDark={setDark}
           searchQuery={searchQuery}
           setSearchQuery={setSearchQuery}
+          show={show}
+          setShow={setShow}
         />
         {/* Main Content */}
         <div className="w-full flex flex-col items-center gap-1 justify-between">

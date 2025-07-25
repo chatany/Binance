@@ -224,7 +224,7 @@ export const Register = () => {
               onChange={(e) => handle("email", e)}
             />
           </div>
-          <div>
+          <div className="relative">
             <label htmlFor="Email" className="capitalize text-[#757575]">
               Personal Phone Number
             </label>
@@ -245,7 +245,7 @@ export const Register = () => {
               />
               {isOpenPopup && (
                 <div
-                  className="h-[25rem] p-3 flex flex-col gap-1.5 w-[20rem] transition-transform duration-500 delay-200  top-4 left-90 absolute bg-white z-50  rounded-lg"
+                  className="sm:h-[25rem] h-[20rem] p-3 flex flex-col gap-1.5 sm:w-[20rem] w-[15rem] transition-transform duration-500 delay-200  bottom-0 left-0 sm:-bottom-20 sm:-right-5 absolute bg-white z-50  rounded-lg"
                   style={{ boxShadow: "0px 0px 40px 0px rgb(0,0,0,0.10)" }}
                 >
                   <div className="flex justify-between">
@@ -270,7 +270,7 @@ export const Register = () => {
                     />
                   </div>
                   {filteredData?.length > 0 ? (
-                    <div className="h-[19rem]  overflow-y-scroll no-scrollbar">
+                    <div className="sm:h-[19rem] h-[17rem]  overflow-y-scroll no-scrollbar">
                       {filteredData?.map((item, index) => (
                         <div
                           key={index}

@@ -1,10 +1,11 @@
 import React, { useState } from "react";
 import { IoMdClose } from "react-icons/io";
 import { FaChevronDown } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
 
 export default function MobileSidebar({ show, setShow, dark }) {
   const [openMenus, setOpenMenus] = useState({ trade: false, earn: false });
-
+  const navigate = useNavigate();
   const toggleMenu = (menu) => {
     setOpenMenus((prev) => ({ ...prev, [menu]: !prev[menu] }));
   };
@@ -23,10 +24,16 @@ export default function MobileSidebar({ show, setShow, dark }) {
           />
         </div>
         <div className="w-full justify-between flex p-1 gap-2">
-          <button className="bg-gray-100 px-4 py-2 rounded w-full text-black">
+          <button
+            className="bg-gray-100 px-4 py-2 rounded w-full text-black"
+            onClick={() => navigate("/login")}
+          >
             Log In
           </button>
-          <button className="bg-yellow-400 px-4 py-2 rounded font-semibold w-full text-black">
+          <button
+            className="bg-yellow-400 px-4 py-2 rounded font-semibold w-full text-black"
+            onClick={() => navigate("/register")}
+          >
             Sign Up
           </button>
         </div>
