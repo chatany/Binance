@@ -175,3 +175,17 @@ button:focus-visible {
   }
 }
 
+.slide-inTop {
+  animation: slideInTop 0.5s ease-in-out forwards;
+}
+
+@keyframes slideInTop {
+  0% {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0%);
+    opacity: 1;
+  }
+}

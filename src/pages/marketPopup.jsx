@@ -7,13 +7,13 @@ import { CiRepeat } from "react-icons/ci";
 import { FaStar } from "react-icons/fa";
 import { apiRequest } from "../Helper";
 import { formatToKMB } from "../Constant";
-
-export const SidePopup = ({
+import { IoCloseSharp } from "react-icons/io5";
+export const MarketPopup = ({
   setSearchQuery,
   searchQuery,
   dark,
   handleClose,
-  showSideBar,
+  openMarketPopup,
 }) => {
   const { faverateData } = useSelector((state) => state.counter);
   const [searchData, setSearchData] = useState([]);
@@ -79,7 +79,7 @@ export const SidePopup = ({
       }
     };
 
-    if (showSideBar) {
+    if (openMarketPopup) {
       document.addEventListener("mousedown", handleClickOutside);
       document.body.style.overflow = "hidden";
     }
@@ -88,38 +88,36 @@ export const SidePopup = ({
       document.removeEventListener("mousedown", handleClickOutside);
       document.body.style.overflow = "auto";
     };
-  }, [showSideBar]);
+  }, [openMarketPopup]);
   return (
     <div className="w-full h-screen  fixed inset-0  z-40 bg-[#00000080] overflow-hidden">
       <div
-        id="popup"
         className={`${
           dark ? "bg-[#181A20] text-white " : "bg-white text-black "
-        } lg:min-w-[30%] md:min-w-[40%] min-w-[30%] p-5 popup-panel  h-full ${
-          showSideBar ? "open" : "  close"
-        }    absolute right-0    rounded-lg `}
+        } w-full h-[60%] absolute slide-inTop bottom-0 z-50  rounded-lg p-2 `}
       >
-        <div className=" flex gap-5 items-center w-full">
+        <div className="justify-between flex p-3">
+          <div>Market</div>
+          <IoCloseSharp className="h-6 w-6" onClick={handleClose} />
+        </div>
+        <div className="w-full flex justify-center p-2">
           <input
             className={`
-            w-[80%] capitalize rounded-lg
-            h-[1.5rem] p-4 text-[1rem] text-gray-400
-            border
-            hover:border-[#b89c4f]
-             border-[${dark ? `#474D57` : `#D8DCE1`}]
-            focus:border-[${dark ? `#b89c4f` : `#fce788`}] 
-            focus:outline-none 
-             transition-colors duration-300 delay-200
-            `}
+                    w-[100%] capitalize rounded-lg
+                    h-[1.5rem] p-4 text-[1rem] text-gray-400
+                    border
+                    hover:border-[#b89c4f]
+                     border-[${dark ? `#474D57` : `#D8DCE1`}]
+                    focus:border-[${dark ? `#b89c4f` : `#fce788`}] 
+                    focus:outline-none 
+                     transition-colors duration-300 delay-200
+                    `}
             placeholder="search"
             onChange={(e) => setSearchInput(e.target.value)}
           />
-          <div className="text-[16px] text-[#fce788]" onClick={handleClose}>
-            cancel
-          </div>
         </div>
         <div
-          className={`flex text-[14px]  flex-col justify-center font-semibold items-center p-1 pr-3 pl-3  border-b-1 ${
+          className={`flex text-[14px]  flex-col justify-center font-semibold items-center p-2 pr-3 pl-3  border-b-1 ${
             dark ? "border-[#2B3139]" : "border-[#EAECEF]"
           }`}
         >
@@ -127,7 +125,7 @@ export const SidePopup = ({
           <div className="border-b-4 border-amber-400 w-[35px] rounded-full"></div>
           {/* <ScrollableTabsBar dark={dark} /> */}
         </div>
-        <div className="h-[90%] overflow-x-auto overflow-y-auto p-2">
+        <div className="h-[80%] overflow-x-auto overflow-y-auto p-2">
           {filteredData?.length > 0 ? (
             <div>
               <table className="w-full">
@@ -137,11 +135,13 @@ export const SidePopup = ({
                   } text-[14px]`}
                 >
                   <tr>
-                    <th className="text-center font-medium capitalize">pair</th>
-                    <th className="capitalize text-end font-light">
+                    <th className="text-left  p-[4px] font-medium capitalize">
+                      pair
+                    </th>
+                    <th className="capitalize text-end font-light  p-[4px]">
                       lastPrice/vol
                     </th>
-                    <th className="flex justify-center capitalize cursor-pointer">
+                    <th className="flex justify-center  p-[4px] capitalize cursor-pointer">
                       <CiRepeat
                         className={`text-right ${
                           dark ? "text-[#EAECEF]" : "text-black "
@@ -164,7 +164,7 @@ export const SidePopup = ({
                         }}
                         className="cursor-pointer"
                       >
-                        <td className="xl:text-[14px] text-[.6rem]  p-[3px] w-1/3 ">
+                        <td className="text-[12px]  p-[4px] w-1/3 ">
                           <div className="flex gap-2 items-center">
                             <FaStar
                               className={`h-[14px] w-[14px] ${
@@ -178,7 +178,7 @@ export const SidePopup = ({
                             {`${item?.pair_symbol}`}
                           </div>
                         </td>
-                        <td className="xl:text-[14px] text-[.6rem]  p-[2px] text-end w-1/3">
+                        <td className="text-[12px]  p-[4px] text-end w-1/3">
                           {item?.current_price}
                         </td>
                         <td
@@ -186,7 +186,7 @@ export const SidePopup = ({
                             item?.change_in_price > 0
                               ? `${!isVolume && "text-[#2EBD85]"}`
                               : `${!isVolume && "text-[#F6465D]"}`
-                          } xl:text-[14px] text-[.6rem]  p-[2px] min-w-max text-center w-1/3`}
+                          }  text-[12px]  p-[4px] min-w-max text-center w-1/3`}
                         >
                           {!isVolume && item?.change_in_price > 0 ? "+" : "   "}
                           {!isVolume
