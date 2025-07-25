@@ -561,7 +561,17 @@ export const supportOptions = [
     desc: "Enhance transparency and combat financial crimes",
   },
 ];
-
+export const formatToKMB = (num) => {
+  if (num >= 1_000_000_000) {
+    return (num / 1_000_000_000).toFixed(2) + "B";
+  } else if (num >= 1_000_000) {
+    return (num / 1_000_000).toFixed(1) + "M";
+  } else if (num >= 1_000) {
+    return (num / 1_000).toFixed(2) + "K";
+  } else {
+    return (num / 1).toFixed(3);
+  }
+};
 export const data = [
   {
     category: "Trade",

@@ -19,6 +19,7 @@ import { ToggleButSell } from "./ToggleBuySell";
 import { OpenOrders } from "../common/openOrders";
 import { Middle } from "./MiddleCom";
 import { TopNav } from "./TopNavBar";
+import { MarketPopup } from "./marketPopup";
 export const Home = () => {
   const [dark, setDark] = useState(true);
   const isOpen = useSelector((state) => state.counter.open);
@@ -29,6 +30,7 @@ export const Home = () => {
   const [searchQuery, setSearchQuery] = useState(symbol || "BTCUSDT");
   const userData = JSON.parse(localStorage.getItem("userData")) || {};
   const [activeItem, setActiveItem] = useState("Buy");
+  const [openMarketPopup, setOpenMarketPopup] = useState(false);
 
   const [show, setShow] = useState(false);
   useEffect(() => {
@@ -178,7 +180,10 @@ export const Home = () => {
           </div>
           <div className="md:hidden w-full">
             <div className="h-[800px]  text-xs w-full   rounded-md ">
-              <TopIconBar4 dark={dark} />
+              <TopIconBar4
+                dark={dark}
+                setOpenMarketPopup={setOpenMarketPopup}
+              />
               <ChartEmbed searchQuery={symbol} className="h-full w-full" />
             </div>
           </div>
@@ -222,6 +227,17 @@ export const Home = () => {
                 handleClose={() => setIsLogin(false)}
               />
             </div>
+          </div>
+        )}
+        {openMarketPopup && (
+          <div>
+            <MarketPopup
+              setSearchQuery={setSearchQuery}
+              searchQuery={searchQuery}
+              dark={dark}
+              handleClose={() => setOpenMarketPopup(false)}
+              openMarketPopup={openMarketPopup}
+            />
           </div>
         )}
       </div>
