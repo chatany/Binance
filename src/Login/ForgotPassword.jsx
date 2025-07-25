@@ -82,10 +82,9 @@ export const Forgotpass = () => {
     }
   };
   return (
-    <div className="min-h-[100vh] w-full flex justify-center items-center bg-white font-medium">
+    <div className="min-h-screen w-full flex justify-center items-center bg-white font-medium">
       <div
-        className="w-[400px] h-[20rem] md:border-1 border-[#EDEDED] rounded-2xl p-4"
-        style={{ boxShadow: "0px 0px 40px 0px rgb(0,0,0,0.06)" }}
+        className="w-[400px] h-[20rem] md:border-1 border-[#EDEDED] rounded-2xl p-4 sm:shadow-[0px_0px_40px_0px_rgba(0,0,0,0.06)]"
       >
         <div className="p-4 flex flex-col h-full justify-between">
           <div className=" text-black text-[20px] capitalize font-bold">

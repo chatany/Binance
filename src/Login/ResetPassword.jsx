@@ -90,10 +90,9 @@ export const ResetPassword = () => {
     return () => clearInterval(interval);
   }, [timer]);
   return (
-    <div className="min-h-[100vh] w-full flex justify-center items-center bg-white font-medium">
+    <div className="min-h-screen w-full flex justify-center items-center bg-white font-medium">
       <div
-        className="w-[400px] md:border-1 border-[#EDEDED] rounded-2xl p-4 text-[14px]"
-        style={{ boxShadow: "0px 0px 40px 0px rgb(0,0,0,0.06)" }}
+        className="w-[400px] md:border-1 border-[#EDEDED] rounded-2xl p-4 text-[14px] sm:shadow-[0px_0px_40px_0px_rgba(0,0,0,0.06)]"
       >
         <div className="p-4 flex flex-col h-full gap-5">
           <div className=" text-black text-[20px] capitalize font-bold">
