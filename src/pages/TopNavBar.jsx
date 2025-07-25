@@ -13,7 +13,14 @@ import { useDispatch } from "react-redux";
 import { helpCenterApi } from "./apiCall";
 import { SidePopup } from "./sidePopup";
 
-export const TopNav = ({ dark, setDark, searchQuery, setSearchQuery }) => {
+export const TopNav = ({
+  dark,
+  setDark,
+  searchQuery,
+  setSearchQuery,
+  show,
+  setShow,
+}) => {
   const navigate = useNavigate();
   const [showHelpPopup, setShowHelpPopup] = useState(false);
   const handleClose = () => {
