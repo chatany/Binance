@@ -33,7 +33,9 @@ export const TopNav = ({
   const [hoveredItemIndex, setHoveredItemIndex] = useState(null);
   const [showPopup, setShowPopup] = useState(false);
   const [showSideBar, setShowSideBar] = useState(false);
-  const userData = JSON.parse(localStorage.getItem("userData")) || {};
+  const [userData, setUserData] = useState(() => {
+    return JSON.parse(localStorage.getItem("userData")) || {};
+  });
   const [currentItem, setCurrentItem] = useState("");
   const [hoverPosition, setHoverPosition] = useState({ x: 0, y: 0, width: 0 });
   const dispatch = useDispatch();
@@ -42,7 +44,19 @@ export const TopNav = ({
   }, []);
   const handleLogout = () => {
     localStorage.removeItem("userData");
+    setUserData({});
   };
+  useEffect(() => {
+  const handleStorageChange = () => {
+    setUserData(JSON.parse(localStorage.getItem("userData")) || {});
+  };
+
+  window.addEventListener("storage", handleStorageChange);
+  return () => {
+    window.removeEventListener("storage", handleStorageChange);
+  };
+}, []);
+
   return (
     <div
       className={`flex flex-wrap justify-between items-center border-b-1 h-[4rem] ${
