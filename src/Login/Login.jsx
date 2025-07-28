@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { IoIosCloseCircle, IoMdEyeOff } from "react-icons/io";
 import { IoEye } from "react-icons/io5";
 import { useNavigate } from "react-router-dom";
@@ -13,6 +13,7 @@ export const Login = () => {
   const { loading } = useSelector((state) => state.counter);
   const [timer, setTimer] = useState(0);
   const [error, setError] = useState("");
+  const popupRef = useRef(null);
   const [userData, setUserData] = useState({
     email: "",
     password: "",
@@ -167,11 +168,25 @@ export const Login = () => {
     } finally {
     }
   };
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      // If click is outside the popup
+      if (popupRef.current && !popupRef.current.contains(event.target)) {
+        setVerifyPopup(false);
+      }
+    };
+
+    if (verifyPopup) {
+      document.body.style.overflow = "hidden";
+    }
+
+    return () => {
+      document.body.style.overflow = "auto";
+    };
+  }, [verifyPopup]);
   return (
     <div className="min-h-screen w-full flex justify-center items-center bg-white font-medium">
-      <div
-        className="w-[400px] h-[30rem] md:border-1 border-[#EDEDED] rounded-2xl p-4 sm:shadow-[0px_0px_40px_0px_rgba(0,0,0,0.06)]"
-      >
+      <div className="w-[400px] h-[30rem] md:border-1 border-[#EDEDED] rounded-2xl p-4 sm:shadow-[0px_0px_40px_0px_rgba(0,0,0,0.06)]">
         <div className="p-4 flex flex-col h-full gap-8">
           <div className=" text-black text-[20px] capitalize font-bold">
             BitzUp Account Login
@@ -238,7 +253,10 @@ export const Login = () => {
         </div>
       </div>
       {verifyPopup && (
-        <div className="fixed inset-0  flex justify-center items-center bg-[#00000080] z-999">
+        <div
+          className="fixed inset-0  flex justify-center items-center bg-[#00000080] z-999"
+          ref={popupRef}
+        >
           <div className="w-[300px] h-[15rem] rounded-2xl p-4 bg-white">
             <div className=" flex flex-col h-full gap-6">
               <div className="flex justify-between">
