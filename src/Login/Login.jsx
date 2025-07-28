@@ -13,7 +13,6 @@ export const Login = () => {
   const { loading } = useSelector((state) => state.counter);
   const [timer, setTimer] = useState(0);
   const [error, setError] = useState("");
-  const popupRef = useRef(null);
   const [userData, setUserData] = useState({
     email: "",
     password: "",
@@ -169,13 +168,6 @@ export const Login = () => {
     }
   };
   useEffect(() => {
-    const handleClickOutside = (event) => {
-      // If click is outside the popup
-      if (popupRef.current && !popupRef.current.contains(event.target)) {
-        setVerifyPopup(false);
-      }
-    };
-
     if (verifyPopup) {
       document.body.style.overflow = "hidden";
     }
@@ -255,7 +247,6 @@ export const Login = () => {
       {verifyPopup && (
         <div
           className="fixed inset-0  flex justify-center items-center bg-[#00000080] z-999"
-          ref={popupRef}
         >
           <div className="w-[300px] h-[15rem] rounded-2xl p-4 bg-white">
             <div className=" flex flex-col h-full gap-6">

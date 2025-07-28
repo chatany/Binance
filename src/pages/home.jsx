@@ -21,7 +21,15 @@ import { Middle } from "./MiddleCom";
 import { TopNav } from "./TopNavBar";
 import { MarketPopup } from "./marketPopup";
 export const Home = () => {
-  const [dark, setDark] = useState(true);
+  const [dark, setDark] = useState(() => {
+    const storedTheme = localStorage.getItem("theme");
+    return storedTheme ? JSON.parse(storedTheme) : true; // default true
+  });
+
+  useEffect(() => {
+    localStorage.setItem("theme", JSON.stringify(dark));
+  }, [dark]);
+
   const isOpen = useSelector((state) => state.counter.open);
   const [isLogin, setIsLogin] = useState(false);
   const [active, setActive] = useState("Spot");
