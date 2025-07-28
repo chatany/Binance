@@ -99,9 +99,11 @@ export const Form = ({ dark, searchQuery }) => {
     }
   }, [currentPrice]);
   const userData = JSON.parse(localStorage.getItem("userData")) || {};
-  const item = allMovers?.find(
-    (item) => item.pair_symbol?.toLowerCase() === searchQuery?.toLowerCase()
-  );
+  const item =
+    Array.isArray(allMovers) &&
+    allMovers?.find(
+      (item) => item.pair_symbol?.toLowerCase() === searchQuery?.toLowerCase()
+    );
   const CustomSlider = styled(Slider)(({ theme }) => ({
     height: "1px",
     color: "#fff",
@@ -164,7 +166,7 @@ export const Form = ({ dark, searchQuery }) => {
     base_volume: formValues.limitAmount,
     quote_volume: 0,
     pair_id: item?.pair_id,
-    user_id: userData?.user_id,
+    // user_id: userData?.user_id,
     limit_price: formValues.limitPrice,
     device_type: "windows",
     device_info: "systems",
@@ -173,7 +175,7 @@ export const Form = ({ dark, searchQuery }) => {
     order_type: "Limit",
     base_volume: formValues.sellAmount,
     pair_id: item?.pair_id,
-    user_id: userData?.user_id,
+    // user_id: userData?.user_id,
     limit_price: formValues.sellPrice,
     device_type: "windows",
     device_info: "systems",
@@ -228,7 +230,7 @@ export const Form = ({ dark, searchQuery }) => {
     order_type: "Market",
     // base_volume: formValues.MarketBuy,
     pair_id: item?.pair_id,
-    user_id: userData?.user_id,
+    // user_id: userData?.user_id,
     quote_volume: formValues.MarketBuy,
     limit_price: 0,
     device_type: "windows",
@@ -263,7 +265,7 @@ export const Form = ({ dark, searchQuery }) => {
     order_type: "Market",
     base_volume: formValues.MarketSell,
     pair_id: item?.pair_id,
-    user_id: userData?.user_id,
+    // user_id: userData?.user_id,
     // quote_volume: formValues.MarketSell,
     limit_price: 0,
     device_type: "windows",
@@ -352,7 +354,7 @@ export const Form = ({ dark, searchQuery }) => {
     order_type: "Stop Limit",
     base_volume: formValues.stopBuyAmount,
     pair_id: item?.pair_id,
-    user_id: userData?.user_id,
+    // user_id: userData?.user_id,
     quote_volume: 0,
     limit_price: formValues.stopBuyLimit,
     stop_price: formValues.stopBuyStop,
@@ -363,7 +365,7 @@ export const Form = ({ dark, searchQuery }) => {
     order_type: "Stop Limit",
     base_volume: formValues.stopSellAmount,
     pair_id: item?.pair_id,
-    user_id: userData?.user_id,
+    // user_id: userData?.user_id,
     quote_volume: 0,
     limit_price: formValues.stopSellLimit,
     stop_price: formValues.stopSellStop,
@@ -423,9 +425,9 @@ export const Form = ({ dark, searchQuery }) => {
 
   return (
     <div
-      className={` ${isOpen ? "h-[33rem]" : "h-[27rem]"} w-full    rounded-lg  ${
-        dark ? "bg-[#181A20]" : "bg-white"
-      }`}
+      className={` ${
+        isOpen ? "h-[33rem]" : "h-[27rem]"
+      } w-full    rounded-lg  ${dark ? "bg-[#181A20]" : "bg-white"}`}
     >
       {/* <div
         className={` ${
@@ -497,7 +499,7 @@ export const Form = ({ dark, searchQuery }) => {
               <CryptoInput
                 label="Amount"
                 unit={item?.pair_symbol
-                  .toLowerCase()
+                  ?.toLowerCase()
                   .split("usdt")[0]
                   .toUpperCase()}
                 step={0.01}
@@ -537,6 +539,7 @@ export const Form = ({ dark, searchQuery }) => {
                   min={0}
                   max={100}
                   step={null}
+                  disabled={!userData?.token}
                   onChange={(e, newValue) => {
                     setBuySliderValue(newValue);
                     handleChange(
@@ -618,10 +621,14 @@ export const Form = ({ dark, searchQuery }) => {
               />
               <CryptoInput
                 label="Amount"
-                unit={item?.pair_symbol
-                  .toLowerCase()
-                  .split("usdt")[0]
-                  .toUpperCase()}
+                unit={
+                  item?.pair_symbol
+                    ? item.pair_symbol
+                        .toLowerCase()
+                        .split("usdt")[0]
+                        .toUpperCase()
+                    : ""
+                }
                 step={0.01}
                 dark={dark}
                 value={formValues.sellAmount}
@@ -646,6 +653,7 @@ export const Form = ({ dark, searchQuery }) => {
                 <CustomSlider
                   value={sellSliderValue}
                   marks={marks}
+                  disabled={!userData?.token}
                   min={0}
                   max={100}
                   onChange={(e, newValue) => {
@@ -683,9 +691,11 @@ export const Form = ({ dark, searchQuery }) => {
                     balance?.base_balance ? balance?.base_balance : 0
                   ).toString()}{" "}
                   {item?.pair_symbol
-                    .toLowerCase()
-                    .split("usdt")[0]
-                    .toUpperCase()}
+                    ? item.pair_symbol
+                        .toLowerCase()
+                        .split("usdt")[0]
+                        .toUpperCase()
+                    : ""}
                 </div>
               </div>
               {/* <div className="flex justify-between">
@@ -759,6 +769,7 @@ export const Form = ({ dark, searchQuery }) => {
                   value={buyMarketSliderValue}
                   marks={marks}
                   min={0}
+                  disabled={!userData?.token}
                   max={100}
                   onChange={(e, newValue) => {
                     setBuyMarketSliderValue(newValue);
@@ -855,6 +866,7 @@ export const Form = ({ dark, searchQuery }) => {
                 <CustomSlider
                   value={sellMarketSliderValue}
                   marks={marks}
+                  disabled={!userData?.token}
                   min={0}
                   max={100}
                   step={null}
@@ -967,6 +979,7 @@ export const Form = ({ dark, searchQuery }) => {
                   value={buyStopSliderValue}
                   marks={marks}
                   min={0}
+                  disabled={!userData?.token}
                   max={100}
                   step={null}
                   onChange={(e, newValue) => {
@@ -1080,6 +1093,7 @@ export const Form = ({ dark, searchQuery }) => {
                   value={sellStopSliderValue}
                   marks={marks}
                   min={0}
+                  disabled={!userData?.token}
                   step={null}
                   max={100}
                   onChange={(e, newValue) => {
