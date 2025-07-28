@@ -12,6 +12,7 @@ import { HelpCenter } from "./helpCenter";
 import { useDispatch } from "react-redux";
 import { helpCenterApi } from "./apiCall";
 import { SidePopup } from "./sidePopup";
+import { RiLogoutBoxRLine } from "react-icons/ri";
 
 export const TopNav = ({
   dark,
@@ -39,7 +40,9 @@ export const TopNav = ({
   useEffect(() => {
     helpCenterApi(dispatch);
   }, []);
-
+  const handleLogout = () => {
+    localStorage.removeItem("userData");
+  };
   return (
     <div
       className={`flex flex-wrap justify-between items-center border-b-1 h-[4rem] ${
@@ -282,6 +285,10 @@ export const TopNav = ({
           )}
         </div>
         <IoMdSettings className="hover:text-amber-400  h-6 w-6" />
+        <RiLogoutBoxRLine
+          className="hover:text-amber-400  h-6 w-6"
+          onClick={handleLogout}
+        />
         {dark ? (
           <IoSunnyOutline
             className="hover:text-amber-400 sm:flex hidden  h-6 w-6"

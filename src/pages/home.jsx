@@ -140,7 +140,7 @@ export const Home = () => {
                     : "bg-white text-black w-full"
                 }  `}
               >
-                <TopMovers dark={dark} SetSearchQuery={setSearchQuery} />
+                <TopMovers dark={dark} setSearchQuery={setSearchQuery} />
               </div>
             </div>
           </div>
