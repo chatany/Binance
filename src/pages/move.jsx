@@ -6,7 +6,7 @@ import { setOpen } from "../store/webSocket";
 import { TopMoves } from "./apiCall";
 import { useNavigate } from "react-router-dom";
 
-const TopMovers = ({ dark, SetSearchQuery, setSearchParams }) => {
+const TopMovers = ({ dark, setSearchQuery, setSearchParams }) => {
   const tabs = ["All", "Hot", "Losers", "24h Vol", "Gainers"];
   const open = useSelector((state) => state.counter.open);
   const { allMovers, movers } = useSelector((state) => state.counter);
@@ -21,7 +21,7 @@ const TopMovers = ({ dark, SetSearchQuery, setSearchParams }) => {
     tabRef.current.scrollBy({ left: offset, behavior: "smooth" });
   };
   const handlePairClick = (item) => {
-    SetSearchQuery(item);
+    setSearchQuery(item);
     const symbols = item;
     if (symbols) {
       navigate(`/spot/${symbols}`);

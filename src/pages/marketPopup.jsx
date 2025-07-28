@@ -169,7 +169,7 @@ export const MarketPopup = ({
                             <FaStar
                               className={`h-[14px] w-[14px] ${
                                 fav ? "text-yellow-400" : ""
-                              } text-gray-100`}
+                              } `}
                               onClick={(e) => {
                                 e.stopPropagation();
                                 handleChange(item?.pair_id, fav);

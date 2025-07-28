@@ -196,7 +196,7 @@ export const Login = () => {
             </label>
             <input
               name="Email"
-              className=" w-full capitalize rounded-lg bg-[#D9D9D940]
+              className=" w-full  rounded-lg bg-[#D9D9D940]
                focus:outline-none outline-none
     h-[3rem] p-4 text-[1rem] text-[#757575]
      transition-colors duration-300 delay-200"
@@ -238,7 +238,7 @@ export const Login = () => {
         </div>
       </div>
       {verifyPopup && (
-        <div className="absolute h-full w-full flex justify-center items-center bg-[#3b383840] z-999">
+        <div className="fixed inset-0  flex justify-center items-center bg-[#00000080] z-999">
           <div className="w-[300px] h-[15rem] rounded-2xl p-4 bg-white">
             <div className=" flex flex-col h-full gap-6">
               <div className="flex justify-between">

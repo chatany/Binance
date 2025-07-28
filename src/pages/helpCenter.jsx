@@ -35,11 +35,15 @@ export const HelpCenter = ({ dark, setShowHelpPopup, showHelpPopup }) => {
     <div className="w-full h-full flex justify-center items-center fixed inset-0 z-40 bg-[#00000080] overflow-hidden">
       <div
         className={`w-[50%] flex flex-col p-7 absolute ${
-          dark ? "bg-[#1E2329]  text-white " : "bg-white  text-black "
+          dark ? "bg-[#1E2329] " : "bg-white"
         } z-50 rounded-[12px] gap-10`}
         ref={popupRef}
       >
-        <div className="text-[20px] flex justify-between">
+        <div
+          className={`text-[20px] flex ${
+            dark ? "text-[#EAECEF]" : "text-[#202630]"
+          } justify-between`}
+        >
           <div>Help & Center</div>
           <div onClick={setShowHelpPopup}>
             <IoClose className="font-extrabold size-8" />
@@ -47,16 +51,24 @@ export const HelpCenter = ({ dark, setShowHelpPopup, showHelpPopup }) => {
         </div>
         <div className="flex flex-col gap-4">
           {helpCenter?.topics?.map((item, index) => (
-            <div key={index} className="bg-[#D9D9D940] p-3 rounded-2xl">
-              <div className="text-[16px] text-[#EAECEF]">{item?.topic}</div>
+            <div key={index} className="p-3 rounded-2xl">
+              <div
+                className={`text-[16px] ${
+                  dark ? "text-[#EAECEF]" : "text-[#202630]"
+                } `}
+              >
+                {item?.topic}
+              </div>
               <div>
                 {item?.questions?.map((val, ind) => (
                   <Link to={val?.url} target="_blank">
                     <div
                       key={ind}
-                      className="flex justify-between text-[14px] text-[#B7BDC6]"
+                      className={`flex justify-between  text-[14px] ${
+                        dark ? "text-[#B7BDC6]" : "text-[#474D57]"
+                      }`}
                     >
-                      <div>{val.question}</div>
+                      <div className="underline">{val.question}</div>
                       {/* <div>
                         <MdOutlineKeyboardArrowRight />
                       </div> */}

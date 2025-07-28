@@ -76,15 +76,15 @@ export const counterSlice = createSlice({
         state.movers.Gainers?.length > 0
       ) {
         state.movers.Hot = state.movers.Hot.map((item) => {
-          const updatedItem = incoming.find(
-            (d) => d.pair_symbol === item.pair_symbol
-          );
+          const updatedItem =
+            Array.isArray(incoming) &&
+            incoming.find((d) => d.pair_symbol === item.pair_symbol);
           return updatedItem ? { ...item, ...updatedItem } : item;
         });
         state.movers.Losers = state.movers.Losers.map((item) => {
-          const updatedItem = incoming.find(
-            (d) => d.pair_symbol === item.pair_symbol
-          );
+          const updatedItem =
+            Array.isArray(incoming) &&
+            incoming.find((d) => d.pair_symbol === item.pair_symbol);
           return updatedItem ? { ...item, ...updatedItem } : item;
         });
         state.movers.Gainers = state.movers.Gainers.map((item) => {
@@ -108,9 +108,9 @@ export const counterSlice = createSlice({
 
       if (state.allMovers.length > 0) {
         state.allMovers = state.allMovers.map((item) => {
-          const updatedItem = start.find(
-            (d) => d.pair_symbol === item.pair_symbol
-          );
+          const updatedItem =
+            Array.isArray(start) &&
+            start.find((d) => d.pair_symbol === item.pair_symbol);
           return updatedItem ? { ...item, ...updatedItem } : item;
         });
       } else {
