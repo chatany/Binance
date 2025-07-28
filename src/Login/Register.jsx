@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { IoMdEyeOff } from "react-icons/io";
 import { FaCaretUp } from "react-icons/fa";
 import { FaSortDown } from "react-icons/fa";
@@ -185,14 +185,21 @@ export const Register = () => {
       setIsVisible(false);
     }
   }, [verifyPopup]);
+  useEffect(() => {
+    if (verifyPopup) {
+      document.body.style.overflow = "hidden";
+    }
+
+    return () => {
+      document.body.style.overflow = "auto";
+    };
+  }, [verifyPopup]);
   return (
     <div
       className="min-h-screen w-full flex justify-center items-center bg-white font-medium"
       // style={{ fontFamily: "IBM Plex Sans sans-serif Arial" }}
     >
-      <div
-        className="w-[400px] h-[40rem] md:border-1 border-[#EDEDED] rounded-2xl p-4 text-[14px] sm:shadow-[0px_0px_40px_0px_rgba(0,0,0,0.06)]"
-      >
+      <div className="w-[400px] h-[40rem] md:border-1 border-[#EDEDED] rounded-2xl p-4 text-[14px] sm:shadow-[0px_0px_40px_0px_rgba(0,0,0,0.06)]">
         <div className="p-4 flex flex-col h-full gap-5">
           <div className=" text-black text-[20px] capitalize font-bold">
             Create Account
@@ -374,7 +381,7 @@ export const Register = () => {
         </div>
       </div>
       {verifyPopup && (
-        <div className="absolute h-full w-full flex justify-center items-center bg-[#3b383840] z-999">
+        <div className="fixed inset-0   flex justify-center items-center bg-[#00000080] z-999">
           <div
             className={`w-[300px] h-[15rem] rounded-2xl p-4 bg-white transform transition-transform duration-1000
           ${isVisible ? "translate-y-0" : "translate-y-full"}`}
