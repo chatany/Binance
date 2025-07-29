@@ -129,7 +129,7 @@ export const Home = () => {
                     </div>
                   </div>
                   <div className="w-full">
-                    <Form dark={dark} searchQuery={symbol} />
+                    <Form dark={dark} searchQuery={searchQuery} />
                   </div>
                 </div>
               </div>
@@ -148,7 +148,7 @@ export const Home = () => {
                     : "bg-white text-black w-full"
                 }  `}
               >
-                <TopMovers dark={dark} setSearchQuery={setSearchQuery} />
+                <TopMovers dark={dark} setSearchQuery={setSearchQuery} searchQuery={searchQuery} />
               </div>
             </div>
           </div>
