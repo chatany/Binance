@@ -92,7 +92,7 @@ export const Home = () => {
       <div
         className={`
         ${dark ? "bg-[#181A20] text-[#EAECEF]" : "bg-[#EAECEF] text-[#262030]"}
-       min-h-screen flex flex-col gap-1  `}
+       min-h-screen flex flex-col gap-0  `}
       >
         {/* Top Navbar */}
         <TopNav
@@ -105,7 +105,7 @@ export const Home = () => {
         />
         {/* Main Content */}
         <div className="w-full flex flex-col items-center gap-1 justify-between p-[0px_4px_4px_4px]">
-          <div className="  max-w-[1528px] w-full lg:flex hidden gap-1.5">
+          <div className="max-w-[1528px] overflow-hidden w-full lg:flex hidden gap-1.5">
             <div className=" flex flex-col w-full items-center gap-1.5 ">
               <TopIconBar1 dark={dark} />
               <TopIconBar2 dark={dark} />
@@ -148,7 +148,11 @@ export const Home = () => {
                     : "bg-white text-black w-full"
                 }  `}
               >
-                <TopMovers dark={dark} setSearchQuery={setSearchQuery} searchQuery={searchQuery} />
+                <TopMovers
+                  dark={dark}
+                  setSearchQuery={setSearchQuery}
+                  searchQuery={searchQuery}
+                />
               </div>
             </div>
           </div>
@@ -160,14 +164,16 @@ export const Home = () => {
             <OpenOrders dark={dark} />
           </div>
         </div>
-        <div className="lg:hidden flex flex-col w-full ">
+        <div className="lg:hidden flex flex-col w-full p-[0px_4px_4px_4px] ">
           <TopIconBar3 dark={dark} />
           <div className="w-full md:flex hidden pb-2 gap-1">
-            <div className="w-[69%]">
-              <div className="h-[400px]  text-xs w-full bg-gray-800 mb-4 rounded-md ">
-                <ChartEmbed searchQuery={symbol} className="h-full w-full" />
+            <div className="w-[69%] flex flex-col gap-2 p-1">
+              <div className="h-[400px]  text-xs w-full bg-gray-800  rounded-md ">
+                <ChartEmbed searchQuery={symbol} className="h-full w-full rounded-2xl" />
               </div>
-              <Middle dark={dark} />
+              <div className="h-[25rem]">
+                <Middle dark={dark} />
+              </div>
               <OpenOrders dark={dark} />
             </div>
             <div
