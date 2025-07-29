@@ -21,10 +21,18 @@ export const Form = ({ dark, searchQuery }) => {
   const [sellMarketSliderValue, setSellMarketSliderValue] = useState(0);
   const [buyStopSliderValue, setBuyStopSliderValue] = useState(0);
   const [sellStopSliderValue, setSellStopSliderValue] = useState(0);
+  const [apiId, setApiId] = useState("");
   const dispatch = useDispatch();
   const [isSuccess, setIsSuccess] = useState(false);
-  const [active, setActive] = useState("Spot");
   const navigate = useNavigate();
+  const [successMsg, setSuccessMsg] = useState({
+    limitBuy: "",
+    limitSell: "",
+    marketSell: "",
+    marketBuy: "",
+    stopBuy: "",
+    stopSell: "",
+  });
   const [error, setError] = useState({
     limitBuyErr: "Base volume is required for LIMIT order type",
     limitSellErr: "Base volume is required for LIMIT order type",
@@ -147,13 +155,25 @@ export const Form = ({ dark, searchQuery }) => {
     },
   }));
   useEffect(() => {
-    if (item?.pair_id || isSuccess || success) {
+    if (item?.pair_id) {
       buysellBalance(item?.pair_id, setBalance);
       openOrders(item?.pair_id, userData?.user_id, dispatch);
       OrderHistory(dispatch);
+      setApiId(item?.api_id);
     }
-  }, [item?.pair_id, isSuccess, success]);
-
+  }, [item?.pair_id]);
+  useEffect(() => {
+    setTimeout(() => {
+      setSuccessMsg({
+        limitBuy: "",
+        limitSell: "",
+        marketSell: "",
+        marketBuy: "",
+        stopBuy: "",
+        stopSell: "",
+      });
+    }, 5000);
+  }, [successMsg]);
   const marks = [
     { value: 0, label: "0" },
     { value: 25, label: "25" },
@@ -170,6 +190,7 @@ export const Form = ({ dark, searchQuery }) => {
     limit_price: formValues.limitPrice,
     device_type: "windows",
     device_info: "systems",
+    api_id: apiId,
   };
   const SellObj = {
     order_type: "Limit",
@@ -178,6 +199,7 @@ export const Form = ({ dark, searchQuery }) => {
     // user_id: userData?.user_id,
     limit_price: formValues.sellPrice,
     device_type: "windows",
+    api_id: apiId,
     device_info: "systems",
   };
   const handleBuy = async () => {
@@ -190,6 +212,10 @@ export const Form = ({ dark, searchQuery }) => {
         data: buyObj,
       });
       if (status === 200) {
+        setSuccessMsg((prev) => ({
+          ...prev,
+          limitBuy: data?.message,
+        }));
       }
       if (data?.status == 0) {
         setError((prev) => ({
@@ -201,6 +227,9 @@ export const Form = ({ dark, searchQuery }) => {
       console.error("Failed to fetch second API", err);
     } finally {
       setIsSuccess(false);
+      buysellBalance(item?.pair_id, setBalance);
+      openOrders(item?.pair_id, userData?.user_id, dispatch);
+      OrderHistory(dispatch);
     }
   };
   const handleSell = async () => {
@@ -213,6 +242,10 @@ export const Form = ({ dark, searchQuery }) => {
         data: SellObj,
       });
       if (status === 200) {
+          setSuccessMsg((prev) => ({
+          ...prev,
+          limitSell: data?.message,
+        }));
       }
       if (data?.status == 0) {
         setError((prev) => ({
@@ -224,12 +257,16 @@ export const Form = ({ dark, searchQuery }) => {
       console.error("Failed to fetch second API", err);
     } finally {
       setIsSuccess(false);
+      buysellBalance(item?.pair_id, setBalance);
+      openOrders(item?.pair_id, userData?.user_id, dispatch);
+      OrderHistory(dispatch);
     }
   };
   const marketObj = {
     order_type: "Market",
     // base_volume: formValues.MarketBuy,
     pair_id: item?.pair_id,
+    api_id: apiId,
     // user_id: userData?.user_id,
     quote_volume: formValues.MarketBuy,
     limit_price: 0,
@@ -248,6 +285,10 @@ export const Form = ({ dark, searchQuery }) => {
       });
       setIsSuccess(true);
       if (status === 200) {
+          setSuccessMsg((prev) => ({
+          ...prev,
+          marketBuy: data?.message,
+        }));
       }
       if (data?.status == 0) {
         // setError((prev) => ({
@@ -259,12 +300,16 @@ export const Form = ({ dark, searchQuery }) => {
       console.error("Failed to fetch second API", err);
     } finally {
       setIsSuccess(false);
+      buysellBalance(item?.pair_id, setBalance);
+      openOrders(item?.pair_id, userData?.user_id, dispatch);
+      OrderHistory(dispatch);
     }
   };
   const marketSellObj = {
     order_type: "Market",
     base_volume: formValues.MarketSell,
     pair_id: item?.pair_id,
+    api_id: apiId,
     // user_id: userData?.user_id,
     // quote_volume: formValues.MarketSell,
     limit_price: 0,
@@ -281,6 +326,10 @@ export const Form = ({ dark, searchQuery }) => {
         data: marketSellObj,
       });
       if (status === 200) {
+          setSuccessMsg((prev) => ({
+          ...prev,
+          marketSell: data?.message,
+        }));
       }
       if (data?.status == 0) {
         // setError((prev) => ({
@@ -292,6 +341,9 @@ export const Form = ({ dark, searchQuery }) => {
       console.error("Failed to fetch second API", err);
     } finally {
       setIsSuccess(false);
+      buysellBalance(item?.pair_id, setBalance);
+      openOrders(item?.pair_id, userData?.user_id, dispatch);
+      OrderHistory(dispatch);
     }
   };
   const validateBuyAmount = (val, price, key) => {
@@ -355,6 +407,7 @@ export const Form = ({ dark, searchQuery }) => {
     base_volume: formValues.stopBuyAmount,
     pair_id: item?.pair_id,
     // user_id: userData?.user_id,
+    api_id: apiId,
     quote_volume: 0,
     limit_price: formValues.stopBuyLimit,
     stop_price: formValues.stopBuyStop,
@@ -364,6 +417,7 @@ export const Form = ({ dark, searchQuery }) => {
   const StopSellObj = {
     order_type: "Stop Limit",
     base_volume: formValues.stopSellAmount,
+    api_id: apiId,
     pair_id: item?.pair_id,
     // user_id: userData?.user_id,
     quote_volume: 0,
@@ -384,6 +438,10 @@ export const Form = ({ dark, searchQuery }) => {
       });
       setIsSuccess(true);
       if (status === 200) {
+          setSuccessMsg((prev) => ({
+          ...prev,
+          stopBuy: data?.message,
+        }));
       }
       if (data?.status == 0) {
         // setError((prev) => ({
@@ -395,6 +453,9 @@ export const Form = ({ dark, searchQuery }) => {
       console.error("Failed to fetch second API", err);
     } finally {
       setIsSuccess(false);
+      buysellBalance(item?.pair_id, setBalance);
+      openOrders(item?.pair_id, userData?.user_id, dispatch);
+      OrderHistory(dispatch);
     }
   };
   const handleStopSell = async () => {
@@ -408,6 +469,10 @@ export const Form = ({ dark, searchQuery }) => {
       });
       setIsSuccess(true);
       if (status === 200) {
+          setSuccessMsg((prev) => ({
+          ...prev,
+          stopSell: data?.message,
+        }));
       }
       if (data?.status == 0) {
       }
@@ -415,6 +480,9 @@ export const Form = ({ dark, searchQuery }) => {
       console.error("Failed to fetch second API", err);
     } finally {
       setIsSuccess(false);
+      buysellBalance(item?.pair_id, setBalance);
+      openOrders(item?.pair_id, userData?.user_id, dispatch);
+      OrderHistory(dispatch);
     }
   };
   const handleNavigate = () => {
@@ -427,7 +495,9 @@ export const Form = ({ dark, searchQuery }) => {
     <div
       className={` ${
         isOpen ? "h-[28.7rem]" : "h-[25.2rem]"
-      } w-full transition-all duration-500 delay-100    rounded-lg  ${dark ? "bg-[#181A20]" : "bg-white"}`}
+      } w-full transition-all duration-500 delay-100    rounded-lg  ${
+        dark ? "bg-[#181A20]" : "bg-white"
+      }`}
     >
       {/* <div
         className={` ${
@@ -555,11 +625,18 @@ export const Form = ({ dark, searchQuery }) => {
                 />
               </Box>
             </Box>
-            {
-              <div className="text-red-500 text-[13px] p-2 h-[3rem]">
-                {error.limitBuyErr}
-              </div>
-            }
+            <div className="h-[3rem]">
+              {error.limitBuyErr && (
+                <div className="text-red-500 text-[13px] p-2 h-full">
+                  {error.limitBuyErr}
+                </div>
+              )}
+              {successMsg.limitBuy && (
+                <div className="text-green-500 text-[13px] p-2 h-full">
+                  {successMsg.limitBuy}
+                </div>
+              )}
+            </div>
             <div className="flex items-center space-x-2 p-2 ">
               <input
                 id="tp-sl"
@@ -673,8 +750,17 @@ export const Form = ({ dark, searchQuery }) => {
                 />
               </Box>
             </Box>
-            <div className="text-red-500 text-[13px] p-2 h-[3rem]">
-              {error.limitSellErr}
+            <div className="h-[3rem]">
+              {error.limitSellErr && (
+                <div className="text-red-500 text-[13px] p-2 h-full">
+                  {error.limitSellErr}
+                </div>
+              )}
+              {successMsg.limitSell && (
+                <div className="text-green-500 text-[13px] p-2 h-full">
+                  {successMsg.limitSell}
+                </div>
+              )}
             </div>
             <div className="flex items-center space-x-2 p-2 ">
               <input
@@ -790,8 +876,17 @@ export const Form = ({ dark, searchQuery }) => {
                 />
               </Box>
             </Box>
-            <div className="text-red-500 text-[13px] p-2 h-[3rem]">
-              {error.marketBuyErr}
+            <div className="h-[3rem]">
+              {error.marketBuyErr && (
+                <div className="text-red-500 text-[13px] p-2 h-full">
+                  {error.marketBuyErr}
+                </div>
+              )}
+              {successMsg.marketBuy && (
+                <div className="text-green-500 text-[13px] p-2 h-full">
+                  {successMsg.marketBuy}
+                </div>
+              )}
             </div>
             <div className="text-[16px] p-2">
               <div className="flex justify-between">
@@ -890,8 +985,17 @@ export const Form = ({ dark, searchQuery }) => {
                 />
               </Box>
             </Box>
-            <div className="text-red-500 text-[13px] p-2 h-[3rem]">
-              {error.marketSellErr}
+           <div className="h-[3rem]">
+              {error.marketSellErr && (
+                <div className="text-red-500 text-[13px] p-2 h-full">
+                  {error.marketSellErr}
+                </div>
+              )}
+              {successMsg.marketSell && (
+                <div className="text-green-500 text-[13px] p-2 h-full">
+                  {successMsg.marketSell}
+                </div>
+              )}
             </div>
             <div className="text-[16px] p-2">
               <div className="flex justify-between">
@@ -968,8 +1072,17 @@ export const Form = ({ dark, searchQuery }) => {
                 }}
               />
             </div>
-            <div className="text-red-500 text-[13px] p-2 h-[3rem]">
-              {error.stopBuyErr}
+            <div className="h-[3rem]">
+              {error.stopBuyErr && (
+                <div className="text-red-500 text-[13px] p-2 h-full">
+                  {error.stopBuyErr}
+                </div>
+              )}
+              {successMsg.stopBuy && (
+                <div className="text-green-500 text-[13px] p-2 h-full">
+                  {successMsg.stopBuy}
+                </div>
+              )}
             </div>
             <Box
               sx={{ display: "flex", justifyContent: "center", width: "100%" }}
@@ -1085,8 +1198,17 @@ export const Form = ({ dark, searchQuery }) => {
                 }}
               />
             </div>
-            <div className="text-red-500 text-[13px] p-2 h-[3rem]">
-              {error.stopSellErr}
+            <div className="h-[3rem]">
+              {error.stopSellErr && (
+                <div className="text-red-500 text-[13px] p-2 h-full">
+                  {error.stopSellErr}
+                </div>
+              )}
+              {successMsg.stopSell && (
+                <div className="text-green-500 text-[13px] p-2 h-full">
+                  {successMsg.stopSell}
+                </div>
+              )}
             </div>
             <Box
               sx={{ display: "flex", justifyContent: "center", width: "100%" }}
