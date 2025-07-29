@@ -293,20 +293,26 @@ export const Order = ({ dark }) => {
                   <th
                     className={`text-[16px] ${
                       !tradeData[0]?.m ? "text-[#2EBD85] " : "text-[#F6465D] "
-                    }  p-1 flex items-center w-fit    gap-1`}
+                    }   w-1/3    gap-1`}
                   >
+                  <div className="flex items-center gap-1">
+
                     {parseFloat(tikerData?.lastPrice).toFixed(2)}
                     {!tradeData[0]?.m ? (
                       <FaArrowUp className="text-[18px] text-[#2EBD85]" />
                     ) : (
                       <FaArrowDown className="text-[18px] text-[#F6465D] " />
                     )}
+                  </div>
                   </th>
                   <th className="text-[14px]  text-gray-400 p-2 text-left w-1/3">
                     ${parseFloat(tikerData?.lastPrice)}
                   </th>
-                  <th className="flex  items-center justify-center w-full">
+                  <th className="w-1/3">
+                  <div  className="flex  items-center justify-end w-full">
+
                     <FaAngleRight className=" text-[14px]" />
+                  </div>
                   </th>
                 </tr>
               </thead>
