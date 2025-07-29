@@ -3,7 +3,7 @@ import Slider from "@mui/material/Slider";
 import { styled } from "@mui/material/styles";
 import CryptoInput from "./common";
 import { useDispatch, useSelector } from "react-redux";
-import { marketTabs, tab } from "../Constant";
+import { marketTabs, RenderLabel, tab } from "../Constant";
 import { useEffect, useState } from "react";
 import { MarketInput } from "./inputCom";
 import { buysellBalance, openOrders, OrderHistory } from "./apiCall";
@@ -416,7 +416,9 @@ export const ToggleButSell = ({
     >
       <div
         className={` ${
-          dark ? "border-[#2B3139] text-[#EAECEF]" : "border-[#EAECEF] text-[#202630]"
+          dark
+            ? "border-[#2B3139] text-[#EAECEF]"
+            : "border-[#EAECEF] text-[#202630]"
         } border-b-1 flex justify-between items-center`}
       >
         <div
@@ -528,14 +530,16 @@ export const ToggleButSell = ({
                     display: "flex",
                     justifyContent: "center",
                     maxWidth: "100%",
-                    color: "white",
+                    position: "relative",
                   }}
                 >
+                  <RenderLabel childern={buySliderValue} dark={dark} />
                   <CustomSlider
                     marks={marks}
                     value={buySliderValue}
                     min={0}
                     max={100}
+                    disabled={!userData?.token}
                     step={null}
                     onChange={(e, newValue) => {
                       setBuySliderValue(newValue);
@@ -650,11 +654,14 @@ export const ToggleButSell = ({
                     display: "flex",
                     justifyContent: "center",
                     maxWidth: "100%",
+                    position: "relative",
                   }}
                 >
+                  <RenderLabel childern={sellSliderValue} dark={dark} />
                   <CustomSlider
                     value={sellSliderValue}
                     marks={marks}
+                    disabled={!userData?.token}
                     min={0}
                     max={100}
                     onChange={(e, newValue) => {
@@ -767,14 +774,16 @@ export const ToggleButSell = ({
                     display: "flex",
                     justifyContent: "center",
                     maxWidth: "100%",
-                    color: "white",
+                    position: "relative",
                   }}
                 >
+                  <RenderLabel childern={buyMarketSliderValue} dark={dark} />
                   <CustomSlider
                     value={buyMarketSliderValue}
                     marks={marks}
                     min={0}
                     max={100}
+                    disabled={!userData?.token}
                     onChange={(e, newValue) => {
                       setBuyMarketSliderValue(newValue);
                       handleSellSlider(
@@ -866,13 +875,16 @@ export const ToggleButSell = ({
                     display: "flex",
                     justifyContent: "center",
                     maxWidth: "100%",
+                    position: "relative",
                   }}
                 >
+                  <RenderLabel childern={sellMarketSliderValue} dark={dark} />
                   <CustomSlider
                     value={sellMarketSliderValue}
                     marks={marks}
                     min={0}
                     max={100}
+                    disabled={!userData?.token}
                     step={null}
                     onChange={(e, newValue) => {
                       setSellMarketSliderValue(newValue);
@@ -987,14 +999,16 @@ export const ToggleButSell = ({
                     display: "flex",
                     justifyContent: "center",
                     maxWidth: "100%",
-                    color: "white",
+                    position: "relative",
                   }}
                 >
+                  <RenderLabel childern={buyStopSliderValue} dark={dark} />
                   <CustomSlider
                     value={buyStopSliderValue}
                     marks={marks}
                     min={0}
                     max={100}
+                    disabled={!userData?.token}
                     step={null}
                     onChange={(e, newValue) => {
                       setBuyStopSliderValue(newValue);
@@ -1106,13 +1120,16 @@ export const ToggleButSell = ({
                     display: "flex",
                     justifyContent: "center",
                     maxWidth: "100%",
+                    position: "relative",
                   }}
                 >
+                  <RenderLabel childern={sellStopSliderValue} dark={dark} />
                   <CustomSlider
                     value={sellStopSliderValue}
                     marks={marks}
                     min={0}
                     step={null}
+                    disabled={!userData?.token}
                     max={100}
                     onChange={(e, newValue) => {
                       setSellStopSliderValue(newValue);

@@ -40,7 +40,7 @@ export const TopIconBar1 = ({ dark }) => {
     >
       <div className="flex gap-1">
         <FaStar
-          className={`h-6 cursor-pointer w-6 ${isFav ? "text-yellow-400" : ""}`}
+          className={`h-6 cursor-pointer w-6 ${isFav ? "text-yellow-400" : "text-[#707A8A]"}`}
           onClick={handleChange}
         />
         <img src={iconURL} className="h-6 w-6" />
@@ -163,7 +163,7 @@ export const TopIconBar2 = ({ dark }) => {
         <div className="flex gap-1">
           <FaStar
             className={`h-6 cursor-pointer w-6 ${
-              isFav ? "text-yellow-400" : ""
+              isFav ? "text-yellow-400" : "text-[#707A8A]"
             }`}
             onClick={handleChange}
           />
@@ -292,7 +292,7 @@ export const TopIconBar3 = ({ dark }) => {
         <div className="flex gap-1">
           <FaStar
             className={`h-6 cursor-pointer w-6 ${
-              isFav ? "text-yellow-400" : ""
+              isFav ? "text-yellow-400" : "text-[#707A8A]"
             }`}
             onClick={handleChange}
           />

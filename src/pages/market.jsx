@@ -139,23 +139,37 @@ export const MarketCom = ({ dark, SetSearchQuery, searchQuery }) => {
           <div className="border-b-4 border-amber-400 w-[35px] rounded-full"></div>
           {/* <ScrollableTabsBar dark={dark} /> */}
         </div>
-        <div className="h-[19rem] overflow-x-auto overflow-y-auto p-2">
+        <div className="h-[19rem] overflow-x-auto overflow-y-auto p-[0px_8px_8px_8px]">
           {filteredData?.length > 0 ? (
             <div>
               <table className="w-full">
                 <thead
                   className={`${
                     dark ? "text-[#EAECEF]" : "text-black"
-                  } text-[14px]`}
+                  } text-[12px]`}
                 >
                   <tr>
-                    <th className="text-center font-medium capitalize">pair</th>
-                    <th className="capitalize text-end font-light">
-                      lastPrice/vol
+                    <th
+                      className={`text-left ${
+                        dark ? "bg-[#181A20] text-[#848E9C]" : "bg-white text-[#707A8A]"
+                      }  p-1 font-light capitalize sticky top-0 z-30`}
+                    >
+                      pair
                     </th>
-                    <th className="flex justify-center capitalize cursor-pointer">
+                    <th
+                      className={`capitalize ${
+                        dark ? "bg-[#181A20] text-[#848E9C]" : "bg-white text-[#707A8A]"
+                      } text-end font-light sticky min-w-max    top-0 z-30`}
+                    >
+                      last Price/vol
+                    </th>
+                    <th
+                      className={`sticky top-0 z-30 capitalize ${
+                        dark ? "bg-[#181A20] text-[#848E9C]" : "bg-white text-[#707A8A]"
+                      }  p-1 cursor-pointer`}
+                    >
                       <CiRepeat
-                        className={`text-right ${
+                        className={`text-right absolute right-10 top-1  ${
                           dark ? "text-[#EAECEF]" : "text-black "
                         }`}
                         onClick={handleToggle}
@@ -176,11 +190,11 @@ export const MarketCom = ({ dark, SetSearchQuery, searchQuery }) => {
                         }}
                         className="cursor-pointer"
                       >
-                        <td className="xl:text-[12px] text-[.6rem]  p-[3px] w-1/3 ">
+                        <td className="xl:text-[12px] text-[.6rem]  w-1/3 ">
                           <div className="flex gap-2 items-center">
                             <FaStar
                               className={`h-[14px] w-[14px] ${
-                                fav ? "text-yellow-400" : ""
+                                fav ? "text-yellow-400" : " text-[#707A8A]"
                               } `}
                               onClick={(e) => {
                                 e.stopPropagation();
@@ -190,7 +204,7 @@ export const MarketCom = ({ dark, SetSearchQuery, searchQuery }) => {
                             {`${item?.pair_symbol}`}
                           </div>
                         </td>
-                        <td className="xl:text-[12px] text-[.6rem]  p-[2px] text-end w-1/3">
+                        <td className="xl:text-[12px] text-[.6rem]  p-[2px] text-center w-1/3">
                           {item?.current_price}
                         </td>
                         <td
@@ -226,7 +240,7 @@ export const MarketCom = ({ dark, SetSearchQuery, searchQuery }) => {
         <div
           className={`w-full  flex  gap-2 ${
             dark ? "border-[#2B3139]" : "border-[#EAECEF]"
-          } justify-between border-b-1 p-3`}
+          } justify-between border-b-1 p-[10px_30px_10px_10px]`}
         >
           <div
             className="flex flex-col items-center text-[14px] cursor-pointer gap-[2px]"
@@ -249,7 +263,7 @@ export const MarketCom = ({ dark, SetSearchQuery, searchQuery }) => {
           <div className="relative">
             <HiDotsHorizontal
               onClick={() => setShowPopup(!showPopup)}
-              className="h-6 w-6 cursor-pointer"
+              className="h-[16px] w-[16px] cursor-pointer text-[#848E9C]"
             />
             {showPopup && (
               <div
@@ -283,21 +297,21 @@ export const MarketCom = ({ dark, SetSearchQuery, searchQuery }) => {
           </div>
         </div>
         {activeTab === "Market Trade" && (
-          <div className="no-scrollbar h-[20rem] overflow-x-auto overflow-y-auto">
+          <div className="no-scrollbar h-[20rem] overflow-x-auto overflow-y-auto p-[0px_8px_8px_8px]">
             <table className="w-full">
               <thead>
                 <tr>
                   <th
                     className={`${
                       dark ? "bg-[#181A20]" : "bg-white"
-                    } text-[12px] text-gray-400 p-1 sticky top-0 z-30 text-center`}
+                    } text-[12px] text-gray-400 p-1 sticky top-0 z-30 text-left`}
                   >
                     Price (USDT)
                   </th>
                   <th
                     className={`${
                       dark ? "bg-[#181A20]" : "bg-white"
-                    } text-[12px] text-gray-400 p-1 sticky top-0 text-center  z-30`}
+                    } text-[12px] text-gray-400  sticky top-0 min-w-max text-center  z-30`}
                   >
                     Amount ({tikerData?.symbol?.split("USDT")[0]})
                   </th>
@@ -341,7 +355,7 @@ export const MarketCom = ({ dark, SetSearchQuery, searchQuery }) => {
                         <td
                           className={`lg:text-[12px] ${
                             !item?.m ? "text-[#2EBD85]" : "text-[#F6465D]"
-                          } text-[.6rem]  p-[2px] text-center w-1/3 `}
+                          } text-[.6rem]  pl-[8px] text-left w-1/3 `}
                         >
                           {price}
                         </td>

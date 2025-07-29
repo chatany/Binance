@@ -572,6 +572,27 @@ export const formatToKMB = (num) => {
     return (num / 1).toFixed(3);
   }
 };
+export const RenderLabel = ({ childern,dark }) => {
+  return (
+    <div
+      style={{
+        position: "absolute",
+        left: `calc(${childern}% - 14px)`, // center align
+        top: -30,
+        background: dark ? "#333" : "#fff",
+        color: dark ? "#fff" : "#000",
+        padding: "2px 6px",
+        fontSize: "12px",
+        fontWeight: "bold",
+        borderRadius: "4px",
+        boxShadow: "0 0 4px rgba(0,0,0,0.2)",
+        transition: "left 0.2s",
+      }}
+    >
+      {childern}%
+    </div>
+  );
+};
 export const data = [
   {
     category: "Trade",
