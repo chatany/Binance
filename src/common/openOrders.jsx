@@ -316,13 +316,21 @@ export const OpenOrders = ({ dark }) => {
           </>
         ) : (
           <div className="h-full w-full flex justify-center items-center">
-            <button
-              className="flex  items-center cursor-pointer"
-              onClick={() => navigate("/login")}
-            >
-              <pre className="text-yellow-500">Log In </pre>
+            <button className="flex  items-center cursor-pointer">
+              <pre
+                className="text-yellow-500"
+                onClick={() => navigate("/login")}
+              >
+                Log In{" "}
+              </pre>
               or
-              <pre className="text-yellow-500"> Register Now </pre>
+              <pre
+                className="text-yellow-500"
+                onClick={() => navigate("/register")}
+              >
+                {" "}
+                Register Now{" "}
+              </pre>
               to trade
             </button>
           </div>

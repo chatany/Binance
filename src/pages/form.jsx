@@ -3,7 +3,7 @@ import Slider from "@mui/material/Slider";
 import { styled } from "@mui/material/styles";
 import CryptoInput from "./common";
 import { useDispatch, useSelector } from "react-redux";
-import { marketTabs, tab } from "../Constant";
+import { marketTabs, RenderLabel, tab } from "../Constant";
 import { useEffect, useState } from "react";
 import { MarketInput } from "./inputCom";
 import { buysellBalance, openOrders, OrderHistory } from "./apiCall";
@@ -426,8 +426,8 @@ export const Form = ({ dark, searchQuery }) => {
   return (
     <div
       className={` ${
-        isOpen ? "h-[33rem]" : "h-[27rem]"
-      } w-full    rounded-lg  ${dark ? "bg-[#181A20]" : "bg-white"}`}
+        isOpen ? "h-[28.7rem]" : "h-[25.2rem]"
+      } w-full transition-all duration-500 delay-100    rounded-lg  ${dark ? "bg-[#181A20]" : "bg-white"}`}
     >
       {/* <div
         className={` ${
@@ -459,7 +459,7 @@ export const Form = ({ dark, searchQuery }) => {
           <button
             key={tab}
             onClick={() => setActiveTab(tab)}
-            className={`flex-1 text-center py-2 font-medium transition-colors cursor-pointer duration-300 ${
+            className={`flex-1 text-center py-2 font-medium  cursor-pointer ${
               dark
                 ? activeTab === tab
                   ? "text-[#EAECEF] bg-[#181A20]"
@@ -475,7 +475,7 @@ export const Form = ({ dark, searchQuery }) => {
       </div>
       {activeTab === "Limit" && (
         <div
-          className={`flex sm:flex-row justify-center w-full  gap-3 flex-col items-center  `}
+          className={`flex sm:flex-row justify-center w-full  gap-3 flex-col items-center transition-all duration-500 delay-100  `}
         >
           <div
             className={`w-[50%]  transition-all duration-500 delay-1000 ${
@@ -531,8 +531,10 @@ export const Form = ({ dark, searchQuery }) => {
                   justifyContent: "center",
                   maxWidth: "100%",
                   color: "white",
+                  position: "relative",
                 }}
               >
+                <RenderLabel childern={buySliderValue} dark={dark} />
                 <CustomSlider
                   marks={marks}
                   value={buySliderValue}
@@ -554,7 +556,7 @@ export const Form = ({ dark, searchQuery }) => {
               </Box>
             </Box>
             {
-              <div className="text-red-500 text-[13px] p-2">
+              <div className="text-red-500 text-[13px] p-2 h-[3rem]">
                 {error.limitBuyErr}
               </div>
             }
@@ -648,8 +650,10 @@ export const Form = ({ dark, searchQuery }) => {
                   display: "flex",
                   justifyContent: "center",
                   maxWidth: "100%",
+                  position: "relative",
                 }}
               >
+                <RenderLabel childern={sellSliderValue} dark={dark} />
                 <CustomSlider
                   value={sellSliderValue}
                   marks={marks}
@@ -669,7 +673,7 @@ export const Form = ({ dark, searchQuery }) => {
                 />
               </Box>
             </Box>
-            <div className="text-red-500 text-[13px] p-2">
+            <div className="text-red-500 text-[13px] p-2 h-[3rem]">
               {error.limitSellErr}
             </div>
             <div className="flex items-center space-x-2 p-2 ">
@@ -720,7 +724,7 @@ export const Form = ({ dark, searchQuery }) => {
       )}
       {activeTab === "Market" && (
         <div
-          className={`flex sm:flex-row justify-center w-full  gap-3 flex-col items-center  `}
+          className={`flex sm:flex-row justify-center w-full transition-all duration-500 delay-100  gap-3 flex-col items-center  `}
         >
           <div
             className={`w-full  transition-all duration-500 delay-1000 ${
@@ -763,8 +767,10 @@ export const Form = ({ dark, searchQuery }) => {
                   justifyContent: "center",
                   maxWidth: "100%",
                   color: "white",
+                  position: "relative",
                 }}
               >
+                <RenderLabel childern={buyMarketSliderValue} dark={dark} />
                 <CustomSlider
                   value={buyMarketSliderValue}
                   marks={marks}
@@ -784,7 +790,7 @@ export const Form = ({ dark, searchQuery }) => {
                 />
               </Box>
             </Box>
-            <div className="text-red-500 text-[13px] p-2">
+            <div className="text-red-500 text-[13px] p-2 h-[3rem]">
               {error.marketBuyErr}
             </div>
             <div className="text-[16px] p-2">
@@ -861,8 +867,10 @@ export const Form = ({ dark, searchQuery }) => {
                   display: "flex",
                   justifyContent: "center",
                   maxWidth: "100%",
+                  position: "relative",
                 }}
               >
+                <RenderLabel childern={sellMarketSliderValue} dark={dark} />
                 <CustomSlider
                   value={sellMarketSliderValue}
                   marks={marks}
@@ -882,7 +890,7 @@ export const Form = ({ dark, searchQuery }) => {
                 />
               </Box>
             </Box>
-            <div className="text-red-500 text-[13px] p-2">
+            <div className="text-red-500 text-[13px] p-2 h-[3rem]">
               {error.marketSellErr}
             </div>
             <div className="text-[16px] p-2">
@@ -910,7 +918,7 @@ export const Form = ({ dark, searchQuery }) => {
       )}
       {activeTab === "Stop Limit" && (
         <div
-          className={`flex sm:flex-row justify-center w-full  gap-3 flex-col items-center  `}
+          className={`flex sm:flex-row justify-center transition-all duration-500 delay-100 w-full  gap-3 flex-col items-center  `}
         >
           <div
             className={`w-full  transition-all duration-500 delay-1000 ${
@@ -960,7 +968,7 @@ export const Form = ({ dark, searchQuery }) => {
                 }}
               />
             </div>
-            <div className="text-red-500 text-[13px] p-2">
+            <div className="text-red-500 text-[13px] p-2 h-[3rem]">
               {error.stopBuyErr}
             </div>
             <Box
@@ -973,8 +981,10 @@ export const Form = ({ dark, searchQuery }) => {
                   justifyContent: "center",
                   maxWidth: "100%",
                   color: "white",
+                  position: "relative",
                 }}
               >
+                <RenderLabel childern={buyStopSliderValue} dark={dark} />
                 <CustomSlider
                   value={buyStopSliderValue}
                   marks={marks}
@@ -1075,7 +1085,7 @@ export const Form = ({ dark, searchQuery }) => {
                 }}
               />
             </div>
-            <div className="text-red-500 text-[13px] p-2">
+            <div className="text-red-500 text-[13px] p-2 h-[3rem]">
               {error.stopSellErr}
             </div>
             <Box
@@ -1087,8 +1097,10 @@ export const Form = ({ dark, searchQuery }) => {
                   display: "flex",
                   justifyContent: "center",
                   maxWidth: "100%",
+                  position: "relative",
                 }}
               >
+                <RenderLabel childern={sellStopSliderValue} dark={dark} />
                 <CustomSlider
                   value={sellStopSliderValue}
                   marks={marks}

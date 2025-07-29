@@ -34,7 +34,7 @@ const TopMovers = ({ dark, setSearchQuery, setSearchParams }) => {
   return (
     <div
       className={`${
-        open ? "h-[20rem]" : "h-[14rem]"
+        open ? "h-[17.5rem]" : "h-[13.9rem]"
       } transition-all duration-500 delay-100 max-w-[320px]   rounded-lg w-full   overflow-hidden`}
     >
       <div
@@ -92,7 +92,7 @@ const TopMovers = ({ dark, setSearchQuery, setSearchParams }) => {
       {/* Movers List */}
       <div
         className={`space-y-2 overflow-y-auto ${
-          open ? "max-h-[18rem]" : "max-h-[13rem]"
+          open ? "max-h-[10rem]" : "max-h-[7rem]"
         } no-scrollbar`}
       >
         {filteredData()?.map((mover, index) => (

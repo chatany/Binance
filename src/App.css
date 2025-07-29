@@ -11,7 +11,7 @@
   display: flex;
   align-items: center;
   position: relative;
-  height: 45px;
+  height: 40px;
   transition: border 0.5s ease 0.1s;
 }
 .input-wrapper:focus-within {
@@ -86,7 +86,7 @@
   }
 
   .input-wrapper {
-    height: 45px;
+    height: 40px;
   }
 
   .unit {

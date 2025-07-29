@@ -91,8 +91,8 @@ export const Home = () => {
       )}
       <div
         className={`
-        ${dark ? "bg-[#181A20] text-white" : "bg-[#EAECEF] text-black  "}
-       min-h-screen flex flex-col gap-1`}
+        ${dark ? "bg-[#181A20] text-[#EAECEF]" : "bg-[#EAECEF] text-[#262030]"}
+       min-h-screen flex flex-col gap-1  `}
       >
         {/* Top Navbar */}
         <TopNav
@@ -104,16 +104,16 @@ export const Home = () => {
           setShow={setShow}
         />
         {/* Main Content */}
-        <div className="w-full flex flex-col items-center gap-1 justify-between">
-          <div className="  max-w-[1528px] w-full lg:flex hidden gap-1">
-            <div className=" flex flex-col w-full items-center gap-1 ">
+        <div className="w-full flex flex-col items-center gap-1 justify-between p-[0px_4px_4px_4px]">
+          <div className="  max-w-[1528px] w-full lg:flex hidden gap-1.5">
+            <div className=" flex flex-col w-full items-center gap-1.5 ">
               <TopIconBar1 dark={dark} />
               <TopIconBar2 dark={dark} />
 
-              <div className="flex w-full gap-2">
+              <div className="flex w-full gap-1.5">
                 <div
                   className={`xl:max-w-[320px] max-w-[270px] w-full lg:block  transition-all duration-500 delay-100  hidden ${
-                    isOpen ? "h-[64.5rem]" : "h-[58.5rem]"
+                    isOpen ? "h-[60.1rem]" : "h-[56.8rem]"
                   }`}
                 >
                   <Order dark={dark} />
