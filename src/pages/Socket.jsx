@@ -17,10 +17,13 @@ export const Socket = ({ searchQuery }) => {
   const dispatch = useDispatch();
   const wsRef = useRef(null);
   const orderRef = useRef(null);
+  const openOrderRef = useRef(null);
+  const userData = JSON.parse(localStorage.getItem("userData")) || {};
   const tradeRef = useRef(null);
   const reconnectTimerRef = useRef(null);
   const allMover = useSelector((state) => state.counter.allMovers);
   const reconnectTimerRef1 = useRef(null);
+  const reconnectTimerRef4 = useRef(null);
   const fallbackIntervalRef = useRef(null);
   const fallbackIntervalRef1 = useRef(null);
   const reconnectTimerRef2 = useRef(null);
@@ -104,15 +107,64 @@ export const Socket = ({ searchQuery }) => {
         }, 1000);
       };
     };
+    const startWebSockets = () => {
+      openOrderRef.current = new WebSocket(`ws://15.235.143.146:9001`);
+
+      openOrderRef.current.onopen = () => {
+        openOrderRef.current.send(
+          JSON.stringify({ user_id: userData?.user_id })
+        );
+      };
+
+      openOrderRef.current.onmessage = (event) => {
+        const data = JSON.parse(event.data);
+        console.log(data, " socket for open order");
+        // if (data) {
+        //   dispatch(
+        //     incrementByAmount({
+        //       symbol: data?.s,
+        //       lastPrice: data?.c,
+        //       highPrice: data?.h,
+        //       lowPrice: data?.l,
+        //       priceChange: data?.p,
+        //       priceChangePercent: data?.P,
+        //       quoteVolume: data?.q,
+        //       volume: data?.v,
+        //     })
+        //   );
+        // }
+      };
+
+      openOrderRef.current.onerror = (err) => {
+        console.log(err, "server error");
+
+        openOrderRef.current.close();
+      };
+
+      openOrderRef.current.onclose = () => {
+        // if (!fallbackIntervalRef.current)
+        //   fallbackIntervalRef.current = setInterval(fetchRestData, 300);
+
+        reconnectTimerRef4.current = setTimeout(() => {
+          startWebSockets();
+        }, 1000);
+      };
+    };
     fetchRestData();
     startWebSocket();
+    startWebSockets();
 
     return () => {
       if (wsRef.current) {
         wsRef.current.onclose = null;
         wsRef.current.close();
       }
+      if (openOrderRef.current) {
+        openOrderRef.current.onclose = null;
+        openOrderRef.current.close();
+      }
       if (reconnectTimerRef.current) clearTimeout(reconnectTimerRef.current);
+      if (reconnectTimerRef4.current) clearTimeout(reconnectTimerRef4.current);
       if (fallbackIntervalRef.current)
         clearInterval(fallbackIntervalRef.current);
     };
