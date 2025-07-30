@@ -234,8 +234,8 @@ export const Order = ({ dark }) => {
                   </tr>
                 </thead>
                 <tbody>
-                  {orderData?.bids?.map((item, index) => {
-                    const price = parseFloat(item[0]).toFixed(2);
+                  {orderData?.asks?.map((item, index) => {
+                    const price = parseFloat(item[0]).toString();
                     const amount = parseFloat(item[1]).toString();
                     const total = parseFloat(price * amount).toString();
                     const formatToK = (num) => {
@@ -297,7 +297,7 @@ export const Order = ({ dark }) => {
                   >
                   <div className="flex items-center gap-1">
 
-                    {parseFloat(tikerData?.lastPrice).toFixed(2)}
+                    {parseFloat(tikerData?.lastPrice).toString()}
                     {!tradeData[0]?.m ? (
                       <FaArrowUp className="text-[18px] text-[#2EBD85]" />
                     ) : (
@@ -317,8 +317,8 @@ export const Order = ({ dark }) => {
                 </tr>
               </thead>
               <tbody>
-                {orderData?.asks?.map((item, index) => {
-                  const price = parseFloat(item[0]).toFixed(2);
+                {orderData?.bids?.map((item, index) => {
+                  const price = parseFloat(item[0]).toString();
                   const amount = parseFloat(item[1]).toString();
                   const total = parseFloat(price * amount);
                   const formatToK = (num) => {

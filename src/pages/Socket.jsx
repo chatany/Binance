@@ -87,9 +87,8 @@ export const Socket = ({ searchQuery }) => {
       };
 
       wsRef.current.onmessage = (event) => {
-        
         const data = JSON.parse(event.data);
-        console.log(data,"oo");
+        console.log(data, "oo");
         if (data) {
           if (apiId === "bitget") {
             dispatch(
@@ -146,7 +145,7 @@ export const Socket = ({ searchQuery }) => {
       if (fallbackIntervalRef.current)
         clearInterval(fallbackIntervalRef.current);
     };
-  }, [searchQuery,apiId]);
+  }, [searchQuery, apiId]);
   useEffect(() => {
     if (!searchQuery) return;
     const fetchRestData = async () => {
@@ -162,20 +161,39 @@ export const Socket = ({ searchQuery }) => {
     };
 
     const startWebSocket = () => {
-      orderRef.current = new WebSocket(
-        `wss://stream.binance.com:9443/ws/${searchQuery.toLowerCase()}@depth20`
-      );
+      const url =
+        apiId === "bitget"
+          ? `wss://ws.bitget.com/v2/ws/public`
+          : `wss://stream.binance.com:9443/ws/${searchQuery.toLowerCase()}@depth20`;
+      orderRef.current = new WebSocket(url);
 
       orderRef.current.onopen = () => {
+        if (apiId === "bitget") {
+          const subscribeMsg = {
+            op: "subscribe",
+            args: [
+              {
+                instType: "SPOT",
+                channel: "books15",
+                instId: searchQuery.toUpperCase(), // e.g. "BTCUSDT"
+              },
+            ],
+          };
+          orderRef.current.send(JSON.stringify(subscribeMsg));
+        }
         if (fallbackIntervalRef1.current)
           clearInterval(fallbackIntervalRef1.current);
       };
 
       orderRef.current.onmessage = (event) => {
         const data = JSON.parse(event.data);
-        // console.log(data, "socket for order");
+        console.log(data, "socket for order");
         if (data) {
-          dispatch(setOrderData(data));
+          if (apiId === "bitget") {
+            dispatch(setOrderData(data.data[0]));
+          } else {
+            dispatch(setOrderData(data));
+          }
         }
       };
 
@@ -204,7 +222,7 @@ export const Socket = ({ searchQuery }) => {
       if (fallbackIntervalRef1.current)
         clearInterval(fallbackIntervalRef1.current);
     };
-  }, [searchQuery]);
+  }, [searchQuery, apiId]);
   useEffect(() => {
     if (!searchQuery) return;
     const fetchRestData = async () => {
@@ -220,18 +238,33 @@ export const Socket = ({ searchQuery }) => {
     };
 
     const startWebSocket = () => {
-      tradeRef.current = new WebSocket(
-        `wss://stream.binance.com:9443/ws/${searchQuery.toLowerCase()}@aggTrade`
-      );
+      const url =
+        apiId === "bitget"
+          ? `wss://ws.bitget.com/v2/ws/public`
+          : `wss://stream.binance.com:9443/ws/${searchQuery.toLowerCase()}@aggTrade`;
+      tradeRef.current = new WebSocket(url);
 
       tradeRef.current.onopen = () => {
+        if (apiId === "bitget") {
+          const subscribeMsg = {
+            op: "subscribe",
+            args: [
+              {
+                instType: "SPOT",
+                channel: "trade",
+                instId: searchQuery.toUpperCase(), // e.g. "BTCUSDT"
+              },
+            ],
+          };
+          tradeRef.current.send(JSON.stringify(subscribeMsg));
+        }
         if (fallbackIntervalRef2.current)
           clearInterval(fallbackIntervalRef2.current);
       };
 
       tradeRef.current.onmessage = (event) => {
         const data = JSON.parse(event.data);
-        // console.log(data, "socket for trade");
+        console.log(data, "socket for trade");
 
         // always use latest data via ref
         const updatedTrades = tradesDataRef.current
@@ -239,7 +272,17 @@ export const Socket = ({ searchQuery }) => {
           : [];
 
         // new trade ko start me daalo
-        updatedTrades.unshift(data);
+        if (apiId === "bitget") {
+          const trade = {
+            T: data?.ts,
+            m: data?.data[0]?.side === "sell" ? true : false,
+            p: data?.data[0]?.price,
+            q: data?.data[0]?.size,
+          };
+          updatedTrades.unshift(trade);
+        } else {
+          updatedTrades.unshift(data);
+        }
 
         if (updatedTrades.length > 20) {
           updatedTrades.pop();
@@ -276,7 +319,7 @@ export const Socket = ({ searchQuery }) => {
       if (reconnectTimerRef2.current)
         clearInterval(fallbackIntervalRef2.current);
     };
-  }, [searchQuery]);
+  }, [searchQuery, apiId]);
   useEffect(() => {
     socket.on("disconnect", () => {});
     socket.emit("market", (data) => {});

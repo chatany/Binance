@@ -336,7 +336,7 @@ export const MarketCom = ({ dark, SetSearchQuery, searchQuery }) => {
                       );
                     };
                     const time = formatTime(item?.T);
-                    const price = parseFloat(item?.p).toFixed(2);
+                    const price = parseFloat(item?.p).toString();
                     const amount = parseFloat(item?.q).toString();
                     const formatToKMB = (num) => {
                       if (num >= 1_000_000_000) {
