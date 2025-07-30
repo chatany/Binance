@@ -25,7 +25,7 @@ export const Socket = ({ searchQuery }) => {
   const reconnectTimerRef2 = useRef(null);
   const fallbackIntervalRef2 = useRef(null);
   const tradesDataRef = useRef([]);
-  const { tradeData, apiId } = useSelector((state) => state.counter.tradeData);
+  const { tradeData, apiId } = useSelector((state) => state.counter);
   useEffect(() => {
     tradesDataRef.current = tradeData; //
   }, [tradeData]);
@@ -88,19 +88,18 @@ export const Socket = ({ searchQuery }) => {
 
       wsRef.current.onmessage = (event) => {
         const data = JSON.parse(event.data);
-        console.log(data, "socket for tiker");
         if (data) {
           if (apiId === "bitget") {
             dispatch(
               incrementByAmount({
-                symbol: data[0]?.instId,
-                lastPrice: data[0]?.lastPr,
-                highPrice: data[0]?.high24h,
-                lowPrice: data[0]?.low24h,
-                priceChange: data[0]?.change24h,
-                priceChangePercent: data[0]?.changeUtc24h,
-                quoteVolume: data[0]?.quoteVolume,
-                volume: data[0]?.baseVolume,
+                symbol: data?.data[0]?.instId,
+                lastPrice: data.data[0]?.lastPr,
+                highPrice: data.data[0]?.high24h,
+                lowPrice: data.data[0]?.low24h,
+                priceChange: data.data[0]?.change24h,
+                priceChangePercent: data.data[0]?.changeUtc24h,
+                quoteVolume: data.data[0]?.quoteVolume,
+                volume: data.data[0]?.baseVolume,
               })
             );
           } else {
