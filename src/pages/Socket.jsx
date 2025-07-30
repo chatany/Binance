@@ -63,11 +63,20 @@ export const Socket = ({ searchQuery }) => {
     };
 
     const startWebSocket = () => {
-      wsRef.current = new WebSocket(
-        `wss://stream.binance.com:9443/ws/${searchQuery.toLowerCase()}@ticker@1000ms`
-      );
+      wsRef.current = new WebSocket(`wss://ws.bitget.com/v2/ws/public`);
 
       wsRef.current.onopen = () => {
+        const subscribeMsg = {
+          op: "subscribe",
+          args: [
+            {
+              instType: "SPOT",
+              channel: "ticker",
+              instId: "TRXUSDT", // e.g. "BTCUSDT"
+            },
+          ],
+        };
+        wsRef.current.send(JSON.stringify(subscribeMsg));
         if (fallbackIntervalRef.current)
           clearInterval(fallbackIntervalRef.current);
       };
