@@ -43,6 +43,7 @@ export const counterSlice = createSlice({
     helpCenter: [],
     faverateData: [],
     isFav: false,
+    apiId: "",
   },
   reducers: {
     incrementByAmount: (state, action) => {
@@ -151,6 +152,9 @@ export const counterSlice = createSlice({
     setIsFav: (state, action) => {
       state.isFav = action.payload;
     },
+    setApiIds: (state, action) => {
+      state.apiId = action.payload;
+    },
   },
 });
 
@@ -159,6 +163,7 @@ export const {
   setCountryData,
   setIsFav,
   decrement,
+  setApiIds,
   incrementByAmount,
   setOpen,
   setOrderData,

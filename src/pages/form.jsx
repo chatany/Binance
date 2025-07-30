@@ -9,6 +9,7 @@ import { MarketInput } from "./inputCom";
 import { buysellBalance, openOrders, OrderHistory } from "./apiCall";
 import { apiRequest } from "../Helper";
 import { useNavigate } from "react-router-dom";
+import { setApiIds } from "../store/webSocket";
 export const Form = ({ dark, searchQuery }) => {
   const isOpen = useSelector((state) => state.counter.open);
   const { allMovers, currentPrice } = useSelector((state) => state.counter);
@@ -160,6 +161,7 @@ export const Form = ({ dark, searchQuery }) => {
       openOrders(item?.pair_id, userData?.user_id, dispatch);
       OrderHistory(dispatch);
       setApiId(item?.api_id);
+      dispatch(setApiIds(item?.api_id))
     }
   }, [item?.pair_id]);
   useEffect(() => {

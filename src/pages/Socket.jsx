@@ -19,17 +19,16 @@ export const Socket = ({ searchQuery }) => {
   const orderRef = useRef(null);
   const tradeRef = useRef(null);
   const reconnectTimerRef = useRef(null);
-  const allMover = useSelector((state) => state.counter.allMovers);
   const reconnectTimerRef1 = useRef(null);
   const fallbackIntervalRef = useRef(null);
   const fallbackIntervalRef1 = useRef(null);
   const reconnectTimerRef2 = useRef(null);
   const fallbackIntervalRef2 = useRef(null);
   const tradesDataRef = useRef([]);
-  const tradesData = useSelector((state) => state.counter.tradeData);
+  const { tradeData, apiId } = useSelector((state) => state.counter.tradeData);
   useEffect(() => {
-    tradesDataRef.current = tradesData; //
-  }, [tradesData]);
+    tradesDataRef.current = tradeData; //
+  }, [tradeData]);
   useEffect(() => {
     TopMoves(dispatch);
     allMovers(dispatch);
@@ -63,20 +62,26 @@ export const Socket = ({ searchQuery }) => {
     };
 
     const startWebSocket = () => {
-      wsRef.current = new WebSocket(`wss://ws.bitget.com/v2/ws/public`);
+      const url =
+        apiId === "bitget"
+          ? `wss://ws.bitget.com/v2/ws/public`
+          : `wss://stream.binance.com:9443/ws/${searchQuery.toLowerCase()}@ticker@1000ms`;
+      wsRef.current = new WebSocket(url);
 
       wsRef.current.onopen = () => {
-        const subscribeMsg = {
-          op: "subscribe",
-          args: [
-            {
-              instType: "SPOT",
-              channel: "ticker",
-              instId: "TRXUSDT", // e.g. "BTCUSDT"
-            },
-          ],
-        };
-        wsRef.current.send(JSON.stringify(subscribeMsg));
+        if (apiId === "bitget") {
+          const subscribeMsg = {
+            op: "subscribe",
+            args: [
+              {
+                instType: "SPOT",
+                channel: "ticker",
+                instId: searchQuery.toUpperCase(), // e.g. "BTCUSDT"
+              },
+            ],
+          };
+          wsRef.current.send(JSON.stringify(subscribeMsg));
+        }
         if (fallbackIntervalRef.current)
           clearInterval(fallbackIntervalRef.current);
       };
@@ -85,18 +90,33 @@ export const Socket = ({ searchQuery }) => {
         const data = JSON.parse(event.data);
         console.log(data, "socket for tiker");
         if (data) {
-          dispatch(
-            incrementByAmount({
-              symbol: data?.s,
-              lastPrice: data?.c,
-              highPrice: data?.h,
-              lowPrice: data?.l,
-              priceChange: data?.p,
-              priceChangePercent: data?.P,
-              quoteVolume: data?.q,
-              volume: data?.v,
-            })
-          );
+          if (apiId === "bitget") {
+            dispatch(
+              incrementByAmount({
+                symbol: data[0]?.instId,
+                lastPrice: data[0]?.lastPr,
+                highPrice: data[0]?.high24h,
+                lowPrice: data[0]?.low24h,
+                priceChange: data[0]?.change24h,
+                priceChangePercent: data[0]?.changeUtc24h,
+                quoteVolume: data[0]?.quoteVolume,
+                volume: data[0]?.baseVolume,
+              })
+            );
+          } else {
+            dispatch(
+              incrementByAmount({
+                symbol: data?.s,
+                lastPrice: data?.c,
+                highPrice: data?.h,
+                lowPrice: data?.l,
+                priceChange: data?.p,
+                priceChangePercent: data?.P,
+                quoteVolume: data?.q,
+                volume: data?.v,
+              })
+            );
+          }
         }
       };
 
@@ -125,7 +145,7 @@ export const Socket = ({ searchQuery }) => {
       if (fallbackIntervalRef.current)
         clearInterval(fallbackIntervalRef.current);
     };
-  }, [searchQuery]);
+  }, [searchQuery,apiId]);
   useEffect(() => {
     if (!searchQuery) return;
     const fetchRestData = async () => {
