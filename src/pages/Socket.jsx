@@ -87,7 +87,9 @@ export const Socket = ({ searchQuery }) => {
       };
 
       wsRef.current.onmessage = (event) => {
+        
         const data = JSON.parse(event.data);
+        console.log(data,"oo");
         if (data) {
           if (apiId === "bitget") {
             dispatch(

@@ -160,8 +160,10 @@ export const Form = ({ dark, searchQuery }) => {
       buysellBalance(item?.pair_id, setBalance);
       openOrders(item?.pair_id, userData?.user_id, dispatch);
       OrderHistory(dispatch);
-      setApiId(item?.api_id);
-      dispatch(setApiIds(item?.api_id))
+      if (apiId != item?.api_id) {
+        setApiId(item?.api_id);
+        dispatch(setApiIds(item?.api_id));
+      }
     }
   }, [item?.pair_id]);
   useEffect(() => {
@@ -244,7 +246,7 @@ export const Form = ({ dark, searchQuery }) => {
         data: SellObj,
       });
       if (status === 200) {
-          setSuccessMsg((prev) => ({
+        setSuccessMsg((prev) => ({
           ...prev,
           limitSell: data?.message,
         }));
@@ -287,7 +289,7 @@ export const Form = ({ dark, searchQuery }) => {
       });
       setIsSuccess(true);
       if (status === 200) {
-          setSuccessMsg((prev) => ({
+        setSuccessMsg((prev) => ({
           ...prev,
           marketBuy: data?.message,
         }));
@@ -328,7 +330,7 @@ export const Form = ({ dark, searchQuery }) => {
         data: marketSellObj,
       });
       if (status === 200) {
-          setSuccessMsg((prev) => ({
+        setSuccessMsg((prev) => ({
           ...prev,
           marketSell: data?.message,
         }));
@@ -440,7 +442,7 @@ export const Form = ({ dark, searchQuery }) => {
       });
       setIsSuccess(true);
       if (status === 200) {
-          setSuccessMsg((prev) => ({
+        setSuccessMsg((prev) => ({
           ...prev,
           stopBuy: data?.message,
         }));
@@ -471,7 +473,7 @@ export const Form = ({ dark, searchQuery }) => {
       });
       setIsSuccess(true);
       if (status === 200) {
-          setSuccessMsg((prev) => ({
+        setSuccessMsg((prev) => ({
           ...prev,
           stopSell: data?.message,
         }));
@@ -987,7 +989,7 @@ export const Form = ({ dark, searchQuery }) => {
                 />
               </Box>
             </Box>
-           <div className="h-[3rem]">
+            <div className="h-[3rem]">
               {error.marketSellErr && (
                 <div className="text-red-500 text-[13px] p-2 h-full">
                   {error.marketSellErr}
