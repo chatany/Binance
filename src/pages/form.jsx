@@ -9,10 +9,12 @@ import { MarketInput } from "./inputCom";
 import { buysellBalance, openOrders, OrderHistory } from "./apiCall";
 import { apiRequest } from "../Helper";
 import { useNavigate } from "react-router-dom";
-import { setApiIds } from "../store/webSocket";
+import { setApiIds, setPriceDecimal } from "../store/webSocket";
 export const Form = ({ dark, searchQuery }) => {
   const isOpen = useSelector((state) => state.counter.open);
-  const { allMovers, currentPrice } = useSelector((state) => state.counter);
+  const { allMovers, currentPrice, pairId } = useSelector(
+    (state) => state.counter
+  );
   const success = useSelector((state) => state.counter.isSuccess);
   const [activeTab, setActiveTab] = useState("Limit");
   const [balance, setBalance] = useState(null);
@@ -163,6 +165,9 @@ export const Form = ({ dark, searchQuery }) => {
       if (apiId != item?.api_id) {
         setApiId(item?.api_id);
         dispatch(setApiIds(item?.api_id));
+      }
+      if (pairId !== item?.pair_id) {
+        dispatch(setPriceDecimal(item?.price_decimal));
       }
     }
   }, [item?.pair_id]);

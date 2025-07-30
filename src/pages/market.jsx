@@ -13,6 +13,7 @@ import {
 } from "../store/webSocket";
 import { FaStar } from "react-icons/fa";
 import { apiRequest } from "../Helper";
+import { formatDecimal } from "../Constant";
 export const MarketCom = ({ dark, SetSearchQuery, searchQuery }) => {
   const [searchData, setSearchData] = useState([]);
   const [activeTab, setActiveTab] = useState("Market Trade");
@@ -25,7 +26,7 @@ export const MarketCom = ({ dark, SetSearchQuery, searchQuery }) => {
     SearchData({ setSearchData, setIsLoading });
   }, []);
 
-  const { tikerData, rounding, tradeData, faverateData } = useSelector(
+  const { tikerData, rounding, tradeData, faverateData ,priceDecimal} = useSelector(
     (state) => state.counter
   );
 
@@ -336,7 +337,7 @@ export const MarketCom = ({ dark, SetSearchQuery, searchQuery }) => {
                       );
                     };
                     const time = formatTime(item?.T);
-                    const price = parseFloat(item?.p).toString();
+                    const price = formatDecimal(item?.p, priceDecimal)
                     const amount = parseFloat(item?.q).toString();
                     const formatToKMB = (num) => {
                       if (num >= 1_000_000_000) {

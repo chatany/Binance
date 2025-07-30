@@ -572,7 +572,23 @@ export const formatToKMB = (num) => {
     return (num / 1).toFixed(3);
   }
 };
-export const RenderLabel = ({ childern,dark }) => {
+export const formatDecimal=(value, decimalPlaces)=> {
+  const num = Number(value);
+  if (isNaN(num)) return '';
+
+  // Round to the desired decimal places and keep trailing zeros
+  const fixed = num.toFixed(decimalPlaces);
+
+  // Only remove zeros *after* the decimalPlaces limit
+  const parts = fixed.split('.');
+  if (parts.length === 2 && parts[1].length > decimalPlaces) {
+    parts[1] = parts[1].substring(0, decimalPlaces);
+  }
+
+  return parts.join('.');
+}
+
+export const RenderLabel = ({ childern, dark }) => {
   return (
     <div
       style={{

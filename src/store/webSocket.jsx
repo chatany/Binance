@@ -44,10 +44,14 @@ export const counterSlice = createSlice({
     faverateData: [],
     isFav: false,
     apiId: "",
+    priceDecimal: 0,
   },
   reducers: {
     incrementByAmount: (state, action) => {
       state.tikerData = action.payload;
+    },
+    setPriceDecimal: (state, action) => {
+      state.priceDecimal = action.payload;
     },
     SetHelpCenterData: (state, action) => {
       state.helpCenter = action.payload;
@@ -165,6 +169,7 @@ export const {
   decrement,
   setApiIds,
   incrementByAmount,
+  setPriceDecimal,
   setOpen,
   setOrderData,
   setTradeData,

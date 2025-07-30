@@ -1,13 +1,15 @@
-import  { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { FaAngleRight, FaArrowDown, FaArrowUp } from "react-icons/fa";
 import { FaAngleDown } from "react-icons/fa";
 import { HiDotsHorizontal } from "react-icons/hi";
 import { useDispatch, useSelector } from "react-redux";
 import { setCurrentPrice, setRoundingVal } from "../store/webSocket";
+import { formatDecimal } from "../Constant";
 export const Order = ({ dark }) => {
-  const { orderData, tikerData, tradeData, rounding } = useSelector(
-    (state) => state.counter
-  );
+  const { orderData, tikerData, tradeData, rounding, priceDecimal } =
+    useSelector((state) => state.counter);
+    console.log(priceDecimal,"priceDecimal");
+    
   const dispatch = useDispatch();
   const [toggle, setToggle] = useState(false);
   const [showBuySellRatio, setShowBuySellRatio] = useState(true);
@@ -63,6 +65,26 @@ export const Order = ({ dark }) => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [toggle]);
+      const [priceColor, setPriceColor] = useState(false);
+  const lastPriceRef = useRef(null);
+
+  useEffect(() => {
+    const currentPrice = parseFloat(tikerData?.lastPrice);
+
+    if (!isNaN(currentPrice) && lastPriceRef.current !== null) {
+      if (currentPrice > lastPriceRef.current) {
+        setPriceColor(true);
+      } else if (currentPrice < lastPriceRef.current) {
+        setPriceColor(false);
+      } else {
+        setPriceColor(false);
+      }
+    }
+
+    if (!isNaN(currentPrice)) {
+      lastPriceRef.current = currentPrice;
+    }
+  }, [tikerData?.lastPrice]);
   return (
     <div
       className={`w-full   flex ${
@@ -235,7 +257,7 @@ export const Order = ({ dark }) => {
                 </thead>
                 <tbody>
                   {orderData?.asks?.map((item, index) => {
-                    const price = parseFloat(item[0]).toString();
+                    const price = formatDecimal(item[0], priceDecimal);
                     const amount = parseFloat(item[1]).toString();
                     const total = parseFloat(price * amount).toString();
                     const formatToK = (num) => {
@@ -274,7 +296,9 @@ export const Order = ({ dark }) => {
                                 {amount}
                               </span>
                               <span className="w-1/3 text-right">
-                                {rounding ? totalAmount : parseFloat(total).toFixed(4)}
+                                {rounding
+                                  ? totalAmount
+                                  : parseFloat(total).toFixed(4)}
                               </span>
                             </div>
                           </div>
@@ -292,33 +316,31 @@ export const Order = ({ dark }) => {
                 <tr>
                   <th
                     className={`text-[16px] ${
-                      !tradeData[0]?.m ? "text-[#2EBD85] " : "text-[#F6465D] "
+                      priceColor? "text-[#2EBD85] " : "text-[#F6465D] "
                     }   w-1/3    gap-1`}
                   >
-                  <div className="flex items-center gap-1">
-
-                    {parseFloat(tikerData?.lastPrice).toString()}
-                    {!tradeData[0]?.m ? (
-                      <FaArrowUp className="text-[18px] text-[#2EBD85]" />
-                    ) : (
-                      <FaArrowDown className="text-[18px] text-[#F6465D] " />
-                    )}
-                  </div>
+                    <div className="flex items-center gap-1">
+                      {formatDecimal(tikerData?.lastPrice, priceDecimal)}
+                      {priceColor? (
+                        <FaArrowUp className="text-[18px] text-[#2EBD85]" />
+                      ) : (
+                        <FaArrowDown className="text-[18px] text-[#F6465D] " />
+                      )}
+                    </div>
                   </th>
                   <th className="text-[14px]  text-gray-400 p-2 text-left w-1/3">
-                    ${parseFloat(tikerData?.lastPrice)}
+                    ${formatDecimal(tikerData?.lastPrice, priceDecimal)}
                   </th>
                   <th className="w-1/3">
-                  <div  className="flex  items-center justify-end w-full">
-
-                    <FaAngleRight className=" text-[14px]" />
-                  </div>
+                    <div className="flex  items-center justify-end w-full">
+                      <FaAngleRight className=" text-[14px]" />
+                    </div>
                   </th>
                 </tr>
               </thead>
               <tbody>
                 {orderData?.bids?.map((item, index) => {
-                  const price = parseFloat(item[0]).toString();
+                  const price = formatDecimal(item[0], priceDecimal);
                   const amount = parseFloat(item[1]).toString();
                   const total = parseFloat(price * amount);
                   const formatToK = (num) => {
@@ -355,7 +377,9 @@ export const Order = ({ dark }) => {
                             </span>
                             <span className="w-1/3 text-center">{amount}</span>
                             <span className="w-1/3 text-right">
-                              {rounding ? totalAmount : parseFloat(total).toFixed(4)}
+                              {rounding
+                                ? totalAmount
+                                : parseFloat(total).toFixed(4)}
                             </span>
                           </div>
                         </div>
@@ -398,8 +422,8 @@ export const Order = ({ dark }) => {
                 </tr>
               </thead>
               <tbody>
-                {orderData?.bids?.map((item, index) => {
-                  const price = parseFloat(item[0]).toFixed(2);
+                {orderData?.asks?.map((item, index) => {
+                  const price = formatDecimal(item[0], priceDecimal)
                   const amount = parseFloat(item[1]).toString();
                   const total = parseFloat(price * amount).toString();
                   const formatToK = (num) => {
@@ -467,18 +491,18 @@ export const Order = ({ dark }) => {
               <tr>
                 <th
                   className={`text-[14px] ${
-                    !tradeData[0]?.m ? "text-[#2EBD85] " : "text-[#F6465D] "
+                    priceColor ? "text-[#2EBD85] " : "text-[#F6465D] "
                   }  p-1 flex items-center w-fit    gap-1`}
                 >
-                  {parseFloat(tikerData?.lastPrice).toFixed(2)}
-                  {!tradeData[0]?.m ? (
+                  {formatDecimal(tikerData?.lastPrice, priceDecimal)}
+                  {priceColor? (
                     <FaArrowUp className="text-[18px] text-[#2EBD85]" />
                   ) : (
                     <FaArrowDown className="text-[18px] text-[#F6465D] " />
                   )}
                 </th>
                 <th className="text-[14px]  text-gray-400 p-2 text-left w-1/3">
-                  ${parseFloat(tikerData?.lastPrice)}
+                  ${formatDecimal(tikerData?.lastPrice, priceDecimal)}
                 </th>
                 <th className="flex  items-center justify-center w-full">
                   <FaAngleRight className=" text-[14px]" />
@@ -486,8 +510,8 @@ export const Order = ({ dark }) => {
               </tr>
             </thead>
             <tbody>
-              {orderData?.asks?.map((item, index) => {
-                const price = parseFloat(item[0]).toFixed(2);
+              {orderData?.bids?.map((item, index) => {
+                const price = formatDecimal(item[0], priceDecimal);
                 const amount = parseFloat(item[1]).toString();
                 const total = parseFloat(price * amount);
                 const formatToK = (num) => {

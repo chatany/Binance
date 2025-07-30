@@ -187,10 +187,9 @@ export const Socket = ({ searchQuery }) => {
 
       orderRef.current.onmessage = (event) => {
         const data = JSON.parse(event.data);
-        console.log(data, "socket for order");
         if (data) {
           if (apiId === "bitget") {
-            dispatch(setOrderData(data.data[0]));
+            dispatch(setOrderData(data?.data[0]));
           } else {
             dispatch(setOrderData(data));
           }

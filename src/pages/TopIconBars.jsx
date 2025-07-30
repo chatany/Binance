@@ -3,12 +3,34 @@ import ScrollStatsBar from "../common/TopIconBar";
 import { FaStar } from "react-icons/fa6";
 import { apiRequest } from "../Helper";
 import { getFaverateData } from "./apiCall";
-import { formatToKMB } from "../Constant";
+import { formatDecimal, formatToKMB } from "../Constant";
 import { RiArrowDownSFill } from "react-icons/ri";
+import { useEffect, useRef, useState } from "react";
 export const TopIconBar1 = ({ dark }) => {
-  const { tikerData, iconURL, isFav, tradeData, pairId } = useSelector(
-    (state) => state.counter
-  );
+  const { tikerData, iconURL, isFav, tradeData, pairId, priceDecimal } =
+    useSelector((state) => state.counter);
+  const [priceColor, setPriceColor] = useState(false);
+  const lastPriceRef = useRef(null);
+
+  useEffect(() => {
+    const currentPrice = parseFloat(tikerData?.lastPrice);
+
+    if (!isNaN(currentPrice) && lastPriceRef.current !== null) {
+      if (currentPrice > lastPriceRef.current) {
+        setPriceColor(true);
+      } else if (currentPrice < lastPriceRef.current) {
+        setPriceColor(false);
+      } else {
+        setPriceColor(false);
+      }
+    }
+
+    if (!isNaN(currentPrice)) {
+      lastPriceRef.current = currentPrice;
+    }
+  }, [tikerData?.lastPrice]);
+  
+
   const dispatch = useDispatch();
   const handleChange = async () => {
     const faverae = !isFav;
@@ -40,7 +62,9 @@ export const TopIconBar1 = ({ dark }) => {
     >
       <div className="flex gap-1">
         <FaStar
-          className={`h-6 cursor-pointer w-6 ${isFav ? "text-yellow-400" : "text-[#707A8A]"}`}
+          className={`h-6 cursor-pointer w-6 ${
+            isFav ? "text-yellow-400" : "text-[#707A8A]"
+          }`}
           onClick={handleChange}
         />
         <img src={iconURL} className="h-6 w-6" />
@@ -56,13 +80,13 @@ export const TopIconBar1 = ({ dark }) => {
       <div className="flex flex-col gap-0.5">
         <div
           className={`${
-            !tradeData[0]?.m ? "text-[#2EBD85] " : "text-[#F6465D] "
+            priceColor ? "text-[#2EBD85] " : "text-[#F6465D] "
           } text-[20px] leading-5  min-w-max `}
         >
-          {parseFloat(tikerData?.lastPrice).toFixed(2)}
+          {formatDecimal(tikerData?.lastPrice, priceDecimal)}
         </div>
         <div className="lg:text-[12px]  text-[8px] leading-4 min-w-max ">
-          ${parseFloat(tikerData?.lastPrice).toFixed(2)}
+          ${formatDecimal(tikerData?.lastPrice, priceDecimal)}
         </div>
       </div>
       <div className="flex flex-col">
@@ -74,9 +98,14 @@ export const TopIconBar1 = ({ dark }) => {
             tikerData?.priceChange > 0 ? "text-[#2EBD85]" : "text-[#F6465D]"
           } lg:text-[12px] text-[8px] min-w-max`}
         >
-          {parseFloat(tikerData?.priceChange).toString()}
+          {tikerData?.priceChange
+            ? parseFloat(tikerData?.priceChange).toString()
+            : 0}
           {tikerData?.priceChange > 0 ? " +" : " "}
-          {parseFloat(tikerData?.priceChangePercent).toString()} %
+          {tikerData?.priceChangePercent
+            ? parseFloat(tikerData?.priceChangePercent).toString()
+            : 0}{" "}
+          %
         </div>
       </div>
       <div className="flex flex-col">
@@ -84,7 +113,9 @@ export const TopIconBar1 = ({ dark }) => {
           24h High
         </div>
         <div className="lg:text-[12px] text-[10px] min-w-max">
-          {parseFloat(tikerData?.highPrice).toString()}
+          {tikerData?.highPrice
+            ? parseFloat(tikerData?.highPrice).toString()
+            : 0}
         </div>
       </div>
       <div className="flex flex-col">
@@ -92,7 +123,7 @@ export const TopIconBar1 = ({ dark }) => {
           24h Low
         </div>
         <div className="lg:text-[12px] text-[10px] leading-4 min-w-max">
-          {parseFloat(tikerData?.lowPrice).toString()}
+          {tikerData?.lowPrice ? parseFloat(tikerData?.lowPrice).toString() : 0}
         </div>
       </div>
       <div className="flex flex-col">
@@ -100,7 +131,7 @@ export const TopIconBar1 = ({ dark }) => {
           24h Volume (BTC)
         </div>
         <div className="md:text-[12px] text-[10px] leading-4 min-w-max">
-          {parseFloat(tikerData?.volume).toString()}
+          {tikerData?.volume ? parseFloat(tikerData?.volume).toString() : 0}
         </div>
       </div>
       <div className="flex flex-col">
@@ -108,7 +139,9 @@ export const TopIconBar1 = ({ dark }) => {
           24h Volume (USDT)
         </div>
         <div className="md:text-[12px] text-[10px] leading-4 min-w-max">
-          {parseFloat(tikerData?.quoteVolume).toString()}
+          {tikerData?.quoteVolume
+            ? parseFloat(tikerData?.quoteVolume).toString()
+            : 0}
         </div>
       </div>
       <div className="flex flex-col min-w-max">
@@ -127,9 +160,8 @@ export const TopIconBar1 = ({ dark }) => {
   );
 };
 export const TopIconBar2 = ({ dark }) => {
-  const { tikerData, iconURL, isFav, tradeData, pairId } = useSelector(
-    (state) => state.counter
-  );
+  const { tikerData, iconURL, isFav, tradeData, pairId, priceDecimal } =
+    useSelector((state) => state.counter);
   const dispatch = useDispatch();
   const handleChange = async () => {
     const faverae = !isFav;
@@ -153,6 +185,26 @@ export const TopIconBar2 = ({ dark }) => {
       getFaverateData(dispatch);
     }
   };
+    const [priceColor, setPriceColor] = useState(false);
+  const lastPriceRef = useRef(null);
+
+  useEffect(() => {
+    const currentPrice = parseFloat(tikerData?.lastPrice);
+
+    if (!isNaN(currentPrice) && lastPriceRef.current !== null) {
+      if (currentPrice > lastPriceRef.current) {
+        setPriceColor(true);
+      } else if (currentPrice < lastPriceRef.current) {
+        setPriceColor(false);
+      } else {
+        setPriceColor(false);
+      }
+    }
+
+    if (!isNaN(currentPrice)) {
+      lastPriceRef.current = currentPrice;
+    }
+  }, [tikerData?.lastPrice]);
   return (
     <div
       className={` w-full   ${
@@ -180,13 +232,13 @@ export const TopIconBar2 = ({ dark }) => {
         <div className="flex flex-col">
           <div
             className={`${
-              !tradeData[0]?.m ? "text-[#2EBD85] " : "text-[#F6465D] "
+              priceColor ? "text-[#2EBD85] " : "text-[#F6465D] "
             }  md:text-[12px] text-[10px]`}
           >
-            {parseFloat(tikerData?.lastPrice).toFixed(2)}
+            {formatDecimal(tikerData?.lastPrice, priceDecimal)}
           </div>
           <div className="md:text-[12px] text-[10px]">
-            ${parseFloat(tikerData?.lastPrice).toFixed(2)}
+            ${formatDecimal(tikerData?.lastPrice, priceDecimal)}
           </div>
         </div>
       </div>
@@ -200,8 +252,14 @@ export const TopIconBar2 = ({ dark }) => {
                   24h Change
                 </div>
                 <div className="text-green-500 md:text-[12px] text-[10px]">
-                  {parseFloat(tikerData?.priceChange).toString()} +{" "}
-                  {parseFloat(tikerData?.priceChangePercent).toString()} %
+                  {tikerData?.priceChange
+                    ? parseFloat(tikerData?.priceChange).toString()
+                    : 0}{" "}
+                  +{" "}
+                  {tikerData?.priceChangePercent
+                    ? parseFloat(tikerData?.priceChangePercent).toString()
+                    : 0}{" "}
+                  %
                 </div>
               </div>
               <div className="flex flex-col">
@@ -209,7 +267,9 @@ export const TopIconBar2 = ({ dark }) => {
                   24h High
                 </div>
                 <div className="md:text-[12px] text-[10px]">
-                  {parseFloat(tikerData?.highPrice).toString()}
+                  {tikerData?.highPrice
+                    ? parseFloat(tikerData?.highPrice).toString()
+                    : 0}
                 </div>
               </div>
               <div className="flex flex-col">
@@ -217,7 +277,9 @@ export const TopIconBar2 = ({ dark }) => {
                   24h Low
                 </div>
                 <div className="md:text-[12px] text-[10px]">
-                  {parseFloat(tikerData?.lowPrice).toString()}
+                  {tikerData?.lowPrice
+                    ? parseFloat(tikerData?.lowPrice).toString()
+                    : 0}
                 </div>
               </div>
               <div className="flex flex-col">
@@ -225,7 +287,9 @@ export const TopIconBar2 = ({ dark }) => {
                   24h Volume (BTC)
                 </div>
                 <div className="md:text-[12px] text-[10px]">
-                  {parseFloat(tikerData?.volume).toString()}
+                  {tikerData?.volume
+                    ? parseFloat(tikerData?.volume).toString()
+                    : 0}
                 </div>
               </div>
               <div className="flex flex-col">
@@ -233,7 +297,9 @@ export const TopIconBar2 = ({ dark }) => {
                   24h Volume (USDT)
                 </div>
                 <div className="md:text-[11px] text-[12px]">
-                  {parseFloat(tikerData?.quoteVolume).toString()}
+                  {tikerData?.quoteVolume
+                    ? parseFloat(tikerData?.quoteVolume).toString()
+                    : 0}
                 </div>
               </div>
               <div className="flex flex-col">
@@ -256,9 +322,8 @@ export const TopIconBar2 = ({ dark }) => {
   );
 };
 export const TopIconBar3 = ({ dark }) => {
-  const { tikerData, iconURL, isFav, tradeData, pairId } = useSelector(
-    (state) => state.counter
-  );
+  const { tikerData, iconURL, isFav, tradeData, pairId, priceDecimal } =
+    useSelector((state) => state.counter);
   const dispatch = useDispatch();
   const handleChange = async () => {
     const faverae = !isFav;
@@ -282,6 +347,26 @@ export const TopIconBar3 = ({ dark }) => {
       getFaverateData(dispatch);
     }
   };
+      const [priceColor, setPriceColor] = useState(false);
+  const lastPriceRef = useRef(null);
+
+  useEffect(() => {
+    const currentPrice = parseFloat(tikerData?.lastPrice);
+
+    if (!isNaN(currentPrice) && lastPriceRef.current !== null) {
+      if (currentPrice > lastPriceRef.current) {
+        setPriceColor(true);
+      } else if (currentPrice < lastPriceRef.current) {
+        setPriceColor(false);
+      } else {
+        setPriceColor(false);
+      }
+    }
+
+    if (!isNaN(currentPrice)) {
+      lastPriceRef.current = currentPrice;
+    }
+  }, [tikerData?.lastPrice]);
   return (
     <div
       className={` w-full text-xs  ${
@@ -309,13 +394,13 @@ export const TopIconBar3 = ({ dark }) => {
         <div className="flex flex-col">
           <div
             className={`${
-              !tradeData[0]?.m ? "text-[#2EBD85] " : "text-[#F6465D] "
+              priceColor? "text-[#2EBD85] " : "text-[#F6465D] "
             } md:text-[12px] text-[10px]`}
           >
-            {parseFloat(tikerData?.lastPrice).toFixed(2)}
+            {formatDecimal(tikerData?.lastPrice, priceDecimal)}
           </div>
           <div className="md:text-[12px] text-[10px]">
-            ${parseFloat(tikerData?.lastPrice).toFixed(2)}
+            ${formatDecimal(tikerData?.lastPrice, priceDecimal)}
           </div>
         </div>
       </div>
@@ -329,8 +414,14 @@ export const TopIconBar3 = ({ dark }) => {
                   24h Change
                 </div>
                 <div className="text-green-500 md:text-[12px] text-[10px]">
-                  {parseFloat(tikerData?.priceChange).toString()} +{" "}
-                  {parseFloat(tikerData?.priceChangePercent).toString()} %
+                  {tikerData?.priceChange
+                    ? parseFloat(tikerData?.priceChange).toString()
+                    : 0}{" "}
+                  +{" "}
+                  {tikerData?.priceChangePercent
+                    ? parseFloat(tikerData?.priceChangePercent).toString()
+                    : 0}{" "}
+                  %
                 </div>
               </div>
               <div className="flex flex-col">
@@ -338,7 +429,9 @@ export const TopIconBar3 = ({ dark }) => {
                   24h High
                 </div>
                 <div className="md:text-[12px] text-[10px]">
-                  {parseFloat(tikerData?.highPrice).toString()}
+                  {tikerData?.highPrice
+                    ? parseFloat(tikerData?.highPrice).toString()
+                    : 0}
                 </div>
               </div>
               <div className="flex flex-col">
@@ -346,7 +439,9 @@ export const TopIconBar3 = ({ dark }) => {
                   24h Low
                 </div>
                 <div className="md:text-[12px] text-[10px]">
-                  {parseFloat(tikerData?.lowPrice).toString()}
+                  {tikerData?.lowPrice
+                    ? parseFloat(tikerData?.lowPrice).toString()
+                    : 0}
                 </div>
               </div>
               <div className="flex flex-col">
@@ -354,7 +449,9 @@ export const TopIconBar3 = ({ dark }) => {
                   24h Volume (BTC)
                 </div>
                 <div className="md:text-[12px] text-[10px]">
-                  {parseFloat(tikerData?.volume).toString()}
+                  {tikerData?.volume
+                    ? parseFloat(tikerData?.volume).toString()
+                    : 0}
                 </div>
               </div>
               <div className="flex flex-col">
@@ -362,7 +459,9 @@ export const TopIconBar3 = ({ dark }) => {
                   24h Volume (USDT)
                 </div>
                 <div className="md:text-[11px] text-[12px]">
-                  {parseFloat(tikerData?.quoteVolume).toString()}
+                  {tikerData?.quoteVolume
+                    ? parseFloat(tikerData?.quoteVolume).toString()
+                    : 0}
                 </div>
               </div>
               <div className="flex flex-col">
@@ -385,10 +484,29 @@ export const TopIconBar3 = ({ dark }) => {
   );
 };
 export const TopIconBar4 = ({ dark, setOpenMarketPopup }) => {
-  const { tikerData, iconURL, tradeData } = useSelector(
+  const { tikerData, iconURL, priceDecimal } = useSelector(
     (state) => state.counter
   );
- 
+    const [priceColor, setPriceColor] = useState(false);
+  const lastPriceRef = useRef(null);
+
+  useEffect(() => {
+    const currentPrice = parseFloat(tikerData?.lastPrice);
+
+    if (!isNaN(currentPrice) && lastPriceRef.current !== null) {
+      if (currentPrice > lastPriceRef.current) {
+        setPriceColor(true);
+      } else if (currentPrice < lastPriceRef.current) {
+        setPriceColor(false);
+      } else {
+        setPriceColor(false);
+      }
+    }
+
+    if (!isNaN(currentPrice)) {
+      lastPriceRef.current = currentPrice;
+    }
+  }, [tikerData?.lastPrice]);
   return (
     <div
       className={`${dark ? "bg-gray-800 text-white" : "bg-white text-black"}
@@ -412,17 +530,20 @@ export const TopIconBar4 = ({ dark, setOpenMarketPopup }) => {
           <div className="flex flex-col">
             <div
               className={`text-[28px] ${
-                !tradeData[0]?.m ? "text-[#2EBD85] " : "text-[#F6465D] "
+                priceColor? "text-[#2EBD85] " : "text-[#F6465D] "
               } `}
             >
-              {parseFloat(tikerData?.lastPrice).toString()}
+              {formatDecimal(tikerData?.lastPrice, priceDecimal)}
             </div>
             <div className="flex gap-6">
               <div className="text-[12px]  min-w-max">
-                ${parseFloat(tikerData?.lastPrice).toString()}
+                ${formatDecimal(tikerData?.lastPrice, priceDecimal)}
               </div>
               <div className="text-green-500 text-[12px]  min-w-max">
-                {parseFloat(tikerData?.priceChangePercent).toString()} %
+                {tikerData?.priceChangePercent
+                  ? parseFloat(tikerData?.priceChangePercent).toString()
+                  : 0}{" "}
+                %
               </div>
             </div>
           </div>
@@ -438,7 +559,9 @@ export const TopIconBar4 = ({ dark, setOpenMarketPopup }) => {
         <div className="flex flex-col">
           <div className="text-gray-400  text-[10px]">24h High</div>
           <div className=" text-[12px]">
-            {parseFloat(tikerData?.highPrice).toString()}
+            {tikerData?.highPrice
+              ? parseFloat(tikerData?.highPrice).toString()
+              : 0}
           </div>
         </div>
         <div className="flex flex-col">
@@ -446,13 +569,17 @@ export const TopIconBar4 = ({ dark, setOpenMarketPopup }) => {
             24h Volume (BTC)
           </div>
           <div className=" text-[12px]">
-            {formatToKMB(parseFloat(tikerData?.volume).toString())}
+            {tikerData?.volume
+              ? formatToKMB(parseFloat(tikerData?.volume).toString())
+              : 0}
           </div>
         </div>
         <div className="flex flex-col">
           <div className="text-gray-400 text-[10px] min-w-max">24h Low</div>
           <div className="text-[12px]">
-            {parseFloat(tikerData?.lastPrice).toString()}
+            {tikerData?.lastPrice
+              ? parseFloat(tikerData?.lastPrice).toString()
+              : 0}
           </div>
         </div>
         <div className="flex flex-col">
@@ -460,7 +587,9 @@ export const TopIconBar4 = ({ dark, setOpenMarketPopup }) => {
             24h Volume (USDT)
           </div>
           <div className=" text-[12px]">
-            {formatToKMB(parseFloat(tikerData?.quoteVolume).toString())}
+            {tikerData?.quoteVolume
+              ? formatToKMB(parseFloat(tikerData?.quoteVolume).toString())
+              : 0}
           </div>
         </div>
       </div>
