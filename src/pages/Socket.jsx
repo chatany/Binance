@@ -83,7 +83,7 @@ export const Socket = ({ searchQuery }) => {
 
       wsRef.current.onmessage = (event) => {
         const data = JSON.parse(event.data);
-        // console.log(data, "socket for tiker");
+        console.log(data, "socket for tiker");
         if (data) {
           dispatch(
             incrementByAmount({
