@@ -3,7 +3,7 @@ export const BuySellToggle = ({activeItem,setActiveItem}) => {
     <div className="flex border border-gray-600 rounded-md overflow-hidden bg-transparent w-full">
       <div
         onClick={() => setActiveItem("Buy")}
-        className={`relative px-6 py-2 cursor-pointer flex items-center justify-center w-full
+        className={`relative px-6 py-[1px] cursor-pointer flex items-center justify-center w-full
           ${activeItem === "Buy" ? "bg-[#0ECB81] text-black" : "text-gray-300"}
           transition-all duration-300
         `}
@@ -19,7 +19,7 @@ export const BuySellToggle = ({activeItem,setActiveItem}) => {
       </div>
       <div
         onClick={() => setActiveItem("Sell")}
-        className={`relative px-6 py-2 cursor-pointer flex items-center justify-center w-full
+        className={`relative px-6 py-[1px] cursor-pointer flex items-center justify-center w-full
           ${activeItem === "Sell" ? "bg-[#F6465D] text-black" : "text-gray-300"}
           transition-all duration-300
         `}

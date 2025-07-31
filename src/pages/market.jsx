@@ -198,7 +198,7 @@ export const MarketCom = ({ dark, SetSearchQuery, searchQuery }) => {
                       last Price/{isVolume?"vol":"24h chg"}
                     </th>
                     <th
-                      className={`sticky top-0 z-30 capitalize ${
+                      className={`sticky top-0 text-right z-30 capitalize ${
                         dark ? "bg-[#181A20] text-[#848E9C]" : "bg-white text-[#707A8A]"
                       }  p-1 cursor-pointer`}
                     >
@@ -238,7 +238,7 @@ export const MarketCom = ({ dark, SetSearchQuery, searchQuery }) => {
                             {`${item?.pair_symbol}`}
                           </div>
                         </td>
-                        <td className="xl:text-[12px] text-[.6rem]  p-[2px] text-center w-1/3">
+                        <td className="xl:text-[12px] text-[.6rem]  p-[2px] text-right w-1/3">
                           {item?.current_price}
                         </td>
                         <td
@@ -246,7 +246,7 @@ export const MarketCom = ({ dark, SetSearchQuery, searchQuery }) => {
                             item?.change_in_price > 0
                               ? `${!isVolume && "text-[#2EBD85]"}`
                               : `${!isVolume && "text-[#F6465D]"}`
-                          } xl:text-[12px] text-[.6rem]  p-[2px] min-w-max text-center w-1/3`}
+                          } xl:text-[12px] text-[.6rem]  p-[2px] min-w-max text-right w-1/3`}
                         >
                           {!isVolume && item?.change_in_price > 0 ? "+" : "   "}
                           {!isVolume

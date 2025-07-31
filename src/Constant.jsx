@@ -594,7 +594,7 @@ export const RenderLabel = ({ childern, dark }) => {
       style={{
         position: "absolute",
         left: `calc(${childern}% - 14px)`, // center align
-        top: -30,
+        top: -25,
         background: dark ? "#333" : "#fff",
         color: dark ? "#fff" : "#000",
         padding: "2px 6px",

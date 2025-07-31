@@ -504,7 +504,7 @@ export const Form = ({ dark, searchQuery }) => {
     <div
       className={` ${
         isOpen ? "h-[28.7rem]" : "h-[25.2rem]"
-      } w-full transition-all duration-500 delay-100    rounded-lg  ${
+      } w-full     rounded-lg  ${
         dark ? "bg-[#181A20]" : "bg-white"
       }`}
     >
@@ -554,10 +554,10 @@ export const Form = ({ dark, searchQuery }) => {
       </div>
       {activeTab === "Limit" && (
         <div
-          className={`flex sm:flex-row justify-center w-full  gap-3 flex-col items-center transition-all duration-500 delay-100  `}
+          className={`flex sm:flex-row justify-center w-full  gap-3 flex-col items-center  `}
         >
           <div
-            className={`w-[50%]  transition-all duration-500 delay-1000 ${
+            className={`w-[50%]   ${
               isOpen ? "space-y-3" : "space-y-0"
             }`}
           >
