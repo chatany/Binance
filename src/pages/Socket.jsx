@@ -88,7 +88,6 @@ export const Socket = ({ searchQuery }) => {
 
       wsRef.current.onmessage = (event) => {
         const data = JSON.parse(event.data);
-        console.log(data, "oo");
         if (data) {
           if (apiId === "bitget") {
             dispatch(
@@ -263,7 +262,6 @@ export const Socket = ({ searchQuery }) => {
 
       tradeRef.current.onmessage = (event) => {
         const data = JSON.parse(event.data);
-        console.log(data, "socket for trade");
 
         // always use latest data via ref
         const updatedTrades = tradesDataRef.current

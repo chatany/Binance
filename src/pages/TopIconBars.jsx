@@ -208,8 +208,8 @@ export const TopIconBar2 = ({ dark }) => {
   return (
     <div
       className={` w-full   ${
-        dark ? "border-[#2B3139] bg-[#181A20]" : "border-[#EAECEF] bg-white"
-      } text-xs p-2 max-xl:flex hidden`}
+        dark ? "border-[#2b3139] bg-[#181A20]" : "border-[#EAECEF] bg-white"
+      } text-xs p-5 max-xl:flex hidden`}
     >
       <div className="max-w-[30%] flex items-center gap-1.5">
         <div className="flex gap-1">

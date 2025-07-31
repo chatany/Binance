@@ -193,10 +193,10 @@ export const Form = ({ dark, searchQuery }) => {
   const buyObj = {
     order_type: "Limit",
     base_volume: formValues.limitAmount,
-    quote_volume: 0,
+    quote_volume: "0",
     pair_id: item?.pair_id,
     // user_id: userData?.user_id,
-    limit_price: formValues.limitPrice,
+    limit_price: String(formValues.limitPrice),
     device_type: "windows",
     device_info: "systems",
     api_id: apiId,

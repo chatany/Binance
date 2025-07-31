@@ -135,8 +135,9 @@ export const buysellBalance = async (pairId, setBalance) => {
     if (status === 200) {
       setBalance(data?.data);
     }
-    if (status === 400) {
-      localStorage.clear();
+    if (status === 400 && data?.status === 3) {
+      localStorage.removeItem("userData");
+      window.dispatchEvent(new Event("userDataChanged"));
       // window.location.href = "/login";
     }
   } catch (err) {
@@ -155,9 +156,10 @@ export const openOrders = async (pairId, userId, dispatch) => {
     if (status === 200 && data?.status == 1) {
       dispatch(setOpenOrderData(data?.data));
     }
-    if (status === 400) {
+   if (status === 400 && data?.status === 3) {
       // window.location.href = "/login";
-      localStorage.clear();
+      localStorage.removeItem("userData");
+      window.dispatchEvent(new Event("userDataChanged"));
     }
   } catch (err) {
     console.error("Failed to fetch second API", err);
@@ -170,9 +172,10 @@ export const OrderHistory = async (dispatch) => {
       url: `https://test.bitzup.com/blockchain/wallet/get-all-buy-sell-order`,
       data: {},
     });
-    if (status === 400) {
+    if (status === 400 && data?.status === 3) {
       // window.location.href = "/login";
-      localStorage.clear();
+      localStorage.removeItem("userData");
+      window.dispatchEvent(new Event("userDataChanged"));
     }
     dispatch(setOrderHistory(data?.data));
   } catch (err) {
@@ -187,9 +190,10 @@ export const deleteOpenOrder = async (orderData, dispatch, setIsSuccess) => {
       url: `https://test.bitzup.com/order/user/cancel-order`,
       data: orderData,
     });
-    if (status === 400) {
+    if (status === 400 && data?.status === 3) {
       // window.location.href = "/login";
-      localStorage.clear();
+      localStorage.removeItem("userData");
+      window.dispatchEvent(new Event("userDataChanged"));
     }
   } catch (err) {
     console.error("Failed to fetch second API", err);

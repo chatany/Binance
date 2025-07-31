@@ -20,19 +20,38 @@ export const MarketCom = ({ dark, SetSearchQuery, searchQuery }) => {
   const [isVolume, setIsVolume] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const dispatch = useDispatch();
+  const [favorite, setFavorite] = useState(false);
+  const [filteredData, setFilteredData] = useState([]);
   const [searchInput, setSearchInput] = useState("");
   const [showPopup, setShowPopup] = useState(false);
   useEffect(() => {
     SearchData({ setSearchData, setIsLoading });
   }, []);
 
-  const { tikerData, rounding, tradeData, faverateData ,priceDecimal} = useSelector(
-    (state) => state.counter
-  );
+  const { tikerData, rounding, tradeData, faverateData, priceDecimal } =
+    useSelector((state) => state.counter);
+  useEffect(() => {
+    // Step 1: Start with full searchData
+    let data = [...searchData];
 
-  const filteredData = searchData.filter((item) =>
-    item.pair_symbol?.toLowerCase().includes(searchInput.toLowerCase())
-  );
+    // Step 2: Apply search filter first
+    if (searchInput) {
+      data = data.filter((item) =>
+        item.pair_symbol?.toLowerCase().includes(searchInput.toLowerCase())
+      );
+    }
+
+    // Step 3: If favorite mode is on, filter from search-filtered data
+    if (favorite) {
+      data = data.filter((item) =>
+        faverateData.some((fav) => fav.pair_id === item.pair_id)
+      );
+    }
+
+    // Step 4: Set final filtered result
+    setFilteredData(data);
+  }, [searchData, searchInput, favorite, faverateData]);
+
   const handleToggle = () => {
     setIsVolume(!isVolume);
   };
@@ -131,16 +150,29 @@ export const MarketCom = ({ dark, SetSearchQuery, searchQuery }) => {
             onChange={(e) => setSearchInput(e.target.value)}
           />
         </div>
-        <div
-          className={`flex text-[12px]  flex-col justify-center font-semibold items-center p-1 pr-3 pl-3  border-b-1 ${
-            dark ? "border-[#2B3139]" : "border-[#EAECEF]"
-          }`}
-        >
-          USDT{" "}
-          <div className="border-b-4 border-amber-400 w-[35px] rounded-full"></div>
-          {/* <ScrollableTabsBar dark={dark} /> */}
+        <div className="flex gap-[30%] items-center">
+          <div className="pl-4">
+            <FaStar
+              className={`h-[14px] w-[14px] cursor-pointer ${
+                favorite ? "text-yellow-400" : " text-[#707A8A]"
+              } `}
+              onClick={(e) => {
+                e.stopPropagation();
+                setFavorite(!favorite);
+              }}
+            />{" "}
+          </div>
+          <div
+            className={`flex text-[12px]  flex-col justify-center font-semibold items-center p-1 pr-3 pl-3  border-b-1 ${
+              dark ? "border-[#2B3139]" : "border-[#EAECEF]"
+            }`}
+          >
+            USDT{" "}
+            <div className="border-b-4 border-amber-400 w-[35px] rounded-full"></div>
+            {/* <ScrollableTabsBar dark={dark} /> */}
+          </div>
         </div>
-        <div className="h-[19rem] overflow-x-auto overflow-y-auto p-[0px_8px_8px_8px]">
+        <div className="h-[19rem] overflow-x-auto overflow-y-auto p-[0px_8px_8px_12px]">
           {filteredData?.length > 0 ? (
             <div>
               <table className="w-full">
@@ -159,10 +191,11 @@ export const MarketCom = ({ dark, SetSearchQuery, searchQuery }) => {
                     </th>
                     <th
                       className={`capitalize ${
-                        dark ? "bg-[#181A20] text-[#848E9C]" : "bg-white text-[#707A8A]"
-                      } text-end font-light sticky min-w-max    top-0 z-30`}
+                        dark ? "bg-[#181A20] text-[#848E9C]" : "bg-white text-[rgb(112,122,138)]"
+                      } text-left font-light sticky min-w-max    top-0 z-30`}
+                      colSpan={2}
                     >
-                      last Price/vol
+                      last Price/{isVolume?"vol":"24h chg"}
                     </th>
                     <th
                       className={`sticky top-0 z-30 capitalize ${
@@ -337,7 +370,7 @@ export const MarketCom = ({ dark, SetSearchQuery, searchQuery }) => {
                       );
                     };
                     const time = formatTime(item?.T);
-                    const price = formatDecimal(item?.p, priceDecimal)
+                    const price = formatDecimal(item?.p, priceDecimal);
                     const amount = parseFloat(item?.q).toString();
                     const formatToKMB = (num) => {
                       if (num >= 1_000_000_000) {

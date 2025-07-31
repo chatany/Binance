@@ -22,7 +22,7 @@ export const ToggleButSell = ({
   searchQuery,
 }) => {
   const isOpen = useSelector((state) => state.counter.open);
-  const { allMovers, currentPrice } = useSelector((state) => state.counter);
+  const { allMovers, currentPrice,apiId } = useSelector((state) => state.counter);
   const [activeTab, setActiveTab] = useState("Limit");
   const [balance, setBalance] = useState(null);
   const [buySliderValue, setBuySliderValue] = useState(0);
@@ -153,19 +153,19 @@ export const ToggleButSell = ({
     base_volume: formValues.limitAmount,
     quote_volume: 0,
     pair_id: item?.pair_id,
-    user_id: userData?.user_id,
     limit_price: formValues.limitPrice,
     device_type: "windows",
     device_info: "systems",
+    api_id: apiId,
   };
   const SellObj = {
     order_type: "Limit",
     base_volume: formValues.sellAmount,
     pair_id: item?.pair_id,
-    user_id: userData?.user_id,
     limit_price: formValues.sellPrice,
     device_type: "windows",
     device_info: "systems",
+    api_id: apiId,
   };
   const handleBuy = async () => {
     setIsSuccess(true);
@@ -217,9 +217,9 @@ export const ToggleButSell = ({
     order_type: "Market",
     // base_volume: formValues.MarketBuy,
     pair_id: item?.pair_id,
-    user_id: userData?.user_id,
     quote_volume: formValues.MarketBuy,
     limit_price: 0,
+    api_id: apiId,
     device_type: "windows",
     device_info: "systems",
   };
@@ -250,9 +250,9 @@ export const ToggleButSell = ({
     order_type: "Market",
     base_volume: formValues.MarketSell,
     pair_id: item?.pair_id,
-    user_id: userData?.user_id,
     // quote_volume: formValues.MarketSell,
     limit_price: 0,
+    api_id: apiId,
     device_type: "windows",
     device_info: "systems",
   };
@@ -339,18 +339,18 @@ export const ToggleButSell = ({
     order_type: "Stop Limit",
     base_volume: formValues.stopBuyAmount,
     pair_id: item?.pair_id,
-    user_id: userData?.user_id,
     quote_volume: 0,
     limit_price: formValues.stopBuyLimit,
     stop_price: formValues.stopBuyStop,
     device_type: "windows",
     device_info: "systems",
+    api_id: apiId,
   };
   const StopSellObj = {
     order_type: "Stop Limit",
     base_volume: formValues.stopSellAmount,
     pair_id: item?.pair_id,
-    user_id: userData?.user_id,
+    api_id: apiId,
     quote_volume: 0,
     limit_price: formValues.stopSellLimit,
     stop_price: formValues.stopSellStop,

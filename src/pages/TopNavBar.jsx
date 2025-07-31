@@ -47,15 +47,18 @@ export const TopNav = ({
     setUserData({});
   };
   useEffect(() => {
-  const handleStorageChange = () => {
-    setUserData(JSON.parse(localStorage.getItem("userData")) || {});
-  };
+    const handleStorageChange = () => {
+      setUserData(JSON.parse(localStorage.getItem("userData")) || {});
+    };
 
-  window.addEventListener("storage", handleStorageChange);
-  return () => {
-    window.removeEventListener("storage", handleStorageChange);
-  };
-}, []);
+    window.addEventListener("storage", handleStorageChange);
+    window.addEventListener("userDataChanged", handleStorageChange); // 👈 this handles same-tab change
+
+    return () => {
+      window.removeEventListener("storage", handleStorageChange);
+      window.removeEventListener("userDataChanged", handleStorageChange);
+    };
+  }, []);
 
   return (
     <div

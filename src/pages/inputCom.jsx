@@ -29,7 +29,6 @@ export const MarketInput = ({
   useEffect(() => {
     setActive(item?.base_asset_symbol);
   }, [item?.base_asset_symbol]);
-  console.log(active, "active");
 
   const [show, setShow] = useState(false);
   return (

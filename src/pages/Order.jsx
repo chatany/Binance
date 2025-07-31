@@ -8,7 +8,6 @@ import { formatDecimal } from "../Constant";
 export const Order = ({ dark }) => {
   const { orderData, tikerData, tradeData, rounding, priceDecimal } =
     useSelector((state) => state.counter);
-    console.log(priceDecimal,"priceDecimal");
     
   const dispatch = useDispatch();
   const [toggle, setToggle] = useState(false);
