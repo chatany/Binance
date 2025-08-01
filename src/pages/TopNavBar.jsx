@@ -62,13 +62,13 @@ export const TopNav = ({
 
   return (
     <div
-      className={`flex flex-wrap justify-between items-center border-b-1 h-[4rem] ${
+      className={`flex  justify-between items-center border-b-1 h-[4rem] ${
         dark ? "border-[#2B3139]" : "border-[#EAECEF]"
       } w-[100vw]  p-3 ${
         dark ? "bg-[#181A20] text-[#EAECEF] " : "bg-white text-black "
       }`}
     >
-      <div className="flex  lg:w-[50%] items-center text-lg gap-2 font-semibold leading-6 lg:justify-evenly">
+      <div className="flex  w-full max-w-[70%] items-center text-lg gap-2 font-semibold leading-6 lg:justify-evenly">
         <div className="text-amber-400 font-semibold text-xl">
           {dark ? (
             <img src="/bitzup_light_logo.png" className="h-10 w-30 sm:w-36" />
