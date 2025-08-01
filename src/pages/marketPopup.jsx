@@ -65,6 +65,7 @@ export const MarketPopup = ({
     const symbols = item;
     if (symbols) {
       navigate(`/spot/${item}`);
+      handleClose();
     }
   };
   useEffect(() => {
