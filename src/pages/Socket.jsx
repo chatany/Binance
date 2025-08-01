@@ -38,7 +38,7 @@ export const Socket = ({ searchQuery }) => {
     const fetchRestData = async () => {
       try {
         const res = await fetch(
-          `https://server-production-70e4.up.railway.app/binance-ticker?url=${searchQuery.toUpperCase()}`
+          `https://server-yo1d.onrender.com/binance-ticker?url=${searchQuery.toUpperCase()}`
         );
         const data = await res.json();
         dispatch(setCurrentPrice(data?.lastPrice));
@@ -150,7 +150,7 @@ export const Socket = ({ searchQuery }) => {
     const fetchRestData = async () => {
       try {
         const res = await fetch(
-          `https://server-production-70e4.up.railway.app/binance-order?url=${searchQuery.toUpperCase()}`
+          `https://server-yo1d.onrender.com/binance-order?url=${searchQuery.toUpperCase()}`
         );
         const data = await res.json();
         if (res.status === 200) {
@@ -226,7 +226,7 @@ export const Socket = ({ searchQuery }) => {
     const fetchRestData = async () => {
       try {
         const res = await fetch(
-          `https://server-production-70e4.up.railway.app/binance-Trades?url=${searchQuery.toUpperCase()}`
+          `https://server-yo1d.onrender.com/binance-Trades?url=${searchQuery.toUpperCase()}`
         );
         const data = await res.json();
         if (res.status === 200) {
@@ -328,5 +328,5 @@ export const Socket = ({ searchQuery }) => {
       }
     });
   }, []);
-  return null;
+    return null;
 };

@@ -109,7 +109,7 @@ export const Form = ({ dark, searchQuery }) => {
       }));
     }
   }, [currentPrice]);
-  const userData = JSON.parse(localStorage.getItem("userData")) || {};
+  const userData = JSON.parse(localStorage.getItem("userData"));
   const item =
     Array.isArray(allMovers) &&
     allMovers?.find(

@@ -36,7 +36,7 @@ export const Home = () => {
   const navigate = useNavigate();
   const { symbol } = useParams();
   const [searchQuery, setSearchQuery] = useState(symbol || "BTCUSDT");
-  const userData = JSON.parse(localStorage.getItem("userData")) || {};
+  const userData = JSON.parse(localStorage.getItem("userData"));
   const [activeItem, setActiveItem] = useState("Buy");
   const [openMarketPopup, setOpenMarketPopup] = useState(false);
 
@@ -104,7 +104,7 @@ export const Home = () => {
           setShow={setShow}
         />
         {/* Main Content */}
-        <div className="w-full flex flex-col items-center gap-1 justify-between p-[0px_4px_4px_4px]">
+        <div className="w-full flex flex-col items-center gap-1 justify-between p-[4px_4px_4px_4px]">
           <div className="max-w-[1528px] overflow-hidden w-full lg:flex hidden gap-1.5">
             <div className=" flex flex-col w-full items-center gap-1.5 ">
               <TopIconBar1 dark={dark} />
@@ -169,7 +169,10 @@ export const Home = () => {
           <div className="w-full md:flex hidden pb-2 gap-1">
             <div className="w-[69%] flex flex-col gap-2 p-1">
               <div className="h-[400px]  text-xs w-full bg-gray-800  rounded-md ">
-                <ChartEmbed searchQuery={symbol} className="h-full w-full rounded-2xl" />
+                <ChartEmbed
+                  searchQuery={symbol}
+                  className="h-full w-full rounded-2xl"
+                />
               </div>
               <div className="h-[25rem]">
                 <Middle dark={dark} />

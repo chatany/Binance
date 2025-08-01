@@ -5,10 +5,11 @@ import { HiDotsHorizontal } from "react-icons/hi";
 import { useDispatch, useSelector } from "react-redux";
 import { setCurrentPrice, setRoundingVal } from "../store/webSocket";
 import { formatDecimal } from "../Constant";
+import { ScaleLoader } from "react-spinners";
 export const Order = ({ dark }) => {
   const { orderData, tikerData, tradeData, rounding, priceDecimal } =
     useSelector((state) => state.counter);
-    
+
   const dispatch = useDispatch();
   const [toggle, setToggle] = useState(false);
   const [showBuySellRatio, setShowBuySellRatio] = useState(true);
@@ -64,7 +65,7 @@ export const Order = ({ dark }) => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [toggle]);
-      const [priceColor, setPriceColor] = useState(false);
+  const [priceColor, setPriceColor] = useState(false);
   const lastPriceRef = useRef(null);
 
   useEffect(() => {
@@ -255,40 +256,136 @@ export const Order = ({ dark }) => {
                   </tr>
                 </thead>
                 <tbody>
-                  {orderData?.asks?.map((item, index) => {
+                  {orderData?.asks?.length > 0 ? (
+                    <>
+                      {orderData?.asks?.map((item, index) => {
+                        const price = formatDecimal(item[0], priceDecimal);
+                        const amount = parseFloat(item[1]).toString();
+                        const total = parseFloat(price * amount).toString();
+                        const formatToK = (num) => {
+                          if (num >= 1000) {
+                            return (num / 1000).toFixed(2) + "K";
+                          } else {
+                            return (num / 1).toFixed(3);
+                          }
+                        };
+                        const totalAmount = formatToK(total);
+                        const percentage = (amount / maxAmount) * 100;
+                        return (
+                          <tr
+                            key={index}
+                            onClick={() => {
+                              dispatch(setCurrentPrice(price));
+                            }}
+                            className="cursor-pointer"
+                          >
+                            <td colSpan={3} className="p-0">
+                              <div className="w-full flex relative h-full text-[.6rem] lg:text-[12px]">
+                                {/* Red background part */}
+                                <div
+                                  className={`absolute top-0 right-0 h-full bg-[#F6465D] ${
+                                    dark ? "opacity-25" : "opacity-10"
+                                  }  z-0`}
+                                  style={{ width: `${percentage}%` }}
+                                ></div>
+
+                                {/* Actual content */}
+                                <div className="flex w-full justify-between items-center px-[2px] relative z-10">
+                                  <span className="text-[#F6465D] w-1/3 text-left">
+                                    {price}
+                                  </span>
+                                  <span className="w-1/3 text-center">
+                                    {amount}
+                                  </span>
+                                  <span className="w-1/3 text-right">
+                                    {rounding
+                                      ? totalAmount
+                                      : parseFloat(total).toFixed(4)}
+                                  </span>
+                                </div>
+                              </div>
+                            </td>
+                          </tr>
+                        );
+                      })}
+                    </>
+                  ) : (
+                    <tr>
+                      <td colSpan={3}>
+                        <div className="h-full w-full flex justify-center items-center">
+                          <ScaleLoader color="#FCD535" />
+                        </div>
+                      </td>
+                    </tr>
+                  )}
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div className={` p-2  overflow-hidden h-[43%] space-y-4`}>
+            {orderData?.bids?.length > 0 ? (
+              <table className="w-full h-full">
+                <thead className="w-full">
+                  <tr>
+                    <th
+                      className={`text-[16px] ${
+                        priceColor ? "text-[#2EBD85] " : "text-[#F6465D] "
+                      }   w-1/3    gap-1`}
+                    >
+                      <div className="flex items-center gap-1">
+                        {formatDecimal(tikerData?.lastPrice, priceDecimal)}
+                        {priceColor ? (
+                          <FaArrowUp className="text-[18px] text-[#2EBD85]" />
+                        ) : (
+                          <FaArrowDown className="text-[18px] text-[#F6465D] " />
+                        )}
+                      </div>
+                    </th>
+                    <th className="text-[14px]  text-gray-400 p-2 text-left w-1/3">
+                      ${formatDecimal(tikerData?.lastPrice, priceDecimal)}
+                    </th>
+                    <th className="w-1/3">
+                      <div className="flex  items-center justify-end w-full">
+                        <FaAngleRight className=" text-[14px]" />
+                      </div>
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {orderData?.bids?.map((item, index) => {
                     const price = formatDecimal(item[0], priceDecimal);
                     const amount = parseFloat(item[1]).toString();
-                    const total = parseFloat(price * amount).toString();
+                    const total = parseFloat(price * amount);
                     const formatToK = (num) => {
                       if (num >= 1000) {
                         return (num / 1000).toFixed(2) + "K";
                       } else {
-                        return (num / 1).toFixed(3);
+                        return num.toFixed(2);
                       }
                     };
                     const totalAmount = formatToK(total);
-                    const percentage = (amount / maxAmount) * 100;
+                    const percentage = (amount / maxAmountBid) * 100;
                     return (
                       <tr
                         key={index}
                         onClick={() => {
                           dispatch(setCurrentPrice(price));
                         }}
-                        className="cursor-pointer"
+                        className="cursor-pointer p-0"
                       >
                         <td colSpan={3} className="p-0">
                           <div className="w-full flex relative h-full text-[.6rem] lg:text-[12px]">
                             {/* Red background part */}
                             <div
-                              className={`absolute top-0 right-0 h-full bg-[#F6465D] ${
+                              className={`absolute top-0 right-0 h-full bg-[#2EBD85]  z-0 ${
                                 dark ? "opacity-25" : "opacity-10"
-                              }  z-0`}
+                              }`}
                               style={{ width: `${percentage}%` }}
                             ></div>
 
                             {/* Actual content */}
                             <div className="flex w-full justify-between items-center px-[2px] relative z-10">
-                              <span className="text-[#F6465D] w-1/3 text-left">
+                              <span className="text-[#2EBD85] w-1/3 text-left">
                                 {price}
                               </span>
                               <span className="w-1/3 text-center">
@@ -307,87 +404,11 @@ export const Order = ({ dark }) => {
                   })}
                 </tbody>
               </table>
-            </div>
-          </div>
-          <div className={` p-2  overflow-hidden h-[43%] space-y-4`}>
-            <table className="w-full h-full">
-              <thead className="w-full">
-                <tr>
-                  <th
-                    className={`text-[16px] ${
-                      priceColor? "text-[#2EBD85] " : "text-[#F6465D] "
-                    }   w-1/3    gap-1`}
-                  >
-                    <div className="flex items-center gap-1">
-                      {formatDecimal(tikerData?.lastPrice, priceDecimal)}
-                      {priceColor? (
-                        <FaArrowUp className="text-[18px] text-[#2EBD85]" />
-                      ) : (
-                        <FaArrowDown className="text-[18px] text-[#F6465D] " />
-                      )}
-                    </div>
-                  </th>
-                  <th className="text-[14px]  text-gray-400 p-2 text-left w-1/3">
-                    ${formatDecimal(tikerData?.lastPrice, priceDecimal)}
-                  </th>
-                  <th className="w-1/3">
-                    <div className="flex  items-center justify-end w-full">
-                      <FaAngleRight className=" text-[14px]" />
-                    </div>
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                {orderData?.bids?.map((item, index) => {
-                  const price = formatDecimal(item[0], priceDecimal);
-                  const amount = parseFloat(item[1]).toString();
-                  const total = parseFloat(price * amount);
-                  const formatToK = (num) => {
-                    if (num >= 1000) {
-                      return (num / 1000).toFixed(2) + "K";
-                    } else {
-                      return num.toFixed(2);
-                    }
-                  };
-                  const totalAmount = formatToK(total);
-                  const percentage = (amount / maxAmountBid) * 100;
-                  return (
-                    <tr
-                      key={index}
-                      onClick={() => {
-                        dispatch(setCurrentPrice(price));
-                      }}
-                      className="cursor-pointer p-0"
-                    >
-                      <td colSpan={3} className="p-0">
-                        <div className="w-full flex relative h-full text-[.6rem] lg:text-[12px]">
-                          {/* Red background part */}
-                          <div
-                            className={`absolute top-0 right-0 h-full bg-[#2EBD85]  z-0 ${
-                              dark ? "opacity-25" : "opacity-10"
-                            }`}
-                            style={{ width: `${percentage}%` }}
-                          ></div>
-
-                          {/* Actual content */}
-                          <div className="flex w-full justify-between items-center px-[2px] relative z-10">
-                            <span className="text-[#2EBD85] w-1/3 text-left">
-                              {price}
-                            </span>
-                            <span className="w-1/3 text-center">{amount}</span>
-                            <span className="w-1/3 text-right">
-                              {rounding
-                                ? totalAmount
-                                : parseFloat(total).toFixed(4)}
-                            </span>
-                          </div>
-                        </div>
-                      </td>
-                    </tr>
-                  );
-                })}
-              </tbody>
-            </table>
+            ) : (
+              <div className="h-full w-full flex justify-center items-center">
+                <ScaleLoader color="#FCD535" />
+              </div>
+            )}
           </div>
         </>
       )}
@@ -422,7 +443,7 @@ export const Order = ({ dark }) => {
               </thead>
               <tbody>
                 {orderData?.asks?.map((item, index) => {
-                  const price = formatDecimal(item[0], priceDecimal)
+                  const price = formatDecimal(item[0], priceDecimal);
                   const amount = parseFloat(item[1]).toString();
                   const total = parseFloat(price * amount).toString();
                   const formatToK = (num) => {
@@ -494,7 +515,7 @@ export const Order = ({ dark }) => {
                   }  p-1 flex items-center w-fit    gap-1`}
                 >
                   {formatDecimal(tikerData?.lastPrice, priceDecimal)}
-                  {priceColor? (
+                  {priceColor ? (
                     <FaArrowUp className="text-[18px] text-[#2EBD85]" />
                   ) : (
                     <FaArrowDown className="text-[18px] text-[#F6465D] " />
@@ -560,38 +581,42 @@ export const Order = ({ dark }) => {
         </div>
       )}
       {showBuySellRatio && (
-        <div className="relative">
-          <div
-            className={`text-black ${
-              dark ? "text-white" : "text-black"
-            } flex justify-between w-full text-[12px]`}
-          >
-            <div className="absolute right-3.5 top-0.5">
-              {parseFloat(totalAmountAsks).toFixed(2)}%
-            </div>
-            <div className="absolute left-3.5 top-0.5">
-              {parseFloat(totalAmountBid).toFixed(2)}%
-            </div>
-          </div>
-          <div className="pt-2 pl-14 pr-14">
-            <div className="w-full relative h-[4px] text-[.6rem] lg:text-[12px]">
+        <>
+          {orderData?.asks?.length > 0 && (
+            <div className="relative">
               <div
-                className="absolute top-0 right-0 h-full bg-[#F6465D] z-0"
-                style={{
-                  width: `${totalAmountAsks}%`,
-                  borderRadius: "0px 9px 9px 0px",
-                }}
-              ></div>
-              <div
-                className="absolute top-0 left-0 h-full bg-[#2EBD85]  z-0 "
-                style={{
-                  width: `${totalAmountBid}%`,
-                  borderRadius: "9px 0px 0px 9px",
-                }}
-              ></div>
+                className={`text-black ${
+                  dark ? "text-white" : "text-black"
+                } flex justify-between w-full text-[12px]`}
+              >
+                <div className="absolute right-3.5 top-0.5">
+                  {parseFloat(totalAmountAsks).toFixed(2)}%
+                </div>
+                <div className="absolute left-3.5 top-0.5">
+                  {parseFloat(totalAmountBid).toFixed(2)}%
+                </div>
+              </div>
+              <div className="pt-2 pl-14 pr-14">
+                <div className="w-full relative h-[4px] text-[.6rem] lg:text-[12px]">
+                  <div
+                    className="absolute top-0 right-0 h-full bg-[#F6465D] z-0"
+                    style={{
+                      width: `${totalAmountAsks}%`,
+                      borderRadius: "0px 9px 9px 0px",
+                    }}
+                  ></div>
+                  <div
+                    className="absolute top-0 left-0 h-full bg-[#2EBD85]  z-0 "
+                    style={{
+                      width: `${totalAmountBid}%`,
+                      borderRadius: "9px 0px 0px 9px",
+                    }}
+                  ></div>
+                </div>
+              </div>
             </div>
-          </div>
-        </div>
+          )}
+        </>
       )}
     </div>
   );

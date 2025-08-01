@@ -4,12 +4,13 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { deleteOpenOrder } from "../pages/apiCall";
 import { setIsSuccess } from "../store/webSocket";
+import { ScaleLoader } from "react-spinners";
 
 export const OpenOrders = ({ dark }) => {
-  const { openOrder, orderHistory } = useSelector((state) => state.counter);
+  const { openOrder, orderHistory,loading } = useSelector((state) => state.counter);
   const [activeTab, setActiveTab] = useState("Open Orders");
   const dispatch = useDispatch();
-  const userData = JSON.parse(localStorage.getItem("userData")) || {};
+  const userData = JSON.parse(localStorage.getItem("userData"));
   const navigate = useNavigate();
 
   const deleteOrder = (order_id, pair_id) => {
@@ -132,80 +133,95 @@ export const OpenOrders = ({ dark }) => {
                         </th>
                       </tr>
                     </thead>
-                    {Array.isArray(openOrder) && openOrder?.length > 0 ? (
-                      <tbody>
-                        {Array.isArray(openOrder) &&
-                          openOrder?.map((item, index) => {
-                            const date = formatDate(item?.created_at);
-                            const percentage =
-                              (item?.executed_base_quantity /
-                                item?.base_quantity) *
-                              100;
-                            return (
-                              <tr key={index}>
-                                <td className="lg:text-[12px] text-[.6rem] pl-1 pr-1 p-[4px] text-center capitalize ">
-                                  {date}
-                                </td>
-                                <td className="lg:text-[12px] text-[.6rem] pl-1 pr-1 p-[4px] text-center uppercase">
-                                  {"BtcUsdt"}
-                                </td>
-                                <td className="lg:text-[12px] text-[.6rem] pl-1 pr-1 p-[4px] text-center capitalize">
-                                  {item?.order_type}
-                                </td>
-                                <td className="lg:text-[12px] text-[.6rem] pl-1 pr-1 p-[4px] text-center capitalize">
-                                  {item?.type}
-                                </td>
-                                <td className="lg:text-[12px] text-[.6rem] pl-1 pr-1 p-[4px] text-center capitalize">
-                                  {item?.order_price}
-                                </td>
-                                <td className="lg:text-[12px] text-[.6rem] pl-1 pr-1 p-[4px] text-center capitalize">
-                                  {item?.base_quantity}
-                                </td>
-                                <td className="lg:text-[12px] text-[.6rem] pl-1 pr-1 p-[4px] text-center capitalize">
-                                  --
-                                </td>
-                                <td className="lg:text-[12px] text-[.6rem] pl-1 pr-1 p-[4px] text-center capitalize">
-                                  {percentage}%
-                                </td>
-                                <td className="lg:text-[12px] text-[.6rem] pl-1 pr-1 p-[4px] text-center capitalize">
-                                  --
-                                </td>
-                                <td className="lg:text-[12px] text-[.6rem] pl-1 pr-1 p-[4px] text-center capitalize">
-                                  --
-                                </td>
-                                <td className="lg:text-[12px] text-[.6rem] pl-1 pr-1 p-[4px] text-center capitalize">
-                                  --
-                                </td>
-                                <td className="lg:text-[12px] text-[.6rem] pl-1 pr-1 p-[4px] text-center capitalize">
-                                  {item?.status}
-                                </td>
-                                <td
-                                  className="lg:text-[12px] text-[.6rem] pl-1 pr-1 p-[4px] text-center capitalize cursor-pointer"
-                                  onClick={() =>
-                                    deleteOrder(item?.order_id, item?.pair_id)
-                                  }
-                                >
-                                  cancel
-                                </td>
-                              </tr>
-                            );
-                          })}
-                      </tbody>
-                    ) : (
-                      <tbody>
+                    <tbody>
+                      {!loading ? (
+                        <>
+                          {Array.isArray(openOrder) && openOrder?.length > 0 ? (
+                            <>
+                              {Array.isArray(openOrder) &&
+                                openOrder?.map((item, index) => {
+                                  const date = formatDate(item?.created_at);
+                                  const percentage =
+                                    (item?.executed_base_quantity /
+                                      item?.base_quantity) *
+                                    100;
+                                  return (
+                                    <tr key={index}>
+                                      <td className="lg:text-[12px] text-[.6rem] pl-1 pr-1 p-[4px] text-center capitalize ">
+                                        {date}
+                                      </td>
+                                      <td className="lg:text-[12px] text-[.6rem] pl-1 pr-1 p-[4px] text-center uppercase">
+                                        {"BtcUsdt"}
+                                      </td>
+                                      <td className="lg:text-[12px] text-[.6rem] pl-1 pr-1 p-[4px] text-center capitalize">
+                                        {item?.order_type}
+                                      </td>
+                                      <td className="lg:text-[12px] text-[.6rem] pl-1 pr-1 p-[4px] text-center capitalize">
+                                        {item?.type}
+                                      </td>
+                                      <td className="lg:text-[12px] text-[.6rem] pl-1 pr-1 p-[4px] text-center capitalize">
+                                        {item?.order_price}
+                                      </td>
+                                      <td className="lg:text-[12px] text-[.6rem] pl-1 pr-1 p-[4px] text-center capitalize">
+                                        {item?.base_quantity}
+                                      </td>
+                                      <td className="lg:text-[12px] text-[.6rem] pl-1 pr-1 p-[4px] text-center capitalize">
+                                        --
+                                      </td>
+                                      <td className="lg:text-[12px] text-[.6rem] pl-1 pr-1 p-[4px] text-center capitalize">
+                                        {percentage}%
+                                      </td>
+                                      <td className="lg:text-[12px] text-[.6rem] pl-1 pr-1 p-[4px] text-center capitalize">
+                                        --
+                                      </td>
+                                      <td className="lg:text-[12px] text-[.6rem] pl-1 pr-1 p-[4px] text-center capitalize">
+                                        --
+                                      </td>
+                                      <td className="lg:text-[12px] text-[.6rem] pl-1 pr-1 p-[4px] text-center capitalize">
+                                        --
+                                      </td>
+                                      <td className="lg:text-[12px] text-[.6rem] pl-1 pr-1 p-[4px] text-center capitalize">
+                                        {item?.status}
+                                      </td>
+                                      <td
+                                        className="lg:text-[12px] text-[.6rem] pl-1 pr-1 p-[4px] text-center capitalize cursor-pointer"
+                                        onClick={() =>
+                                          deleteOrder(
+                                            item?.order_id,
+                                            item?.pair_id
+                                          )
+                                        }
+                                      >
+                                        cancel
+                                      </td>
+                                    </tr>
+                                  );
+                                })}
+                            </>
+                          ) : (
+                            <tr>
+                              <td
+                                colSpan={13}
+                                rowSpan={6}
+                                className="text-center text-sm py-4"
+                              >
+                                <div className="flex items-center justify-center h-[300px] text-sm text-gray-400">
+                                  No Data found
+                                </div>
+                              </td>
+                            </tr>
+                          )}
+                        </>
+                      ) : (
                         <tr>
-                          <td
-                            colSpan={13}
-                            rowSpan={6}
-                            className="text-center text-sm py-4"
-                          >
-                            <div className="flex items-center justify-center h-[300px] text-sm text-gray-400">
-                              No Data found
+                          <td colSpan={13}>
+                            <div className="h-[10rem] w-full flex justify-center items-center">
+                              <ScaleLoader color="#FCD535" />
                             </div>
                           </td>
                         </tr>
-                      </tbody>
-                    )}
+                      )}
+                    </tbody>
                   </table>
                 </div>
               </>
@@ -242,13 +258,16 @@ export const OpenOrders = ({ dark }) => {
                       <tbody>
                         {Array.isArray(orderHistory) &&
                         orderHistory.length > 0 ? (
-                          orderHistory.map((item, index) => {
-                            const date = formatDate(item?.date_time);
-                            const isEven = index % 2 === 0;
-                            return (
-                              <tr
-                                key={index}
-                                className={`
+                          <>
+                            {Array.isArray(orderHistory) &&
+                            orderHistory.length > 0 ? (
+                              orderHistory.map((item, index) => {
+                                const date = formatDate(item?.date_time);
+                                const isEven = index % 2 === 0;
+                                return (
+                                  <tr
+                                    key={index}
+                                    className={`
                                 ${
                                   dark
                                     ? isEven
@@ -258,52 +277,62 @@ export const OpenOrders = ({ dark }) => {
                                     ? "bg-[white] "
                                     : "bg-zinc-100"
                                 } hover:bg-[#353842] transition-all duration-200`}
-                              >
-                                <td className="p-1 text-center whitespace-nowrap">
-                                  {date}
-                                </td>
-                                <td className="p-1 text-center uppercase whitespace-nowrap">
-                                  {item?.pair_symbol}
-                                </td>
-                                <td className="p-1 text-center capitalize text-blue-400 whitespace-nowrap">
-                                  {item?.order_type}
-                                </td>
+                                  >
+                                    <td className="p-1 text-center whitespace-nowrap">
+                                      {date}
+                                    </td>
+                                    <td className="p-1 text-center uppercase whitespace-nowrap">
+                                      {item?.pair_symbol}
+                                    </td>
+                                    <td className="p-1 text-center capitalize text-blue-400 whitespace-nowrap">
+                                      {item?.order_type}
+                                    </td>
+                                    <td
+                                      className={`p-1 text-center capitalize whitespace-nowrap ${
+                                        item?.type?.toLowerCase() === "buy"
+                                          ? "text-green-400"
+                                          : "text-red-400"
+                                      }`}
+                                    >
+                                      {item?.type}
+                                    </td>
+                                    <td className="p-1 text-center  whitespace-nowrap">
+                                      {item?.order_price}
+                                    </td>
+                                    <td className="p-1 text-center whitespace-nowrap">
+                                      {item?.base_quantity}
+                                    </td>
+                                    <td
+                                      className={`p-1 text-center capitalize whitespace-nowrap ${
+                                        item?.status === "FILLED"
+                                          ? "text-green-400"
+                                          : item?.status === "pending"
+                                          ? "text-yellow-400"
+                                          : "text-red-400"
+                                      }`}
+                                    >
+                                      {item?.status}
+                                    </td>
+                                  </tr>
+                                );
+                              })
+                            ) : (
+                              <tr>
                                 <td
-                                  className={`p-1 text-center capitalize whitespace-nowrap ${
-                                    item?.type?.toLowerCase() === "buy"
-                                      ? "text-green-400"
-                                      : "text-red-400"
-                                  }`}
+                                  colSpan={8}
+                                  className="text-center py-10 text-gray-400"
                                 >
-                                  {item?.type}
-                                </td>
-                                <td className="p-1 text-center  whitespace-nowrap">
-                                  {item?.order_price}
-                                </td>
-                                <td className="p-1 text-center whitespace-nowrap">
-                                  {item?.base_quantity}
-                                </td>
-                                <td
-                                  className={`p-1 text-center capitalize whitespace-nowrap ${
-                                    item?.status === "FILLED"
-                                      ? "text-green-400"
-                                      : item?.status === "pending"
-                                      ? "text-yellow-400"
-                                      : "text-red-400"
-                                  }`}
-                                >
-                                  {item?.status}
+                                  No Data Found
                                 </td>
                               </tr>
-                            );
-                          })
+                            )}
+                          </>
                         ) : (
                           <tr>
-                            <td
-                              colSpan={8}
-                              className="text-center py-10 text-gray-400"
-                            >
-                              No Data Found
+                            <td colSpan={8}>
+                              <div className="h-[10rem] w-full flex justify-center items-center">
+                                <ScaleLoader color="#FCD535" />
+                              </div>
                             </td>
                           </tr>
                         )}

@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { setOpen } from "../store/webSocket";
 import { TopMoves } from "./apiCall";
 import { useNavigate } from "react-router-dom";
+import { ScaleLoader } from "react-spinners";
 
 const TopMovers = ({ dark, setSearchQuery, setSearchParams }) => {
   const tabs = ["All", "Hot", "Losers", "24h Vol", "Gainers"];
@@ -95,45 +96,55 @@ const TopMovers = ({ dark, setSearchQuery, setSearchParams }) => {
           open ? "max-h-[10rem]" : "max-h-[7rem]"
         } no-scrollbar`}
       >
-        {filteredData()?.map((mover, index) => (
-          <div
-            key={index}
-            className={`flex justify-between items-center p-2 rounded-lg cursor-pointer `}
-            onClick={() => {
-              handlePairClick(mover?.pair_symbol);
-            }}
-          >
-            <div className="flex gap-3 items-center justify-between">
-              <div>
-                <img src={mover?.coin_icon} className="h-6 w-6" />
-              </div>
-              <div>
-                <div className="font-medium text-xs">{mover?.pair_symbol}</div>
-                <div className="text-xs text-gray-400">{mover?.volume}</div>
-              </div>
-            </div>
-            <div className="flex justify-between items-center gap-3">
-              <div>
-                <div className="text-xs text-gray-400">
-                  ${mover?.current_price}
-                </div>
-              </div>
+        {Array.isArray(filteredData()) && filteredData()?.length > 0 ? (
+          <>
+            {filteredData()?.map((mover, index) => (
               <div
-                className={`font-semibold text-[12px] p-1 rounded-md 
+                key={index}
+                className={`flex justify-between items-center p-2 rounded-lg cursor-pointer `}
+                onClick={() => {
+                  handlePairClick(mover?.pair_symbol);
+                }}
+              >
+                <div className="flex gap-3 items-center justify-between">
+                  <div>
+                    <img src={mover?.coin_icon} className="h-6 w-6" />
+                  </div>
+                  <div>
+                    <div className="font-medium text-xs">
+                      {mover?.pair_symbol}
+                    </div>
+                    <div className="text-xs text-gray-400">{mover?.volume}</div>
+                  </div>
+                </div>
+                <div className="flex justify-between items-center gap-3">
+                  <div>
+                    <div className="text-xs text-gray-400">
+                      ${mover?.current_price}
+                    </div>
+                  </div>
+                  <div
+                    className={`font-semibold text-[12px] p-1 rounded-md 
                 ${
                   mover?.change_in_price > 0 && activeTab !== "Losers"
                     ? "text-white bg-green-700"
                     : "text-white bg-red-700"
                 }`}
-              >
-                {mover?.change_in_price > 0 && activeTab !== "Losers"
-                  ? "+"
-                  : " "}
-                {mover?.change_in_price}%
+                  >
+                    {mover?.change_in_price > 0 && activeTab !== "Losers"
+                      ? "+"
+                      : " "}
+                    {mover?.change_in_price}%
+                  </div>
+                </div>
               </div>
-            </div>
+            ))}
+          </>
+        ) : (
+          <div className="h-full w-full flex justify-center items-center">
+            <ScaleLoader color="#FCD535" />
           </div>
-        ))}
+        )}
       </div>
     </div>
   );

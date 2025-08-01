@@ -87,7 +87,7 @@ export const ToggleButSell = ({
       }));
     }
   }, [currentPrice]);
-  const userData = JSON.parse(localStorage.getItem("userData")) || {};
+  const userData = JSON.parse(localStorage.getItem("userData"));
   const item = allMovers?.find(
     (item) => item.pair_symbol?.toLowerCase() === searchQuery?.toLowerCase()
   );

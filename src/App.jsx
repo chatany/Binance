@@ -18,6 +18,8 @@ import ToastProvider from "./Toastify/ToastProvider";
 import { ResetPassword } from "./Login/ResetPassword";
 function App() {
   const last = JSON.parse(localStorage.getItem("lastPair")) || "BTCUSDT";
+  const userData = JSON.parse(localStorage.getItem("userData"));
+
   return (
     <>
       <ToastProvider />
@@ -38,7 +40,16 @@ function App() {
           <Route path="/Market" element={<MarketCom />} />
           <Route path="/input" element={<InputComponent />} />
           <Route path="/w" element={<Socket />} />
-          <Route path="/login" element={<Login />} />
+          <Route
+            path="/login"
+            element={
+              userData?.token ? (
+                <Navigate to={`/spot/${last}`} replace />
+              ) : (
+                <Login />
+              )
+            }
+          />
           <Route path="/register" element={<Register />} />
           <Route path="/forgot" element={<Forgotpass />} />
           <Route path="/Reset/:userId" element={<ResetPassword />} />
