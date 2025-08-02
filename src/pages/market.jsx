@@ -47,7 +47,7 @@ export const MarketCom = ({ dark, SetSearchQuery, searchQuery }) => {
     }
 
     // Step 3: If favorite mode is on, filter from search-filtered data
-    if (favorite) {
+    if (favorite && Array.isArray(faverateData)) {
       data = data.filter((item) =>
         faverateData.some((fav) => fav.pair_id === item.pair_id)
       );
@@ -177,7 +177,7 @@ export const MarketCom = ({ dark, SetSearchQuery, searchQuery }) => {
             {/* <ScrollableTabsBar dark={dark} /> */}
           </div>
         </div>
-        {filteredData?.length > 0 ? (
+        {!isLoading ? (
           <div className="h-[19rem] overflow-x-auto overflow-y-auto p-[0px_8px_8px_12px]">
             {filteredData?.length > 0 ? (
               <div>
