@@ -16,9 +16,10 @@ import { Register } from "./Login/Register";
 import { Forgotpass } from "./Login/ForgotPassword";
 import ToastProvider from "./Toastify/ToastProvider";
 import { ResetPassword } from "./Login/ResetPassword";
+import { useAuth } from "./hooks/useAuth";
 function App() {
   const last = JSON.parse(localStorage.getItem("lastPair")) || "BTCUSDT";
-  const userData = JSON.parse(localStorage.getItem("userData"));
+  const userData = useAuth();
 
   return (
     <>
