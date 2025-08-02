@@ -212,6 +212,17 @@ export const ToggleButSell = ({
       openOrders(item?.pair_id, userData?.user_id, dispatch);
       OrderHistory(dispatch);
       setBuySliderValue(0);
+      setFormValues((prev) => ({
+        ...prev,
+        limitAmount: "",
+        sellAmount: "",
+        MarketBuy: "",
+        MarketSell: "",
+        stopBuyAmount: "",
+        stopBuyStop: "",
+        stopSellAmount: "",
+        stopSellStop: "",
+      }));
     }
   };
   const handleSell = async () => {
@@ -243,6 +254,10 @@ export const ToggleButSell = ({
       openOrders(item?.pair_id, userData?.user_id, dispatch);
       OrderHistory(dispatch);
       setSellSliderValue(0);
+      setFormValues((prev) => ({
+        ...prev,
+        sellAmount: "",
+      }));
     }
   };
   const marketObj = {
@@ -284,6 +299,10 @@ export const ToggleButSell = ({
       openOrders(item?.pair_id, userData?.user_id, dispatch);
       OrderHistory(dispatch);
       setBuyMarketSliderValue(0);
+      setFormValues((prev) => ({
+        ...prev,
+        MarketBuy: "",
+      }));
     }
   };
   const marketSellObj = {
@@ -325,6 +344,11 @@ export const ToggleButSell = ({
       openOrders(item?.pair_id, userData?.user_id, dispatch);
       OrderHistory(dispatch);
       setSellMarketSliderValue(0);
+      setFormValues((prev) => ({
+        ...prev,
+
+        MarketSell: "",
+      }));
     }
   };
   const validateBuyAmount = (val, price, key) => {
@@ -436,6 +460,11 @@ export const ToggleButSell = ({
       openOrders(item?.pair_id, userData?.user_id, dispatch);
       OrderHistory(dispatch);
       setBuyStopSliderValue(0);
+      setFormValues((prev) => ({
+        ...prev,
+        stopBuyAmount: "",
+        stopBuyStop: "",
+      }));
     }
   };
   const handleStopSell = async () => {
@@ -464,6 +493,11 @@ export const ToggleButSell = ({
       openOrders(item?.pair_id, userData?.user_id, dispatch);
       OrderHistory(dispatch);
       setSellStopSliderValue(0);
+      setFormValues((prev) => ({
+        ...prev,
+        stopSellAmount: "",
+        stopSellStop: "",
+      }));
     }
   };
   const handleNavigate = () => {
