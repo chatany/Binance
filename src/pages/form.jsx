@@ -12,12 +12,10 @@ import { useNavigate } from "react-router-dom";
 import { setApiIds, setPriceDecimal } from "../store/webSocket";
 export const Form = ({ dark, searchQuery }) => {
   const isOpen = useSelector((state) => state.counter.open);
-  const { allMovers, currentPrice, pairId } = useSelector(
+  const { allMovers, currentPrice, pairId, balance } = useSelector(
     (state) => state.counter
   );
-  const success = useSelector((state) => state.counter.isSuccess);
   const [activeTab, setActiveTab] = useState("Limit");
-  const [balance, setBalance] = useState(null);
   const [buySliderValue, setBuySliderValue] = useState(0);
   const [sellSliderValue, setSellSliderValue] = useState(0);
   const [buyMarketSliderValue, setBuyMarketSliderValue] = useState(0);
@@ -158,10 +156,12 @@ export const Form = ({ dark, searchQuery }) => {
     },
   }));
   useEffect(() => {
+    OrderHistory(dispatch);
+  }, []);
+  useEffect(() => {
     if (item?.pair_id) {
-      buysellBalance(item?.pair_id, setBalance);
+      buysellBalance(item?.pair_id, dispatch);
       openOrders(item?.pair_id, userData?.user_id, dispatch);
-      OrderHistory(dispatch);
       if (apiId != item?.api_id) {
         setApiId(item?.api_id);
         dispatch(setApiIds(item?.api_id));
@@ -236,7 +236,7 @@ export const Form = ({ dark, searchQuery }) => {
       console.error("Failed to fetch second API", err);
     } finally {
       setIsSuccess(false);
-      buysellBalance(item?.pair_id, setBalance);
+      buysellBalance(item?.pair_id, dispatch);
       openOrders(item?.pair_id, userData?.user_id, dispatch);
       OrderHistory(dispatch);
     }
@@ -266,7 +266,7 @@ export const Form = ({ dark, searchQuery }) => {
       console.error("Failed to fetch second API", err);
     } finally {
       setIsSuccess(false);
-      buysellBalance(item?.pair_id, setBalance);
+      buysellBalance(item?.pair_id, dispatch);
       openOrders(item?.pair_id, userData?.user_id, dispatch);
       OrderHistory(dispatch);
     }
@@ -309,7 +309,7 @@ export const Form = ({ dark, searchQuery }) => {
       console.error("Failed to fetch second API", err);
     } finally {
       setIsSuccess(false);
-      buysellBalance(item?.pair_id, setBalance);
+      buysellBalance(item?.pair_id, dispatch);
       openOrders(item?.pair_id, userData?.user_id, dispatch);
       OrderHistory(dispatch);
     }
@@ -350,7 +350,7 @@ export const Form = ({ dark, searchQuery }) => {
       console.error("Failed to fetch second API", err);
     } finally {
       setIsSuccess(false);
-      buysellBalance(item?.pair_id, setBalance);
+      buysellBalance(item?.pair_id, dispatch);
       openOrders(item?.pair_id, userData?.user_id, dispatch);
       OrderHistory(dispatch);
     }
@@ -462,7 +462,7 @@ export const Form = ({ dark, searchQuery }) => {
       console.error("Failed to fetch second API", err);
     } finally {
       setIsSuccess(false);
-      buysellBalance(item?.pair_id, setBalance);
+      buysellBalance(item?.pair_id, dispatch);
       openOrders(item?.pair_id, userData?.user_id, dispatch);
       OrderHistory(dispatch);
     }
@@ -489,7 +489,7 @@ export const Form = ({ dark, searchQuery }) => {
       console.error("Failed to fetch second API", err);
     } finally {
       setIsSuccess(false);
-      buysellBalance(item?.pair_id, setBalance);
+      buysellBalance(item?.pair_id, dispatch);
       openOrders(item?.pair_id, userData?.user_id, dispatch);
       OrderHistory(dispatch);
     }
@@ -504,35 +504,33 @@ export const Form = ({ dark, searchQuery }) => {
     <div
       className={` ${
         isOpen ? "h-[28.7rem]" : "h-[25.2rem]"
-      } w-full     rounded-lg  ${
-        dark ? "bg-[#181A20]" : "bg-white"
-      }`}
+      } w-full     rounded-lg  ${dark ? "bg-[#181A20]" : "bg-white"}`}
     >
       {/* <div
-        className={` ${
-          dark ? "border-[#2B3139]" : "border-[#EAECEF]"
-        } border-b-1`}
-      >
-        <div className=" flex text-[12px] p-2 w-[50%]">
-          {tab.map((tab) => (
-            <button
-              key={tab}
-              onClick={() => setActive(tab)}
-              className={`flex-1 text-center py-2 font-medium transition-colors cursor-pointer duration-300 ${
-                dark
-                  ? active === tab
-                    ? "text-yellow-500 border-b-2  bg-[#181A20]"
-                    : "text-gray-600 hover:text-yellow-500 bg-[#181A20] border-[50%]"
-                  : active === tab
-                  ? "text-yellow-500 border-b-2 bg-white border-[50%]"
-                  : "text-gray-600 hover:text-yellow-500 bg-zinc-100 border-[50%]"
-              }`}
-            >
-              {tab}
-            </button>
-          ))}
-        </div>
-      </div> */}
+          className={` ${
+            dark ? "border-[#2B3139]" : "border-[#EAECEF]"
+          } border-b-1`}
+        >
+          <div className=" flex text-[12px] p-2 w-[50%]">
+            {tab.map((tab) => (
+              <button
+                key={tab}
+                onClick={() => setActive(tab)}
+                className={`flex-1 text-center py-2 font-medium transition-colors cursor-pointer duration-300 ${
+                  dark
+                    ? active === tab
+                      ? "text-yellow-500 border-b-2  bg-[#181A20]"
+                      : "text-gray-600 hover:text-yellow-500 bg-[#181A20] border-[50%]"
+                    : active === tab
+                    ? "text-yellow-500 border-b-2 bg-white border-[50%]"
+                    : "text-gray-600 hover:text-yellow-500 bg-zinc-100 border-[50%]"
+                }`}
+              >
+                {tab}
+              </button>
+            ))}
+          </div>
+        </div> */}
       <div className=" flex text-[16px] p-0 w-[50%]">
         {marketTabs.map((tab) => (
           <button
@@ -556,11 +554,7 @@ export const Form = ({ dark, searchQuery }) => {
         <div
           className={`flex sm:flex-row justify-center w-full  gap-3 flex-col items-center  `}
         >
-          <div
-            className={`w-[50%]   ${
-              isOpen ? "space-y-3" : "space-y-0"
-            }`}
-          >
+          <div className={`w-[50%]   ${isOpen ? "space-y-3" : "space-y-0"}`}>
             <div className="p-[5px] flex flex-col gap-2">
               <CryptoInput
                 label="Price"
@@ -668,10 +662,10 @@ export const Form = ({ dark, searchQuery }) => {
                 </span>
               </div>
               {/* <div className="flex justify-between">
-                <div className="underline  text-gray-400">Max Buy</div>
+                  <div className="underline  text-gray-400">Max Buy</div>
 
-                <div> --BTC</div>
-              </div> */}
+                  <div> --BTC</div>
+                </div> */}
             </div>
             <div className="w-full flex justify-center">
               <button
@@ -798,10 +792,10 @@ export const Form = ({ dark, searchQuery }) => {
                 </div>
               </div>
               {/* <div className="flex justify-between">
-                <div className="underline  text-gray-400">Max Buy</div>
+                  <div className="underline  text-gray-400">Max Buy</div>
 
-                <div>--USDT</div>
-              </div> */}
+                  <div>--USDT</div>
+                </div> */}
             </div>
             <div className="w-full flex justify-center">
               <button
@@ -905,10 +899,10 @@ export const Form = ({ dark, searchQuery }) => {
                 </span>
               </div>
               {/* <div className="flex justify-between">
-                <div className="underline  text-[#848E9C]">Max Buy</div>
+                  <div className="underline  text-[#848E9C]">Max Buy</div>
 
-                <div> --BTC</div>
-              </div> */}
+                  <div> --BTC</div>
+                </div> */}
             </div>
             <div className="w-full flex justify-center">
               <button
@@ -1136,10 +1130,10 @@ export const Form = ({ dark, searchQuery }) => {
                 </span>
               </div>
               {/* <div className="flex justify-between">
-                <div className="underline  text-gray-400">Max Buy</div>
+                  <div className="underline  text-gray-400">Max Buy</div>
 
-                <div> --BTC</div>
-              </div> */}
+                  <div> --BTC</div>
+                </div> */}
             </div>
             <div className="w-full flex justify-center">
               <button
@@ -1264,10 +1258,10 @@ export const Form = ({ dark, searchQuery }) => {
                 </div>
               </div>
               {/* <div className="flex justify-between">
-                <div className="underline  text-gray-400">Max Buy</div>
+                  <div className="underline  text-gray-400">Max Buy</div>
 
-                <div>--USDT</div>
-              </div> */}
+                  <div>--USDT</div>
+                </div> */}
             </div>
             <div className="w-full flex justify-center">
               <button

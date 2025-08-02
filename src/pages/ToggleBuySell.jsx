@@ -22,9 +22,10 @@ export const ToggleButSell = ({
   searchQuery,
 }) => {
   const isOpen = useSelector((state) => state.counter.open);
-  const { allMovers, currentPrice,apiId } = useSelector((state) => state.counter);
+  const { allMovers, currentPrice, apiId, balance } = useSelector(
+    (state) => state.counter
+  );
   const [activeTab, setActiveTab] = useState("Limit");
-  const [balance, setBalance] = useState(null);
   const [buySliderValue, setBuySliderValue] = useState(0);
   const [sellSliderValue, setSellSliderValue] = useState(0);
   const [buyMarketSliderValue, setBuyMarketSliderValue] = useState(0);
@@ -133,13 +134,6 @@ export const ToggleButSell = ({
       fontSize: "14px",
     },
   }));
-  useEffect(() => {
-    if (item?.pair_id || isSuccess) {
-      buysellBalance(item?.pair_id, setBalance);
-      openOrders(item?.pair_id, userData?.user_id, dispatch);
-      OrderHistory(dispatch);
-    }
-  }, [item?.pair_id, isSuccess]);
 
   const marks = [
     { value: 0, label: "0" },
@@ -188,6 +182,9 @@ export const ToggleButSell = ({
       console.error("Failed to fetch second API", err);
     } finally {
       setIsSuccess(false);
+      buysellBalance(item?.pair_id, dispatch);
+      openOrders(item?.pair_id, userData?.user_id, dispatch);
+      OrderHistory(dispatch);
     }
   };
   const handleSell = async () => {
@@ -211,6 +208,9 @@ export const ToggleButSell = ({
       console.error("Failed to fetch second API", err);
     } finally {
       setIsSuccess(false);
+      buysellBalance(item?.pair_id, dispatch);
+      openOrders(item?.pair_id, userData?.user_id, dispatch);
+      OrderHistory(dispatch);
     }
   };
   const marketObj = {
@@ -244,6 +244,9 @@ export const ToggleButSell = ({
       console.error("Failed to fetch second API", err);
     } finally {
       setIsSuccess(false);
+      buysellBalance(item?.pair_id, dispatch);
+      openOrders(item?.pair_id, userData?.user_id, dispatch);
+      OrderHistory(dispatch);
     }
   };
   const marketSellObj = {
@@ -277,6 +280,9 @@ export const ToggleButSell = ({
       console.error("Failed to fetch second API", err);
     } finally {
       setIsSuccess(false);
+      buysellBalance(item?.pair_id, dispatch);
+      openOrders(item?.pair_id, userData?.user_id, dispatch);
+      OrderHistory(dispatch);
     }
   };
   const validateBuyAmount = (val, price, key) => {
@@ -380,6 +386,9 @@ export const ToggleButSell = ({
       console.error("Failed to fetch second API", err);
     } finally {
       setIsSuccess(false);
+      buysellBalance(item?.pair_id, dispatch);
+      openOrders(item?.pair_id, userData?.user_id, dispatch);
+      OrderHistory(dispatch);
     }
   };
   const handleStopSell = async () => {
@@ -400,6 +409,9 @@ export const ToggleButSell = ({
       console.error("Failed to fetch second API", err);
     } finally {
       setIsSuccess(false);
+      buysellBalance(item?.pair_id, dispatch);
+      openOrders(item?.pair_id, userData?.user_id, dispatch);
+      OrderHistory(dispatch);
     }
   };
   const handleNavigate = () => {

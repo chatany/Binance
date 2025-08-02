@@ -45,10 +45,15 @@ export const counterSlice = createSlice({
     isFav: false,
     apiId: "",
     priceDecimal: 0,
+    balance: {},
+    searchData: [],
   },
   reducers: {
     incrementByAmount: (state, action) => {
       state.tikerData = action.payload;
+    },
+    setSearchData: (state, action) => {
+      state.searchData = action.payload;
     },
     setPriceDecimal: (state, action) => {
       state.priceDecimal = action.payload;
@@ -159,13 +164,18 @@ export const counterSlice = createSlice({
     setApiIds: (state, action) => {
       state.apiId = action.payload;
     },
+    setBalance: (state, action) => {
+      state.balance = action.payload;
+    },
   },
 });
 
 export const {
   increment,
   setCountryData,
+  setBalance,
   setIsFav,
+  setSearchData,
   decrement,
   setApiIds,
   incrementByAmount,
