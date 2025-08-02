@@ -36,7 +36,6 @@ const ScrollStatsBar = ({ items, dark }) => {
       {/* {showLeft && ( */}
       <button
         onClick={() => scroll("left")}
-        name="left"
         className={`absolute left-0 z-10 ${
           dark ? "bg-gray-700" : "bg-transparent"
         }  bg-gray-700 rounded-full shadow cursor-pointer`}
@@ -58,7 +57,6 @@ const ScrollStatsBar = ({ items, dark }) => {
       {/* {showRight && ( */}
       <button
         onClick={() => scroll("right")}
-        name="right"
         className={`absolute -right-2 z-10 ${
           dark ? "bg-gray-700" : "bg-transparent"
         } bg-gray-700 rounded-full shadow cursor-pointer`}
