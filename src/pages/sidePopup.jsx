@@ -63,6 +63,7 @@ export const SidePopup = ({
     const symbols = item;
     if (symbols) {
       navigate(`/spot/${item}`);
+      handleClose();
     }
   };
   const popupRef = useRef(null);
