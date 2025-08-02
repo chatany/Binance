@@ -12,6 +12,7 @@ import {
 import { allMovers, TopMoves } from "./apiCall";
 import { io } from "socket.io-client";
 import { CircularProgressbarWithChildren } from "react-circular-progressbar";
+import { apiRequest } from "../Helper";
 const socket = io("https://socket.bitzup.com");
 export const Socket = ({ searchQuery }) => {
   const dispatch = useDispatch();
@@ -37,12 +38,12 @@ export const Socket = ({ searchQuery }) => {
     if (!searchQuery) return;
     const fetchRestData = async () => {
       try {
-        const res = await fetch(
-          `https://server-yo1d.onrender.com/binance-ticker?url=${searchQuery.toUpperCase()}`
-        );
-        const data = await res.json();
+        const { data, status } = await apiRequest({
+          method: "get",
+          url: `https://server-yo1d.onrender.com/binance-ticker?url=${searchQuery.toUpperCase()}`,
+        });
         dispatch(setCurrentPrice(data?.lastPrice));
-        if (res.status === 200) {
+        if (status === 200) {
           dispatch(
             incrementByAmount({
               symbol: data?.symbol,
@@ -149,11 +150,11 @@ export const Socket = ({ searchQuery }) => {
     if (!searchQuery) return;
     const fetchRestData = async () => {
       try {
-        const res = await fetch(
-          `https://server-yo1d.onrender.com/binance-order?url=${searchQuery.toUpperCase()}`
-        );
-        const data = await res.json();
-        if (res.status === 200) {
+        const { data, status } = await apiRequest({
+          method: "get",
+          url: `https://server-yo1d.onrender.com/binance-order?url=${searchQuery.toUpperCase()}`,
+        });
+        if (status === 200) {
           dispatch(setOrderData(data));
         }
       } catch (err) {}
@@ -225,11 +226,11 @@ export const Socket = ({ searchQuery }) => {
     if (!searchQuery) return;
     const fetchRestData = async () => {
       try {
-        const res = await fetch(
-          `https://server-yo1d.onrender.com/binance-Trades?url=${searchQuery.toUpperCase()}`
-        );
-        const data = await res.json();
-        if (res.status === 200) {
+        const { data, status } = await apiRequest({
+          method: "get",
+          url: `https://server-yo1d.onrender.com/binance-Trades?url=${searchQuery.toUpperCase()}`,
+        });
+        if (status === 200) {
           dispatch(setTradeData(data));
         }
       } catch (err) {}
