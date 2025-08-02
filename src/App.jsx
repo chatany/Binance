@@ -51,9 +51,36 @@ function App() {
               )
             }
           />
-          <Route path="/register" element={<Register />} />
-          <Route path="/forgot" element={<Forgotpass />} />
-          <Route path="/Reset/:userId" element={<ResetPassword />} />
+          <Route
+            path="/register"
+            element={
+              userData?.token ? (
+                <Navigate to={`/spot/${last}`} replace />
+              ) : (
+                <Register />
+              )
+            }
+          />
+          <Route
+            path="/forgot"
+            element={
+              userData?.token ? (
+                <Navigate to={`/spot/${last}`} replace />
+              ) : (
+                <Forgotpass />
+              )
+            }
+          />
+          <Route
+            path="/Reset/:userId"
+            element={
+              userData?.token ? (
+                <Navigate to={`/spot/${last}`} replace />
+              ) : (
+                <ResetPassword />
+              )
+            }
+          />
         </Routes>
       </Router>
     </>
