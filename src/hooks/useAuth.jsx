@@ -13,7 +13,12 @@ export const useAuth = () => {
     };
 
     window.addEventListener("storage", syncLogin);
-    return () => window.removeEventListener("storage", syncLogin);
+    window.addEventListener("userDataChanged", syncLogin); // ✅ custom event listener
+
+    return () => {
+      window.removeEventListener("storage", syncLogin);
+      window.removeEventListener("userDataChanged", syncLogin);
+    };
   }, []);
 
   return user;

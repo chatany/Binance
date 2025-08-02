@@ -44,6 +44,7 @@ export const TopNav = ({
   }, []);
   const handleLogout = () => {
     localStorage.removeItem("userData");
+    window.dispatchEvent(new Event("userDataChanged"));
     setUserData({});
   };
   useEffect(() => {
