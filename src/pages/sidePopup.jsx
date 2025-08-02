@@ -15,13 +15,11 @@ export const SidePopup = ({
   handleClose,
   showSideBar,
 }) => {
-  const { faverateData } = useSelector((state) => state.counter);
-  const [searchData, setSearchData] = useState([]);
+  const { faverateData, searchData } = useSelector((state) => state.counter);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [isVolume, setIsVolume] = useState(false);
   const [searchInput, setSearchInput] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
   useEffect(() => {
     const icon = searchData.find((item) =>
       item.pair_symbol?.toLowerCase().includes(searchQuery.toLowerCase())
@@ -67,9 +65,6 @@ export const SidePopup = ({
       navigate(`/spot/${item}`);
     }
   };
-  useEffect(() => {
-    SearchData({ setSearchData, setIsLoading });
-  }, []);
   const popupRef = useRef(null);
   useEffect(() => {
     const handleClickOutside = (event) => {

@@ -144,7 +144,7 @@ export const Socket = ({ searchQuery }) => {
       if (fallbackIntervalRef.current)
         clearInterval(fallbackIntervalRef.current);
     };
-  }, [searchQuery, apiId]);
+  }, [searchQuery]);
   useEffect(() => {
     if (!searchQuery) return;
     const fetchRestData = async () => {
@@ -220,7 +220,7 @@ export const Socket = ({ searchQuery }) => {
       if (fallbackIntervalRef1.current)
         clearInterval(fallbackIntervalRef1.current);
     };
-  }, [searchQuery, apiId]);
+  }, [searchQuery]);
   useEffect(() => {
     if (!searchQuery) return;
     const fetchRestData = async () => {
@@ -316,7 +316,7 @@ export const Socket = ({ searchQuery }) => {
       if (reconnectTimerRef2.current)
         clearInterval(fallbackIntervalRef2.current);
     };
-  }, [searchQuery, apiId]);
+  }, [searchQuery]);
   useEffect(() => {
     socket.on("disconnect", () => {});
     socket.emit("market", (data) => {});
@@ -328,5 +328,5 @@ export const Socket = ({ searchQuery }) => {
       }
     });
   }, []);
-    return null;
+  return null;
 };

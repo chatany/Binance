@@ -1,12 +1,14 @@
 import { apiRequest } from "../Helper";
 import {
   setAllMovers,
+  setBalance,
   setCountryData,
   setFaverateData,
   SetHelpCenterData,
   setLoading,
   setOpenOrderData,
   setOrderHistory,
+  setSearchData,
   setTopMovers,
 } from "../store/webSocket";
 
@@ -22,14 +24,14 @@ export const fetchData = async () => {
   }
 };
 
-export const SearchData = async ({ setSearchData, setIsLoading }) => {
+export const SearchData = async ({ dispatch, setIsLoading }) => {
   setIsLoading(true);
   try {
     const response1 = await apiRequest({
       method: "get",
       url: `https://server-yo1d.onrender.com/binance-exchange`,
     });
-    setSearchData(response1?.data);
+    dispatch(setSearchData(response1?.data));
   } catch (err) {
     console.error("Failed to fetch data", err);
   } finally {
@@ -126,17 +128,17 @@ export const country = async (dispatch) => {
   }
 };
 
-export const buysellBalance = async (pairId, setBalance) => {
+export const buysellBalance = async (pairId, dispatch) => {
   try {
     const { data, status } = await apiRequest({
       method: "post",
       url: `https://test.bitzup.com/blockchain/wallet/get-buy-sell-balance`,
       data: { pair_id: pairId },
     });
-    if (status === 200) {
-      setBalance(data?.data);
+    if (status === 200 && data.status == 1) {
+      dispatch(setBalance(data?.data));
     }
-    if (status === 400 && data?.status === 3) {
+    if (status === 400 && data?.status == 3) {
       localStorage.removeItem("userData");
       window.dispatchEvent(new Event("userDataChanged"));
       // window.location.href = "/login";
@@ -157,7 +159,7 @@ export const openOrders = async (pairId, userId, dispatch) => {
     if (status === 200 && data?.status == 1) {
       dispatch(setOpenOrderData(data?.data));
     }
-    if (status === 400 && data?.status === 3) {
+    if (status === 400 && data?.status == 3) {
       // window.location.href = "/login";
       localStorage.removeItem("userData");
       window.dispatchEvent(new Event("userDataChanged"));
@@ -175,17 +177,25 @@ export const OrderHistory = async (dispatch) => {
       url: `https://test.bitzup.com/blockchain/wallet/get-all-buy-sell-order`,
       data: {},
     });
-    if (status === 400 && data?.status === 3) {
+    if (status === 400 && data?.status == 3) {
       // window.location.href = "/login";
       localStorage.removeItem("userData");
       window.dispatchEvent(new Event("userDataChanged"));
     }
-    dispatch(setOrderHistory(data?.data));
+    if (status === 200 && data?.status == 1) {
+      dispatch(setOrderHistory(data?.data));
+    }
   } catch (err) {
     console.error("Failed to fetch second API", err);
   }
 };
-export const deleteOpenOrder = async (orderData, dispatch, setIsSuccess) => {
+export const deleteOpenOrder = async (
+  orderData,
+  dispatch,
+  setIsSuccess,
+  pair_id,
+  user_id
+) => {
   try {
     dispatch(setIsSuccess(true));
     const { data, status } = await apiRequest({
@@ -193,7 +203,7 @@ export const deleteOpenOrder = async (orderData, dispatch, setIsSuccess) => {
       url: `https://test.bitzup.com/order/user/cancel-order`,
       data: orderData,
     });
-    if (status === 400 && data?.status === 3) {
+    if (status === 400 && data?.status == 3) {
       // window.location.href = "/login";
       localStorage.removeItem("userData");
       window.dispatchEvent(new Event("userDataChanged"));
@@ -202,6 +212,9 @@ export const deleteOpenOrder = async (orderData, dispatch, setIsSuccess) => {
     console.error("Failed to fetch second API", err);
   } finally {
     dispatch(setIsSuccess(false));
+    openOrders(pair_id, user_id, dispatch);
+    buysellBalance(pair_id, dispatch);
+    OrderHistory(dispatch);
   }
 };
 
@@ -229,6 +242,11 @@ export const getFaverateData = async (dispatch) => {
 
     if (status === 200) {
       dispatch(setFaverateData(data.data));
+    }
+    if (status === 400 && data?.status === 3) {
+      // window.location.href = "/login";
+      localStorage.removeItem("userData");
+      window.dispatchEvent(new Event("userDataChanged"));
     }
   } catch (err) {
     console.error("Failed to fetch second API", err);

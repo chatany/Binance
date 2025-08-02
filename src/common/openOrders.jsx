@@ -7,7 +7,9 @@ import { setIsSuccess } from "../store/webSocket";
 import { ScaleLoader } from "react-spinners";
 
 export const OpenOrders = ({ dark }) => {
-  const { openOrder, orderHistory,loading } = useSelector((state) => state.counter);
+  const { openOrder, orderHistory, loading } = useSelector(
+    (state) => state.counter
+  );
   const [activeTab, setActiveTab] = useState("Open Orders");
   const dispatch = useDispatch();
   const userData = JSON.parse(localStorage.getItem("userData"));
@@ -21,7 +23,13 @@ export const OpenOrders = ({ dark }) => {
       device_type: "windows",
       device_info: "systems",
     };
-    deleteOpenOrder(orderData, dispatch, setIsSuccess);
+    deleteOpenOrder(
+      orderData,
+      dispatch,
+      setIsSuccess,
+      pair_id,
+      userData.user_id
+    );
   };
 
   const userId = "UA8FCF45E1D0"; // Replace with dynamic userId if needed

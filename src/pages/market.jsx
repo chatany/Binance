@@ -1,6 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
 import { HiDotsHorizontal } from "react-icons/hi";
-import ScrollableTabsBar from "../common/leftTab";
 import { getFaverateData, SearchData } from "./apiCall";
 import { CiRepeat } from "react-icons/ci";
 import { useDispatch, useSelector } from "react-redux";
@@ -16,7 +15,6 @@ import { FaStar } from "react-icons/fa";
 import { apiRequest } from "../Helper";
 import { formatDecimal } from "../Constant";
 export const MarketCom = ({ dark, SetSearchQuery, searchQuery }) => {
-  const [searchData, setSearchData] = useState([]);
   const [activeTab, setActiveTab] = useState("Market Trade");
   const [isVolume, setIsVolume] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -26,11 +24,17 @@ export const MarketCom = ({ dark, SetSearchQuery, searchQuery }) => {
   const [searchInput, setSearchInput] = useState("");
   const [showPopup, setShowPopup] = useState(false);
   useEffect(() => {
-    SearchData({ setSearchData, setIsLoading });
+    SearchData({ setIsLoading, dispatch });
   }, []);
 
-  const { tikerData, rounding, tradeData, faverateData, priceDecimal } =
-    useSelector((state) => state.counter);
+  const {
+    tikerData,
+    rounding,
+    tradeData,
+    faverateData,
+    priceDecimal,
+    searchData,
+  } = useSelector((state) => state.counter);
   useEffect(() => {
     // Step 1: Start with full searchData
     let data = [...searchData];

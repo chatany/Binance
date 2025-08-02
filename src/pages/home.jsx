@@ -4,7 +4,6 @@ import { MarketCom } from "./market";
 import { Form } from "./form";
 import MobileSidebar from "./sidebar";
 import { ChartEmbed } from "./chart";
-import { fetchData } from "./apiCall";
 import TopMovers from "./move";
 import {
   TopIconBar1,
@@ -54,9 +53,6 @@ export const Home = () => {
       navigate(`/spot/${last}`, { replace: true });
     }
   }, [symbol, navigate]);
-  useEffect(() => {
-    fetchData();
-  }, [symbol]);
 
   useEffect(() => {
     if (show) {

@@ -15,27 +15,11 @@ export const MarketPopup = ({
   handleClose,
   openMarketPopup,
 }) => {
-  const { faverateData } = useSelector((state) => state.counter);
-  const [searchData, setSearchData] = useState([]);
+  const { faverateData, searchData } = useSelector((state) => state.counter);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [isVolume, setIsVolume] = useState(false);
   const [searchInput, setSearchInput] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
-  useEffect(() => {
-    const icon = searchData.find((item) =>
-      item.pair_symbol?.toLowerCase().includes(searchQuery.toLowerCase())
-    );
-    if (icon) {
-      const isFav = faverateData?.some(
-        (item) => item?.pair_id === icon?.pair_id
-      );
-
-      dispatch(setIconUrl(icon?.coin_icon));
-      dispatch(setPairId(icon?.pair_id));
-      dispatch(setIsFav(isFav));
-    }
-  }, [searchQuery, faverateData]);
   const filteredData = searchData.filter((item) =>
     item.pair_symbol?.toLowerCase().includes(searchInput.toLowerCase())
   );
@@ -68,9 +52,7 @@ export const MarketPopup = ({
       handleClose();
     }
   };
-  useEffect(() => {
-    SearchData({ setSearchData, setIsLoading });
-  }, []);
+
   const popupRef = useRef(null);
   useEffect(() => {
     const handleClickOutside = (event) => {
