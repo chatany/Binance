@@ -140,7 +140,7 @@ export const Form = ({ dark, searchQuery }) => {
       marginLeft: -5,
     },
     "& .MuiSlider-markActive": {
-      border: `4px solid ${dark ? "rgb(245, 245, 245)" : "black"}`,
+      border: `1px solid ${dark ? "rgb(245, 245, 245)" : "black"}`,
       width: 14,
       height: 14,
       marginTop: -7,

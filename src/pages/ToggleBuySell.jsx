@@ -10,6 +10,7 @@ import { buysellBalance, openOrders, OrderHistory } from "./apiCall";
 import { apiRequest } from "../Helper";
 import { BuySellToggle } from "../common/ToggleButton";
 import { IoCloseSharp } from "react-icons/io5";
+import { useNavigate } from "react-router-dom";
 
 export const ToggleButSell = ({
   activeItem,
@@ -31,6 +32,7 @@ export const ToggleButSell = ({
   const [buyMarketSliderValue, setBuyMarketSliderValue] = useState(0);
   const [sellMarketSliderValue, setSellMarketSliderValue] = useState(0);
   const [buyStopSliderValue, setBuyStopSliderValue] = useState(0);
+  const navigate = useNavigate();
   const [sellStopSliderValue, setSellStopSliderValue] = useState(0);
   const dispatch = useDispatch();
   const [isSuccess, setIsSuccess] = useState(false);
@@ -56,6 +58,14 @@ export const ToggleButSell = ({
     stopSellAmount: "",
     stopSellStop: "",
   });
+  const [successMsg, setSuccessMsg] = useState({
+    limitBuy: "",
+    limitSell: "",
+    marketSell: "",
+    marketBuy: "",
+    stopBuy: "",
+    stopSell: "",
+  });
   useEffect(() => {
     setBuySliderValue(0);
     setSellSliderValue(0);
@@ -77,6 +87,18 @@ export const ToggleButSell = ({
       stopSellStop: "",
     }));
   }, [searchQuery]);
+  useEffect(() => {
+    setTimeout(() => {
+      setSuccessMsg({
+        limitBuy: "",
+        limitSell: "",
+        marketSell: "",
+        marketBuy: "",
+        stopBuy: "",
+        stopSell: "",
+      });
+    }, 5000);
+  }, [successMsg]);
   useEffect(() => {
     if (currentPrice) {
       setFormValues((prev) => ({
@@ -171,6 +193,10 @@ export const ToggleButSell = ({
         data: buyObj,
       });
       if (status === 200) {
+        setSuccessMsg((prev) => ({
+          ...prev,
+          marketBuy: data?.message,
+        }));
       }
       if (data?.status == 0) {
         setError((prev) => ({
@@ -185,6 +211,7 @@ export const ToggleButSell = ({
       buysellBalance(item?.pair_id, dispatch);
       openOrders(item?.pair_id, userData?.user_id, dispatch);
       OrderHistory(dispatch);
+      setBuySliderValue(0);
     }
   };
   const handleSell = async () => {
@@ -197,6 +224,10 @@ export const ToggleButSell = ({
         data: SellObj,
       });
       if (status === 200) {
+        setSuccessMsg((prev) => ({
+          ...prev,
+          limitSell: data?.message,
+        }));
       }
       if (data?.status == 0) {
         setError((prev) => ({
@@ -211,6 +242,7 @@ export const ToggleButSell = ({
       buysellBalance(item?.pair_id, dispatch);
       openOrders(item?.pair_id, userData?.user_id, dispatch);
       OrderHistory(dispatch);
+      setSellSliderValue(0);
     }
   };
   const marketObj = {
@@ -233,6 +265,10 @@ export const ToggleButSell = ({
       });
       setIsSuccess(true);
       if (status === 200) {
+        setSuccessMsg((prev) => ({
+          ...prev,
+          marketBuy: data?.message,
+        }));
       }
       if (data?.status == 0) {
         // setError((prev) => ({
@@ -247,6 +283,7 @@ export const ToggleButSell = ({
       buysellBalance(item?.pair_id, dispatch);
       openOrders(item?.pair_id, userData?.user_id, dispatch);
       OrderHistory(dispatch);
+      setBuyMarketSliderValue(0);
     }
   };
   const marketSellObj = {
@@ -269,6 +306,10 @@ export const ToggleButSell = ({
         data: marketSellObj,
       });
       if (status === 200) {
+        setSuccessMsg((prev) => ({
+          ...prev,
+          marketSell: data?.message,
+        }));
       }
       if (data?.status == 0) {
         // setError((prev) => ({
@@ -283,6 +324,7 @@ export const ToggleButSell = ({
       buysellBalance(item?.pair_id, dispatch);
       openOrders(item?.pair_id, userData?.user_id, dispatch);
       OrderHistory(dispatch);
+      setSellMarketSliderValue(0);
     }
   };
   const validateBuyAmount = (val, price, key) => {
@@ -375,6 +417,10 @@ export const ToggleButSell = ({
       });
       setIsSuccess(true);
       if (status === 200) {
+        setSuccessMsg((prev) => ({
+          ...prev,
+          stopBuy: data?.message,
+        }));
       }
       if (data?.status == 0) {
         // setError((prev) => ({
@@ -389,6 +435,7 @@ export const ToggleButSell = ({
       buysellBalance(item?.pair_id, dispatch);
       openOrders(item?.pair_id, userData?.user_id, dispatch);
       OrderHistory(dispatch);
+      setBuyStopSliderValue(0);
     }
   };
   const handleStopSell = async () => {
@@ -402,6 +449,10 @@ export const ToggleButSell = ({
       });
       setIsSuccess(true);
       if (status === 200) {
+        setSuccessMsg((prev) => ({
+          ...prev,
+          stopSell: data?.message,
+        }));
       }
       if (data?.status == 0) {
       }
@@ -412,6 +463,7 @@ export const ToggleButSell = ({
       buysellBalance(item?.pair_id, dispatch);
       openOrders(item?.pair_id, userData?.user_id, dispatch);
       OrderHistory(dispatch);
+      setSellStopSliderValue(0);
     }
   };
   const handleNavigate = () => {
@@ -566,11 +618,18 @@ export const ToggleButSell = ({
                   />
                 </Box>
               </Box>
-              {
-                <div className="text-red-500 text-[13px] p-2">
-                  {error.limitBuyErr}
-                </div>
-              }
+              <div className="h-[3rem]">
+                {error.limitBuyErr && (
+                  <div className="text-red-500 text-[13px] p-2 h-full">
+                    {error.limitBuyErr}
+                  </div>
+                )}
+                {successMsg.limitBuy && (
+                  <div className="text-green-500 text-[13px] p-2 h-full w-full justify-center">
+                    {successMsg.limitBuy}
+                  </div>
+                )}
+              </div>
               <div className="flex items-center space-x-2 p-2 ">
                 <input
                   id="tp-sl"
@@ -689,8 +748,17 @@ export const ToggleButSell = ({
                   />
                 </Box>
               </Box>
-              <div className="text-red-500 text-[13px] p-2">
-                {error.limitSellErr}
+              <div className="h-[3rem]">
+                {error.limitSellErr && (
+                  <div className="text-red-500 text-[13px] p-2 h-full">
+                    {error.limitSellErr}
+                  </div>
+                )}
+                {successMsg.limitSell && (
+                  <div className="text-green-500 text-[13px] p-2 h-full w-full flex justify-center">
+                    {successMsg.limitSell}
+                  </div>
+                )}
               </div>
               <div className="flex items-center space-x-2 p-2 ">
                 <input
@@ -809,8 +877,17 @@ export const ToggleButSell = ({
                   />
                 </Box>
               </Box>
-              <div className="text-red-500 text-[13px] p-2">
-                {error.marketBuyErr}
+              <div className="h-[3rem]">
+                {error.marketBuyErr && (
+                  <div className="text-red-500 text-[13px] p-2 h-full">
+                    {error.marketBuyErr}
+                  </div>
+                )}
+                {successMsg.marketBuy && (
+                  <div className="text-green-500 text-[13px] p-2 h-full w-full flex justify-center">
+                    {successMsg.marketBuy}
+                  </div>
+                )}
               </div>
               <div className="text-[16px] p-2">
                 <div className="flex justify-between">
@@ -910,8 +987,17 @@ export const ToggleButSell = ({
                   />
                 </Box>
               </Box>
-              <div className="text-red-500 text-[13px] p-2">
-                {error.marketSellErr}
+              <div className="h-[3rem]">
+                {error.marketSellErr && (
+                  <div className="text-red-500 text-[13px] p-2 h-full">
+                    {error.marketBuyErr}
+                  </div>
+                )}
+                {successMsg.marketSell && (
+                  <div className="text-green-500 text-[13px] p-2 h-full w-full flex justify-center">
+                    {successMsg.marketSell}
+                  </div>
+                )}
               </div>
               <div className="text-[16px] p-2">
                 <div className="flex justify-between">
@@ -995,8 +1081,17 @@ export const ToggleButSell = ({
                   }}
                 />
               </div>
-              <div className="text-red-500 text-[13px] p-2">
-                {error.stopBuyErr}
+              <div className="h-[3rem]">
+                {error.stopBuyErr && (
+                  <div className="text-red-500 text-[13px] p-2 h-full">
+                    {error.stopBuyErr}
+                  </div>
+                )}
+                {successMsg.stopBuy && (
+                  <div className="text-green-500 text-[13px] p-2 h-full w-full flex justify-center">
+                    {successMsg.stopBuy}
+                  </div>
+                )}
               </div>
               <Box
                 sx={{
@@ -1116,8 +1211,17 @@ export const ToggleButSell = ({
                   }}
                 />
               </div>
-              <div className="text-red-500 text-[13px] p-2">
-                {error.stopSellErr}
+              <div className="h-[3rem]">
+                {error.stopSellErr && (
+                  <div className="text-red-500 text-[13px] p-2 h-full">
+                    {error.stopSellErr}
+                  </div>
+                )}
+                {successMsg.stopSell && (
+                  <div className="text-green-500 text-[13px] p-2 h-full w-full flex justify-center">
+                    {successMsg.stopSell}
+                  </div>
+                )}
               </div>
               <Box
                 sx={{
