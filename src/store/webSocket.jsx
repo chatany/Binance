@@ -47,10 +47,14 @@ export const counterSlice = createSlice({
     priceDecimal: 0,
     balance: {},
     searchData: [],
+    fundData: [],
   },
   reducers: {
     incrementByAmount: (state, action) => {
       state.tikerData = action.payload;
+    },
+    setFundData: (state, action) => {
+      state.fundData = action.payload;
     },
     setSearchData: (state, action) => {
       state.searchData = action.payload;
@@ -172,6 +176,7 @@ export const counterSlice = createSlice({
 
 export const {
   increment,
+  setFundData,
   setCountryData,
   setBalance,
   setIsFav,

@@ -2,19 +2,21 @@ import { useDispatch, useSelector } from "react-redux";
 import { formatDate, tabs } from "../Constant";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { deleteOpenOrder } from "../pages/apiCall";
+import { deleteOpenOrder, getFundsData } from "../pages/apiCall";
 import { setIsSuccess } from "../store/webSocket";
 import { ScaleLoader } from "react-spinners";
 
 export const OpenOrders = ({ dark }) => {
-  const { openOrder, orderHistory, loading } = useSelector(
+  const { openOrder, orderHistory, loading, fundData } = useSelector(
     (state) => state.counter
   );
   const [activeTab, setActiveTab] = useState("Open Orders");
   const dispatch = useDispatch();
   const userData = JSON.parse(localStorage.getItem("userData"));
   const navigate = useNavigate();
-
+  useEffect(() => {
+    getFundsData(dispatch);
+  }, []);
   const deleteOrder = (order_id, pair_id) => {
     const orderData = {
       order_id: order_id,
@@ -349,6 +351,85 @@ export const OpenOrders = ({ dark }) => {
                   </div>
                 </div>
               </>
+            )}
+            {activeTab === "Funds" && (
+              <div className="w-full p-0">
+                <table className="w-full">
+                  <thead className="h-[3rem]">
+                    <tr className="">
+                      <th className="text-[12px] pl-1 pr-1 p-[4px] text-left text-[#707A8A] capitalize w-1/5">
+                        Coin
+                      </th>
+                      <th className="text-[12px] pl-1 pr-1 p-[4px] text-left text-[#707A8A] w-1/5 capitalize">
+                        Total balance
+                      </th>
+                      <th className="text-[12px] pl-1 pr-1 p-[4px] text-left text-[#707A8A] w-1/5 capitalize">
+                        Available Balance
+                      </th>
+                      <th className="text-[12px] pl-1 pr-1 p-[4px] text-left text-[#707A8A] w-1/5">
+                        In order
+                      </th>
+                      <th className="text-[12px] pl-1 pr-1 p-[4px] text-left text-[#707A8A] w-1/5 capitalize">
+                        BTC value
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {!loading ? (
+                      <>
+                        {Array.isArray(fundData) && fundData?.length > 0 ? (
+                          <>
+                            {Array.isArray(fundData) &&
+                              fundData?.map((item, index) => (
+                                <>
+                                  {item?.balance > 0 && (
+                                    <tr key={index}>
+                                      <td className="lg:text-[12px] text-[.6rem] pl-1 pr-1 p-[4px] text-left capitalize ">
+                                        {item?.symbol}
+                                      </td>
+                                      <td className="lg:text-[12px] text-[.6rem] pl-1 pr-1 p-[4px] text-left uppercase">
+                                        {item?.balance}
+                                      </td>
+                                      <td className="lg:text-[12px] text-[.6rem] pl-1 pr-1 p-[4px] text-left capitalize">
+                                        {item?.balance}
+                                      </td>
+                                      <td className="lg:text-[12px] text-[.6rem] pl-1 pr-1 p-[4px] text-left capitalize">
+                                        {0}
+                                      </td>
+                                      <td className="lg:text-[12px] text-[.6rem] pl-1 pr-1 p-[4px] text-left capitalize">
+                                        {0}
+                                      </td>
+                                    </tr>
+                                  )}
+                                </>
+                              ))}
+                          </>
+                        ) : (
+                          <tr>
+                            <td
+                              colSpan={13}
+                              rowSpan={6}
+                              className="text-center text-sm py-4"
+                            >
+                              <div className="flex items-center justify-center h-[300px] text-sm text-gray-400">
+                                No Data found
+                              </div>
+                            </td>
+                          </tr>
+                        )}
+                      </>
+                    ) : (
+                      <tr>
+                        <td colSpan={13}>
+                          <div className="h-[10rem] w-full flex justify-center items-center">
+                            <ScaleLoader color="#FCD535" />
+                          </div>
+                        </td>
+                      </tr>
+                    )}
+                  </tbody>
+                </table>
+              </div>
             )}
           </>
         ) : (

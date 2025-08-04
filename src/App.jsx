@@ -17,6 +17,7 @@ import { Forgotpass } from "./Login/ForgotPassword";
 import ToastProvider from "./Toastify/ToastProvider";
 import { ResetPassword } from "./Login/ResetPassword";
 import { useAuth } from "./hooks/useAuth";
+import { History } from "./pages/history";
 function App() {
   const last = JSON.parse(localStorage.getItem("lastPair")) || "BTCUSDT";
   const userData = useAuth();
@@ -40,6 +41,7 @@ function App() {
           <Route path="/chart" element={<ChartEmbed />} />
           <Route path="/Market" element={<MarketCom />} />
           <Route path="/input" element={<InputComponent />} />
+          <Route path="/history" element={<History />} />
           <Route path="/w" element={<Socket />} />
           <Route
             path="/login"

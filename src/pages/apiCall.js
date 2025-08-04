@@ -4,6 +4,7 @@ import {
   setBalance,
   setCountryData,
   setFaverateData,
+  setFundData,
   SetHelpCenterData,
   setLoading,
   setOpenOrderData,
@@ -242,6 +243,27 @@ export const getFaverateData = async (dispatch) => {
 
     if (status === 200) {
       dispatch(setFaverateData(data.data));
+    }
+    if (status === 400 && data?.status === 3) {
+      // window.location.href = "/login";
+      localStorage.removeItem("userData");
+      window.dispatchEvent(new Event("userDataChanged"));
+    }
+  } catch (err) {
+    console.error("Failed to fetch second API", err);
+  }
+};
+
+export const getFundsData = async (dispatch) => {
+  try {
+    const { data, status } = await apiRequest({
+      method: "post",
+      url: `https://test.bitzup.com/blockchain/wallet/get-all-currencies-balance`,
+      data: {},
+    });
+
+    if (status === 200) {
+      dispatch(setFundData(data.data));
     }
     if (status === 400 && data?.status === 3) {
       // window.location.href = "/login";

@@ -19,6 +19,7 @@ import { OpenOrders } from "../common/openOrders";
 import { Middle } from "./MiddleCom";
 import { TopNav } from "./TopNavBar";
 import { MarketPopup } from "./marketPopup";
+import { Funds } from "./funds";
 export const Home = () => {
   const [dark, setDark] = useState(() => {
     const storedTheme = localStorage.getItem("theme");
@@ -163,7 +164,7 @@ export const Home = () => {
         <div className="lg:hidden flex flex-col w-full p-[0px_4px_4px_4px] ">
           <TopIconBar3 dark={dark} />
           <div className="w-full md:flex hidden pb-2 gap-1">
-            <div className="w-[69%] flex flex-col gap-2 p-1">
+            <div className="w-[62%] flex flex-col gap-2 p-1">
               <div className="h-[400px]  text-xs w-full bg-gray-800  rounded-md ">
                 <ChartEmbed
                   searchQuery={symbol}
@@ -178,7 +179,7 @@ export const Home = () => {
             <div
               className={`${
                 dark ? "bg-[#181A20]" : "bg-white"
-              } w-[30%] space-y-6 P-3 rounded-lg`}
+              } w-[38%] space-y-6 P-3 rounded-lg`}
             >
               <ToggleButSell
                 activeItem={activeItem}
@@ -191,13 +192,20 @@ export const Home = () => {
               />
             </div>
           </div>
-          <div className="md:hidden w-full">
-            <div className="h-[800px]  text-xs w-full   rounded-md ">
+          <div
+            className={`md:hidden w-full   ${
+              dark ? "bg-[#181A20]" : "bg-white"
+            } `}
+          >
+            <div className=" text-xs w-full   rounded-md ">
               <TopIconBar4
                 dark={dark}
                 setOpenMarketPopup={setOpenMarketPopup}
               />
-              <ChartEmbed searchQuery={symbol} className="h-full w-full" />
+              <div className="h-[400px] w-full">
+                <ChartEmbed searchQuery={symbol} />
+              </div>
+              <Funds dark={dark} />
             </div>
           </div>
         </div>

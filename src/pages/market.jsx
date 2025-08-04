@@ -441,7 +441,7 @@ export const MarketCom = ({ dark, SetSearchQuery, searchQuery }) => {
           </div>
         )}
         {activeTab === "My Trade" && (
-          <div className="no-scrollbar h-[22rem] overflow-x-auto overflow-y-auto">
+          <div className="no-scrollbar h-[20rem] overflow-x-auto overflow-y-auto">
             <div className="h-full w-full flex justify-center items-center">
               No Data Found
             </div>
