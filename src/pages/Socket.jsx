@@ -9,7 +9,7 @@ import {
   setTopMovers,
   setTradeData,
 } from "../store/webSocket";
-import { allMovers, TopMoves } from "./apiCall";
+import { allMovers, getFundsData, TopMoves } from "./apiCall";
 import { io } from "socket.io-client";
 import { CircularProgressbarWithChildren } from "react-circular-progressbar";
 import { apiRequest } from "../Helper";
@@ -33,6 +33,7 @@ export const Socket = ({ searchQuery }) => {
   useEffect(() => {
     TopMoves(dispatch);
     allMovers(dispatch);
+    getFundsData(dispatch);
   }, []);
   useEffect(() => {
     if (!searchQuery) return;
@@ -40,7 +41,7 @@ export const Socket = ({ searchQuery }) => {
       try {
         const { data, status } = await apiRequest({
           method: "get",
-          url: `https://server-yo1d.onrender.com/binance-ticker?url=${searchQuery.toUpperCase()}`,
+          url: `https://server-production-70e4.up.railway.app/binance-ticker?url=${searchQuery.toUpperCase()}`,
         });
         dispatch(setCurrentPrice(data?.lastPrice));
         if (status === 200) {
@@ -152,7 +153,7 @@ export const Socket = ({ searchQuery }) => {
       try {
         const { data, status } = await apiRequest({
           method: "get",
-          url: `https://server-yo1d.onrender.com/binance-order?url=${searchQuery.toUpperCase()}`,
+          url: `https://server-production-70e4.up.railway.app/binance-order?url=${searchQuery.toUpperCase()}`,
         });
         if (status === 200) {
           dispatch(setOrderData(data));
@@ -228,7 +229,7 @@ export const Socket = ({ searchQuery }) => {
       try {
         const { data, status } = await apiRequest({
           method: "get",
-          url: `https://server-yo1d.onrender.com/binance-Trades?url=${searchQuery.toUpperCase()}`,
+          url: `https://server-production-70e4.up.railway.app/binance-Trades?url=${searchQuery.toUpperCase()}`,
         });
         if (status === 200) {
           dispatch(setTradeData(data));

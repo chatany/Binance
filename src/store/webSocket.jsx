@@ -102,7 +102,7 @@ export const counterSlice = createSlice({
           return updatedItem ? { ...item, ...updatedItem } : item;
         });
         state.movers.Gainers = state.movers.Gainers.map((item) => {
-          const updatedItem = incoming.find(
+          const updatedItem = incoming?.find(
             (d) => d.pair_symbol === item.pair_symbol
           );
           return updatedItem ? { ...item, ...updatedItem } : item;

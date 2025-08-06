@@ -1,22 +1,22 @@
 import { useDispatch, useSelector } from "react-redux";
 import { formatDate, tabs } from "../Constant";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { deleteOpenOrder, getFundsData } from "../pages/apiCall";
-import { setIsSuccess } from "../store/webSocket";
+import { deleteOpenOrder } from "../pages/apiCall";
+import { setIsSuccess, setOpenOrderData } from "../store/webSocket";
 import { ScaleLoader } from "react-spinners";
 
 export const OpenOrders = ({ dark }) => {
-  const { openOrder, orderHistory, loading, fundData } = useSelector(
+  const { openOrder, orderHistory, loading, fundData, apiId } = useSelector(
     (state) => state.counter
   );
   const [activeTab, setActiveTab] = useState("Open Orders");
   const dispatch = useDispatch();
+  const wsRef = useRef(null);
+  const reconnectTimerRef = useRef(null);
   const userData = JSON.parse(localStorage.getItem("userData"));
   const navigate = useNavigate();
-  useEffect(() => {
-    getFundsData(dispatch);
-  }, []);
+
   const deleteOrder = (order_id, pair_id) => {
     const orderData = {
       order_id: order_id,
@@ -33,35 +33,71 @@ export const OpenOrders = ({ dark }) => {
       userData.user_id
     );
   };
+  const userid = userData?.user_id;
+  useEffect(() => {
+    const startWebSocket = () => {
+      const url =
+        apiId == "bitget"
+          ? "wss://test.bitzup.com/bit-exec-report"
+          : "wss://test.bitzup.com/bin-exec-report";
+      wsRef.current = new WebSocket(url);
 
-  const userId = "UA8FCF45E1D0"; // Replace with dynamic userId if needed
+      wsRef.current.onopen = () => {
+        wsRef.current.send(JSON.stringify({ user_id: userid }));
 
-  // useEffect(() => {
-  //   const ws = new WebSocket("ws://15.235.143.146:9001");
+        console.log(`📤 Sent: ${userid}`);
+      };
 
-  //   ws.onopen = () => {
-  //     console.log("✅ WebSocket connected123");
-  //     ws.send(JSON.stringify({ user_id: userId }));
-  //     console.log("📤 Sent: UA8FCF45E1D0");
-  //   };
+      wsRef.current.onmessage = (event) => {
+        const messageData = JSON.parse(event.data);
 
-  //   ws.onmessage = (event) => {
-  //     console.log("📩 Message:", event.data);
-  //   };
+        if (!messageData?.status || !messageData?.data) return;
 
-  //   ws.onerror = (error) => {
-  //     console.error("❌ WebSocket error", error);
-  //   };
+        const orderId = messageData.data.order_id;
 
-  //   ws.onclose = (event) => {
-  //     console.warn("⚠️ WebSocket closed", event.code, event.reason);
-  //   };
+        if (messageData.status === "1") {
+          const orderExists = openOrder.some((o) => o.order_id === orderId);
 
-  //   return () => {
-  //     ws.close();
-  //     console.log("🔌 Cleaned up WebSocket");
-  //   };
-  // }, []);
+          if (!orderExists) {
+            dispatch(setOpenOrderData([messageData.data, ...openOrder]));
+          }
+        }
+
+        if (messageData.status === "2") {
+          const updated = openOrder.map((o) =>
+            o.order_id === orderId ? messageData.data : o
+          );
+          dispatch(setOpenOrderData(updated));
+        }
+
+        if (messageData.status === "3" || messageData.status === "4") {
+          const filtered = openOrder.filter((o) => o.order_id !== orderId);
+          dispatch(setOpenOrderData(filtered));
+        }
+        console.log("📩 Message:", messageData);
+      };
+
+      wsRef.current.onerror = (error) => {
+        wsRef.current.close();
+      };
+
+      wsRef.current.onclose = () => {
+        reconnectTimerRef.current = setTimeout(() => {
+          startWebSocket();
+        }, 1000);
+      };
+    };
+    startWebSocket();
+    return () => {
+      return () => {
+        if (wsRef.current) {
+          wsRef.current.onclose = null;
+          wsRef.current.close();
+        }
+        if (reconnectTimerRef.current) clearTimeout(reconnectTimerRef.current);
+      };
+    };
+  }, [apiId]);
 
   return (
     <div className={`h-fit w-full ${dark ? " bg-[#181A20]" : " bg-white "} `}>
@@ -388,16 +424,17 @@ export const OpenOrders = ({ dark }) => {
                                         {item?.symbol}
                                       </td>
                                       <td className="lg:text-[12px] text-[.6rem] pl-1 pr-1 p-[4px] text-left uppercase">
-                                        {item?.balance}
+                                        {Number(item?.balance) +
+                                          Number(item?.unavailable_balance)}
                                       </td>
                                       <td className="lg:text-[12px] text-[.6rem] pl-1 pr-1 p-[4px] text-left capitalize">
                                         {item?.balance}
                                       </td>
                                       <td className="lg:text-[12px] text-[.6rem] pl-1 pr-1 p-[4px] text-left capitalize">
-                                        {0}
+                                        {item?.unavailable_balance}
                                       </td>
                                       <td className="lg:text-[12px] text-[.6rem] pl-1 pr-1 p-[4px] text-left capitalize">
-                                        {0}
+                                        {item?.usdtprice}
                                       </td>
                                     </tr>
                                   )}
