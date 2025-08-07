@@ -409,16 +409,11 @@ export const Form = ({ dark, searchQuery }) => {
       );
       return updated;
     });
-    // setFormValues((prev) => ({
-    //   ...prev,
-    //   [name]: floored,
-    // }));
   };
   const StopBuyObj = {
     order_type: "Stop Limit",
     base_volume: formValues.stopBuyAmount,
     pair_id: item?.pair_id,
-    // user_id: userData?.user_id,
     api_id: apiId,
     quote_volume: 0,
     limit_price: formValues.stopBuyLimit,

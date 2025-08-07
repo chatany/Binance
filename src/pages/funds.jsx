@@ -247,7 +247,7 @@ export const Funds = ({ dark }) => {
                           } p-3 border-b-1 `}
                           key={index}
                         >
-                          <div className="flex gap-10">
+                          <div className="flex gap-6">
                             <div className="flex flex-col gap-2 justify-center items-center">
                               <div>
                                 {item?.order_type}/{item?.type}
