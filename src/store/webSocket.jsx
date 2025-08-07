@@ -45,9 +45,11 @@ export const counterSlice = createSlice({
     isFav: false,
     apiId: "",
     priceDecimal: 0,
+    quantityDecimal: 0,
     balance: {},
     searchData: [],
     fundData: [],
+    showPopup: false,
   },
   reducers: {
     incrementByAmount: (state, action) => {
@@ -61,6 +63,9 @@ export const counterSlice = createSlice({
     },
     setPriceDecimal: (state, action) => {
       state.priceDecimal = action.payload;
+    },
+    setQuantityDecimal: (state, action) => {
+      state.quantityDecimal = action.payload;
     },
     SetHelpCenterData: (state, action) => {
       state.helpCenter = action.payload;
@@ -171,6 +176,9 @@ export const counterSlice = createSlice({
     setBalance: (state, action) => {
       state.balance = action.payload;
     },
+    setShowPopup: (state, action) => {
+      state.showPopup = action.payload;
+    },
   },
 });
 
@@ -181,10 +189,12 @@ export const {
   setBalance,
   setIsFav,
   setSearchData,
+  setShowPopup,
   decrement,
   setApiIds,
   incrementByAmount,
   setPriceDecimal,
+  setQuantityDecimal,
   setOpen,
   setOrderData,
   setTradeData,

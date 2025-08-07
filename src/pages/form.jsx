@@ -9,7 +9,11 @@ import { MarketInput } from "./inputCom";
 import { buysellBalance, openOrders, OrderHistory } from "./apiCall";
 import { apiRequest } from "../Helper";
 import { useNavigate } from "react-router-dom";
-import { setApiIds, setPriceDecimal } from "../store/webSocket";
+import {
+  setApiIds,
+  setPriceDecimal,
+  setQuantityDecimal,
+} from "../store/webSocket";
 export const Form = ({ dark, searchQuery }) => {
   const isOpen = useSelector((state) => state.counter.open);
   const { allMovers, currentPrice, pairId, balance } = useSelector(
@@ -168,6 +172,7 @@ export const Form = ({ dark, searchQuery }) => {
       }
       if (pairId !== item?.pair_id) {
         dispatch(setPriceDecimal(item?.price_decimal));
+        dispatch(setQuantityDecimal(item?.quantity_decimal));
       }
     }
   }, [item?.pair_id]);
@@ -316,12 +321,10 @@ export const Form = ({ dark, searchQuery }) => {
   };
   const marketSellObj = {
     order_type: "Market",
-    base_volume: formValues.MarketSell,
-    pair_id: item?.pair_id,
-    api_id: apiId,
-    // user_id: userData?.user_id,
-    // quote_volume: formValues.MarketSell,
-    limit_price: 0,
+    base_volume: String(formValues.MarketSell),
+    pair_id: String(item?.pair_id),
+    api_id: String(apiId),
+    limit_price: "0",
     device_type: "windows",
     device_info: "systems",
   };
@@ -425,13 +428,12 @@ export const Form = ({ dark, searchQuery }) => {
   };
   const StopSellObj = {
     order_type: "Stop Limit",
-    base_volume: formValues.stopSellAmount,
-    api_id: apiId,
-    pair_id: item?.pair_id,
-    // user_id: userData?.user_id,
+    base_volume: String(formValues.stopSellAmount),
+    api_id: String(apiId),
+    pair_id: String(item?.pair_id),
     quote_volume: 0,
-    limit_price: formValues.stopSellLimit,
-    stop_price: formValues.stopSellStop,
+    limit_price: String(formValues.stopSellLimit),
+    stop_price: String(formValues.stopSellStop),
     device_type: "windows",
     device_info: "systems",
   };
@@ -451,12 +453,6 @@ export const Form = ({ dark, searchQuery }) => {
           ...prev,
           stopBuy: data?.message,
         }));
-      }
-      if (data?.status == 0) {
-        // setError((prev) => ({
-        //   ...prev,
-        //   limitBuyErr: data?.message,
-        // }));
       }
     } catch (err) {
       console.error("Failed to fetch second API", err);

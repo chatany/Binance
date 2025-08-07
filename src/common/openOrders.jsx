@@ -3,14 +3,21 @@ import { formatDate, tabs } from "../Constant";
 import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { deleteOpenOrder } from "../pages/apiCall";
-import { setIsSuccess, setOpenOrderData } from "../store/webSocket";
+import {
+  setIsSuccess,
+  setOpenOrderData,
+  setShowPopup,
+} from "../store/webSocket";
 import { ScaleLoader } from "react-spinners";
+import { ModifyPopup } from "./popup";
+import { FaRegEdit } from "react-icons/fa";
 
 export const OpenOrders = ({ dark }) => {
-  const { openOrder, orderHistory, loading, fundData, apiId } = useSelector(
-    (state) => state.counter
-  );
+  const { openOrder, orderHistory, loading, fundData, apiId, showPopup } =
+    useSelector((state) => state.counter);
+  const popupRef = useRef(null);
   const [activeTab, setActiveTab] = useState("Open Orders");
+  const [orderId, setOrderId] = useState(null);
   const dispatch = useDispatch();
   const wsRef = useRef(null);
   const reconnectTimerRef = useRef(null);
@@ -88,19 +95,41 @@ export const OpenOrders = ({ dark }) => {
       };
     };
     startWebSocket();
+    // return () => {
     return () => {
-      return () => {
-        if (wsRef.current) {
-          wsRef.current.onclose = null;
-          wsRef.current.close();
-        }
-        if (reconnectTimerRef.current) clearTimeout(reconnectTimerRef.current);
-      };
+      if (wsRef.current) {
+        wsRef.current.onclose = null;
+        wsRef.current.close();
+      }
+      if (reconnectTimerRef.current) clearTimeout(reconnectTimerRef.current);
     };
+    // };
   }, [apiId]);
+  const handleDispatch = () => {
+    dispatch(setShowPopup(true));
+  };
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      // If click is outside the popup
+      if (popupRef.current && !popupRef.current.contains(event.target)) {
+        dispatch(setShowPopup(false));
+      }
+    };
 
+    if (showPopup) {
+      document.addEventListener("mousedown", handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [showPopup]);
   return (
-    <div className={`h-fit w-full ${dark ? " bg-[#181A20]" : " bg-white "} `}>
+    <div
+      className={`h-fit relative w-full ${
+        dark ? " bg-[#181A20]" : " bg-white "
+      } `}
+    >
       <div
         className={`${
           dark ? " bg-[#181A20] border-[#2B3139]" : "border-[#EAECEF] bg-white"
@@ -128,7 +157,7 @@ export const OpenOrders = ({ dark }) => {
           ))}
         </div>
       </div>
-      <div className="h-[300px] w-full overflow-y-auto  text-[12px] leading-4 flex-nowrap font-medium">
+      <div className="h-[300px] w-full overflow-y-auto overflow-x-scroll  text-[12px] leading-4 flex-nowrap font-medium">
         {userData?.token ? (
           <>
             {" "}
@@ -138,43 +167,43 @@ export const OpenOrders = ({ dark }) => {
                   <table className="w-full">
                     <thead className="h-[3rem]">
                       <tr className="">
-                        <th className="text-[12px] pl-1 pr-1 p-[4px] text-center text-[#707A8A] capitalize w-1/13">
+                        <th className="text-[12px] pl-1 pr-1 p-[4px] text-center text-[#707A8A] capitalize min-w-max">
                           Date
                         </th>
-                        <th className="text-[12px] pl-1 pr-1 p-[4px] text-center text-[#707A8A] w-1/13 capitalize">
+                        <th className="text-[12px] pl-1 pr-1 p-[4px] text-center text-[#707A8A] min-w-max capitalize">
                           Pair
                         </th>
-                        <th className="text-[12px] pl-1 pr-1 p-[4px] text-center text-[#707A8A] w-1/13 capitalize">
+                        <th className="text-[12px] pl-1 pr-1 p-[4px] text-center text-[#707A8A] min-w-max capitalize">
                           Type
                         </th>
-                        <th className="text-[12px] pl-1 pr-1 p-[4px] text-center text-[#707A8A] w-1/13 capitalize">
+                        <th className="text-[12px] pl-1 pr-1 p-[4px] text-center text-[#707A8A] min-w-max capitalize">
                           side
                         </th>
-                        <th className="text-[12px] pl-1 pr-1 p-[4px] text-center text-[#707A8A] w-1/13 capitalize">
+                        <th className="text-[12px] pl-1 pr-1 p-[4px] text-center text-[#707A8A] min-w-max capitalize">
                           price
                         </th>
-                        <th className="text-[12px] pl-1 pr-1 p-[4px] text-center text-[#707A8A] w-1/13 capitalize">
+                        <th className="text-[12px] pl-1 pr-1 p-[4px] text-center text-[#707A8A] min-w-max capitalize">
                           amount
                         </th>
-                        <th className="text-[12px] pl-1 pr-1 p-[4px] text-center text-[#707A8A] w-1/13 capitalize min-w-max">
+                        <th className="text-[12px] pl-1 pr-1 p-[4px] text-center text-[#707A8A]  capitalize min-w-max">
                           amount per Iceberg Order
                         </th>
-                        <th className="text-[12px] pl-1 pr-1 p-[4px] text-center text-[#707A8A] w-1/13 capitalize">
+                        <th className="text-[12px] pl-1 pr-1 p-[4px] text-center text-[#707A8A] min-w-max capitalize">
                           Filled
                         </th>
-                        <th className="text-[12px] pl-1 pr-1 p-[4px] text-center text-[#707A8A] w-1/13 capitalize">
+                        <th className="text-[12px] pl-1 pr-1 p-[4px] text-center text-[#707A8A] min-w-max capitalize">
                           Total
                         </th>
-                        <th className="text-[12px] pl-1 pr-1 p-[4px] text-center text-[#707A8A] w-1/13 capitalize min-w-max">
+                        <th className="text-[12px] pl-1 pr-1 p-[4px] text-center text-[#707A8A]  capitalize min-w-max">
                           Tgiger Conditions
                         </th>
-                        <th className="text-[12px] pl-1 pr-1 p-[4px] text-center text-[#707A8A] w-1/13 capitalize">
+                        <th className="text-[12px] pl-1 pr-1 p-[4px] text-center text-[#707A8A] min-w-max capitalize">
                           SOR
                         </th>
-                        <th className="text-[12px] pl-1 pr-1 p-[4px] text-center text-[#707A8A] w-1/13 capitalize">
+                        <th className="text-[12px] pl-1 pr-1 p-[4px] text-center text-[#707A8A] min-w-max capitalize">
                           status
                         </th>
-                        <th className="text-[12px] pl-1 pr-1 p-[4px] text-center text-[#707A8A] w-1/13 capitalize">
+                        <th className="text-[12px] pl-1 pr-1 p-[4px] text-center text-[#707A8A] min-w-max capitalize">
                           cancel
                         </th>
                       </tr>
@@ -206,10 +235,34 @@ export const OpenOrders = ({ dark }) => {
                                         {item?.type}
                                       </td>
                                       <td className="lg:text-[12px] text-[.6rem] pl-1 pr-1 p-[4px] text-center capitalize">
-                                        {item?.order_price}
+                                        <div className="flex gap-2 items-center">
+                                          {item?.order_price}
+                                          <FaRegEdit
+                                            onClick={() => {
+                                              handleDispatch();
+                                              setOrderId(item?.order_id);
+                                            }}
+                                          />
+                                        </div>
+                                        {orderId && showPopup && (
+                                          <div className="absolute -top-[150px]  z-50" ref={popupRef}>
+                                            <ModifyPopup
+                                              orderId={orderId}
+                                              dark={dark}
+                                            />
+                                          </div>
+                                        )}
                                       </td>
                                       <td className="lg:text-[12px] text-[.6rem] pl-1 pr-1 p-[4px] text-center capitalize">
-                                        {item?.base_quantity}
+                                        <div className="flex gap-2 items-center">
+                                          {item?.base_quantity}
+                                          <FaRegEdit
+                                            onClick={() => {
+                                              handleDispatch();
+                                              setOrderId(item?.order_id);
+                                            }}
+                                          />
+                                        </div>
                                       </td>
                                       <td className="lg:text-[12px] text-[.6rem] pl-1 pr-1 p-[4px] text-center capitalize">
                                         --

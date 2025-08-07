@@ -223,9 +223,9 @@ export const Order = ({ dark }) => {
               </svg>
             </div>
           </div>
-          <div className="text-[1rem]">
+          {/* <div className="text-[1rem]">
             <FaAngleDown className="h-6 w-6" />
-          </div>
+          </div> */}
         </div>
       </>
       {orderBuySell === "" && (
