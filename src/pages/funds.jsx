@@ -38,28 +38,12 @@ export const Funds = ({ dark }) => {
   const handleDispatch = () => {
     dispatch(setShowPopup(true));
   };
-  useEffect(() => {
-    const handleClickOutside = (event) => {
-      // If click is outside the popup
-      if (popupRef.current && !popupRef.current.contains(event.target)) {
-        dispatch(setShowPopup(false));
-      }
-    };
 
-    if (showPopup) {
-      document.addEventListener("mousedown", handleClickOutside);
-    }
-
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, [showPopup]);
   return (
     <>
       {showPopup && (
         <div
           className="w-full h-screen  fixed inset-0  z-40 bg-[#00000080] overflow-hidden"
-          ref={popupRef}
         >
           <ModifyPopup orderId={orderId} />
         </div>

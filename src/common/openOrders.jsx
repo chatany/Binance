@@ -11,6 +11,7 @@ import {
 import { ScaleLoader } from "react-spinners";
 import { ModifyPopup } from "./popup";
 import { FaRegEdit } from "react-icons/fa";
+import { ConfirmationBox } from "./deletePopup";
 
 export const OpenOrders = ({ dark }) => {
   const { openOrder, orderHistory, loading, fundData, apiId, showPopup } =
@@ -18,6 +19,7 @@ export const OpenOrders = ({ dark }) => {
   const popupRef = useRef(null);
   const [activeTab, setActiveTab] = useState("Open Orders");
   const [orderId, setOrderId] = useState(null);
+  const [isPopup, setIsPopup] = useState(false);
   const dispatch = useDispatch();
   const wsRef = useRef(null);
   const reconnectTimerRef = useRef(null);
@@ -126,7 +128,7 @@ export const OpenOrders = ({ dark }) => {
   }, [showPopup]);
   return (
     <div
-      className={`h-fit relative w-full ${
+      className={`h-fit relative mb-5 w-full ${
         dark ? " bg-[#181A20]" : " bg-white "
       } `}
     >
@@ -157,7 +159,7 @@ export const OpenOrders = ({ dark }) => {
           ))}
         </div>
       </div>
-      <div className="h-[300px] w-full overflow-y-auto overflow-x-scroll  text-[12px] leading-4 flex-nowrap font-medium">
+      <div className="h-[300px] w-full  custom-scroll overflow-x-auto text-[12px] leading-4 flex-nowrap font-medium">
         {userData?.token ? (
           <>
             {" "}
@@ -167,43 +169,97 @@ export const OpenOrders = ({ dark }) => {
                   <table className="w-full">
                     <thead className="h-[3rem]">
                       <tr className="">
-                        <th className="text-[12px] pl-1 pr-1 p-[4px] text-center text-[#707A8A] capitalize min-w-max">
+                        <th
+                          className={`text-[12px] pl-1 pr-1 p-[4px]
+                          ${
+                            dark ? "bg-[#181A20]" : " bg-white"
+                          } z-10 sticky top-0
+                           text-center text-[#707A8A] capitalize min-w-[8rem]`}
+                        >
                           Date
                         </th>
-                        <th className="text-[12px] pl-1 pr-1 p-[4px] text-center text-[#707A8A] min-w-max capitalize">
+                        <th
+                          className={`text-[12px] pl-1 pr-1 p-[4px] text-center text-[#707A8A]   ${
+                            dark ? "bg-[#181A20]" : " bg-white"
+                          } z-10 sticky top-0 min-w-[8rem] capitalize`}
+                        >
                           Pair
                         </th>
-                        <th className="text-[12px] pl-1 pr-1 p-[4px] text-center text-[#707A8A] min-w-max capitalize">
+                        <th
+                          className={`text-[12px] pl-1 pr-1 p-[4px] text-center ${
+                            dark ? "bg-[#181A20]" : " bg-white"
+                          } z-10 sticky top-0 text-[#707A8A] min-w-[8rem] capitalize`}
+                        >
                           Type
                         </th>
-                        <th className="text-[12px] pl-1 pr-1 p-[4px] text-center text-[#707A8A] min-w-max capitalize">
+                        <th
+                          className={`text-[12px] pl-1 pr-1 p-[4px] ${
+                            dark ? "bg-[#181A20]" : " bg-white"
+                          } z-10 sticky top-0 text-center text-[#707A8A] min-w-[8rem] capitalize`}
+                        >
                           side
                         </th>
-                        <th className="text-[12px] pl-1 pr-1 p-[4px] text-center text-[#707A8A] min-w-max capitalize">
+                        <th
+                          className={`text-[12px] pl-1 pr-1 p-[4px] ${
+                            dark ? "bg-[#181A20]" : " bg-white"
+                          } z-10 sticky top-0 text-center text-[#707A8A] min-w-[8rem] capitalize`}
+                        >
                           price
                         </th>
-                        <th className="text-[12px] pl-1 pr-1 p-[4px] text-center text-[#707A8A] min-w-max capitalize">
+                        <th
+                          className={`text-[12px] pl-1 pr-1 p-[4px] ${
+                            dark ? "bg-[#181A20]" : " bg-white"
+                          } z-10 sticky top-0 text-center text-[#707A8A] min-w-[8rem] capitalize`}
+                        >
                           amount
                         </th>
-                        <th className="text-[12px] pl-1 pr-1 p-[4px] text-center text-[#707A8A]  capitalize min-w-max">
+                        <th
+                          className={`text-[12px] pl-1 pr-1 p-[4px] text-center ${
+                            dark ? "bg-[#181A20]" : " bg-white"
+                          } z-10 sticky top-0 text-[#707A8A]  capitalize min-w-[8rem]`}
+                        >
                           amount per Iceberg Order
                         </th>
-                        <th className="text-[12px] pl-1 pr-1 p-[4px] text-center text-[#707A8A] min-w-max capitalize">
+                        <th
+                          className={`text-[12px] pl-1 pr-1 p-[4px] text-center ${
+                            dark ? "bg-[#181A20]" : " bg-white"
+                          } z-10 sticky top-0 text-[#707A8A] min-w-[8rem] capitalize`}
+                        >
                           Filled
                         </th>
-                        <th className="text-[12px] pl-1 pr-1 p-[4px] text-center text-[#707A8A] min-w-max capitalize">
+                        <th
+                          className={`text-[12px] pl-1 pr-1 p-[4px] ${
+                            dark ? "bg-[#181A20]" : " bg-white"
+                          } z-10 sticky top-0 text-center text-[#707A8A] min-w-[8rem] capitalize`}
+                        >
                           Total
                         </th>
-                        <th className="text-[12px] pl-1 pr-1 p-[4px] text-center text-[#707A8A]  capitalize min-w-max">
+                        <th
+                          className={`text-[12px] pl-1 pr-1 p-[4px] text-center text-[#707A8A]  capitalize ${
+                            dark ? "bg-[#181A20]" : " bg-white"
+                          } z-10 sticky top-0 min-w-[8rem]`}
+                        >
                           Tgiger Conditions
                         </th>
-                        <th className="text-[12px] pl-1 pr-1 p-[4px] text-center text-[#707A8A] min-w-max capitalize">
+                        <th
+                          className={`text-[12px] pl-1 ${
+                            dark ? "bg-[#181A20]" : " bg-white"
+                          } z-10 sticky top-0 pr-1 p-[4px] text-center text-[#707A8A] min-w-[8rem] capitalize`}
+                        >
                           SOR
                         </th>
-                        <th className="text-[12px] pl-1 pr-1 p-[4px] text-center text-[#707A8A] min-w-max capitalize">
+                        <th
+                          className={`text-[12px] pl-1 pr-1 p-[4px] ${
+                            dark ? "bg-[#181A20]" : " bg-white"
+                          } z-10 sticky top-0 text-center text-[#707A8A] min-w-[8rem] capitalize`}
+                        >
                           status
                         </th>
-                        <th className="text-[12px] pl-1 pr-1 p-[4px] text-center text-[#707A8A] min-w-max capitalize">
+                        <th
+                          className={`text-[12px] pl-1 pr-1 p-[4px] ${
+                            dark ? "bg-[#181A20]" : " bg-white"
+                          } z-10 sticky top-0 text-center text-[#707A8A] min-w-[8rem] capitalize`}
+                        >
                           cancel
                         </th>
                       </tr>
@@ -235,9 +291,10 @@ export const OpenOrders = ({ dark }) => {
                                         {item?.type}
                                       </td>
                                       <td className="lg:text-[12px] text-[.6rem] pl-1 pr-1 p-[4px] text-center capitalize">
-                                        <div className="flex gap-2 items-center">
+                                        <div className="flex gap-2 items-center  justify-center cursor-pointer">
                                           {item?.order_price}
                                           <FaRegEdit
+                                            className="h-3 w-3"
                                             onClick={() => {
                                               handleDispatch();
                                               setOrderId(item?.order_id);
@@ -245,7 +302,10 @@ export const OpenOrders = ({ dark }) => {
                                           />
                                         </div>
                                         {orderId && showPopup && (
-                                          <div className="absolute -top-[150px]  z-50" ref={popupRef}>
+                                          <div
+                                            className="absolute -top-[150px]  z-50"
+                                            ref={popupRef}
+                                          >
                                             <ModifyPopup
                                               orderId={orderId}
                                               dark={dark}
@@ -254,7 +314,7 @@ export const OpenOrders = ({ dark }) => {
                                         )}
                                       </td>
                                       <td className="lg:text-[12px] text-[.6rem] pl-1 pr-1 p-[4px] text-center capitalize">
-                                        <div className="flex gap-2 items-center">
+                                        <div className="flex gap-2 items-center justify-center cursor-pointer">
                                           {item?.base_quantity}
                                           <FaRegEdit
                                             onClick={() => {
@@ -284,14 +344,27 @@ export const OpenOrders = ({ dark }) => {
                                       </td>
                                       <td
                                         className="lg:text-[12px] text-[.6rem] pl-1 pr-1 p-[4px] text-center capitalize cursor-pointer"
-                                        onClick={() =>
-                                          deleteOrder(
-                                            item?.order_id,
-                                            item?.pair_id
-                                          )
-                                        }
+                                        onClick={() => setIsPopup(!isPopup)}
                                       >
                                         cancel
+                                        {isPopup && (
+                                          <ConfirmationBox
+                                            handleCancel={() =>
+                                              setIsPopup(!isPopup)
+                                            }
+                                            handleSubmit={() => {
+                                              deleteOrder(
+                                                item?.order_id,
+                                                item?.pair_id
+                                              );
+                                              setIsPopup(!isPopup);
+                                            }}
+                                            message={
+                                              "Are you Sure you want to Delete this order?"
+                                            }
+                                            dark={dark}
+                                          />
+                                        )}
                                       </td>
                                     </tr>
                                   );
@@ -328,7 +401,7 @@ export const OpenOrders = ({ dark }) => {
             {activeTab === "Order History" && (
               <>
                 <div className="p-3">
-                  <div className="w-full overflow-x-auto">
+                  <div className="w-full">
                     <table className="min-w-[700px] w-full text-[12px] border-separate border-spacing-0">
                       <thead>
                         <tr
@@ -347,7 +420,9 @@ export const OpenOrders = ({ dark }) => {
                           ].map((header, idx) => (
                             <th
                               key={idx}
-                              className="p-1 text-center uppercase font-medium tracking-wide  whitespace-nowrap w-1/8"
+                              className={`text-[12px] pl-1 pr-1 p-[4px] ${
+                                dark ? "bg-[#181A20]" : " bg-white"
+                              } z-10 sticky top-0 text-center text-[#707A8A] min-w-[8rem] capitalize`}
                             >
                               {header}
                             </th>
@@ -369,13 +444,11 @@ export const OpenOrders = ({ dark }) => {
                                     className={`
                                 ${
                                   dark
-                                    ? isEven
-                                      ? "bg-[#1e1f25]"
-                                      : "bg-[#2b2d35]"
-                                    : isEven
-                                    ? "bg-[white] "
-                                    : "bg-zinc-100"
-                                } hover:bg-[#353842] transition-all duration-200`}
+                                    ? "bg-[#1e1f25]"
+                                    : // : "bg-[#2b2d35]"
+                                      "bg-white "
+                                  // : "bg-zinc-100"
+                                } transition-all duration-200`}
                                   >
                                     <td className="p-1 text-center whitespace-nowrap">
                                       {date}
@@ -446,19 +519,19 @@ export const OpenOrders = ({ dark }) => {
                 <table className="w-full">
                   <thead className="h-[3rem]">
                     <tr className="">
-                      <th className="text-[12px] pl-1 pr-1 p-[4px] text-left text-[#707A8A] capitalize w-1/5">
+                      <th className="text-[12px] pl-1 pr-1 p-[4px] text-center text-[#707A8A] capitalize w-1/5">
                         Coin
                       </th>
-                      <th className="text-[12px] pl-1 pr-1 p-[4px] text-left text-[#707A8A] w-1/5 capitalize">
+                      <th className="text-[12px] pl-1 pr-1 p-[4px] text-center text-[#707A8A] w-1/5 capitalize">
                         Total balance
                       </th>
-                      <th className="text-[12px] pl-1 pr-1 p-[4px] text-left text-[#707A8A] w-1/5 capitalize">
+                      <th className="text-[12px] pl-1 pr-1 p-[4px] text-center text-[#707A8A] w-1/5 capitalize">
                         Available Balance
                       </th>
-                      <th className="text-[12px] pl-1 pr-1 p-[4px] text-left text-[#707A8A] w-1/5">
+                      <th className="text-[12px] pl-1 pr-1 p-[4px] text-center text-[#707A8A] w-1/5">
                         In order
                       </th>
-                      <th className="text-[12px] pl-1 pr-1 p-[4px] text-left text-[#707A8A] w-1/5 capitalize">
+                      <th className="text-[12px] pl-1 pr-1 p-[4px] text-center text-[#707A8A] w-1/5 capitalize">
                         BTC value
                       </th>
                     </tr>
@@ -473,20 +546,20 @@ export const OpenOrders = ({ dark }) => {
                                 <>
                                   {item?.balance > 0 && (
                                     <tr key={index}>
-                                      <td className="lg:text-[12px] text-[.6rem] pl-1 pr-1 p-[4px] text-left capitalize ">
+                                      <td className="lg:text-[12px] text-[.6rem] pl-1 pr-1 p-[4px] text-center capitalize ">
                                         {item?.symbol}
                                       </td>
-                                      <td className="lg:text-[12px] text-[.6rem] pl-1 pr-1 p-[4px] text-left uppercase">
+                                      <td className="lg:text-[12px] text-[.6rem] pl-1 pr-1 p-[4px] text-center uppercase">
                                         {Number(item?.balance) +
                                           Number(item?.unavailable_balance)}
                                       </td>
-                                      <td className="lg:text-[12px] text-[.6rem] pl-1 pr-1 p-[4px] text-left capitalize">
+                                      <td className="lg:text-[12px] text-[.6rem] pl-1 pr-1 p-[4px] text-center capitalize">
                                         {item?.balance}
                                       </td>
-                                      <td className="lg:text-[12px] text-[.6rem] pl-1 pr-1 p-[4px] text-left capitalize">
+                                      <td className="lg:text-[12px] text-[.6rem] pl-1 pr-1 p-[4px] text-center capitalize">
                                         {item?.unavailable_balance}
                                       </td>
-                                      <td className="lg:text-[12px] text-[.6rem] pl-1 pr-1 p-[4px] text-left capitalize">
+                                      <td className="lg:text-[12px] text-[.6rem] pl-1 pr-1 p-[4px] text-center   capitalize">
                                         {item?.usdtprice}
                                       </td>
                                     </tr>

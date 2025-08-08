@@ -178,7 +178,7 @@ export const MarketCom = ({ dark, SetSearchQuery, searchQuery }) => {
           </div>
         </div>
         {!isLoading ? (
-          <div className="h-[19rem] overflow-x-auto overflow-y-auto p-[0px_8px_8px_12px]">
+          <div className="h-[19rem]  overflow-y-auto custom-scroll p-[0px_8px_8px_12px]">
             {filteredData?.length > 0 ? (
               <div>
                 <table className="w-full">
@@ -202,24 +202,22 @@ export const MarketCom = ({ dark, SetSearchQuery, searchQuery }) => {
                           dark
                             ? "bg-[#181A20] text-[#848E9C]"
                             : "bg-white text-[rgb(112,122,138)]"
-                        } text-left font-light sticky min-w-max    top-0 z-30`}
+                        }  font-light  sticky min-w-max    top-0 z-30`}
                         colSpan={2}
                       >
-                        last Price/{isVolume ? "vol" : "24h chg"}
-                      </th>
-                      <th
-                        className={`sticky top-0 text-right z-30 capitalize ${
-                          dark
-                            ? "bg-[#181A20] text-[#848E9C]"
-                            : "bg-white text-[#707A8A]"
-                        }  p-1 cursor-pointer`}
-                      >
-                        <CiRepeat
-                          className={`text-right absolute right-10 top-1  ${
-                            dark ? "text-[#EAECEF]" : "text-black "
+                        <div
+                          className={`flex justify-center items-center ${
+                            isVolume ? "gap-8" : "gap-2"
                           }`}
-                          onClick={handleToggle}
-                        />
+                        >
+                          last Price/{isVolume ? "vol" : "24h chg"}
+                          <CiRepeat
+                            className={`  ${
+                              dark ? "text-[#EAECEF]" : "text-black "
+                            }`}
+                            onClick={handleToggle}
+                          />
+                        </div>
                       </th>
                     </tr>
                   </thead>

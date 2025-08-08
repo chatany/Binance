@@ -164,7 +164,7 @@ export const Home = () => {
         <div className="lg:hidden flex flex-col w-full p-[0px_4px_4px_4px] ">
           <TopIconBar3 dark={dark} />
           <div className="w-full md:flex hidden pb-2 gap-1">
-            <div className="w-[62%] flex flex-col gap-2 p-1">
+            <div className="w-[67%] flex flex-col gap-2 p-1">
               <div className="h-[400px]  text-xs w-full bg-gray-800  rounded-md ">
                 <ChartEmbed
                   searchQuery={symbol}
@@ -179,7 +179,7 @@ export const Home = () => {
             <div
               className={`${
                 dark ? "bg-[#181A20]" : "bg-white"
-              } w-[38%] space-y-6 P-3 rounded-lg`}
+              } w-[33%] space-y-6 P-3 rounded-lg`}
             >
               <ToggleButSell
                 activeItem={activeItem}

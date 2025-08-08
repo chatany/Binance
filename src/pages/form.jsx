@@ -82,25 +82,6 @@ export const Form = ({ dark, searchQuery }) => {
     }));
   }, [searchQuery]);
   useEffect(() => {
-    setBuySliderValue(0);
-    setSellSliderValue(0);
-    setSellMarketSliderValue(0);
-    setBuyMarketSliderValue(0);
-    setBuyStopSliderValue(0);
-    setSellSliderValue(0);
-    setFormValues((prev) => ({
-      ...prev,
-      limitAmount: "",
-      sellAmount: "",
-      MarketBuy: "",
-      MarketSell: "",
-      stopBuyAmount: "",
-      stopBuyStop: "",
-      stopSellAmount: "",
-      stopSellStop: "",
-    }));
-  }, [isSuccess]);
-  useEffect(() => {
     if (currentPrice) {
       setFormValues((prev) => ({
         ...prev,
@@ -244,6 +225,11 @@ export const Form = ({ dark, searchQuery }) => {
       buysellBalance(item?.pair_id, dispatch);
       openOrders(item?.pair_id, userData?.user_id, dispatch);
       OrderHistory(dispatch);
+      setBuySliderValue(0);
+      setFormValues((prev) => ({
+        ...prev,
+        limitAmount: "",
+      }));
     }
   };
   const handleSell = async () => {
@@ -274,6 +260,11 @@ export const Form = ({ dark, searchQuery }) => {
       buysellBalance(item?.pair_id, dispatch);
       openOrders(item?.pair_id, userData?.user_id, dispatch);
       OrderHistory(dispatch);
+      setSellSliderValue(0);
+      setFormValues((prev) => ({
+        ...prev,
+        sellAmount: "",
+      }));
     }
   };
   const marketObj = {
@@ -317,6 +308,12 @@ export const Form = ({ dark, searchQuery }) => {
       buysellBalance(item?.pair_id, dispatch);
       openOrders(item?.pair_id, userData?.user_id, dispatch);
       OrderHistory(dispatch);
+
+      setBuyMarketSliderValue(0);
+      setFormValues((prev) => ({
+        ...prev,
+        MarketBuy: "",
+      }));
     }
   };
   const marketSellObj = {
@@ -329,7 +326,7 @@ export const Form = ({ dark, searchQuery }) => {
     device_info: "systems",
   };
   const handleMarketSell = async () => {
-    if (error.marketSellErr) return;
+    // if (error.marketSellErr) return;
     setIsSuccess(true);
     try {
       const { data, status } = await apiRequest({
@@ -356,15 +353,29 @@ export const Form = ({ dark, searchQuery }) => {
       buysellBalance(item?.pair_id, dispatch);
       openOrders(item?.pair_id, userData?.user_id, dispatch);
       OrderHistory(dispatch);
+
+      setSellMarketSliderValue(0);
+      setFormValues((prev) => ({
+        ...prev,
+        MarketSell: "",
+      }));
     }
   };
   const validateBuyAmount = (val, price, key) => {
+    const value = val * price;
+    const check = key?.toLowerCase().includes("sell");
+    const check2 = check
+      ? price * balance?.base_balance
+      : balance?.quote_balance;
+
     if (val * price <= 10) {
       setError((prev) => ({
         ...prev,
         [key]:
           "Amount must be greater than 10 and less than or equal to 9000000",
       }));
+    } else if (value > check2) {
+      setError((prev) => ({ ...prev, [key]: "insufficient balance" }));
     } else {
       setError((prev) => ({ ...prev, [key]: "" }));
     }
@@ -384,12 +395,19 @@ export const Form = ({ dark, searchQuery }) => {
     });
   };
   const validateSellAmount = (val, price, key) => {
+    const check = key?.toLowerCase().includes("sell");
+    const check2 = check
+      ? price * balance?.base_balance
+      : balance?.quote_balance;
+    const value = val * price;
     if (val * price <= 10) {
       setError((prev) => ({
         ...prev,
         [key]:
           "Amount must be greater than 10 and less than or equal to 9000000",
       }));
+    } else if (value > check2) {
+      setError((prev) => ({ ...prev, [key]: "insufficient balance" }));
     } else {
       setError((prev) => ({ ...prev, [key]: "" }));
     }
@@ -456,6 +474,12 @@ export const Form = ({ dark, searchQuery }) => {
       buysellBalance(item?.pair_id, dispatch);
       openOrders(item?.pair_id, userData?.user_id, dispatch);
       OrderHistory(dispatch);
+      setBuyStopSliderValue(0);
+      setFormValues((prev) => ({
+        ...prev,
+        stopBuyAmount: "",
+        stopBuyStop: "",
+      }));
     }
   };
   const handleStopSell = async () => {
@@ -483,6 +507,12 @@ export const Form = ({ dark, searchQuery }) => {
       buysellBalance(item?.pair_id, dispatch);
       openOrders(item?.pair_id, userData?.user_id, dispatch);
       OrderHistory(dispatch);
+      setSellSliderValue(0);
+      setFormValues((prev) => ({
+        ...prev,
+        stopSellAmount: "",
+        stopSellStop: "",
+      }));
     }
   };
   const handleNavigate = () => {
@@ -664,7 +694,12 @@ export const Form = ({ dark, searchQuery }) => {
                   handleBuy();
                   handleNavigate();
                 }}
-                className="w-[100%]  bg-[#2EBD85] hover:bg-[#0e9e67]  m-2 py-2 rounded-md h-[3rem] text-[16px] font-semibold cursor-pointer"
+                disabled={error.limitBuyErr}
+                className={`w-[100%] ${
+                  error.limitBuyErr
+                    ? "bg-[#adcabf]"
+                    : "bg-[#2EBD85] hover:bg-[#0e9e67]"
+                }     m-2 py-2 rounded-md h-[3rem] text-[16px] font-semibold cursor-pointer`}
               >
                 {userData?.token ? "Buy" : " Log In"}
               </button>
@@ -790,11 +825,16 @@ export const Form = ({ dark, searchQuery }) => {
             </div>
             <div className="w-full flex justify-center">
               <button
+                disabled={error.limitSellErr}
                 onClick={() => {
                   handleSell();
                   handleNavigate();
                 }}
-                className="w-[100%] bg-[#F6465D] hover:bg-[#c74052] cursor-pointer  h-[3rem]  py-2 m-2 rounded-md text-[16px] font-semibold"
+                className={`w-[100%] ${
+                  error.limitSellErr
+                    ? "bg-[#c29da1]"
+                    : "bg-[#F6465D] hover:bg-[#c74052]"
+                }  cursor-pointer  h-[3rem]  py-2 m-2 rounded-md text-[16px] font-semibold`}
               >
                 {userData?.token ? "Sell" : " Log In"}
               </button>
@@ -901,7 +941,12 @@ export const Form = ({ dark, searchQuery }) => {
                   handleMarket();
                   handleNavigate();
                 }}
-                className="w-[100%]  bg-[#2EBD85] hover:bg-[#0e9e67]  m-2 py-2 rounded-md h-[3rem] text-[16px] font-semibold cursor-pointer"
+                disabled={error.marketBuyErr}
+                className={`w-[100%] ${
+                  error.marketBuyErr
+                    ? "bg-[#adcabf]"
+                    : "bg-[#2EBD85] hover:bg-[#0e9e67]"
+                }     m-2 py-2 rounded-md h-[3rem] text-[16px] font-semibold cursor-pointer`}
               >
                 {userData?.token ? "Buy" : " Log In"}
               </button>
@@ -1002,11 +1047,16 @@ export const Form = ({ dark, searchQuery }) => {
             </div>
             <div className="w-full flex justify-center">
               <button
+                // disabled={error.marketSellErr}
                 onClick={() => {
                   handleMarketSell();
                   handleNavigate();
                 }}
-                className="w-[100%] bg-[#F6465D] hover:bg-[#c74052] cursor-pointer  h-[3rem]  py-2 m-2 rounded-md text-[16px] font-semibold"
+                className={`w-[100%] ${
+                  error.marketSellErr
+                    ? "bg-[#c29da1]"
+                    : "bg-[#F6465D] hover:bg-[#c74052]"
+                }  cursor-pointer  h-[3rem]  py-2 m-2 rounded-md text-[16px] font-semibold`}
               >
                 {userData?.token ? "Sell" : " Log In"}
               </button>
@@ -1132,7 +1182,12 @@ export const Form = ({ dark, searchQuery }) => {
                   handleStopBuy();
                   handleNavigate();
                 }}
-                className="w-[100%]  bg-[#2EBD85] hover:bg-[#0e9e67]  m-2 py-2 rounded-md h-[3rem] text-[16px] font-semibold cursor-pointer"
+                disabled={error.stopBuyErr}
+                className={`w-[100%] ${
+                  error.stopBuyErr
+                    ? "bg-[#adcabf]"
+                    : "bg-[#2EBD85] hover:bg-[#0e9e67]"
+                }     m-2 py-2 rounded-md h-[3rem] text-[16px] font-semibold cursor-pointer`}
               >
                 {userData?.token ? "Buy" : " Log In"}
               </button>
@@ -1256,11 +1311,17 @@ export const Form = ({ dark, searchQuery }) => {
             </div>
             <div className="w-full flex justify-center">
               <button
-                className="w-[100%] bg-[#F6465D] hover:bg-[#c74052] cursor-pointer  h-[3rem]  py-2 m-2 rounded-md text-[16px] font-semibold"
+                className={`w-[100%] ${
+                  error.stopSellErr
+                    ? "bg-[#c29da1]"
+                    : "bg-[#F6465D] hover:bg-[#c74052]"
+                }  cursor-pointer  h-[3rem]  py-2 m-2 rounded-md text-[16px] font-semibold`}
                 onClick={() => {
                   handleNavigate();
                   handleStopSell();
                 }}
+                style={{ background: error.stopSellErr && "[#e9d8da]" }}
+                disabled={error.stopSellErr}
               >
                 {userData?.token ? "Sell" : " Log In"}
               </button>

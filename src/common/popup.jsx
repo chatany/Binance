@@ -33,13 +33,17 @@ export const ModifyPopup = ({ orderId }) => {
   });
   const validateBuyAmount = (val, price, key) => {
     const value = val * price;
+    const check =
+      item?.type?.toLowerCase() === "sell"
+        ? price * balance?.base_balance
+        : balance?.quote_balance;
     if (value <= 10) {
       setError((prev) => ({
         ...prev,
         [key]:
           "Amount must be greater than 10 and less than or equal to 9000000",
       }));
-    } else if (value > balance?.quote_balance) {
+    } else if (value > check) {
       setError((prev) => ({ ...prev, [key]: "insufficient balance" }));
     } else {
       setError((prev) => ({ ...prev, [key]: "" }));
@@ -183,163 +187,200 @@ export const ModifyPopup = ({ orderId }) => {
       OrderHistory(dispatch);
     }
   };
+  // useEffect(() => {
+  //   const handleClickOutside = (event) => {
+  //     // If click is outside the popup
+  //     if (popupRef.current && !popupRef.current.contains(event.target)) {
+  //       dispatch(setShowPopup(false));
+  //     }
+  //   };
 
+  //   if (showPopup) {
+  //     document.addEventListener("mousedown", handleClickOutside);
+  //   }
+
+  //   return () => {
+  //     document.removeEventListener("mousedown", handleClickOutside);
+  //   };
+  // }, [showPopup]);
+  // const [isMdScreen, setIsMdScreen] = useState(window.innerWidth <= 768);
+
+  // useEffect(() => {
+  //   const handleResize = () => {
+  //     setIsMdScreen(window.innerWidth <= 768);
+  //   };
+  //   window.addEventListener("resize", handleResize);
+  //   return () => window.removeEventListener("resize", handleResize);
+  // }, []);
+ 
   useEffect(() => {
+    const handleClickOutside = (event) => {
+      // ✅ Condition: sirf md (768px ya upar) screen size pe kaam kare
+      if (window.innerWidth <= 768) {
+        if (popupRef.current && !popupRef.current.contains(event.target)) {
+          dispatch(setShowPopup(false));
+        }
+      }
+    };
+
     if (showPopup) {
-      document.body.style.overflow = "hidden";
+      document.addEventListener("mousedown", handleClickOutside);
     }
 
     return () => {
-      document.body.style.overflow = "auto";
+      document.removeEventListener("mousedown", handleClickOutside);
     };
-  }, [showPopup]);
+  }, [showPopup, dispatch]);
 
+  if (!showPopup) return null;
   return (
-    <div
-      className="md:w-[20rem] w-full bg-white max-md:absolute max-md:bottom-0 z-30 max-md:slide-inTop  text-black border-gray-200 p-5 flex flex-col gap-4 md:rounded-xl rounded-[12px_12px_0px_0px]"
-      style={{ boxShadow: "0px 0px 40px 0px rgb(0,0,0,0.10)" }}
-      ref={popupRef}
-    >
-      <div className="text-[16px] text-black flex justify-between w-full items-center p-2">
-        Modify Order
-        <IoCloseSharp
-          className="h-6 w-6"
-          onClick={() => dispatch(setShowPopup(false))}
-        />
-      </div>
-      {item?.order_type !== "STOP_LIMIT" ? (
-        <div className="p-[5px] flex flex-col gap-4 justify-center w-full items-center">
-          <div className="w-full flex flex-col gap-2">
-            <label
-              htmlFor="price"
-              className="text-[#757575] flex justify-start"
-            >
-              Price (USDT)
-            </label>
-            <input
-              name="price"
-              className=" w-full  rounded-lg bg-[#D9D9D940]
+      <div
+        className="md:w-[20rem] w-full bg-white max-md:absolute max-md:bottom-0 z-30 max-md:slide-inTop  text-black border-gray-200 p-5 flex flex-col gap-4 md:rounded-xl rounded-[12px_12px_0px_0px]"
+        style={{ boxShadow: "0px 0px 40px 0px rgb(0,0,0,0.10)" }}
+        ref={popupRef}
+      >
+        <div className=" flex flex-col gap-4">
+          <div className="text-[16px] text-black flex justify-between w-full items-center p-2">
+            Modify Order
+            <IoCloseSharp
+              className="h-6 w-6"
+              onClick={() => dispatch(setShowPopup(false))}
+            />
+          </div>
+          {item?.order_type !== "STOP_LIMIT" ? (
+            <div className="p-[5px] flex flex-col gap-4 justify-center w-full items-center" >
+              <div className="w-full flex flex-col gap-2">
+                <label
+                  htmlFor="price"
+                  className="text-[#757575] flex justify-start"
+                >
+                  Price (USDT)
+                </label>
+                <input
+                  name="price"
+                  className=" w-full  rounded-lg bg-[#D9D9D940]
     h-[2rem] p-4 text-[1rem] text-[#757575]
     focus:outline-none 
      transition-colors duration-300 delay-200"
-              value={price}
-              onChange={(e) => {
-                handleChange(e, priceDecimal, setPrice);
-                validateBuyAmount(e.target.value, amount, "limitErr");
-              }}
-            />
-          </div>
-          <div className="w-full flex flex-col gap-2">
-            <label className="text-[#757575] flex justify-start">
-              Amount(BTC)
-            </label>
-            <input
-              name="Email"
-              className=" w-full  rounded-lg bg-[#D9D9D940]
-    h-[2rem] p-4 text-[1rem] text-[#757575]
-    focus:outline-none 
-     transition-colors duration-300 delay-200"
-              value={amount}
-              onChange={(e) => {
-                handleChange(e, quantityDecimal, setAmount);
-                validateBuyAmount(price, e.target.value, "limitErr");
-              }}
-            />
-          </div>
-          <div>
-            {error.limitErr && (
-              <div className="text-red-500 text-[13px] p-2 h-full">
-                {error.limitErr}
+                  value={price}
+                  onChange={(e) => {
+                    handleChange(e, priceDecimal, setPrice);
+                    validateBuyAmount(e.target.value, amount, "limitErr");
+                  }}
+                />
               </div>
-            )}
-          </div>
-          <button
-            onClick={handleSubmit}
-            disabled={error.limitErr}
-            className="bg-[#2EDBAD] w-full  rounded-xl  h-[2rem] hover:bg-[#2EDBAD] text-black cursor-pointer capitalize"
-          >
-            submit
-          </button>
-        </div>
-      ) : (
-        <div
-          style={{ padding: "5px", maxWidth: "100%" }}
-          className=" flex flex-col gap-2 items-center w-full"
-        >
-          <div className="w-full flex flex-col gap-3">
-            <label
-              htmlFor="price"
-              className="text-[#757575] flex justify-start"
-            >
-              Stop Price
-            </label>
-            <input
-              name="Email"
-              className=" w-full  rounded-lg bg-[#D9D9D940]
+              <div className="w-full flex flex-col gap-2">
+                <label className="text-[#757575] flex justify-start">
+                  Amount(BTC)
+                </label>
+                <input
+                  name="Email"
+                  className=" w-full  rounded-lg bg-[#D9D9D940]
     h-[2rem] p-4 text-[1rem] text-[#757575]
     focus:outline-none 
      transition-colors duration-300 delay-200"
-              value={stopPrice}
-              onChange={(e) => handleChange(e, priceDecimal, setStopPrice)}
-            />
-          </div>
-          <div className="w-full flex flex-col gap-3">
-            <label
-              htmlFor="price"
-              className="text-[#757575] flex justify-start"
+                  value={amount}
+                  onChange={(e) => {
+                    handleChange(e, quantityDecimal, setAmount);
+                    validateBuyAmount(price, e.target.value, "limitErr");
+                  }}
+                />
+              </div>
+              <div>
+                {error.limitErr && (
+                  <div className="text-red-500 text-[13px] p-2 h-full">
+                    {error.limitErr}
+                  </div>
+                )}
+              </div>
+              <button
+                onClick={handleSubmit}
+                disabled={error.limitErr}
+                className="bg-[#2EDBAD] w-full  rounded-xl  h-[2rem] hover:bg-[#2EDBAD] text-black cursor-pointer capitalize"
+              >
+                submit
+              </button>
+            </div>
+          ) : (
+            <div
+              style={{ padding: "5px", maxWidth: "100%" }}
+              className=" flex flex-col gap-2 items-center w-full"
             >
-              Limit Price (USDT)
-            </label>
-            <input
-              name="Email"
-              className=" w-full  rounded-lg bg-[#D9D9D940]
+              <div className="w-full flex flex-col gap-3">
+                <label
+                  htmlFor="price"
+                  className="text-[#757575] flex justify-start"
+                >
+                  Stop Price
+                </label>
+                <input
+                  name="Email"
+                  className=" w-full  rounded-lg bg-[#D9D9D940]
     h-[2rem] p-4 text-[1rem] text-[#757575]
     focus:outline-none 
      transition-colors duration-300 delay-200"
-              value={price}
-              onChange={(e) => {
-                handleChange(e, priceDecimal, setPrice);
-                validateBuyAmount(amount, e.target.value, "stopErr");
-              }}
-            />
-          </div>
-          <div className="w-full flex flex-col gap-3">
-            <label
-              htmlFor="price"
-              className="text-[#757575] flex justify-start"
-            >
-              Amount (BTC)
-            </label>
+                  value={stopPrice}
+                  onChange={(e) => handleChange(e, priceDecimal, setStopPrice)}
+                />
+              </div>
+              <div className="w-full flex flex-col gap-3">
+                <label
+                  htmlFor="price"
+                  className="text-[#757575] flex justify-start"
+                >
+                  Limit Price (USDT)
+                </label>
+                <input
+                  name="Email"
+                  className=" w-full  rounded-lg bg-[#D9D9D940]
+    h-[2rem] p-4 text-[1rem] text-[#757575]
+    focus:outline-none 
+     transition-colors duration-300 delay-200"
+                  value={price}
+                  onChange={(e) => {
+                    handleChange(e, priceDecimal, setPrice);
+                    validateBuyAmount(amount, e.target.value, "stopErr");
+                  }}
+                />
+              </div>
+              <div className="w-full flex flex-col gap-3">
+                <label
+                  htmlFor="price"
+                  className="text-[#757575] flex justify-start"
+                >
+                  Amount (BTC)
+                </label>
 
-            <input
-              name="Email"
-              className=" w-full  rounded-lg bg-[#D9D9D940]
+                <input
+                  name="Email"
+                  className=" w-full  rounded-lg bg-[#D9D9D940]
     h-[2rem] p-4 text-[1rem] text-[#757575]
     focus:outline-none 
      transition-colors duration-300 delay-200"
-              value={amount}
-              onChange={(e) => {
-                handleChange(e, quantityDecimal, setAmount);
-                validateBuyAmount(price, e.target.value, "stopErr");
-              }}
-            />
-          </div>
-          <div>
-            {error.stopErr && (
-              <div className="text-red-500 text-[13px] p-2 h-full">
-                {error.stopErr}
+                  value={amount}
+                  onChange={(e) => {
+                    handleChange(e, quantityDecimal, setAmount);
+                    validateBuyAmount(price, e.target.value, "stopErr");
+                  }}
+                />
               </div>
-            )}
-          </div>
-          <button
-            onClick={handleStopBuy}
-            disabled={error.stopErr}
-            className="bg-[#2EDBAD] w-full  rounded-xl  h-[2rem] hover:bg-[#2EDBAD] text-black cursor-pointer capitalize"
-          >
-            submit
-          </button>
+              <div>
+                {error.stopErr && (
+                  <div className="text-red-500 text-[13px] p-2 h-full">
+                    {error.stopErr}
+                  </div>
+                )}
+              </div>
+              <button
+                onClick={handleStopBuy}
+                disabled={error.stopErr}
+                className="bg-[#2EDBAD] w-full  rounded-xl  h-[2rem] hover:bg-[#2EDBAD] text-black cursor-pointer capitalize"
+              >
+                submit
+              </button>
+            </div>
+          )}
         </div>
-      )}
-    </div>
+      </div>
   );
 };

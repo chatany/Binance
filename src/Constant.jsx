@@ -511,9 +511,7 @@ export const marks = [
 export const tabs = [
   "Open Orders",
   "Order History",
-  "Trade History",
   "Funds",
-  "Grid Orders",
 ];
 export const tab = ["Spot", "Cross", "Isolated", "Grid"];
 export const marketTabs = ["Limit", "Market", "Stop Limit"];

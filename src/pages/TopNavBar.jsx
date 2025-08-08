@@ -13,6 +13,7 @@ import { useDispatch } from "react-redux";
 import { helpCenterApi } from "./apiCall";
 import { SidePopup } from "./sidePopup";
 import { RiLogoutBoxRLine } from "react-icons/ri";
+import { ConfirmationBox } from "../common/deletePopup";
 
 export const TopNav = ({
   dark,
@@ -24,6 +25,7 @@ export const TopNav = ({
 }) => {
   const navigate = useNavigate();
   const [showHelpPopup, setShowHelpPopup] = useState(false);
+  const [showLogoutPopup, setShowLogoutPopup] = useState(false);
   const handleClose = () => {
     setShow(!show);
   };
@@ -38,6 +40,7 @@ export const TopNav = ({
   });
   const [currentItem, setCurrentItem] = useState("");
   const [hoverPosition, setHoverPosition] = useState({ x: 0, y: 0, width: 0 });
+  const popupRef = useRef(null);
   const dispatch = useDispatch();
   useEffect(() => {
     helpCenterApi(dispatch);
@@ -46,6 +49,7 @@ export const TopNav = ({
     localStorage.removeItem("userData");
     window.dispatchEvent(new Event("userDataChanged"));
     setUserData({});
+    setShowLogoutPopup(false);
   };
   useEffect(() => {
     const handleStorageChange = () => {
@@ -60,7 +64,24 @@ export const TopNav = ({
       window.removeEventListener("userDataChanged", handleStorageChange);
     };
   }, []);
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      // If click is outside the popup
+      if (popupRef.current && !popupRef.current.contains(event.target)) {
+        setShowLogoutPopup(false);
+      }
+    };
 
+    if (showLogoutPopup) {
+      document.addEventListener("mousedown", handleClickOutside);
+      document.body.style.overflow = "hidden";
+    }
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+      document.body.style.overflow = "auto";
+    };
+  }, [showLogoutPopup]);
   return (
     <div
       className={`flex  justify-between items-center border-b-1 h-[4rem] ${
@@ -229,7 +250,7 @@ export const TopNav = ({
       </div>
 
       {/* Right Navbar */}
-      <div className="flex md:gap-5 gap-2 lg:gap-3 items-center  md:mt-0 justify-between lg:pr-10 pr-4 cursor-pointer ">
+      <div className="flex md:gap-5 gap-2 lg:gap-6 items-center  md:mt-0 justify-between lg:pr-10 pr-4 cursor-pointer ">
         <CiSearch
           className="hover:text-amber-400  h-6 w-6 md:block hidden"
           onClick={() => setShowSideBar(true)}
@@ -302,11 +323,15 @@ export const TopNav = ({
             </div>
           )}
         </div>
-        <IoMdSettings className="hover:text-amber-400  h-6 w-6" />
-        <RiLogoutBoxRLine
-          className="hover:text-amber-400  h-6 w-6"
-          onClick={handleLogout}
-        />
+        {/* <IoMdSettings className="hover:text-amber-400  h-6 w-6" /> */}
+        {userData?.token && (
+          <RiLogoutBoxRLine
+            className="hover:text-amber-400  h-6 w-6"
+            onClick={() => {
+              setShowLogoutPopup(true);
+            }}
+          />
+        )}
         {dark ? (
           <IoSunnyOutline
             className="hover:text-amber-400 sm:flex hidden  h-6 w-6"
@@ -319,6 +344,14 @@ export const TopNav = ({
           />
         )}
       </div>
+      {showLogoutPopup && (
+        <ConfirmationBox
+          handleCancel={() => setShowLogoutPopup(false)}
+          handleSubmit={() => handleLogout()}
+          message={"Are you Sure you want to Logout?"}
+          dark={dark}
+        />
+      )}
     </div>
   );
 };
