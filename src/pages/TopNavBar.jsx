@@ -250,7 +250,7 @@ export const TopNav = ({
       </div>
 
       {/* Right Navbar */}
-      <div className="flex md:gap-5 gap-2 lg:gap-6 items-center  md:mt-0 justify-between lg:pr-10 pr-4 cursor-pointer ">
+      <div className="flex md:gap-5 gap-2 lg:gap-4 items-center  md:mt-0 justify-between lg:pr-10 pr-4 cursor-pointer ">
         <CiSearch
           className="hover:text-amber-400  h-6 w-6 md:block hidden"
           onClick={() => setShowSideBar(true)}

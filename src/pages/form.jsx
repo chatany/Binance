@@ -705,7 +705,7 @@ export const Form = ({ dark, searchQuery }) => {
           </div>
           <div
             className={`w-[50%]  transition-all duration-500 delay-100 ${
-              isOpen ? "space-y-3" : "space-y-0"
+              isOpen ? "space-y-6" : "space-y-2"
             } `}
           >
             <div

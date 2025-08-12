@@ -8,6 +8,7 @@ import { useNavigate } from "react-router-dom";
 import { deleteOpenOrder } from "./apiCall";
 import { setIsSuccess, setShowPopup } from "../store/webSocket";
 import { ModifyPopup } from "../common/popup";
+import { ConfirmationBox } from "../common/deletePopup";
 
 export const Funds = ({ dark }) => {
   const { fundData, openOrder, showPopup } = useSelector(
@@ -16,6 +17,7 @@ export const Funds = ({ dark }) => {
   const [activeTab, SetActiveTab] = useState("open orders");
   const [orderId, setOrderId] = useState(null);
   const popupRef = useRef(null);
+  const [isPopup, setIsPopup] = useState(false);
   const navigate = useNavigate();
   const userData = JSON.parse(localStorage.getItem("userData"));
   const dispatch = useDispatch();
@@ -42,9 +44,7 @@ export const Funds = ({ dark }) => {
   return (
     <>
       {showPopup && (
-        <div
-          className="w-full h-screen  fixed inset-0  z-40 bg-[#00000080] overflow-hidden"
-        >
+        <div className="w-full h-screen  fixed inset-0  z-40 bg-[#00000080] overflow-hidden">
           <ModifyPopup orderId={orderId} />
         </div>
       )}
@@ -266,11 +266,25 @@ export const Funds = ({ dark }) => {
                             </div>
                             <div
                               className="flex justify-end"
-                              onClick={() =>
-                                deleteOrder(item?.order_id, item?.pair_id)
-                              }
+                              onClick={() => {
+                                setIsPopup(!isPopup);
+                                setOrderId(item?.order_id);
+                              }}
                             >
                               Cancel
+                              {isPopup && (
+                                <ConfirmationBox
+                                  handleCancel={() => setIsPopup(!isPopup)}
+                                  handleSubmit={() => {
+                                    deleteOrder(orderId, item?.pair_id);
+                                    setIsPopup(!isPopup);
+                                  }}
+                                  message={
+                                    "Are you Sure you want to Delete this order?"
+                                  }
+                                  dark={dark}
+                                />
+                              )}
                             </div>
                           </div>
                         </div>
