@@ -39,7 +39,7 @@ export const Home = () => {
   const userData = JSON.parse(localStorage.getItem("userData"));
   const [activeItem, setActiveItem] = useState("Buy");
   const [openMarketPopup, setOpenMarketPopup] = useState(false);
-
+  
   const [show, setShow] = useState(false);
   useEffect(() => {
     if (symbol) {
@@ -88,7 +88,7 @@ export const Home = () => {
       )}
       <div
         className={`
-        ${dark ? "bg-[#181A20] text-[#EAECEF]" : "bg-[#EAECEF] text-[#262030]"}
+        ${dark ? "bg-[#0B0E11] text-[#EAECEF]" : "bg-[#EAECEF] text-[#262030]"}
        min-h-screen flex flex-col gap-0  `}
       >
         {/* Top Navbar */}
@@ -109,13 +109,13 @@ export const Home = () => {
 
               <div className="flex w-full gap-1.5">
                 <div
-                  className={`xl:max-w-[320px] max-w-[270px] w-full lg:block  transition-all duration-500 delay-100  hidden ${
+                  className={`xl:max-w-[320px] max-w-[250px] w-full lg:block  transition-all duration-500 delay-100  hidden ${
                     isOpen ? "h-[60.1rem]" : "h-[56.8rem]"
                   }`}
                 >
                   <Order dark={dark} />
                 </div>
-                <div className="flex flex-col max-w-[880px] w-full gap-1">
+                <div className="flex flex-col  w-full gap-1">
                   <div
                     className={`${
                       dark ? "bg-[#181A20] " : "bg-white "
@@ -132,7 +132,7 @@ export const Home = () => {
               </div>
             </div>
 
-            <div className="xl:max-w-[320px] max-w-[270px] w-full lg:flex hidden flex-col gap-1">
+            <div className="xl:max-w-[320px] max-w-[250px] w-full lg:flex hidden flex-col gap-1">
               <MarketCom
                 dark={dark}
                 SetSearchQuery={setSearchQuery}

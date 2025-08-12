@@ -12,6 +12,7 @@ import { ScaleLoader } from "react-spinners";
 import { ModifyPopup } from "./popup";
 import { FaRegEdit } from "react-icons/fa";
 import { ConfirmationBox } from "./deletePopup";
+import { useDeviceInfo } from "../hooks/useDeviceInfo";
 
 export const OpenOrders = ({ dark }) => {
   const { openOrder, orderHistory, loading, fundData, apiId, showPopup } =
@@ -22,6 +23,7 @@ export const OpenOrders = ({ dark }) => {
   const [isPopup, setIsPopup] = useState(false);
   const dispatch = useDispatch();
   const wsRef = useRef(null);
+  const deviceInfo = useDeviceInfo();
   const reconnectTimerRef = useRef(null);
   const userData = JSON.parse(localStorage.getItem("userData"));
   const navigate = useNavigate();
@@ -31,8 +33,9 @@ export const OpenOrders = ({ dark }) => {
       order_id: order_id,
       pair_id: pair_id,
       user_id: userData.user_id,
-      device_type: "windows",
-      device_info: "systems",
+      device_type:deviceInfo?.device_type,
+      device_info: deviceInfo?.device_info,
+      source:deviceInfo?.source
     };
     deleteOpenOrder(
       orderData,

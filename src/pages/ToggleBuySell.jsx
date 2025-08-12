@@ -352,12 +352,19 @@ export const ToggleButSell = ({
     }
   };
   const validateBuyAmount = (val, price, key) => {
+    const check = key?.toLowerCase().includes("sell");
+    const check2 = check
+      ? price * balance?.base_balance
+      : balance?.quote_balance;
+    const value = val * price;
     if (val * price <= 10) {
       setError((prev) => ({
         ...prev,
         [key]:
           "Amount must be greater than 10 and less than or equal to 9000000",
       }));
+    } else if (value > check2) {
+      setError((prev) => ({ ...prev, [key]: "insufficient balance" }));
     } else {
       setError((prev) => ({ ...prev, [key]: "" }));
     }
@@ -377,12 +384,19 @@ export const ToggleButSell = ({
     });
   };
   const validateSellAmount = (val, price, key) => {
+    const check = key?.toLowerCase().includes("sell");
+    const check2 = check
+      ? price * balance?.base_balance
+      : balance?.quote_balance;
+    const value = val * price;
     if (val * price <= 10) {
       setError((prev) => ({
         ...prev,
         [key]:
           "Amount must be greater than 10 and less than or equal to 9000000",
       }));
+    } else if (value > check2) {
+      setError((prev) => ({ ...prev, [key]: "insufficient balance" }));
     } else {
       setError((prev) => ({ ...prev, [key]: "" }));
     }

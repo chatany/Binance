@@ -14,9 +14,10 @@ import {
   setPriceDecimal,
   setQuantityDecimal,
 } from "../store/webSocket";
+import { useDeviceInfo } from "../hooks/useDeviceInfo";
 export const Form = ({ dark, searchQuery }) => {
   const isOpen = useSelector((state) => state.counter.open);
-  const { allMovers, currentPrice, pairId, balance } = useSelector(
+  const { allMovers, currentPrice, balance } = useSelector(
     (state) => state.counter
   );
   const [activeTab, setActiveTab] = useState("Limit");
@@ -28,7 +29,7 @@ export const Form = ({ dark, searchQuery }) => {
   const [sellStopSliderValue, setSellStopSliderValue] = useState(0);
   const [apiId, setApiId] = useState("");
   const dispatch = useDispatch();
-  const [isSuccess, setIsSuccess] = useState(false);
+  const deviceInfo = useDeviceInfo();
   const navigate = useNavigate();
   const [successMsg, setSuccessMsg] = useState({
     limitBuy: "",
@@ -151,10 +152,10 @@ export const Form = ({ dark, searchQuery }) => {
         setApiId(item?.api_id);
         dispatch(setApiIds(item?.api_id));
       }
-      if (pairId !== item?.pair_id) {
+      // if (pairId !== item?.pair_id) {
         dispatch(setPriceDecimal(item?.price_decimal));
         dispatch(setQuantityDecimal(item?.quantity_decimal));
-      }
+      // }
     }
   }, [item?.pair_id]);
   useEffect(() => {
@@ -183,9 +184,10 @@ export const Form = ({ dark, searchQuery }) => {
     pair_id: item?.pair_id,
     // user_id: userData?.user_id,
     limit_price: String(formValues.limitPrice),
-    device_type: "windows",
-    device_info: "systems",
+    device_type: deviceInfo?.device_type,
+    device_info: deviceInfo?.device_info,
     api_id: apiId,
+    source: deviceInfo?.source,
   };
   const SellObj = {
     order_type: "Limit",
@@ -193,12 +195,12 @@ export const Form = ({ dark, searchQuery }) => {
     pair_id: item?.pair_id,
     // user_id: userData?.user_id,
     limit_price: formValues.sellPrice,
-    device_type: "windows",
+    device_type: deviceInfo?.device_type,
     api_id: apiId,
-    device_info: "systems",
+    source: deviceInfo?.source,
+    device_info: deviceInfo?.device_info,
   };
   const handleBuy = async () => {
-    setIsSuccess(true);
     if (error.limitBuyErr) return;
     try {
       const { data, status } = await apiRequest({
@@ -221,7 +223,6 @@ export const Form = ({ dark, searchQuery }) => {
     } catch (err) {
       console.error("Failed to fetch second API", err);
     } finally {
-      setIsSuccess(false);
       buysellBalance(item?.pair_id, dispatch);
       openOrders(item?.pair_id, userData?.user_id, dispatch);
       OrderHistory(dispatch);
@@ -234,7 +235,6 @@ export const Form = ({ dark, searchQuery }) => {
   };
   const handleSell = async () => {
     if (error.limitSellErr) return;
-    setIsSuccess(true);
     try {
       const { data, status } = await apiRequest({
         method: "post",
@@ -256,7 +256,6 @@ export const Form = ({ dark, searchQuery }) => {
     } catch (err) {
       console.error("Failed to fetch second API", err);
     } finally {
-      setIsSuccess(false);
       buysellBalance(item?.pair_id, dispatch);
       openOrders(item?.pair_id, userData?.user_id, dispatch);
       OrderHistory(dispatch);
@@ -272,15 +271,16 @@ export const Form = ({ dark, searchQuery }) => {
     // base_volume: formValues.MarketBuy,
     pair_id: item?.pair_id,
     api_id: apiId,
+    source: deviceInfo?.source,
     // user_id: userData?.user_id,
     quote_volume: formValues.MarketBuy,
     limit_price: 0,
-    device_type: "windows",
-    device_info: "systems",
+    device_type: deviceInfo?.device_type,
+    device_info: deviceInfo?.device_info,
+    source: deviceInfo?.source,
   };
   const handleMarket = async () => {
     if (error.marketBuyErr) return;
-    setIsSuccess(true);
 
     try {
       const { data, status } = await apiRequest({
@@ -288,7 +288,7 @@ export const Form = ({ dark, searchQuery }) => {
         url: `https://test.bitzup.com/order/user/place-buy-order`,
         data: marketObj,
       });
-      setIsSuccess(true);
+      (true);
       if (status === 200) {
         setSuccessMsg((prev) => ({
           ...prev,
@@ -304,7 +304,6 @@ export const Form = ({ dark, searchQuery }) => {
     } catch (err) {
       console.error("Failed to fetch second API", err);
     } finally {
-      setIsSuccess(false);
       buysellBalance(item?.pair_id, dispatch);
       openOrders(item?.pair_id, userData?.user_id, dispatch);
       OrderHistory(dispatch);
@@ -321,13 +320,13 @@ export const Form = ({ dark, searchQuery }) => {
     base_volume: String(formValues.MarketSell),
     pair_id: String(item?.pair_id),
     api_id: String(apiId),
+    source: deviceInfo?.source,
     limit_price: "0",
-    device_type: "windows",
-    device_info: "systems",
+    device_type: deviceInfo?.device_type,
+    device_info: deviceInfo?.device_info,
   };
   const handleMarketSell = async () => {
     // if (error.marketSellErr) return;
-    setIsSuccess(true);
     try {
       const { data, status } = await apiRequest({
         method: "post",
@@ -349,7 +348,6 @@ export const Form = ({ dark, searchQuery }) => {
     } catch (err) {
       console.error("Failed to fetch second API", err);
     } finally {
-      setIsSuccess(false);
       buysellBalance(item?.pair_id, dispatch);
       openOrders(item?.pair_id, userData?.user_id, dispatch);
       OrderHistory(dispatch);
@@ -433,11 +431,12 @@ export const Form = ({ dark, searchQuery }) => {
     base_volume: formValues.stopBuyAmount,
     pair_id: item?.pair_id,
     api_id: apiId,
+    source: deviceInfo?.source,
     quote_volume: 0,
     limit_price: formValues.stopBuyLimit,
     stop_price: formValues.stopBuyStop,
-    device_type: "windows",
-    device_info: "systems",
+    device_type: deviceInfo?.device_type,
+    device_info: deviceInfo?.device_info,
   };
   const StopSellObj = {
     order_type: "Stop Limit",
@@ -445,14 +444,14 @@ export const Form = ({ dark, searchQuery }) => {
     api_id: String(apiId),
     pair_id: String(item?.pair_id),
     quote_volume: 0,
+    source: deviceInfo?.source,
     limit_price: String(formValues.stopSellLimit),
     stop_price: String(formValues.stopSellStop),
-    device_type: "windows",
-    device_info: "systems",
+    device_type: deviceInfo?.device_type,
+    device_info: deviceInfo?.device_info,
   };
   const handleStopBuy = async () => {
     if (error.stopBuyErr) return;
-    setIsSuccess(true);
 
     try {
       const { data, status } = await apiRequest({
@@ -460,7 +459,7 @@ export const Form = ({ dark, searchQuery }) => {
         url: `https://test.bitzup.com/order/user/place-buy-stop-limit`,
         data: StopBuyObj,
       });
-      setIsSuccess(true);
+      (true);
       if (status === 200) {
         setSuccessMsg((prev) => ({
           ...prev,
@@ -470,7 +469,6 @@ export const Form = ({ dark, searchQuery }) => {
     } catch (err) {
       console.error("Failed to fetch second API", err);
     } finally {
-      setIsSuccess(false);
       buysellBalance(item?.pair_id, dispatch);
       openOrders(item?.pair_id, userData?.user_id, dispatch);
       OrderHistory(dispatch);
@@ -484,14 +482,12 @@ export const Form = ({ dark, searchQuery }) => {
   };
   const handleStopSell = async () => {
     if (error.stopSellErr) return;
-    setIsSuccess(true);
     try {
       const { data, status } = await apiRequest({
         method: "post",
         url: `https://test.bitzup.com/order/user/place-sell-stop-limit`,
         data: StopSellObj,
       });
-      setIsSuccess(true);
       if (status === 200) {
         setSuccessMsg((prev) => ({
           ...prev,
@@ -503,7 +499,6 @@ export const Form = ({ dark, searchQuery }) => {
     } catch (err) {
       console.error("Failed to fetch second API", err);
     } finally {
-      setIsSuccess(false);
       buysellBalance(item?.pair_id, dispatch);
       openOrders(item?.pair_id, userData?.user_id, dispatch);
       OrderHistory(dispatch);
@@ -694,12 +689,8 @@ export const Form = ({ dark, searchQuery }) => {
                   handleBuy();
                   handleNavigate();
                 }}
-                disabled={error.limitBuyErr}
-                className={`w-[100%] ${
-                  error.limitBuyErr
-                    ? "bg-[#adcabf]"
-                    : "bg-[#2EBD85] hover:bg-[#0e9e67]"
-                }     m-2 py-2 rounded-md h-[3rem] text-[16px] font-semibold cursor-pointer`}
+                className={`w-[100%] 
+                  bg-[#2EBD85] hover:bg-[#0e9e67]    m-2 py-2 rounded-md h-[3rem] text-[16px] font-semibold cursor-pointer`}
               >
                 {userData?.token ? "Buy" : " Log In"}
               </button>
@@ -825,16 +816,12 @@ export const Form = ({ dark, searchQuery }) => {
             </div>
             <div className="w-full flex justify-center">
               <button
-                disabled={error.limitSellErr}
                 onClick={() => {
                   handleSell();
                   handleNavigate();
                 }}
-                className={`w-[100%] ${
-                  error.limitSellErr
-                    ? "bg-[#c29da1]"
-                    : "bg-[#F6465D] hover:bg-[#c74052]"
-                }  cursor-pointer  h-[3rem]  py-2 m-2 rounded-md text-[16px] font-semibold`}
+                className={`w-[100%] 
+                   bg-[#F6465D] hover:bg-[#c74052]  cursor-pointer  h-[3rem]  py-2 m-2 rounded-md text-[16px] font-semibold`}
               >
                 {userData?.token ? "Sell" : " Log In"}
               </button>
@@ -941,12 +928,8 @@ export const Form = ({ dark, searchQuery }) => {
                   handleMarket();
                   handleNavigate();
                 }}
-                disabled={error.marketBuyErr}
-                className={`w-[100%] ${
-                  error.marketBuyErr
-                    ? "bg-[#adcabf]"
-                    : "bg-[#2EBD85] hover:bg-[#0e9e67]"
-                }     m-2 py-2 rounded-md h-[3rem] text-[16px] font-semibold cursor-pointer`}
+                className={`w-[100%] 
+                bg-[#2EBD85] hover:bg-[#0e9e67]   m-2 py-2 rounded-md h-[3rem] text-[16px] font-semibold cursor-pointer`}
               >
                 {userData?.token ? "Buy" : " Log In"}
               </button>
@@ -1047,16 +1030,14 @@ export const Form = ({ dark, searchQuery }) => {
             </div>
             <div className="w-full flex justify-center">
               <button
-                // disabled={error.marketSellErr}
                 onClick={() => {
                   handleMarketSell();
                   handleNavigate();
                 }}
-                className={`w-[100%] ${
-                  error.marketSellErr
-                    ? "bg-[#c29da1]"
-                    : "bg-[#F6465D] hover:bg-[#c74052]"
-                }  cursor-pointer  h-[3rem]  py-2 m-2 rounded-md text-[16px] font-semibold`}
+                className={`w-[100%]
+       
+                    bg-[#F6465D] hover:bg-[#c74052]
+                  cursor-pointer  h-[3rem]  py-2 m-2 rounded-md text-[16px] font-semibold`}
               >
                 {userData?.token ? "Sell" : " Log In"}
               </button>
@@ -1182,12 +1163,9 @@ export const Form = ({ dark, searchQuery }) => {
                   handleStopBuy();
                   handleNavigate();
                 }}
-                disabled={error.stopBuyErr}
-                className={`w-[100%] ${
-                  error.stopBuyErr
-                    ? "bg-[#adcabf]"
-                    : "bg-[#2EBD85] hover:bg-[#0e9e67]"
-                }     m-2 py-2 rounded-md h-[3rem] text-[16px] font-semibold cursor-pointer`}
+                className={`w-[100%] 
+                     bg-[#2EBD85] hover:bg-[#0e9e67]
+                     m-2 py-2 rounded-md h-[3rem] text-[16px] font-semibold cursor-pointer`}
               >
                 {userData?.token ? "Buy" : " Log In"}
               </button>
@@ -1311,17 +1289,14 @@ export const Form = ({ dark, searchQuery }) => {
             </div>
             <div className="w-full flex justify-center">
               <button
-                className={`w-[100%] ${
-                  error.stopSellErr
-                    ? "bg-[#c29da1]"
-                    : "bg-[#F6465D] hover:bg-[#c74052]"
-                }  cursor-pointer  h-[3rem]  py-2 m-2 rounded-md text-[16px] font-semibold`}
+                className={`w-[100%]
+                    bg-[#F6465D] hover:bg-[#c74052]
+                 cursor-pointer  h-[3rem]  py-2 m-2 rounded-md text-[16px] font-semibold`}
                 onClick={() => {
                   handleNavigate();
                   handleStopSell();
                 }}
                 style={{ background: error.stopSellErr && "[#e9d8da]" }}
-                disabled={error.stopSellErr}
               >
                 {userData?.token ? "Sell" : " Log In"}
               </button>

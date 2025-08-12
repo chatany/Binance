@@ -37,7 +37,7 @@ export const MarketCom = ({ dark, SetSearchQuery, searchQuery }) => {
   } = useSelector((state) => state.counter);
   useEffect(() => {
     // Step 1: Start with full searchData
-    let data = [...searchData];
+    let data = Array.isArray(searchData) ? [...searchData] : [];
 
     // Step 2: Apply search filter first
     if (searchInput) {
@@ -63,8 +63,8 @@ export const MarketCom = ({ dark, SetSearchQuery, searchQuery }) => {
   const handleChange = async (pairId, fav) => {
     const faverae = !fav;
     const favData = {
-      pair_id: pairId,
-      type: faverae ? faverae : "false",
+      pair_id: String(pairId),
+      type: faverae ? String(faverae) : "false",
     };
     try {
       const { data, status } = await apiRequest({
@@ -102,6 +102,7 @@ export const MarketCom = ({ dark, SetSearchQuery, searchQuery }) => {
     }
   };
   useEffect(() => {
+    if (!Array.isArray(searchData)) return; // exit early if invalid
     const icon = searchData.find((item) =>
       item.pair_symbol?.toLowerCase().includes(searchQuery.toLowerCase())
     );
@@ -347,7 +348,7 @@ export const MarketCom = ({ dark, SetSearchQuery, searchQuery }) => {
             )}
           </div>
         </div>
-        {activeTab === "Market Trade" && (
+        {/* {activeTab === "Market Trade" && ( */}
           <div className="no-scrollbar h-[20rem] overflow-x-auto overflow-y-auto p-[0px_8px_8px_8px]">
             <table className="w-full">
               <thead>
@@ -437,14 +438,14 @@ export const MarketCom = ({ dark, SetSearchQuery, searchQuery }) => {
               </tbody>
             </table>
           </div>
-        )}
-        {activeTab === "My Trade" && (
+        {/* )} */}
+        {/* {activeTab === "My Trade" && (
           <div className="no-scrollbar h-[20rem] overflow-x-auto overflow-y-auto">
             <div className="h-full w-full flex justify-center items-center">
               No Data Found
             </div>
           </div>
-        )}
+        )} */}
       </div>
     </div>
   );

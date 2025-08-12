@@ -269,7 +269,9 @@ export const TopNav = ({
         {!userData?.token && (
           <>
             <div
-              className="hover:text-gray-400 text-[14px] md:flex hidden font-semibold  leading-6"
+              className={`hover:text-gray-400 rounded-sm text-[14px] md:flex hidden font-semibold ${
+                dark ? "bg-[#2b3139]" : "bg-[#EAECEF]"
+              }  leading-6 px-2 py-1 `}
               onClick={() => navigate("/login")}
             >
               Log In
