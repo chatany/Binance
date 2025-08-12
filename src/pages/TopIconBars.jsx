@@ -35,8 +35,8 @@ export const TopIconBar1 = ({ dark }) => {
   const handleChange = async () => {
     const faverae = !isFav;
     const favData = {
-      pair_id: pairId,
-      type: faverae ? faverae : "false",
+      pair_id: String(pairId),
+      type: faverae ? String(faverae) : "false",
     };
     try {
       const { data, status } = await apiRequest({
@@ -165,9 +165,9 @@ export const TopIconBar2 = ({ dark }) => {
   const dispatch = useDispatch();
   const handleChange = async () => {
     const faverae = !isFav;
-    const favData = {
-      pair_id: pairId,
-      type: faverae ? faverae : "false",
+     const favData = {
+      pair_id: String(pairId),
+      type: faverae ? String(faverae) : "false",
     };
     try {
       const { data, status } = await apiRequest({
@@ -328,8 +328,8 @@ export const TopIconBar3 = ({ dark }) => {
   const handleChange = async () => {
     const faverae = !isFav;
     const favData = {
-      pair_id: pairId,
-      type: faverae ? faverae : "false",
+      pair_id: String(pairId),
+      type: faverae ? String(faverae) : "false",
     };
     try {
       const { data, status } = await apiRequest({

@@ -33,9 +33,9 @@ export const OpenOrders = ({ dark }) => {
       order_id: order_id,
       pair_id: pair_id,
       user_id: userData.user_id,
-      device_type:deviceInfo?.device_type,
+      device_type: deviceInfo?.device_type,
       device_info: deviceInfo?.device_info,
-      source:deviceInfo?.source
+      source: deviceInfo?.source,
     };
     deleteOpenOrder(
       orderData,
@@ -347,7 +347,10 @@ export const OpenOrders = ({ dark }) => {
                                       </td>
                                       <td
                                         className="lg:text-[12px] text-[.6rem] pl-1 pr-1 p-[4px] text-center capitalize cursor-pointer"
-                                        onClick={() => setIsPopup(!isPopup)}
+                                        onClick={() => {
+                                          setIsPopup(!isPopup);
+                                          setOrderId(item?.order_id);
+                                        }}
                                       >
                                         cancel
                                         {isPopup && (
@@ -357,7 +360,7 @@ export const OpenOrders = ({ dark }) => {
                                             }
                                             handleSubmit={() => {
                                               deleteOrder(
-                                                item?.order_id,
+                                                orderId,
                                                 item?.pair_id
                                               );
                                               setIsPopup(!isPopup);

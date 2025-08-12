@@ -11,6 +11,7 @@ import { apiRequest } from "../Helper";
 import { BuySellToggle } from "../common/ToggleButton";
 import { IoCloseSharp } from "react-icons/io5";
 import { useNavigate } from "react-router-dom";
+import { showError } from "../Toastify/toastServices";
 
 export const ToggleButSell = ({
   activeItem,
@@ -205,6 +206,7 @@ export const ToggleButSell = ({
         }));
       }
     } catch (err) {
+      showError(err);
       console.error("Failed to fetch second API", err);
     } finally {
       setIsSuccess(false);
@@ -247,6 +249,7 @@ export const ToggleButSell = ({
         }));
       }
     } catch (err) {
+      showError(err);
       console.error("Failed to fetch second API", err);
     } finally {
       setIsSuccess(false);
@@ -292,6 +295,7 @@ export const ToggleButSell = ({
         // }));
       }
     } catch (err) {
+      showError(err);
       console.error("Failed to fetch second API", err);
     } finally {
       setIsSuccess(false);
@@ -337,6 +341,7 @@ export const ToggleButSell = ({
         // }));
       }
     } catch (err) {
+      showError(err);
       console.error("Failed to fetch second API", err);
     } finally {
       setIsSuccess(false);
@@ -467,6 +472,7 @@ export const ToggleButSell = ({
         // }));
       }
     } catch (err) {
+      showError(err);
       console.error("Failed to fetch second API", err);
     } finally {
       setIsSuccess(false);
@@ -500,6 +506,7 @@ export const ToggleButSell = ({
       if (data?.status == 0) {
       }
     } catch (err) {
+      showError(err);
       console.error("Failed to fetch second API", err);
     } finally {
       setIsSuccess(false);

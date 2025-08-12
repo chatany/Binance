@@ -26,7 +26,7 @@ export const SidePopup = ({
     );
     if (icon) {
       const isFav = faverateData?.some(
-        (item) => item?.pair_id === icon?.pair_id
+        (item) => item?.pair_id == icon?.pair_id
       );
 
       dispatch(setIconUrl(icon?.coin_icon));
@@ -86,14 +86,14 @@ export const SidePopup = ({
     };
   }, [showSideBar]);
   return (
-    <div className="w-full h-screen  fixed inset-0  z-40 bg-[#00000080] overflow-hidden">
+    <div className=" h-screen  fixed inset-0  z-40 bg-[#00000080] overflow-hidden">
       <div
         id="popup"
         className={`${
           dark ? "bg-[#181A20] text-white " : "bg-white text-black "
-        } lg:min-w-[30%] md:min-w-[40%] min-w-[30%] p-5 popup-panel  h-full ${
+        } lg:w-[25%] md:w-[35%]  p-5   h-full ${
           showSideBar ? "open" : "  close"
-        }    absolute right-0    rounded-lg `}
+        }    absolute right-0    rounded- `}
       >
         <div className=" flex gap-5 items-center w-full">
           <input

@@ -6,10 +6,11 @@ import {
   openOrders,
   OrderHistory,
 } from "../pages/apiCall";
-import { setIsSuccess, setShowPopup } from "../store/webSocket";
+import { setShowPopup } from "../store/webSocket";
 import { useEffect, useRef, useState } from "react";
 import { apiRequest } from "../Helper";
 import { IoCloseSharp } from "react-icons/io5";
+import { useParams } from "react-router-dom";
 
 export const ModifyPopup = ({ orderId }) => {
   const {
@@ -26,6 +27,7 @@ export const ModifyPopup = ({ orderId }) => {
   const [price, setPrice] = useState(item?.order_price);
   const [stopPrice, setStopPrice] = useState(item?.stop_limit_price);
   const [amount, setAmount] = useState(item?.base_quantity);
+  const { symbol } = useParams();
   const userData = JSON.parse(localStorage.getItem("userData"));
   const [error, setError] = useState({
     limitErr: "",
@@ -94,7 +96,6 @@ export const ModifyPopup = ({ orderId }) => {
       ...(item?.type === "BUY" && { quote_volume: "0" }),
     };
     const handleBuy = async () => {
-      setIsSuccess(true);
       try {
         const { data } = await apiRequest({
           method: "post",
@@ -104,7 +105,6 @@ export const ModifyPopup = ({ orderId }) => {
       } catch (err) {
         console.error("Failed to fetch second API", err);
       } finally {
-        setIsSuccess(false);
         buysellBalance(item?.pair_id, dispatch);
         openOrders(item?.pair_id, userData?.user_id, dispatch);
         OrderHistory(dispatch);
@@ -122,10 +122,11 @@ export const ModifyPopup = ({ orderId }) => {
           localStorage.removeItem("userData");
           window.dispatchEvent(new Event("userDataChanged"));
         }
+        if (data?.status == 1 && status === 200) {
+          handleBuy();
+        }
       } catch (err) {
         console.error("Failed to fetch second API", err);
-      } finally {
-        handleBuy();
       }
     };
     deletePopup();
@@ -143,7 +144,6 @@ export const ModifyPopup = ({ orderId }) => {
       device_type: "windows",
       device_info: "systems",
     };
-    setIsSuccess(true);
     const orderData = {
       order_id: item?.order_id,
       pair_id: item?.pair_id,
@@ -182,10 +182,11 @@ export const ModifyPopup = ({ orderId }) => {
           localStorage.removeItem("userData");
           window.dispatchEvent(new Event("userDataChanged"));
         }
+        if (data?.status == 1 && status === 200) {
+          handleChange();
+        }
       } catch (err) {
         console.error("Failed to fetch second API", err);
-      } finally {
-        handleChange();
       }
     };
     deletePopup();
@@ -246,7 +247,7 @@ export const ModifyPopup = ({ orderId }) => {
         <div className="text-[16px] text-black flex justify-between w-full items-center p-2">
           Modify Order
           <IoCloseSharp
-            className="h-6 w-6"
+            className="h-6 w-6 cursor-pointer"
             onClick={() => dispatch(setShowPopup(false))}
           />
         </div>
@@ -274,7 +275,7 @@ export const ModifyPopup = ({ orderId }) => {
             </div>
             <div className="w-full flex flex-col gap-2">
               <label className="text-[#757575] flex justify-start">
-                Amount(BTC)
+                Amount ({symbol?.toLowerCase()?.split("usdt")[0].toUpperCase()})
               </label>
               <input
                 name="Email"
@@ -351,7 +352,7 @@ export const ModifyPopup = ({ orderId }) => {
                 htmlFor="price"
                 className="text-[#757575] flex justify-start"
               >
-                Amount (BTC)
+                Amount ({symbol?.toLowerCase().split("usdt")[0]})
               </label>
 
               <input

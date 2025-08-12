@@ -15,6 +15,7 @@ import {
   setQuantityDecimal,
 } from "../store/webSocket";
 import { useDeviceInfo } from "../hooks/useDeviceInfo";
+import { showError } from "../Toastify/toastServices";
 export const Form = ({ dark, searchQuery }) => {
   const isOpen = useSelector((state) => state.counter.open);
   const { allMovers, currentPrice, balance } = useSelector(
@@ -221,6 +222,7 @@ export const Form = ({ dark, searchQuery }) => {
         }));
       }
     } catch (err) {
+      showError(err);
       console.error("Failed to fetch second API", err);
     } finally {
       buysellBalance(item?.pair_id, dispatch);
@@ -254,6 +256,7 @@ export const Form = ({ dark, searchQuery }) => {
         }));
       }
     } catch (err) {
+      showError(err);
       console.error("Failed to fetch second API", err);
     } finally {
       buysellBalance(item?.pair_id, dispatch);
@@ -302,6 +305,7 @@ export const Form = ({ dark, searchQuery }) => {
         // }));
       }
     } catch (err) {
+      showError(err);
       console.error("Failed to fetch second API", err);
     } finally {
       buysellBalance(item?.pair_id, dispatch);
@@ -346,6 +350,7 @@ export const Form = ({ dark, searchQuery }) => {
         // }));
       }
     } catch (err) {
+      showError(err);
       console.error("Failed to fetch second API", err);
     } finally {
       buysellBalance(item?.pair_id, dispatch);
@@ -467,6 +472,7 @@ export const Form = ({ dark, searchQuery }) => {
         }));
       }
     } catch (err) {
+      showError(err);
       console.error("Failed to fetch second API", err);
     } finally {
       buysellBalance(item?.pair_id, dispatch);
@@ -497,6 +503,7 @@ export const Form = ({ dark, searchQuery }) => {
       if (data?.status == 0) {
       }
     } catch (err) {
+      showError(err);
       console.error("Failed to fetch second API", err);
     } finally {
       buysellBalance(item?.pair_id, dispatch);
@@ -570,7 +577,7 @@ export const Form = ({ dark, searchQuery }) => {
         <div
           className={`flex sm:flex-row justify-center w-full  gap-3 flex-col items-center  `}
         >
-          <div className={`w-[50%]   ${isOpen ? "space-y-3" : "space-y-0"}`}>
+          <div className={`w-[50%]   ${isOpen ? "space-y-6" : "space-y-2"}`}>
             <div className="p-[5px] flex flex-col gap-2">
               <CryptoInput
                 label="Price"
@@ -656,7 +663,7 @@ export const Form = ({ dark, searchQuery }) => {
                 </div>
               )}
             </div>
-            <div className="flex items-center space-x-2 p-2 ">
+            {/* <div className="flex items-center space-x-2 p-2 ">
               <input
                 id="tp-sl"
                 type="checkbox"
@@ -665,7 +672,7 @@ export const Form = ({ dark, searchQuery }) => {
               <label htmlFor="tp-sl" className="text-gray-300 text-[16px]">
                 TP/SL
               </label>
-            </div>
+            </div> */}
 
             <div className="text-[16px] p-2">
               <div className="flex justify-between">
@@ -782,7 +789,7 @@ export const Form = ({ dark, searchQuery }) => {
                 </div>
               )}
             </div>
-            <div className="flex items-center space-x-2 p-2 ">
+            {/* <div className="flex items-center space-x-2 p-2 ">
               <input
                 id="tp-sl"
                 type="checkbox"
@@ -791,7 +798,7 @@ export const Form = ({ dark, searchQuery }) => {
               <label htmlFor="tp-sl" className="text-gray-300 text-[16px]">
                 TP/SL
               </label>
-            </div>
+            </div> */}
             <div className="text-[16px] p-2">
               <div className="flex justify-between">
                 <div className="flex justify-between text-gray-400">Avbl</div>

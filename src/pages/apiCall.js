@@ -12,6 +12,7 @@ import {
   setSearchData,
   setTopMovers,
 } from "../store/webSocket";
+import { showError } from "../Toastify/toastServices";
 
 export const fetchData = async () => {
   try {
@@ -209,8 +210,12 @@ export const deleteOpenOrder = async (
       localStorage.removeItem("userData");
       window.dispatchEvent(new Event("userDataChanged"));
     }
+    if(status ===500){
+      showError(data?.msg);
+    }
   } catch (err) {
     console.error("Failed to fetch second API", err);
+    showError(err);
   } finally {
     dispatch(setIsSuccess(false));
     openOrders(pair_id, user_id, dispatch);

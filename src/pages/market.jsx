@@ -49,7 +49,7 @@ export const MarketCom = ({ dark, SetSearchQuery, searchQuery }) => {
     // Step 3: If favorite mode is on, filter from search-filtered data
     if (favorite && Array.isArray(faverateData)) {
       data = data.filter((item) =>
-        faverateData.some((fav) => fav.pair_id === item.pair_id)
+        faverateData.some((fav) => fav.pair_id == item.pair_id)
       );
     }
 
@@ -106,7 +106,7 @@ export const MarketCom = ({ dark, SetSearchQuery, searchQuery }) => {
     const icon = searchData.find((item) =>
       item.pair_symbol?.toLowerCase().includes(searchQuery.toLowerCase())
     );
-    const isFav = faverateData?.some((item) => item?.pair_id === icon?.pair_id);
+    const isFav = faverateData?.some((item) => item?.pair_id == icon?.pair_id);
 
     dispatch(setIconUrl(icon?.coin_icon));
     dispatch(setPairId(icon?.pair_id));
@@ -225,7 +225,7 @@ export const MarketCom = ({ dark, SetSearchQuery, searchQuery }) => {
                   <tbody>
                     {filteredData?.map((item) => {
                       const fav = faverateData?.some(
-                        (val) => val?.pair_id === item?.pair_id
+                        (val) => val?.pair_id == item?.pair_id
                       );
                       return (
                         <tr
