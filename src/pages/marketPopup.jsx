@@ -78,6 +78,7 @@ export const MarketPopup = ({
         className={`${
           dark ? "bg-[#181A20] text-white " : "bg-white text-black "
         } w-full h-[70%] absolute slide-inTop bottom-0 z-50  rounded-[8px_8px_0px_0px] p-2 `}
+        ref={popupRef}
       >
         <div className="justify-between flex p-3">
           <div>Market</div>

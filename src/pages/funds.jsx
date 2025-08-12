@@ -51,7 +51,9 @@ export const Funds = ({ dark }) => {
       <div>
         <div
           className={`flex justify-between  text-[16px]  p-[16px_16px_0px_16px] ${
-            dark ? "border-[#333B47]" : "border-[#EAECEF]"
+            dark
+              ? "border-[#333B47] bg-[#181A20] "
+              : "border-[#EAECEF] bg-white"
           } border-b-1`}
         >
           <div className="flex items-center gap-5 h-[2rem]">
@@ -117,7 +119,13 @@ export const Funds = ({ dark }) => {
         </div>
         <div className="h-[400px] overflow-y-auto ">
           {activeTab === "Funds" && (
-            <div className="p-4">
+            <div
+              className={`p-4 ${
+                dark
+                  ? "border-[#333B47] bg-[#181A20] "
+                  : "border-[#EAECEF] bg-white"
+              }`}
+            >
               {Array.isArray(fundData) && fundData?.length > 0 ? (
                 <>
                   {fundData?.map((item, index) => (
@@ -126,7 +134,9 @@ export const Funds = ({ dark }) => {
                         <div
                           key={index}
                           className={` border-b-1 flex flex-col gap-2 p-2 ${
-                            dark ? "border-[#333B47]" : "border-[#EAECEF]"
+                            dark
+                              ? "border-[#333B47] bg-[#181A20] "
+                              : "border-[#EAECEF] bg-white"
                           }`}
                         >
                           <div
@@ -208,14 +218,22 @@ export const Funds = ({ dark }) => {
                   ))}
                 </>
               ) : (
-                <div className="flex items-center justify-center h-[300px] text-sm text-gray-400">
+                <div
+                  className={`flex items-center justify-center h-[300px] text-sm text-gray-400`}
+                >
                   No Data found
                 </div>
               )}
             </div>
           )}
           {activeTab === "open orders" && (
-            <div className="h-full w-full">
+            <div
+              className={`h-full ${
+                dark
+                  ? "border-[#333B47] bg-[#181A20] "
+                  : "border-[#EAECEF] bg-white"
+              } w-full`}
+            >
               {Array.isArray(openOrder) && openOrder?.length > 0 ? (
                 <div className="p-2">
                   {Array.isArray(openOrder) &&
@@ -227,7 +245,9 @@ export const Funds = ({ dark }) => {
                       return (
                         <div
                           className={`flex justify-between  ${
-                            dark ? "border-[#333B47]" : "border-[#EAECEF]"
+                            dark
+                              ? "border-[#333B47] bg-[#181A20] "
+                              : "border-[#EAECEF] bg-white"
                           } p-3 border-b-1 `}
                           key={index}
                         >
@@ -292,7 +312,13 @@ export const Funds = ({ dark }) => {
                     })}
                 </div>
               ) : (
-                <div className="flex justify-center items-center h-full w-full">
+                <div
+                  className={`flex ${
+                    dark
+                      ? "border-[#333B47] bg-[#181A20] "
+                      : "border-[#EAECEF] bg-white"
+                  } justify-center text-gray-400 items-center text-sm h-full w-full`}
+                >
                   No Data found
                 </div>
               )}

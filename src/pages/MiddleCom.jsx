@@ -128,9 +128,7 @@ export const Middle = ({ dark }) => {
                   <IoMdListBox />
                 </div>
               </div>
-              <div className="text-[12px] h-[1rem] pr-10">
-                <FaAngleDown className="h-5 w-5" />
-              </div>
+              
             </div>
             <div className="h-[10rem] no-scrollbar overflow-x-auto overflow-y-auto">
               {orderData?.bids?.length > 0 ? (

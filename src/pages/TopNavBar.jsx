@@ -84,8 +84,8 @@ export const TopNav = ({
   }, [showLogoutPopup]);
   return (
     <div
-      className={`flex  justify-between items-center border-b-1 h-[4rem] ${
-        dark ? "border-[#2B3139]" : "border-[#EAECEF]"
+      className={`flex  justify-between items-center md:border-b-1 h-[4rem] ${
+        dark ? "md:border-[#2B3139]" : "md:border-[#EAECEF]"
       } w-[100vw]  p-3 ${
         dark ? "bg-[#181A20] text-[#EAECEF] " : "bg-white text-black "
       }`}

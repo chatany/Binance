@@ -538,10 +538,10 @@ export const ToggleButSell = ({
           dark
             ? "border-[#2B3139] text-[#EAECEF]"
             : "border-[#EAECEF] text-[#202630]"
-        } border-b-1 flex justify-between items-center`}
+        } border-b-1 p-[12px_12px_12px_12px]  flex justify-between items-center`}
       >
         <div
-          className={` flex text-[12px] p-2 ${close ? "w-[70%]" : "w-full"}`}
+          className={` flex text-[12px] p-[12px_12px_12px_12px] ${close ? "w-[70%]" : "w-full"}`}
         >
           {/* {tab.map((tab) => (
             <button

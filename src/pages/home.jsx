@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Order } from "./Order";
 import { MarketCom } from "./market";
 import { Form } from "./form";
@@ -35,11 +35,12 @@ export const Home = () => {
   const [active, setActive] = useState("Spot");
   const navigate = useNavigate();
   const { symbol } = useParams();
+  const popupRef = useRef(null);
   const [searchQuery, setSearchQuery] = useState(symbol || "BTCUSDT");
   const userData = JSON.parse(localStorage.getItem("userData"));
   const [activeItem, setActiveItem] = useState("Buy");
   const [openMarketPopup, setOpenMarketPopup] = useState(false);
-  
+
   const [show, setShow] = useState(false);
   useEffect(() => {
     if (symbol) {
@@ -67,13 +68,20 @@ export const Home = () => {
     };
   }, [show]);
   useEffect(() => {
+    const handleClickOutside = (event) => {
+      // If click is outside the popup
+      if (popupRef.current && !popupRef.current.contains(event.target)) {
+        setIsLogin(false);
+      }
+    };
+
     if (isLogin) {
+      document.addEventListener("mousedown", handleClickOutside);
       document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "auto";
     }
 
     return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
       document.body.style.overflow = "auto";
     };
   }, [isLogin]);
@@ -101,7 +109,7 @@ export const Home = () => {
           setShow={setShow}
         />
         {/* Main Content */}
-        <div className="w-full flex flex-col items-center gap-1 justify-between p-[4px_4px_4px_4px]">
+        <div className="w-full flex flex-col items-center gap-1 justify-between md:p-[4px_4px_4px_4px]">
           <div className="max-w-[1528px] overflow-hidden w-full lg:flex hidden gap-1.5">
             <div className=" flex flex-col w-full items-center gap-1.5 ">
               <TopIconBar1 dark={dark} />
@@ -192,17 +200,21 @@ export const Home = () => {
               />
             </div>
           </div>
-          <div
-            className={`md:hidden w-full   ${
-              dark ? "bg-[#181A20] " : "bg-white"
-            } `}
-          >
-            <div className=" text-xs w-full   rounded-md ">
-              <TopIconBar4
-                dark={dark}
-                setOpenMarketPopup={setOpenMarketPopup}
-              />
-              <div className="h-[400px] w-full">
+          <div className={`md:hidden w-full`}>
+            <div className=" text-xs w-full   rounded-md flex flex-col gap-1.5">
+              <div
+                className={` w-full ${dark ? "bg-[#181A20] " : "bg-white"} `}
+              >
+                <TopIconBar4
+                  dark={dark}
+                  setOpenMarketPopup={setOpenMarketPopup}
+                />
+              </div>
+              <div
+                className={`h-[400px] ${
+                  dark ? "bg-[#181A20] " : "bg-white"
+                }  w-full`}
+              >
                 <ChartEmbed searchQuery={symbol} />
               </div>
               <Funds dark={dark} />
@@ -236,7 +248,8 @@ export const Home = () => {
             <div
               className={`md:hidden ${
                 dark ? "bg-[#181E25]" : "bg-white"
-              } w-full fixed bottom-0 z-50 flex justify-center gap-2 text-white rounded-[43px_4px_3px_1px] h-[90%]`}
+              } w-full fixed bottom-0 z-50 flex justify-center gap-2 text-white rounded-[43px_4px_3px_1px] h-[70%]`}
+              ref={popupRef}
             >
               <ToggleButSell
                 activeItem={activeItem}
