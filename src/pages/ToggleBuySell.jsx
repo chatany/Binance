@@ -543,7 +543,7 @@ export const ToggleButSell = ({
         <div
           className={` flex text-[12px] p-2 ${close ? "w-[70%]" : "w-full"}`}
         >
-          {tab.map((tab) => (
+          {/* {tab.map((tab) => (
             <button
               key={tab}
               onClick={() => setActive(tab)}
@@ -559,7 +559,7 @@ export const ToggleButSell = ({
             >
               {tab}
             </button>
-          ))}
+          ))} */}
         </div>
         {close && <IoCloseSharp className="h-6 w-6" onClick={handleClose} />}
       </div>
@@ -585,7 +585,9 @@ export const ToggleButSell = ({
       </div>
       {activeTab === "Limit" && (
         <div
-          className={`flex sm:flex-row justify-center w-full  gap-3 flex-col items-center  `}
+          className={`flex sm:flex-row justify-center w-full ${
+            dark ? " text-[#EAECEF]" : "text-[#262030]"
+          }  gap-3 flex-col items-center  `}
         >
           {activeItem === "Buy" ? (
             <div
@@ -684,16 +686,6 @@ export const ToggleButSell = ({
                     {successMsg.limitBuy}
                   </div>
                 )}
-              </div>
-              <div className="flex items-center space-x-2 p-2 ">
-                <input
-                  id="tp-sl"
-                  type="checkbox"
-                  className="accent-amber-400 cursor-pointer"
-                />
-                <label htmlFor="tp-sl" className="text-gray-300 text-[16px]">
-                  TP/SL
-                </label>
               </div>
 
               <div className="text-[16px] p-2">
@@ -815,16 +807,6 @@ export const ToggleButSell = ({
                   </div>
                 )}
               </div>
-              <div className="flex items-center space-x-2 p-2 ">
-                <input
-                  id="tp-sl"
-                  type="checkbox"
-                  className="accent-amber-400 cursor-pointer"
-                />
-                <label htmlFor="tp-sl" className="text-gray-300 text-[16px]">
-                  TP/SL
-                </label>
-              </div>
               <div className="text-[16px] p-2">
                 <div className="flex justify-between">
                   <div className="flex justify-between text-gray-400">Avbl</div>
@@ -862,7 +844,9 @@ export const ToggleButSell = ({
       )}
       {activeTab === "Market" && (
         <div
-          className={`flex sm:flex-row justify-center w-full  gap-3 flex-col items-center  `}
+          className={`flex sm:flex-row justify-center w-full  ${
+            dark ? "text-[#EAECEF]" : " text-[#262030]"
+          } gap-3 flex-col items-center  `}
         >
           {activeItem === "Buy" ? (
             <div
@@ -950,7 +934,10 @@ export const ToggleButSell = ({
                     Avbl
                   </div>
                   <span className="">
-                    {parseFloat(balance?.quote_balance)} USDT
+                    {parseFloat(
+                      balance?.quote_balance ? balance?.quote_balance : 0
+                    ).toString()}{" "}
+                    USDT
                   </span>
                 </div>
                 {/* <div className="flex justify-between">
@@ -1059,8 +1046,13 @@ export const ToggleButSell = ({
                   <div className="flex justify-between text-gray-400">Avbl</div>
                   <div>
                     {" "}
-                    {parseFloat(balance?.base_balance)}{" "}
-                    {item?.base_asset_symbol}
+                    {parseFloat(
+                      balance?.base_balance ? balance?.base_balance : 0
+                    ).toString()}{" "}
+                    {item?.pair_symbol
+                      .toLowerCase()
+                      .split("usdt")[0]
+                      .toUpperCase()}
                   </div>
                 </div>
               </div>
@@ -1081,7 +1073,9 @@ export const ToggleButSell = ({
       )}
       {activeTab === "Stop Limit" && (
         <div
-          className={`flex sm:flex-row justify-center w-full  gap-3 flex-col items-center  `}
+          className={`flex sm:flex-row justify-center w-full ${
+            dark ? " text-[#EAECEF]" : "text-[#262030]"
+          }  gap-3 flex-col items-center  `}
         >
           {activeItem === "Buy" ? (
             <div
@@ -1190,7 +1184,10 @@ export const ToggleButSell = ({
                 <div className="flex justify-between">
                   <div className="flex justify-between text-gray-400">Avbl</div>
                   <span className="">
-                    {parseFloat(balance?.quote_balance)} USDT
+                    {parseFloat(
+                      balance?.quote_balance ? balance?.quote_balance : 0
+                    ).toString()}{" "}
+                    USDT
                   </span>
                 </div>
                 {/* <div className="flex justify-between">
@@ -1319,7 +1316,9 @@ export const ToggleButSell = ({
                 <div className="flex justify-between">
                   <div className="flex justify-between text-gray-400">Avbl</div>
                   <div>
-                    {parseFloat(balance?.base_balance)}{" "}
+                    {parseFloat(
+                      balance?.base_balance ? balance?.base_balance : 0
+                    ).toString()}{" "}
                     {item?.pair_symbol
                       .toLowerCase()
                       .split("usdt")[0]

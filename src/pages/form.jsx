@@ -291,7 +291,6 @@ export const Form = ({ dark, searchQuery }) => {
         url: `https://test.bitzup.com/order/user/place-buy-order`,
         data: marketObj,
       });
-      (true);
       if (status === 200) {
         setSuccessMsg((prev) => ({
           ...prev,
@@ -464,7 +463,6 @@ export const Form = ({ dark, searchQuery }) => {
         url: `https://test.bitzup.com/order/user/place-buy-stop-limit`,
         data: StopBuyObj,
       });
-      (true);
       if (status === 200) {
         setSuccessMsg((prev) => ({
           ...prev,
@@ -920,7 +918,10 @@ export const Form = ({ dark, searchQuery }) => {
               <div className="flex justify-between">
                 <div className="flex justify-between text-[#848E9C]">Avbl</div>
                 <span className="">
-                  {parseFloat(balance?.quote_balance)} USDT
+                  {parseFloat(
+                    balance?.quote_balance ? balance?.quote_balance : 0
+                  ).toString()}{" "}
+                  USDT
                 </span>
               </div>
               {/* <div className="flex justify-between">
@@ -1031,7 +1032,16 @@ export const Form = ({ dark, searchQuery }) => {
                 <div className="flex justify-between text-gray-400">Avbl</div>
                 <div>
                   {" "}
-                  {parseFloat(balance?.base_balance)} {item?.base_asset_symbol}
+                 {" "}
+                  {parseFloat(
+                    balance?.base_balance ? balance?.base_balance : 0
+                  ).toString()}{" "}
+                  {item?.pair_symbol
+                    ? item.pair_symbol
+                        .toLowerCase()
+                        .split("usdt")[0]
+                        .toUpperCase()
+                    : ""}
                 </div>
               </div>
             </div>
@@ -1155,7 +1165,10 @@ export const Form = ({ dark, searchQuery }) => {
               <div className="flex justify-between">
                 <div className="flex justify-between text-gray-400">Avbl</div>
                 <span className="">
-                  {parseFloat(balance?.quote_balance)} USDT
+                  {parseFloat(
+                    balance?.quote_balance ? balance?.quote_balance : 0
+                  ).toString()}{" "}
+                  USDT
                 </span>
               </div>
               {/* <div className="flex justify-between">
@@ -1281,11 +1294,16 @@ export const Form = ({ dark, searchQuery }) => {
               <div className="flex justify-between">
                 <div className="flex justify-between text-gray-400">Avbl</div>
                 <div>
-                  {parseFloat(balance?.base_balance)}{" "}
+                  {" "}
+                  {parseFloat(
+                    balance?.base_balance ? balance?.base_balance : 0
+                  ).toString()}{" "}
                   {item?.pair_symbol
-                    .toLowerCase()
-                    .split("usdt")[0]
-                    .toUpperCase()}
+                    ? item.pair_symbol
+                        .toLowerCase()
+                        .split("usdt")[0]
+                        .toUpperCase()
+                    : ""}
                 </div>
               </div>
               {/* <div className="flex justify-between">

@@ -194,7 +194,7 @@ export const Home = () => {
           </div>
           <div
             className={`md:hidden w-full   ${
-              dark ? "bg-[#181A20]" : "bg-white"
+              dark ? "bg-[#181A20] " : "bg-white"
             } `}
           >
             <div className=" text-xs w-full   rounded-md ">
