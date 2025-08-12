@@ -40,8 +40,8 @@ export const SidePopup = ({
   const handleChange = async (pairId, fav) => {
     const faverae = !fav;
     const favData = {
-      pair_id: pairId,
-      type: faverae ? faverae : "false",
+      pair_id: String(pairId),
+      type: faverae ? String(faverae) : "false",
     };
     try {
       const { data, status } = await apiRequest({
@@ -150,7 +150,7 @@ export const SidePopup = ({
                 <tbody>
                   {filteredData?.map((item) => {
                     const fav = faverateData?.some(
-                      (val) => val?.pair_id === item?.pair_id
+                      (val) => val?.pair_id == item?.pair_id
                     );
                     return (
                       <tr

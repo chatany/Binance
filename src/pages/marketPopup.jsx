@@ -20,14 +20,14 @@ export const MarketPopup = ({
   const navigate = useNavigate();
   const [isVolume, setIsVolume] = useState(false);
   const [searchInput, setSearchInput] = useState("");
-  const filteredData = searchData.filter((item) =>
+  const filteredData = Array.isArray(searchData) && searchData?.filter((item) =>
     item.pair_symbol?.toLowerCase().includes(searchInput.toLowerCase())
   );
   const handleChange = async (pairId, fav) => {
     const faverae = !fav;
     const favData = {
-      pair_id: pairId,
-      type: faverae ? faverae : "false",
+      pair_id: String(pairId),
+      type: faverae ? String(faverae) : "false",
     };
     try {
       const { data, status } = await apiRequest({
@@ -137,7 +137,7 @@ export const MarketPopup = ({
                 <tbody>
                   {filteredData?.map((item) => {
                     const fav = faverateData?.some(
-                      (val) => val?.pair_id === item?.pair_id
+                      (val) => val?.pair_id == item?.pair_id
                     );
                     return (
                       <tr
