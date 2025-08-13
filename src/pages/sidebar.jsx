@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { IoMdClose } from "react-icons/io";
 import { FaChevronDown } from "react-icons/fa";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 export default function MobileSidebar({ show, setShow, dark }) {
   const [openMenus, setOpenMenus] = useState({ trade: false, earn: false });
@@ -79,8 +79,12 @@ export default function MobileSidebar({ show, setShow, dark }) {
             </div>
           </div>
 
-          <div className="font-semibold">Support</div>
-          <div className="font-semibold">24/7 Chat Support</div>
+          <Link
+            to={"https://bitzup.freshdesk.com/support/home"}
+            target="_blank"
+          >
+            <div className="font-semibold">24/7 Chat Support</div>
+          </Link>
         </div>
       </div>
     )
