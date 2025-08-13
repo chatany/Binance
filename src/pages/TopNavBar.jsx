@@ -14,6 +14,7 @@ import { helpCenterApi } from "./apiCall";
 import { SidePopup } from "./sidePopup";
 import { RiLogoutBoxRLine } from "react-icons/ri";
 import { ConfirmationBox } from "../common/deletePopup";
+import { Tooltip } from "@mui/material";
 
 export const TopNav = ({
   dark,
@@ -251,10 +252,12 @@ export const TopNav = ({
 
       {/* Right Navbar */}
       <div className="flex md:gap-5 gap-2 lg:gap-4 items-center  md:mt-0 justify-between lg:pr-10 pr-4 cursor-pointer ">
-        <CiSearch
-          className="hover:text-amber-400  h-6 w-6 md:block hidden"
-          onClick={() => setShowSideBar(true)}
-        />
+        <Tooltip title="Search Bar" arrow placement="top">
+          <CiSearch
+            className="hover:text-amber-400  h-6 w-6 md:block hidden"
+            onClick={() => setShowSideBar(true)}
+          />
+        </Tooltip>
         {showSideBar && (
           <div>
             <SidePopup
@@ -305,16 +308,20 @@ export const TopNav = ({
           )}
         </div>
         <div onClick={handleClose} className=" md:hidden flex">
-          <RxHamburgerMenu
-            className="hover:text-amber-400 h-6 w-6 md:hidden flex"
-            // onClick={handleClose}
-          />
+          <Tooltip title="Menu" arrow placement="top">
+            <RxHamburgerMenu
+              className="hover:text-amber-400 h-6 w-6 md:hidden flex"
+              // onClick={handleClose}
+            />
+          </Tooltip>
         </div>
         <div>
-          <FaQuestion
-            className="hover:text-amber-400  h-6 w-6 md:flex hidden"
-            onClick={() => setShowHelpPopup(true)}
-          />
+          <Tooltip title="Help Center" arrow placement="top">
+            <FaQuestion
+              className="hover:text-amber-400  h-6 w-6 md:flex hidden"
+              onClick={() => setShowHelpPopup(true)}
+            />
+          </Tooltip>
           {showHelpPopup && (
             <div>
               <HelpCenter
@@ -327,23 +334,29 @@ export const TopNav = ({
         </div>
         {/* <IoMdSettings className="hover:text-amber-400  h-6 w-6" /> */}
         {userData?.token && (
-          <RiLogoutBoxRLine
-            className="hover:text-amber-400  h-6 w-6"
-            onClick={() => {
-              setShowLogoutPopup(true);
-            }}
-          />
+          <Tooltip title="Logout" arrow placement="top">
+            <RiLogoutBoxRLine
+              className="hover:text-amber-400  h-6 w-6"
+              onClick={() => {
+                setShowLogoutPopup(true);
+              }}
+            />
+          </Tooltip>
         )}
         {dark ? (
-          <IoSunnyOutline
-            className="hover:text-amber-400 sm:flex hidden  h-6 w-6"
-            onClick={handleTheme}
-          />
+          <Tooltip title="Theme" arrow placement="top">
+            <IoSunnyOutline
+              className="hover:text-amber-400 sm:flex hidden  h-6 w-6"
+              onClick={handleTheme}
+            />
+          </Tooltip>
         ) : (
-          <MdDarkMode
-            className="hover:text-amber-400 sm:flex hidden h-6 w-6 md:h-6 md:w-6"
-            onClick={handleTheme}
-          />
+          <Tooltip title="Theme" arrow placement="top">
+            <MdDarkMode
+              className="hover:text-amber-400 sm:flex hidden h-6 w-6 md:h-6 md:w-6"
+              onClick={handleTheme}
+            />
+          </Tooltip>
         )}
       </div>
       {showLogoutPopup && (
