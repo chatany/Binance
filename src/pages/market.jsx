@@ -14,6 +14,7 @@ import { ScaleLoader } from "react-spinners";
 import { FaStar } from "react-icons/fa";
 import { apiRequest } from "../Helper";
 import { formatDecimal } from "../Constant";
+import { Tooltip } from "@mui/material";
 export const MarketCom = ({ dark, SetSearchQuery, searchQuery }) => {
   const [activeTab, setActiveTab] = useState("Market Trade");
   const [isVolume, setIsVolume] = useState(false);
@@ -156,22 +157,26 @@ export const MarketCom = ({ dark, SetSearchQuery, searchQuery }) => {
             onChange={(e) => setSearchInput(e.target.value)}
           />
         </div>
-        <div className="flex gap-[30%] items-center">
+        <div
+          className={`flex gap-[30%]  border-b-1 ${
+            dark ? "border-[#2B3139]" : "border-[#EAECEF]"
+          } items-center`}
+        >
           <div className="pl-4">
-            <FaStar
-              className={`h-[14px] w-[14px] cursor-pointer ${
-                favorite ? "text-yellow-400" : " text-[#707A8A]"
-              } `}
-              onClick={(e) => {
-                e.stopPropagation();
-                setFavorite(!favorite);
-              }}
-            />{" "}
+            <Tooltip title="Favorite" arrow placement="top">
+              <FaStar
+                className={`h-[14px] w-[14px] cursor-pointer ${
+                  favorite ? "text-yellow-400" : " text-[#707A8A]"
+                } `}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setFavorite(!favorite);
+                }}
+              />{" "}
+            </Tooltip>
           </div>
           <div
-            className={`flex text-[12px]  flex-col justify-center font-semibold items-center p-1 pr-3 pl-3  border-b-1 ${
-              dark ? "border-[#2B3139]" : "border-[#EAECEF]"
-            }`}
+            className={`flex text-[12px]  flex-col justify-center font-semibold items-center p-1 pr-3 pl-3 `}
           >
             USDT{" "}
             <div className="border-b-4 border-amber-400 w-[35px] rounded-full"></div>
@@ -194,7 +199,7 @@ export const MarketCom = ({ dark, SetSearchQuery, searchQuery }) => {
                           dark
                             ? "bg-[#181A20] text-[#848E9C]"
                             : "bg-white text-[#707A8A]"
-                        }  p-1 font-light capitalize sticky top-0 z-30`}
+                        }  p-1 font-light capitalize sticky w-1/3  top-0 z-30`}
                       >
                         pair
                       </th>
@@ -203,7 +208,7 @@ export const MarketCom = ({ dark, SetSearchQuery, searchQuery }) => {
                           dark
                             ? "bg-[#181A20] text-[#848E9C]"
                             : "bg-white text-[rgb(112,122,138)]"
-                        }  font-light  sticky min-w-max    top-0 z-30`}
+                        }  font-light  sticky w-2/3    top-0 z-30`}
                         colSpan={2}
                       >
                         <div
@@ -235,7 +240,7 @@ export const MarketCom = ({ dark, SetSearchQuery, searchQuery }) => {
                           }}
                           className="cursor-pointer"
                         >
-                          <td className="xl:text-[12px] text-[.6rem]  w-1/3 ">
+                          <td className="xl:text-[12px] text-[.6rem]  w-1/3 text-center ">
                             <div className="flex gap-2 items-center">
                               <FaStar
                                 className={`h-[14px] w-[14px] ${
@@ -349,95 +354,92 @@ export const MarketCom = ({ dark, SetSearchQuery, searchQuery }) => {
           </div>
         </div>
         {/* {activeTab === "Market Trade" && ( */}
-          <div className="no-scrollbar h-[20rem]  custom-scroll overflow-y-auto p-[0px_8px_8px_8px]">
-            <table className="w-full">
-              <thead>
-                <tr>
-                  <th
-                    className={`${
-                      dark ? "bg-[#181A20]" : "bg-white"
-                    } text-[12px] text-gray-400 p-1 sticky top-0 z-30 text-left`}
-                  >
-                    Price (USDT)
-                  </th>
-                  <th
-                    className={`${
-                      dark ? "bg-[#181A20]" : "bg-white"
-                    } text-[12px] text-gray-400  sticky top-0 min-w-max text-center  z-30`}
-                  >
-                    Amount ({tikerData?.symbol?.split("USDT")[0]})
-                  </th>
-                  <th
-                    className={`${
-                      dark ? "bg-[#181A20]" : "bg-white"
-                    } text-[12px] text-gray-400 p-2 sticky top-0 text-center  z-30`}
-                  >
-                    Time
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                {Array.isArray(tradeData) && tradeData?.length > 0 ? (
-                  <>
-                    {Array.isArray(tradeData) &&
-                      tradeData?.map((item, inde) => {
-                        const formatTime = (ms) => {
-                          const date = new Date(ms);
-                          return (
-                            `${date.getHours().toString().padStart(2, "0")}:` +
-                            `${date
-                              .getMinutes()
-                              .toString()
-                              .padStart(2, "0")}:` +
-                            `${date.getSeconds().toString().padStart(2, "0")}`
-                          );
-                        };
-                        const time = formatTime(item?.T);
-                        const price = formatDecimal(item?.p, priceDecimal);
-                        const amount = parseFloat(item?.q).toString();
-                        const formatToKMB = (num) => {
-                          if (num >= 1_000_000_000) {
-                            return (num / 1_000_000_000).toFixed(2) + "B";
-                          } else if (num >= 1_000_000) {
-                            return (num / 1_000_000).toFixed(2) + "M";
-                          } else if (num >= 1_000) {
-                            return (num / 1_000).toFixed(2) + "K";
-                          } else {
-                            return (num / 1).toFixed(3);
-                          }
-                        };
-                        const amounts = formatToKMB(amount);
+        <div className="no-scrollbar h-[20rem]  custom-scroll overflow-y-auto p-[0px_8px_8px_8px]">
+          <table className="w-full">
+            <thead>
+              <tr>
+                <th
+                  className={`${
+                    dark ? "bg-[#181A20]" : "bg-white"
+                  } text-[12px] text-gray-400 p-1 sticky top-0 z-30 text-left`}
+                >
+                  Price (USDT)
+                </th>
+                <th
+                  className={`${
+                    dark ? "bg-[#181A20]" : "bg-white"
+                  } text-[12px] text-gray-400  sticky top-0 min-w-max text-center  z-30`}
+                >
+                  Amount ({tikerData?.symbol?.split("USDT")[0]})
+                </th>
+                <th
+                  className={`${
+                    dark ? "bg-[#181A20]" : "bg-white"
+                  } text-[12px] text-gray-400 p-2 sticky top-0 text-center  z-30`}
+                >
+                  Time
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              {Array.isArray(tradeData) && tradeData?.length > 0 ? (
+                <>
+                  {Array.isArray(tradeData) &&
+                    tradeData?.map((item, inde) => {
+                      const formatTime = (ms) => {
+                        const date = new Date(ms);
                         return (
-                          <tr key={inde}>
-                            <td
-                              className={`lg:text-[12px] ${
-                                !item?.m ? "text-[#2EBD85]" : "text-[#F6465D]"
-                              } text-[.6rem]  pl-[8px] text-left w-1/3 `}
-                            >
-                              {price}
-                            </td>
-                            <td className="lg:text-[12px] text-[.6rem] p-[2px]  text-center w-1/3">
-                              {amounts}
-                            </td>
-                            <td className="lg:text-[12px] text-[.6rem] text-center p-[2px] w-1/3">
-                              {time}
-                            </td>
-                          </tr>
+                          `${date.getHours().toString().padStart(2, "0")}:` +
+                          `${date.getMinutes().toString().padStart(2, "0")}:` +
+                          `${date.getSeconds().toString().padStart(2, "0")}`
                         );
-                      })}
-                  </>
-                ) : (
-                  <tr>
-                    <td colSpan={3}>
-                      <div className="h-[16rem] w-full flex justify-center items-center">
-                        <ScaleLoader color="#FCD535" />
-                      </div>
-                    </td>
-                  </tr>
-                )}
-              </tbody>
-            </table>
-          </div>
+                      };
+                      const time = formatTime(item?.T);
+                      const price = formatDecimal(item?.p, priceDecimal);
+                      const amount = parseFloat(item?.q).toString();
+                      const formatToKMB = (num) => {
+                        if (num >= 1_000_000_000) {
+                          return (num / 1_000_000_000).toFixed(2) + "B";
+                        } else if (num >= 1_000_000) {
+                          return (num / 1_000_000).toFixed(2) + "M";
+                        } else if (num >= 1_000) {
+                          return (num / 1_000).toFixed(2) + "K";
+                        } else {
+                          return (num / 1).toFixed(3);
+                        }
+                      };
+                      const amounts = formatToKMB(amount);
+                      return (
+                        <tr key={inde}>
+                          <td
+                            className={`lg:text-[12px] ${
+                              !item?.m ? "text-[#2EBD85]" : "text-[#F6465D]"
+                            } text-[.6rem]  pl-[8px] text-left w-1/3 `}
+                          >
+                            {price}
+                          </td>
+                          <td className="lg:text-[12px] text-[.6rem] p-[2px]  text-center w-1/3">
+                            {amounts}
+                          </td>
+                          <td className="lg:text-[12px] text-[.6rem] text-center p-[2px] w-1/3">
+                            {time}
+                          </td>
+                        </tr>
+                      );
+                    })}
+                </>
+              ) : (
+                <tr>
+                  <td colSpan={3}>
+                    <div className="h-[16rem] w-full flex justify-center items-center">
+                      <ScaleLoader color="#FCD535" />
+                    </div>
+                  </td>
+                </tr>
+              )}
+            </tbody>
+          </table>
+        </div>
         {/* )} */}
         {/* {activeTab === "My Trade" && (
           <div className="no-scrollbar h-[20rem] overflow-x-auto overflow-y-auto">
