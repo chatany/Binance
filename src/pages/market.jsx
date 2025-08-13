@@ -349,7 +349,7 @@ export const MarketCom = ({ dark, SetSearchQuery, searchQuery }) => {
           </div>
         </div>
         {/* {activeTab === "Market Trade" && ( */}
-          <div className="no-scrollbar h-[20rem] overflow-x-auto overflow-y-auto p-[0px_8px_8px_8px]">
+          <div className="no-scrollbar h-[20rem]  custom-scroll overflow-y-auto p-[0px_8px_8px_8px]">
             <table className="w-full">
               <thead>
                 <tr>
