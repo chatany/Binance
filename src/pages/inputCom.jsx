@@ -59,7 +59,7 @@ export const MarketInput = ({
               dark ? "border-[#474D57]" : "border-[#474D57]"
             }`}
           >
-            <button className="down-btn">▼</button>
+            <button className="down-btn" name="down">▼</button>
           </div>
         </div>
         {/* {show && (

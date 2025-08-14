@@ -75,13 +75,14 @@ const CryptoInput = ({
             <button
               className="up-btn"
               onClick={increase}
+              name="up-btn"
               style={{
                 borderBottom: `1px solid ${dark ? "#474D57" : "#474D57"}`,
               }}
             >
               <RiArrowUpSFill />
             </button>
-            <button className="down-btn" onClick={decrease}>
+            <button className="down-btn" onClick={decrease} name="down-btn">
               <RiArrowDownSFill  />
             </button>
           </div>

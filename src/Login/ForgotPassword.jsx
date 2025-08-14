@@ -107,6 +107,7 @@ export const Forgotpass = () => {
           <div className="flex w-full justify-center">
             <button
               onClick={handleSubmit}
+              name="submit"
               className="bg-[#2EDBAD]  rounded-xl w-[60%]  h-[2.2rem] hover:bg-[#2EDBAD] text-black cursor-pointer capitalize"
             >
               Next

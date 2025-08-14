@@ -327,7 +327,7 @@ export const TopNav = ({
               } z-50 rounded-[12px] -right-12 p- h-[180px] w-[180px] text-[12px] top-10 flex flex-col gap-2 justify-center items-center p-5`}
               style={{ boxShadow: "0px 0px 40px 0px rgb(0,0,0,0.40)" }}
             >
-              <img src="/qr.png" className="h-[80%] w-[80%]" />
+              <img src="/qr.png" className="h-[80%] w-[80%]" alt="qr_img" />
               <div>scan to download app</div>
             </div>
           )}
