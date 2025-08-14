@@ -94,9 +94,9 @@ export const TopNav = ({
       <div className="flex xl:w-[60%] items-center text-lg gap-2 font-semibold leading-6 lg:justify-evenly">
         <div className="text-amber-400 font-semibold text-xl">
           {dark ? (
-            <img src="/bitzup_light_logo.png" className="h-10 w-30 sm:w-36" />
+            <img src="/bitzup_light_logo.png" className="h-10 w-full" alt="logo"/>
           ) : (
-            <img src="/bitzup_dark_logo.png" className="h-10 w-30 sm:w-36" />
+            <img src="/bitzup_dark_logo.png" className="h-10 w-full" alt="logo" />
           )}
         </div>
         {[
