@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { setCurrentPrice, setRoundingVal } from "../store/webSocket";
 import { formatDecimal } from "../Constant";
 import { ScaleLoader } from "react-spinners";
+import { Tooltip } from "@mui/material";
 export const Order = ({ dark }) => {
   const { orderData, tikerData, tradeData, rounding, priceDecimal } =
     useSelector((state) => state.counter);
@@ -85,6 +86,11 @@ export const Order = ({ dark }) => {
       lastPriceRef.current = currentPrice;
     }
   }, [tikerData?.lastPrice]);
+  const sum = orderData?.asks?.reduce(
+    (acc, num) => Number(acc) + Number(num[0]),
+    0
+  );
+
   return (
     <div
       className={`w-full   flex ${
@@ -94,7 +100,7 @@ export const Order = ({ dark }) => {
       <>
         <div
           className={`flex ${
-            dark ? "border-[#2B3139]" : "border-[#EAECEF]"
+            dark ? "border-[#333B47]" : "border-[#EDEDED]"
           } border-b-1 p-3 items-center justify-between w-full h-fit`}
         >
           <div className="text-[1rem]">Order</div>
@@ -102,7 +108,7 @@ export const Order = ({ dark }) => {
             <HiDotsHorizontal onClick={() => setToggle(!toggle)} />
             {toggle && (
               <div
-                className={`absolute top-6  z-50 h-fit w-fit rounded-[12px] text-[12px] ${
+                className={`absolute top-6  z-50 h-fit w-fit rounded-[12px] text-[14px] ${
                   dark
                     ? "bg-[#1E2329] border-gray-700 text-white "
                     : "bg-white  text-black border-gray-200 "
@@ -161,20 +167,46 @@ export const Order = ({ dark }) => {
                 orderBuySell !== "" ? "opacity-40" : ""
               } cursor-pointer`}
             >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 24 24"
-                fill="none"
-                className="h-5"
+              <Tooltip
+                title="Order Book"
+                arrow
+                placement="top"
+                componentsProps={{
+                  tooltip: {
+                    sx: {
+                      bgcolor: dark ? "#EAECEF" : "#000000",
+                      color: dark ? "#0B0E11" : "#FAFAFA",
+                    },
+                  },
+                  arrow: {
+                    sx: {
+                      color: dark ? "#EAECEF" : "#000000",
+                    },
+                  },
+                }}
               >
-                <path d="M4 4h7v16H4V4z" fill="#F6465D"></path>
-                <path
-                  fillRule="evenodd"
-                  clipRule="evenodd"
-                  d="M13 4h7v4h-7V4zm0 6h7v4h-7v-4zm7 6h-7v4h7v-4z"
-                  fill="currentColor"
-                ></path>
-              </svg>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-5"
+                  viewBox="0 0 16 16"
+                  fill="none"
+                >
+                  <path
+                    d="M2.66663 2.66699L7.33329 2.66699L7.33329 7.33366L2.66663 7.33366L2.66663 2.66699Z"
+                    fill="#F6465D"
+                  ></path>
+                  <path
+                    d="M2.66663 8.66699L7.33329 8.66699L7.33329 13.3337L2.66663 13.3337L2.66663 8.66699Z"
+                    fill="#2EBD85"
+                  ></path>
+                  <path
+                    fill-rule="evenodd"
+                    clip-rule="evenodd"
+                    d="M8.66663 2.66699L13.3333 2.66699L13.3333 5.33366L8.66663 5.33366L8.66663 2.66699ZM8.66663 6.66699L13.3333 6.66699L13.3333 9.33366L8.66663 9.33366L8.66663 6.66699ZM13.3333 10.667L8.66663 10.667L8.66663 13.3337L13.3333 13.3337L13.3333 10.667Z"
+                    fill="currentColor"
+                  ></path>
+                </svg>
+              </Tooltip>
             </div>
             <div
               onClick={() => {
@@ -184,20 +216,44 @@ export const Order = ({ dark }) => {
                 orderBuySell !== "Buy" ? "opacity-40" : ""
               } cursor-pointer`}
             >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 24 24"
-                fill="none"
-                className="h-5"
+              <Tooltip
+                title="Buy Order"
+                arrow
+                placement="top"
+                componentsProps={{
+                  tooltip: {
+                    sx: {
+                      bgcolor: dark ? "#EAECEF" : "#000000",
+                      color: dark ? "#0B0E11" : "#FAFAFA",
+                    },
+                  },
+                  arrow: {
+                    sx: {
+                      color: dark ? "#EAECEF" : "#000000",
+                    },
+                  },
+                }}
               >
-                <path d="M4 4h7v16H4V4z" fill="#F6465D"></path>
-                <path
-                  fillRule="evenodd"
-                  clipRule="evenodd"
-                  d="M13 4h7v4h-7V4zm0 6h7v4h-7v-4zm7 6h-7v4h7v-4z"
-                  fill="currentColor"
-                ></path>
-              </svg>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-5"
+                  viewBox="0 0 16 16"
+                  fill="none"
+                >
+                  <g>
+                    <path
+                      d="M2.66663 2.66699L7.33329 2.66699L7.33329 13.3337L2.66663 13.3337L2.66663 2.66699Z"
+                      fill="#2EBD85"
+                    ></path>
+                    <path
+                      fill-rule="evenodd"
+                      clip-rule="evenodd"
+                      d="M8.66663 2.66699L13.3333 2.66699L13.3333 5.33366L8.66663 5.33366L8.66663 2.66699ZM8.66663 6.66699L13.3333 6.66699L13.3333 9.33366L8.66663 9.33366L8.66663 6.66699ZM13.3333 10.667L8.66663 10.667L8.66663 13.3337L13.3333 13.3337L13.3333 10.667Z"
+                      fill="currentColor"
+                    ></path>
+                  </g>
+                </svg>
+              </Tooltip>
             </div>
             <div
               onClick={() => {
@@ -207,20 +263,39 @@ export const Order = ({ dark }) => {
                 orderBuySell !== "Sell" ? "opacity-40" : ""
               } cursor-pointer`}
             >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 24 24"
-                fill="none"
-                className="h-5"
+              <Tooltip
+                title="Sell Order"
+                arrow
+                placement="top"
+                componentsProps={{
+                  tooltip: {
+                    sx: {
+                      bgcolor: dark ? "#EAECEF" : "#000000",
+                      color: dark ? "#0B0E11" : "#FAFAFA",
+                    },
+                  },
+                  arrow: {
+                    sx: {
+                      color: dark ? "#EAECEF" : "#000000",
+                    },
+                  },
+                }}
               >
-                <path d="M4 4h7v16H4V4z" fill="#F6465D"></path>
-                <path
-                  fillRule="evenodd"
-                  clipRule="evenodd"
-                  d="M13 4h7v4h-7V4zm0 6h7v4h-7v-4zm7 6h-7v4h7v-4z"
-                  fill="currentColor"
-                ></path>
-              </svg>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  className="h-5"
+                >
+                  <path d="M4 4h7v16H4V4z" fill="#F6465D"></path>
+                  <path
+                    fillRule="evenodd"
+                    clipRule="evenodd"
+                    d="M13 4h7v4h-7V4zm0 6h7v4h-7v-4zm7 6h-7v4h7v-4z"
+                    fill="currentColor"
+                  ></path>
+                </svg>
+              </Tooltip>
             </div>
           </div>
           {/* <div className="text-[1rem]">
@@ -412,7 +487,7 @@ export const Order = ({ dark }) => {
           </div>
         </>
       )}
-      {orderBuySell === "Buy" && (
+      {orderBuySell === "Sell" && (
         <div
           className={`${
             dark
@@ -421,11 +496,7 @@ export const Order = ({ dark }) => {
           }  h-[85%]   `}
         >
           <div
-            className={`overflow-hidden p-2 ${
-              orderBuySell === "Buy"
-                ? "h-full"
-                : ` ${orderBuySell === "Sell" ? "h-[0px]" : "h-[26rem]"}`
-            }`}
+            className={`overflow-hidden p-2 h-full space-y-4`}
           >
             <table className="w-full p-2  space-y-4 h-full">
               <thead>
@@ -493,18 +564,18 @@ export const Order = ({ dark }) => {
           </div>
         </div>
       )}
-      {orderBuySell === "Sell" && (
+      {orderBuySell === "Buy" && (
         <div className={` p-2  overflow-hidden h-[85%] space-y-4`}>
           <table className="w-full h-full">
             <thead className="w-full">
               <tr>
-                <th className="text-[12px] text-gray-400 p-2  pr-2 text-left">
+                <th className="text-[12px] text-gray-400 p-2  pr-2 text-left w-1/3">
                   Price(USDT)
                 </th>
-                <th className="text-[12px] text-gray-400 p-2 ">
+                <th className="text-[12px] text-gray-400 p-2 w-1/3">
                   Amount({tikerData?.symbol?.split("USDT")[0]})
                 </th>
-                <th className="text-[12px] text-gray-400 p-1  text-right">
+                <th className="text-[12px] text-gray-400 p-1  text-right w-1/3">
                   Total
                 </th>
               </tr>
@@ -512,7 +583,7 @@ export const Order = ({ dark }) => {
                 <th
                   className={`text-[14px] ${
                     priceColor ? "text-[#2EBD85] " : "text-[#F6465D] "
-                  }  p-1 flex items-center w-fit    gap-1`}
+                  }  p-1 flex items-center h-full   gap-1`}
                 >
                   {formatDecimal(tikerData?.lastPrice, priceDecimal)}
                   {priceColor ? (
@@ -521,10 +592,10 @@ export const Order = ({ dark }) => {
                     <FaArrowDown className="text-[18px] text-[#F6465D] " />
                   )}
                 </th>
-                <th className="text-[14px]  text-gray-400 p-2 text-left w-1/3">
+                <th className="text-[14px]  text-gray-400 p-2 text-center w-1/3">
                   ${formatDecimal(tikerData?.lastPrice, priceDecimal)}
                 </th>
-                <th className="flex  items-center justify-center w-full">
+                <th className="flex  items-center justify-end w-full">
                   <FaAngleRight className=" text-[14px]" />
                 </th>
               </tr>

@@ -137,7 +137,7 @@ export const OpenOrders = ({ dark }) => {
     >
       <div
         className={`${
-          dark ? " bg-[#181A20] border-[#2B3139]" : "border-[#EAECEF] bg-white"
+          dark ? " bg-[#181A20] border-[#333B47]":"border-[#EDEDED] bg-white"
         } border-b-[1px]`}
       >
         <div className="flex   gap-5 items-center text-[14px] leading-4  w-full font-medium p-1 pb-0 ">

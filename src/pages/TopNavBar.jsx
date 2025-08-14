@@ -94,9 +94,17 @@ export const TopNav = ({
       <div className="flex xl:w-[60%] items-center text-lg gap-2 font-semibold leading-6 lg:justify-evenly">
         <div className="text-amber-400 font-semibold text-xl">
           {dark ? (
-            <img src="/bitzup_light_logo.png" className="h-10 w-full" alt="logo"/>
+            <img
+              src="/bitzup_light_logo.png"
+              className="h-10 w-full"
+              alt="logo"
+            />
           ) : (
-            <img src="/bitzup_dark_logo.png" className="h-10 w-full" alt="logo" />
+            <img
+              src="/bitzup_dark_logo.png"
+              className="h-10 w-full"
+              alt="logo"
+            />
           )}
         </div>
         {[
@@ -252,7 +260,24 @@ export const TopNav = ({
 
       {/* Right Navbar */}
       <div className="flex md:gap-5 gap-2 lg:gap-4 items-center  md:mt-0 justify-between lg:pr-10 pr-4 cursor-pointer ">
-        <Tooltip title="Search Bar" arrow placement="top">
+        <Tooltip
+          title="Search Bar"
+          arrow
+          placement="top"
+          componentsProps={{
+            tooltip: {
+              sx: {
+                bgcolor: dark ? "#EAECEF" : "#000000",
+                color: dark ? "#0B0E11" : "#FAFAFA",
+              },
+            },
+            arrow: {
+              sx: {
+                color: dark ? "#EAECEF" : "#000000",
+              },
+            },
+          }}
+        >
           <CiSearch
             className="hover:text-amber-400  h-6 w-6 md:block hidden"
             onClick={() => setShowSideBar(true)}
@@ -308,7 +333,24 @@ export const TopNav = ({
           )}
         </div>
         <div onClick={handleClose} className=" md:hidden flex">
-          <Tooltip title="Menu" arrow placement="top">
+          <Tooltip
+            title="Menu"
+            arrow
+            placement="top"
+            componentsProps={{
+              tooltip: {
+                sx: {
+                  bgcolor: dark ? "#EAECEF" : "#000000",
+                  color: dark ? "#0B0E11" : "#FAFAFA",
+                },
+              },
+              arrow: {
+                sx: {
+                  color: dark ? "#EAECEF" : "#000000",
+                },
+              },
+            }}
+          >
             <RxHamburgerMenu
               className="hover:text-amber-400 h-6 w-6 md:hidden flex"
               // onClick={handleClose}
@@ -316,7 +358,24 @@ export const TopNav = ({
           </Tooltip>
         </div>
         <div>
-          <Tooltip title="Help Center" arrow placement="top">
+          <Tooltip
+            title="Help Center"
+            arrow
+            placement="top"
+            componentsProps={{
+              tooltip: {
+                sx: {
+                  bgcolor: dark ? "#EAECEF" : "#000000",
+                  color: dark ? "#0B0E11" : "#FAFAFA",
+                },
+              },
+              arrow: {
+                sx: {
+                  color: dark ? "#EAECEF" : "#000000",
+                },
+              },
+            }}
+          >
             <FaQuestion
               className="hover:text-amber-400  h-6 w-6 md:flex hidden"
               onClick={() => setShowHelpPopup(true)}
@@ -334,7 +393,24 @@ export const TopNav = ({
         </div>
         {/* <IoMdSettings className="hover:text-amber-400  h-6 w-6" /> */}
         {userData?.token && (
-          <Tooltip title="Logout" arrow placement="top">
+          <Tooltip
+            title="Logout"
+            arrow
+            placement="top"
+            componentsProps={{
+              tooltip: {
+                sx: {
+                  bgcolor: dark ? "#EAECEF" : "#000000",
+                  color: dark ? "#0B0E11" : "#FAFAFA",
+                },
+              },
+              arrow: {
+                sx: {
+                  color: dark ? "#EAECEF" : "#000000",
+                },
+              },
+            }}
+          >
             <RiLogoutBoxRLine
               className="hover:text-amber-400  h-6 w-6"
               onClick={() => {
@@ -344,14 +420,48 @@ export const TopNav = ({
           </Tooltip>
         )}
         {dark ? (
-          <Tooltip title="Theme" arrow placement="top">
+          <Tooltip
+            title="Theme"
+            arrow
+            placement="top"
+            componentsProps={{
+              tooltip: {
+                sx: {
+                  bgcolor: dark ? "#EAECEF" : "#000000",
+                  color: dark ? "#0B0E11" : "#FAFAFA",
+                },
+              },
+              arrow: {
+                sx: {
+                  color: dark ? "#EAECEF" : "#000000",
+                },
+              },
+            }}
+          >
             <IoSunnyOutline
               className="hover:text-amber-400 sm:flex hidden  h-6 w-6"
               onClick={handleTheme}
             />
           </Tooltip>
         ) : (
-          <Tooltip title="Theme" arrow placement="top">
+          <Tooltip
+            title="Theme"
+            arrow
+            placement="top"
+            componentsProps={{
+              tooltip: {
+                sx: {
+                  bgcolor: dark ? "#EAECEF" : "#000000",
+                  color: dark ? "#0B0E11" : "#FAFAFA",
+                },
+              },
+              arrow: {
+                sx: {
+                  color: dark ? "#EAECEF" : "#000000",
+                },
+              },
+            }}
+          >
             <MdDarkMode
               className="hover:text-amber-400 sm:flex hidden h-6 w-6 md:h-6 md:w-6"
               onClick={handleTheme}
