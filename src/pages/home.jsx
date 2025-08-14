@@ -96,7 +96,7 @@ export const Home = () => {
       )}
       <div
         className={`
-        ${dark ? "bg-[#0B0E11] text-[#EAECEF]" : "bg-[#EAECEF] text-[#262030]"}
+        ${dark ? "bg-[#0B0E11] text-[#EAECEF]" : "bg-[#F5F5F5] text-[#262030]"}
        min-h-screen flex flex-col gap-0  `}
       >
         {/* Top Navbar */}
@@ -179,7 +179,7 @@ export const Home = () => {
                   className="h-full w-full rounded-2xl"
                 />
               </div>
-              <div className="h-[25rem]">
+              <div className="lg:h-[25rem] h-[40rem]">
                 <Middle dark={dark} />
               </div>
               <OpenOrders dark={dark} />
