@@ -373,6 +373,7 @@ export const Register = () => {
           <div className="flex w-full justify-center">
             <button
               onClick={handleSubmit}
+              name="account"
               className="bg-[#2EDBAD]  rounded-xl w-[60%]  h-[2.2rem] hover:bg-[#2EDBAD] text-black cursor-pointer capitalize"
             >
               Create Account
@@ -424,7 +425,8 @@ export const Register = () => {
                 ) : (
                   <div className="flex gap-1">
                     <span className="text-red-500">Didn't receive code?</span>
-                    <button onClick={Resend} className="text-[#757575]">
+                    <button onClick={Resend} className="text-[#757575]"
+                    name="resend">
                       Resend OTP
                     </button>
                   </div>
@@ -433,6 +435,7 @@ export const Register = () => {
               <div className="flex w-full justify-center">
                 <button
                   onClick={verify}
+                  name="verify"
                   className="bg-[#2EDBAD]  rounded-xl w-[60%]  h-[2.2rem] hover:bg-[#2EDBAD] text-black cursor-pointer capitalize"
                 >
                   Verify Email

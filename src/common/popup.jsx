@@ -300,6 +300,7 @@ export const ModifyPopup = ({ orderId }) => {
             <button
               onClick={handleSubmit}
               disabled={error.limitErr}
+              name="submitbtn"
               className="bg-[#2EDBAD] w-full  rounded-xl  h-[2rem] hover:bg-[#2EDBAD] text-black cursor-pointer capitalize"
             >
               submit
@@ -378,6 +379,7 @@ export const ModifyPopup = ({ orderId }) => {
             <button
               onClick={handleStopBuy}
               disabled={error.stopErr}
+              name="reloadbtn"
               className="bg-[#2EDBAD] w-full  rounded-xl  h-[2rem] hover:bg-[#2EDBAD] text-black cursor-pointer capitalize"
             >
               submit

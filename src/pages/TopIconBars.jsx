@@ -67,7 +67,7 @@ export const TopIconBar1 = ({ dark }) => {
           }`}
           onClick={handleChange}
         />
-       {iconURL && <img src={iconURL} className="h-6 w-6" />}
+       {iconURL && <img src={iconURL} className="h-6 w-6" alt="icon" />}
       </div>
       <div className="flex flex-col">
         <div className="lg:text-[18px] text-[10px] font-medium min-w-max">
@@ -219,7 +219,7 @@ export const TopIconBar2 = ({ dark }) => {
             }`}
             onClick={handleChange}
           />
-          {iconURL &&<img src={iconURL} className="h-6 w-6" />}
+          {iconURL &&<img src={iconURL} className="h-6 w-6" alt="icon" />}
         </div>
         <div className="flex flex-col">
           <div className="md:text-[14px] text-[10px]">
@@ -381,7 +381,7 @@ export const TopIconBar3 = ({ dark }) => {
             }`}
             onClick={handleChange}
           />
-          {iconURL &&<img src={iconURL} className="h-6 w-6" />}
+          {iconURL &&<img src={iconURL} className="h-6 w-6" alt="coin"/>}
         </div>
         <div className="flex flex-col">
           <div className="md:text-[14px] text-[10px]">
@@ -513,7 +513,7 @@ export const TopIconBar4 = ({ dark, setOpenMarketPopup }) => {
                   grid grid-cols-2 p-3 gap-1`}
     >
       <div className="flex gap-3">
-       {iconURL&& <img src={iconURL} className="h-6 w-6" />}
+       {iconURL&& <img src={iconURL} className="h-6 w-6" alt="coin" />}
         <div
           className="text-[20px]  min-w-max flex gap-2"
           onClick={() => setOpenMarketPopup(true)}

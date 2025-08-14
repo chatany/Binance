@@ -39,7 +39,7 @@ export default function SupportMenu() {
       onMouseEnter={() => setIsHovering(true)}
       onMouseLeave={() => setIsHovering(false)}
     >
-      <button className="px-4 py-2 font-medium text-white bg-yellow-500 rounded hover:bg-yellow-600">
+      <button className="px-4 py-2 font-medium text-white bg-yellow-500 rounded hover:bg-yellow-600" name="support">
         Support
       </button>
 

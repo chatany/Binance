@@ -237,6 +237,7 @@ export const Login = () => {
           <div className="flex w-full justify-center">
             <button
               onClick={handleSubmit}
+              name="login"
               className="bg-[#2EDBAD]  rounded-xl w-[60%]  h-[2.2rem] hover:bg-[#2EDBAD] text-black cursor-pointer capitalize"
             >
               Log in
@@ -281,7 +282,7 @@ export const Login = () => {
                 ) : (
                   <div className="flex gap-1">
                     <span className="text-red-500">Didn't receive code?</span>
-                    <button onClick={handleReload} className="text-[#757575]">
+                    <button onClick={handleReload} className="text-[#757575]" name="otp">
                       Resend OTP
                     </button>
                   </div>
@@ -290,6 +291,7 @@ export const Login = () => {
               <div className="flex w-full justify-center">
                 <button
                   onClick={verify}
+                  name="verify"
                   className="bg-[#2EDBAD]  rounded-xl w-[60%]  h-[2.2rem] hover:bg-[#2EDBAD] text-black cursor-pointer capitalize"
                 >
                   Verify Email
