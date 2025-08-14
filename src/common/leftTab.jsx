@@ -42,6 +42,7 @@ const ScrollableTabsBar = ({ dark }) => {
         className={`absolute left-0 z-10 ${
           dark ? "bg-gray-700" : "bg-white"
         }  bg-gray-700   cursor-pointer`}
+        name="left_slide"
       >
         <FaChevronLeft />
       </button>
@@ -73,6 +74,7 @@ const ScrollableTabsBar = ({ dark }) => {
         className={`absolute right-0 ${
           dark ? "bg-gray-700" : "bg-white"
         }  z-10 rounded-full cursor-pointer`}
+        name="right_slide"
       >
         <FaChevronRight />
       </button>

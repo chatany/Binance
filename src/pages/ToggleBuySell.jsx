@@ -567,6 +567,7 @@ export const ToggleButSell = ({
       <div className=" flex text-[12px] p-2 w-[80%]">
         {marketTabs.map((tab) => (
           <button
+          name="item2"
             key={tab}
             onClick={() => setActiveTab(tab)}
             className={`flex-1 text-center py-2 font-medium transition-colors cursor-pointer duration-300 ${
@@ -706,6 +707,7 @@ export const ToggleButSell = ({
               </div>
               <div className="w-full flex justify-center">
                 <button
+                name="limit-buy"
                   onClick={() => {
                     handleBuy();
                     handleNavigate();
@@ -833,6 +835,7 @@ export const ToggleButSell = ({
                     handleSell();
                     handleNavigate();
                   }}
+                  name="limit-sell"
                   className="w-[100%] bg-[#F6465D] hover:bg-[#c74052] cursor-pointer  h-[3rem]  py-2 m-2 rounded-md text-[16px] font-semibold"
                 >
                   {userData ? "Sell" : " Log In"}
@@ -952,6 +955,7 @@ export const ToggleButSell = ({
                     handleMarket();
                     handleNavigate();
                   }}
+                  name="market-buy"
                   className="w-[100%]  bg-[#2EBD85] hover:bg-[#0e9e67]  m-2 py-2 rounded-md h-[3rem] text-[16px] font-semibold cursor-pointer"
                 >
                   {userData ? "Buy" : " Log In"}
@@ -1062,6 +1066,7 @@ export const ToggleButSell = ({
                     handleMarketSell();
                     handleNavigate();
                   }}
+                  name="market-sell"
                   className="w-[100%] bg-[#F6465D] hover:bg-[#c74052] cursor-pointer  h-[3rem]  py-2 m-2 rounded-md text-[16px] font-semibold"
                 >
                   {userData ? "Sell" : " Log In"}
@@ -1198,6 +1203,7 @@ export const ToggleButSell = ({
               </div>
               <div className="w-full flex justify-center">
                 <button
+                name="stop-buy"
                   onClick={() => {
                     handleStopBuy();
                     handleNavigate();
@@ -1333,6 +1339,7 @@ export const ToggleButSell = ({
               </div>
               <div className="w-full flex justify-center">
                 <button
+                name="stop-sell"
                   onClick={() => {
                     handleNavigate();
                     handleStopSell();

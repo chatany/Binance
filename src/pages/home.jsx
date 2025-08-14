@@ -232,7 +232,7 @@ export const Home = () => {
             }}
             className="w-[50%] flex justify-center bg-[#F6465D] hover:bg-[#c74052] rounded-md h-[2.5rem] cursor-pointer"
           >
-            <button>{userData?.token ? "Sell" : " Log In"}</button>
+            <button name="Log-in">{userData?.token ? "Sell" : " Log In"}</button>
           </div>
           <div
             onClick={() => {
@@ -240,7 +240,7 @@ export const Home = () => {
             }}
             className="w-[50%]  flex justify-center bg-[#0ECB81] hover:bg-[#0e9e67] rounded-md h-[2.5rem] cursor-pointer"
           >
-            <button>{userData?.token ? "Buy" : " Log In"}</button>
+            <button name="Log-in1">{userData?.token ? "Buy" : " Log In"}</button>
           </div>
         </div>
         {isLogin && (

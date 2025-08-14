@@ -556,6 +556,7 @@ export const Form = ({ dark, searchQuery }) => {
         {marketTabs.map((tab) => (
           <button
             key={tab}
+            name="item"
             onClick={() => setActiveTab(tab)}
             className={`flex-1 text-center py-2 font-medium  cursor-pointer ${
               dark
@@ -690,6 +691,7 @@ export const Form = ({ dark, searchQuery }) => {
             </div>
             <div className="w-full flex justify-center">
               <button
+              name="market-buy"
                 onClick={() => {
                   handleBuy();
                   handleNavigate();
@@ -821,6 +823,7 @@ export const Form = ({ dark, searchQuery }) => {
             </div>
             <div className="w-full flex justify-center">
               <button
+              name="market-sell"
                 onClick={() => {
                   handleSell();
                   handleNavigate();
@@ -932,6 +935,7 @@ export const Form = ({ dark, searchQuery }) => {
             </div>
             <div className="w-full flex justify-center">
               <button
+              name="limit-buy"
                 onClick={() => {
                   handleMarket();
                   handleNavigate();
@@ -1047,6 +1051,7 @@ export const Form = ({ dark, searchQuery }) => {
             </div>
             <div className="w-full flex justify-center">
               <button
+              name="limit-sell"
                 onClick={() => {
                   handleMarketSell();
                   handleNavigate();
@@ -1179,6 +1184,7 @@ export const Form = ({ dark, searchQuery }) => {
             </div>
             <div className="w-full flex justify-center">
               <button
+              name="stop-buy"
                 onClick={() => {
                   handleStopBuy();
                   handleNavigate();
@@ -1314,6 +1320,7 @@ export const Form = ({ dark, searchQuery }) => {
             </div>
             <div className="w-full flex justify-center">
               <button
+              name="stop-sell"
                 className={`w-[100%]
                     bg-[#F6465D] hover:bg-[#c74052]
                  cursor-pointer  h-[3rem]  py-2 m-2 rounded-md text-[16px] font-semibold`}

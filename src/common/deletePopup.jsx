@@ -30,11 +30,13 @@ export const ConfirmationBox = ({
             className={`w-[50%] cursor-pointer capitalize  rounded-sm text-[16px]  font-semibold ${
               dark ? "bg-[#2b3139]" : "bg-[#EAECEF]"
             }  leading-6 px-2 py-1`}
+            name="cancel"
           >
             cancel
           </button>
           <button
             onClick={handleSubmit}
+            name="submit"
             className={`w-[50%] cursor-pointer capitalize rounded-sm text-[14px]  font-semibold bg-[#F6465D] leading-6 px-2 py-1`}
           >
             submit

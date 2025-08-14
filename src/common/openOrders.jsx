@@ -150,6 +150,7 @@ export const OpenOrders = ({ dark }) => {
                     ? "text-yellow-500"
                     : "text-gray-600 hover:text-yellow-500"
                 }`}
+                name="items"
               >
                 {tab}
               </button>
@@ -603,7 +604,7 @@ export const OpenOrders = ({ dark }) => {
           </>
         ) : (
           <div className="h-full w-full flex justify-center items-center">
-            <button className="flex  items-center cursor-pointer">
+            <button className="flex  items-center cursor-pointer" name="login_singup">
               <pre
                 className="text-yellow-500"
                 onClick={() => navigate("/login")}

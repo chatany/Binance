@@ -60,6 +60,7 @@ const TopMovers = ({ dark, setSearchQuery, setSearchParams }) => {
         <button
           onClick={() => scrollTabs(-100)}
           className=" rounded-full cursor-pointer   mr-2"
+          name="left"
         >
           <FaChevronLeft size={12} />
         </button>
@@ -69,6 +70,7 @@ const TopMovers = ({ dark, setSearchQuery, setSearchParams }) => {
         >
           {tabs.map((tab) => (
             <button
+            name="item1"
               key={tab}
               onClick={() => setActiveTab(tab)}
               className={`py-1 px-3 rounded-md text-xs whitespace-nowrap cursor-pointer
@@ -83,6 +85,7 @@ const TopMovers = ({ dark, setSearchQuery, setSearchParams }) => {
           ))}
         </div>
         <button
+        name="right"
           onClick={() => scrollTabs(100)}
           className=" rounded-full cursor-pointer   ml-2"
         >
@@ -108,7 +111,7 @@ const TopMovers = ({ dark, setSearchQuery, setSearchParams }) => {
               >
                 <div className="flex gap-3 items-center justify-between">
                   <div>
-                    <img src={mover?.coin_icon} className="h-6 w-6" />
+                    <img src={mover?.coin_icon} className="h-6 w-6" alt="coin_image"/>
                   </div>
                   <div>
                     <div className="font-medium text-xs">
