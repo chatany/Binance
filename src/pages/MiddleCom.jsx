@@ -265,7 +265,7 @@ export const Middle = ({ dark }) => {
             </div>
           </div>
           {orderBuySell === "" && (
-            <div className="h-[10rem] no-scrollbar overflow-x-auto overflow-y-auto p-[0px_8px_8px_8px]">
+            <div className="h-[46%] no-scrollbar overflow-x-auto overflow-y-auto p-[0px_8px_8px_8px]">
               {orderData?.bids?.length > 0 ? (
                 <table className="w-full">
                   <thead>
