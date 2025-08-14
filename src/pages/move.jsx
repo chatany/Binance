@@ -40,7 +40,7 @@ const TopMovers = ({ dark, setSearchQuery, setSearchParams }) => {
     >
       <div
         className={`flex  ${
-          dark ? "border-[#2B3139]" : "border-[#EAECEF]"
+         dark ? "border-[#333B47]" : "border-[#EDEDED]"
         } border-b-1 w-full justify-between items-center mb-3 p-2`}
       >
         <div className="flex justify-between items-center gap-3">

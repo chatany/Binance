@@ -158,14 +158,26 @@ export const MarketCom = ({ dark, SetSearchQuery, searchQuery }) => {
           />
         </div>
         <div
-          className={`flex gap-[30%]  border-b-1 ${
-            dark ? "border-[#2B3139]" : "border-[#EAECEF]"
+          className={`flex gap-[30%] h-[1.5rem]  border-b-1 ${
+            dark ? "border-[#333B47]" : "border-[#EDEDED]"
           } items-center`}
         >
-          <div className="pl-4">
-            <Tooltip title="Favorite" arrow placement="top">
+          <div className="pl-6 flex justify-center items-center gap-2">
+            <Tooltip title="Favorite" arrow placement="top"  componentsProps={{
+                  tooltip: {
+                    sx: {
+                      bgcolor: dark ? "#EAECEF" : "#000000",
+                      color: dark ? "#0B0E11" : "#FAFAFA",
+                    },
+                  },
+                  arrow: {
+                    sx: {
+                      color: dark ? "#EAECEF" : "#000000",
+                    },
+                  },
+                }}>
               <FaStar
-                className={`h-[14px] w-[14px] cursor-pointer ${
+                className={`h-[14px] w-[14px] cursor-pointer ml-2 ${
                   favorite ? "text-yellow-400" : " text-[#707A8A]"
                 } `}
                 onClick={(e) => {
@@ -173,13 +185,21 @@ export const MarketCom = ({ dark, SetSearchQuery, searchQuery }) => {
                   setFavorite(!favorite);
                 }}
               />{" "}
+              {favorite && (
+                <div className="border-b-4 border-amber-400 w-[150%] rounded-full "></div>
+              )}
             </Tooltip>
           </div>
           <div
-            className={`flex text-[12px]  flex-col justify-center font-semibold items-center p-1 pr-3 pl-3 `}
+            className={`flex text-[12px]  flex-col justify-center font-semibold items-center p-1 pr-3 pl-3 cursor-pointer`}
+            onClick={() => {
+              setFavorite(false);
+            }}
           >
             USDT{" "}
-            <div className="border-b-4 border-amber-400 w-[35px] rounded-full"></div>
+            {!favorite && (
+              <div className="border-b-4 border-amber-400 w-[35px] rounded-full"></div>
+            )}
             {/* <ScrollableTabsBar dark={dark} /> */}
           </div>
         </div>
@@ -296,7 +316,7 @@ export const MarketCom = ({ dark, SetSearchQuery, searchQuery }) => {
       >
         <div
           className={`w-full  flex  gap-2 ${
-            dark ? "border-[#2B3139]" : "border-[#EAECEF]"
+            dark ? "border-[#333B47]" : "border-[#EDEDED]"
           } justify-between border-b-1 p-[10px_30px_10px_10px]`}
         >
           <div
