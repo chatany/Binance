@@ -123,7 +123,7 @@ button:focus-visible {
 }
 
 .custom-scroll::-webkit-scrollbar-track {
-    background: #f1f1f1;
+    /* background: #f1f1f1; */
   border-radius: 4px;
 }
 
@@ -142,9 +142,9 @@ button:focus-visible {
   transition: opacity 0.25s;
 }
 
-.custom-scroll:hover::-webkit-scrollbar {
+/* .custom-scroll:hover::-webkit-scrollbar {
     background: #2b0202;
-}
+} */
 
 /* ::-webkit-scrollbar { */
   /* width: 5px; width of the scrollbar */
