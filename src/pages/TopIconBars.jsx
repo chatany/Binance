@@ -6,6 +6,7 @@ import { getFaverateData } from "./apiCall";
 import { formatDecimal, formatToKMB, formatToKMBWithCommas } from "../Constant";
 import { RiArrowDownSFill } from "react-icons/ri";
 import { useEffect, useRef, useState } from "react";
+import { useParams } from "react-router-dom";
 export const TopIconBar1 = ({ dark }) => {
   const { tikerData, iconURL, isFav, tradeData, pairId, priceDecimal } =
     useSelector((state) => state.counter);
@@ -324,6 +325,7 @@ export const TopIconBar3 = ({ dark }) => {
   const { tikerData, iconURL, isFav, tradeData, pairId, priceDecimal } =
     useSelector((state) => state.counter);
   const dispatch = useDispatch();
+  const { symbol } = useParams();
   const handleChange = async () => {
     const faverae = !isFav;
     const favData = {
@@ -367,7 +369,7 @@ export const TopIconBar3 = ({ dark }) => {
     }
     const formate = tikerData?.lastPrice.toString();
     const num = formatToKMBWithCommas(formate);
-    document.title = `${num}`;
+    document.title = `${num} | ${symbol} | ${symbol.toLowerCase().split('usdt')[0].toUpperCase()} to USDT | Bitzup Spot`;
   }, [tikerData?.lastPrice]);
   return (
     <div
