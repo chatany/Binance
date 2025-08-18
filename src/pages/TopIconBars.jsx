@@ -366,6 +366,7 @@ export const TopIconBar3 = ({ dark }) => {
     if (!isNaN(currentPrice)) {
       lastPriceRef.current = currentPrice;
     }
+    document.title = `$${tikerData?.lastPrice}`;
   }, [tikerData?.lastPrice]);
   return (
     <div

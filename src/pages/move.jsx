@@ -95,7 +95,7 @@ const TopMovers = ({ dark, setSearchQuery, setSearchParams }) => {
 
       {/* Movers List */}
       <div
-        className={`space-y-2 overflow-y-auto ${
+        className={`space-y-1 overflow-y-auto ${
           open ? "max-h-[10rem]" : "max-h-[7rem]"
         } no-scrollbar`}
       >
@@ -104,7 +104,7 @@ const TopMovers = ({ dark, setSearchQuery, setSearchParams }) => {
             {filteredData()?.map((mover, index) => (
               <div
                 key={index}
-                className={`flex justify-between items-center p-2 rounded-lg cursor-pointer `}
+                className={`flex justify-between items-center p-1 rounded-lg cursor-pointer `}
                 onClick={() => {
                   handlePairClick(mover?.pair_symbol);
                 }}

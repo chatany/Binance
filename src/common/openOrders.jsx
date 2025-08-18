@@ -15,11 +15,20 @@ import { ConfirmationBox } from "./deletePopup";
 import { useDeviceInfo } from "../hooks/useDeviceInfo";
 
 export const OpenOrders = ({ dark }) => {
-  const { openOrder, orderHistory, loading, fundData, apiId, showPopup } =
-    useSelector((state) => state.counter);
+  const {
+    openOrder,
+    orderHistory,
+    loading,
+    fundData,
+    apiId,
+    showPopup,
+    searchData,
+    pairId,
+  } = useSelector((state) => state.counter);
   const popupRef = useRef(null);
   const [activeTab, setActiveTab] = useState("Open Orders");
   const [orderId, setOrderId] = useState(null);
+  const [currentItem, setCurrentItem] = useState("");
   const [isPopup, setIsPopup] = useState(false);
   const dispatch = useDispatch();
   const wsRef = useRef(null);
@@ -129,6 +138,10 @@ export const OpenOrders = ({ dark }) => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [showPopup]);
+  useEffect(() => {
+    const currentItem = searchData?.find((item) => item?.pair_id === pairId);
+    setCurrentItem(currentItem?.pair_symbol);
+  }, [pairId]);
   return (
     <div
       className={`h-fit relative mb-5 w-full ${
@@ -137,7 +150,7 @@ export const OpenOrders = ({ dark }) => {
     >
       <div
         className={`${
-          dark ? " bg-[#181A20] border-[#333B47]":"border-[#EDEDED] bg-white"
+          dark ? " bg-[#181A20] border-[#333B47]" : "border-[#EDEDED] bg-white"
         } border-b-[1px]`}
       >
         <div className="flex   gap-5 items-center text-[14px] leading-4  w-full font-medium p-1 pb-0 ">
@@ -153,6 +166,11 @@ export const OpenOrders = ({ dark }) => {
                 name="items"
               >
                 {tab}
+                {`${
+                  tab === "Open Orders"
+                    ? ` (${openOrder?.length ? openOrder?.length : 0})`
+                    : ""
+                }`}
               </button>
               {activeTab === tab && (
                 <div className="flex justify-center w-full">
@@ -286,7 +304,7 @@ export const OpenOrders = ({ dark }) => {
                                         {date}
                                       </td>
                                       <td className="lg:text-[12px] text-[.6rem] pl-1 pr-1 p-[4px] text-center uppercase">
-                                        {"BtcUsdt"}
+                                        {currentItem}
                                       </td>
                                       <td className="lg:text-[12px] text-[.6rem] pl-1 pr-1 p-[4px] text-center capitalize">
                                         {item?.order_type}
@@ -604,7 +622,10 @@ export const OpenOrders = ({ dark }) => {
           </>
         ) : (
           <div className="h-full w-full flex justify-center items-center">
-            <button className="flex  items-center cursor-pointer" name="login_singup">
+            <button
+              className="flex  items-center cursor-pointer"
+              name="login_singup"
+            >
               <pre
                 className="text-yellow-500"
                 onClick={() => navigate("/login")}

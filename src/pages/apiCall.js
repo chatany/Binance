@@ -205,22 +205,23 @@ export const deleteOpenOrder = async (
       url: `https://test.bitzup.com/order/user/cancel-order`,
       data: orderData,
     });
+    if (status === 200 && data?.status == 1) {
+      dispatch(setIsSuccess(false));
+      openOrders(pair_id, user_id, dispatch);
+      buysellBalance(pair_id, dispatch);
+      OrderHistory(dispatch);
+    }
     if (status === 400 && data?.status == 3) {
       // window.location.href = "/login";
       localStorage.removeItem("userData");
       window.dispatchEvent(new Event("userDataChanged"));
     }
-    if(status ===500){
+    if (status === 500) {
       showError(data?.msg);
     }
   } catch (err) {
     console.error("Failed to fetch second API", err);
     showError(err);
-  } finally {
-    dispatch(setIsSuccess(false));
-    openOrders(pair_id, user_id, dispatch);
-    buysellBalance(pair_id, dispatch);
-    OrderHistory(dispatch);
   }
 };
 
