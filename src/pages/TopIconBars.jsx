@@ -3,7 +3,7 @@ import ScrollStatsBar from "../common/TopIconBar";
 import { FaStar } from "react-icons/fa6";
 import { apiRequest } from "../Helper";
 import { getFaverateData } from "./apiCall";
-import { formatDecimal, formatToKMB } from "../Constant";
+import { formatDecimal, formatToKMB, formatToKMBWithCommas } from "../Constant";
 import { RiArrowDownSFill } from "react-icons/ri";
 import { useEffect, useRef, useState } from "react";
 export const TopIconBar1 = ({ dark }) => {
@@ -29,7 +29,6 @@ export const TopIconBar1 = ({ dark }) => {
       lastPriceRef.current = currentPrice;
     }
   }, [tikerData?.lastPrice]);
-  
 
   const dispatch = useDispatch();
   const handleChange = async () => {
@@ -67,7 +66,7 @@ export const TopIconBar1 = ({ dark }) => {
           }`}
           onClick={handleChange}
         />
-       {iconURL && <img src={iconURL} className="h-6 w-6" alt="icon" />}
+        {iconURL && <img src={iconURL} className="h-6 w-6" alt="icon" />}
       </div>
       <div className="flex flex-col">
         <div className="lg:text-[18px] text-[10px] font-medium min-w-max">
@@ -83,10 +82,10 @@ export const TopIconBar1 = ({ dark }) => {
             priceColor ? "text-[#2EBD85] " : "text-[#F6465D] "
           } text-[20px] leading-5  min-w-max `}
         >
-          {formatDecimal(tikerData?.lastPrice, priceDecimal)}
+          {formatToKMBWithCommas(formatDecimal(tikerData?.lastPrice, priceDecimal))}
         </div>
         <div className="lg:text-[12px]  text-[8px] leading-4 min-w-max ">
-          ${formatDecimal(tikerData?.lastPrice, priceDecimal)}
+          ${formatToKMBWithCommas(formatDecimal(tikerData?.lastPrice, priceDecimal))}
         </div>
       </div>
       <div className="flex flex-col">
@@ -165,7 +164,7 @@ export const TopIconBar2 = ({ dark }) => {
   const dispatch = useDispatch();
   const handleChange = async () => {
     const faverae = !isFav;
-     const favData = {
+    const favData = {
       pair_id: String(pairId),
       type: faverae ? String(faverae) : "false",
     };
@@ -185,7 +184,7 @@ export const TopIconBar2 = ({ dark }) => {
       getFaverateData(dispatch);
     }
   };
-    const [priceColor, setPriceColor] = useState(false);
+  const [priceColor, setPriceColor] = useState(false);
   const lastPriceRef = useRef(null);
 
   useEffect(() => {
@@ -219,7 +218,7 @@ export const TopIconBar2 = ({ dark }) => {
             }`}
             onClick={handleChange}
           />
-          {iconURL &&<img src={iconURL} className="h-6 w-6" alt="icon" />}
+          {iconURL && <img src={iconURL} className="h-6 w-6" alt="icon" />}
         </div>
         <div className="flex flex-col">
           <div className="md:text-[14px] text-[10px]">
@@ -235,10 +234,10 @@ export const TopIconBar2 = ({ dark }) => {
               priceColor ? "text-[#2EBD85] " : "text-[#F6465D] "
             }  md:text-[12px] text-[10px]`}
           >
-            {formatDecimal(tikerData?.lastPrice, priceDecimal)}
+            {formatToKMBWithCommas(formatDecimal(tikerData?.lastPrice, priceDecimal))}
           </div>
           <div className="md:text-[12px] text-[10px]">
-            ${formatDecimal(tikerData?.lastPrice, priceDecimal)}
+            ${formatToKMBWithCommas(formatDecimal(tikerData?.lastPrice, priceDecimal))}
           </div>
         </div>
       </div>
@@ -347,7 +346,7 @@ export const TopIconBar3 = ({ dark }) => {
       getFaverateData(dispatch);
     }
   };
-      const [priceColor, setPriceColor] = useState(false);
+  const [priceColor, setPriceColor] = useState(false);
   const lastPriceRef = useRef(null);
 
   useEffect(() => {
@@ -366,7 +365,9 @@ export const TopIconBar3 = ({ dark }) => {
     if (!isNaN(currentPrice)) {
       lastPriceRef.current = currentPrice;
     }
-    document.title = `${tikerData?.lastPrice}`;
+    const formate = tikerData?.lastPrice.toString();
+    const num = formatToKMBWithCommas(formate);
+    document.title = `${num}`;
   }, [tikerData?.lastPrice]);
   return (
     <div
@@ -382,7 +383,7 @@ export const TopIconBar3 = ({ dark }) => {
             }`}
             onClick={handleChange}
           />
-          {iconURL &&<img src={iconURL} className="h-6 w-6" alt="coin"/>}
+          {iconURL && <img src={iconURL} className="h-6 w-6" alt="coin" />}
         </div>
         <div className="flex flex-col">
           <div className="md:text-[14px] text-[10px]">
@@ -395,13 +396,13 @@ export const TopIconBar3 = ({ dark }) => {
         <div className="flex flex-col">
           <div
             className={`${
-              priceColor? "text-[#2EBD85] " : "text-[#F6465D] "
+              priceColor ? "text-[#2EBD85] " : "text-[#F6465D] "
             } md:text-[12px] text-[10px]`}
           >
-            {formatDecimal(tikerData?.lastPrice, priceDecimal)}
+            {formatToKMBWithCommas(formatDecimal(tikerData?.lastPrice, priceDecimal))}
           </div>
           <div className="md:text-[12px] text-[10px]">
-            ${formatDecimal(tikerData?.lastPrice, priceDecimal)}
+            ${formatToKMBWithCommas(formatDecimal(tikerData?.lastPrice, priceDecimal))}
           </div>
         </div>
       </div>
@@ -488,7 +489,7 @@ export const TopIconBar4 = ({ dark, setOpenMarketPopup }) => {
   const { tikerData, iconURL, priceDecimal } = useSelector(
     (state) => state.counter
   );
-    const [priceColor, setPriceColor] = useState(false);
+  const [priceColor, setPriceColor] = useState(false);
   const lastPriceRef = useRef(null);
 
   useEffect(() => {
@@ -514,7 +515,7 @@ export const TopIconBar4 = ({ dark, setOpenMarketPopup }) => {
                   grid grid-cols-2 p-3 gap-1`}
     >
       <div className="flex gap-3">
-       {iconURL&& <img src={iconURL} className="h-6 w-6" alt="coin" />}
+        {iconURL && <img src={iconURL} className="h-6 w-6" alt="coin" />}
         <div
           className="text-[20px]  min-w-max flex gap-2"
           onClick={() => setOpenMarketPopup(true)}
@@ -531,14 +532,14 @@ export const TopIconBar4 = ({ dark, setOpenMarketPopup }) => {
           <div className="flex flex-col">
             <div
               className={`text-[28px] ${
-                priceColor? "text-[#2EBD85] " : "text-[#F6465D] "
+                priceColor ? "text-[#2EBD85] " : "text-[#F6465D] "
               } `}
             >
-              {formatDecimal(tikerData?.lastPrice, priceDecimal)}
+              {formatToKMBWithCommas(formatDecimal(tikerData?.lastPrice, priceDecimal))}
             </div>
             <div className="flex gap-6">
               <div className="text-[12px]  min-w-max">
-                ${formatDecimal(tikerData?.lastPrice, priceDecimal)}
+                ${formatToKMBWithCommas(formatDecimal(tikerData?.lastPrice, priceDecimal))}
               </div>
               <div className="text-green-500 text-[12px]  min-w-max">
                 {tikerData?.priceChangePercent

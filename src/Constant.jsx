@@ -508,11 +508,7 @@ export const marks = [
   { value: 75, label: "75" },
   { value: 100, label: "100" },
 ];
-export const tabs = [
-  "Open Orders",
-  "Order History",
-  "Funds",
-];
+export const tabs = ["Open Orders", "Order History", "Funds"];
 export const tab = ["Spot", "Cross", "Isolated", "Grid"];
 export const marketTabs = ["Limit", "Market", "Stop Limit"];
 export const formatDate = (isoDate) => {
@@ -570,21 +566,25 @@ export const formatToKMB = (num) => {
     return (num / 1).toFixed(3);
   }
 };
-export const formatDecimal=(value, decimalPlaces)=> {
+export const formatToKMBWithCommas = (num) => {
+  const formated = new Intl.NumberFormat("en-IN").format(num);
+  return formated;
+};
+export const formatDecimal = (value, decimalPlaces) => {
   const num = Number(value);
-  if (isNaN(num)) return '';
+  if (isNaN(num)) return "";
 
   // Round to the desired decimal places and keep trailing zeros
   const fixed = num.toFixed(decimalPlaces);
 
   // Only remove zeros *after* the decimalPlaces limit
-  const parts = fixed.split('.');
+  const parts = fixed.split(".");
   if (parts.length === 2 && parts[1].length > decimalPlaces) {
     parts[1] = parts[1].substring(0, decimalPlaces);
   }
 
-  return parts.join('.');
-}
+  return parts.join(".");
+};
 
 export const RenderLabel = ({ childern, dark }) => {
   return (

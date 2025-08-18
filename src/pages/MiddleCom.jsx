@@ -10,6 +10,7 @@ import { IoMdListBox } from "react-icons/io";
 import { ScaleLoader } from "react-spinners";
 import { Tooltip } from "@mui/material";
 import { useState } from "react";
+import { formatToKMBWithCommas } from "../Constant";
 
 export const Middle = ({ dark }) => {
   const { tradeData, tikerData, orderData } = useSelector(
@@ -96,7 +97,7 @@ export const Middle = ({ dark }) => {
                                 : "text-[#F6465D] w-1/3"
                             } text-[.6rem] p-[2px] text-left `}
                           >
-                            {price}
+                            {formatToKMBWithCommas(price)}
                           </td>
                           <td className="lg:text-[12px] text-[.6rem] p-[2px] text-center w-1/3">
                             {amounts}
@@ -314,7 +315,7 @@ export const Middle = ({ dark }) => {
                           }}
                         >
                           <td className="lg:text-[12px] text-[.6rem]  p-[2px] text-[#F6465D] w-1/3">
-                            {price}
+                            {formatToKMBWithCommas(price)}
                           </td>
                           <td className="lg:text-[12px] text-[.6rem] p-[2px] pl-2 text-center w-1/3">
                             {amount}
@@ -351,7 +352,7 @@ export const Middle = ({ dark }) => {
                           }  w-1/3 sticky top-0 z-30 gap-2 p-[6px_6px_6px_0px]`}
                         >
                           <div className="flex items-center">
-                            {parseFloat(tikerData?.lastPrice).toFixed(2)}
+                            {formatToKMBWithCommas(parseFloat(tikerData?.lastPrice).toFixed(2))}
                             {!tradeData[0]?.m ? (
                               <FaArrowUp className="text-[20px] text-[#2EBD85]  p-[4px] sticky top-0 z-30" />
                             ) : (
@@ -364,7 +365,7 @@ export const Middle = ({ dark }) => {
                             dark ? "bg-[#181A20]" : "bg-white"
                           }   p-1 w-1/3`}
                         >
-                          ${parseFloat(tikerData?.lastPrice)}
+                          ${formatToKMBWithCommas(parseFloat(tikerData?.lastPrice))}
                         </th>
                         <th
                           className={` sticky top-0 z-30 justify-center ${
@@ -398,7 +399,7 @@ export const Middle = ({ dark }) => {
                             }}
                           >
                             <td className="lg:text-[12px] text-[.6rem]   text-[#2EBD85] p-[2px] w-1/3">
-                              {price}
+                              {formatToKMBWithCommas(price)}
                             </td>
                             <td className="lg:text-[12px] text-[.6rem]  p-[2px] w-1/3 text-center ">
                               {amount}
@@ -469,7 +470,7 @@ export const Middle = ({ dark }) => {
                           }}
                         >
                           <td className="lg:text-[12px] text-[.6rem]  p-[2px] text-[#F6465D] w-1/3">
-                            {price}
+                            {formatToKMBWithCommas(price)}
                           </td>
                           <td className="lg:text-[12px] text-[.6rem] p-[2px] pl-2 text-center w-1/3">
                             {amount}
@@ -529,7 +530,7 @@ export const Middle = ({ dark }) => {
                           }  w-1/3 sticky top-[34px]  z-30 gap-2 `}
                         >
                           <div className="flex items-center">
-                            {parseFloat(tikerData?.lastPrice).toFixed(2)}
+                            {formatToKMBWithCommas(parseFloat(tikerData?.lastPrice).toFixed(2))}
                             {!tradeData[0]?.m ? (
                               <FaArrowUp className="text-[20px] text-[#2EBD85]  sticky top-[34px] z-30" />
                             ) : (
@@ -542,7 +543,7 @@ export const Middle = ({ dark }) => {
                             dark ? "bg-[#181A20]" : "bg-white"
                           }   p-1 w-1/3`}
                         >
-                          ${parseFloat(tikerData?.lastPrice)}
+                          ${formatToKMBWithCommas(parseFloat(tikerData?.lastPrice))}
                         </th>
                         <th
                           className={` sticky top-[34px] z-30 ${
@@ -576,7 +577,7 @@ export const Middle = ({ dark }) => {
                             }}
                           >
                             <td className="lg:text-[12px] text-[.6rem]   text-[#2EBD85] p-[2px] w-1/3">
-                              {price}
+                              {formatToKMBWithCommas(price)}
                             </td>
                             <td className="lg:text-[12px] text-[.6rem]  p-[2px] w-1/3 text-center ">
                               {amount}

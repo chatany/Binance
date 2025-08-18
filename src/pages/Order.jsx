@@ -4,7 +4,7 @@ import { FaAngleDown } from "react-icons/fa";
 import { HiDotsHorizontal } from "react-icons/hi";
 import { useDispatch, useSelector } from "react-redux";
 import { setCurrentPrice, setRoundingVal } from "../store/webSocket";
-import { formatDecimal } from "../Constant";
+import { formatDecimal, formatToKMBWithCommas } from "../Constant";
 import { ScaleLoader } from "react-spinners";
 import { Tooltip } from "@mui/material";
 export const Order = ({ dark }) => {
@@ -367,7 +367,7 @@ export const Order = ({ dark }) => {
                                 {/* Actual content */}
                                 <div className="flex w-full justify-between items-center px-[2px] relative z-10">
                                   <span className="text-[#F6465D] w-1/3 text-left">
-                                    {price}
+                                    {formatToKMBWithCommas(price)}
                                   </span>
                                   <span className="w-1/3 text-center">
                                     {amount}
@@ -408,7 +408,7 @@ export const Order = ({ dark }) => {
                       }   w-1/3    gap-1`}
                     >
                       <div className="flex items-center gap-1">
-                        {formatDecimal(tikerData?.lastPrice, priceDecimal)}
+                        {formatToKMBWithCommas(formatDecimal(tikerData?.lastPrice, priceDecimal))}
                         {priceColor ? (
                           <FaArrowUp className="text-[18px] text-[#2EBD85]" />
                         ) : (
@@ -417,7 +417,7 @@ export const Order = ({ dark }) => {
                       </div>
                     </th>
                     <th className="text-[14px]  text-gray-400 p-2 text-left w-1/3">
-                      ${formatDecimal(tikerData?.lastPrice, priceDecimal)}
+                      ${formatToKMBWithCommas(formatDecimal(tikerData?.lastPrice, priceDecimal))}
                     </th>
                     <th className="w-1/3">
                       <div className="flex  items-center justify-end w-full">
@@ -461,7 +461,7 @@ export const Order = ({ dark }) => {
                             {/* Actual content */}
                             <div className="flex w-full justify-between items-center px-[2px] relative z-10">
                               <span className="text-[#2EBD85] w-1/3 text-left">
-                                {price}
+                                {formatToKMBWithCommas(price) }
                               </span>
                               <span className="w-1/3 text-center">
                                 {amount}
@@ -547,7 +547,7 @@ export const Order = ({ dark }) => {
                           {/* Actual content */}
                           <div className="flex w-full justify-between items-center px-[2px] relative z-10">
                             <span className="text-[#F6465D] w-1/3 text-left">
-                              {price}
+                              {formatToKMBWithCommas(price)}
                             </span>
                             <span className="w-1/3 text-center">{amount}</span>
                             <span className="w-1/3 text-right">
@@ -585,7 +585,7 @@ export const Order = ({ dark }) => {
                     priceColor ? "text-[#2EBD85] " : "text-[#F6465D] "
                   }  p-1 flex items-center h-full   gap-1`}
                 >
-                  {formatDecimal(tikerData?.lastPrice, priceDecimal)}
+                  {formatToKMBWithCommas(formatDecimal(tikerData?.lastPrice, priceDecimal))}
                   {priceColor ? (
                     <FaArrowUp className="text-[18px] text-[#2EBD85]" />
                   ) : (
@@ -593,7 +593,7 @@ export const Order = ({ dark }) => {
                   )}
                 </th>
                 <th className="text-[14px]  text-gray-400 p-2 text-center w-1/3">
-                  ${formatDecimal(tikerData?.lastPrice, priceDecimal)}
+                  ${formatToKMBWithCommas(formatDecimal(tikerData?.lastPrice, priceDecimal))}
                 </th>
                 <th className="flex  items-center justify-end w-full">
                   <FaAngleRight className=" text-[14px]" />
@@ -635,7 +635,7 @@ export const Order = ({ dark }) => {
                         {/* Actual content */}
                         <div className="flex w-full justify-between items-center px-[2px] relative z-10">
                           <span className="text-[#2EBD85] w-1/3 text-left">
-                            {price}
+                            {formatToKMBWithCommas(price)}
                           </span>
                           <span className="w-1/3 text-center">{amount}</span>
                           <span className="w-1/3 text-right">

@@ -13,7 +13,7 @@ import {
 import { ScaleLoader } from "react-spinners";
 import { FaStar } from "react-icons/fa";
 import { apiRequest } from "../Helper";
-import { formatDecimal } from "../Constant";
+import { formatDecimal, formatToKMBWithCommas } from "../Constant";
 import { Tooltip } from "@mui/material";
 export const MarketCom = ({ dark, SetSearchQuery, searchQuery }) => {
   const [activeTab, setActiveTab] = useState("Market Trade");
@@ -436,7 +436,7 @@ export const MarketCom = ({ dark, SetSearchQuery, searchQuery }) => {
                               !item?.m ? "text-[#2EBD85]" : "text-[#F6465D]"
                             } text-[.6rem]  pl-[8px] text-left w-1/3 `}
                           >
-                            {price}
+                            {formatToKMBWithCommas(price)}
                           </td>
                           <td className="lg:text-[12px] text-[.6rem] p-[2px]  text-center w-1/3">
                             {amounts}
