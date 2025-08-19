@@ -636,8 +636,8 @@ export const ToggleButSell = ({
         >
           {activeItem === "Buy" ? (
             <div
-              className={`w-full  transition-all duration-500 delay-1000 ${
-                isOpen ? "space-y-3" : "space-y-0"
+              className={`w-full  transition-all duration-500 delay-1000 pb-10 ${
+                isOpen ? "space-y-1.5" : "space-y-0"
               }`}
             >
               <div className="p-[5px] flex flex-col gap-2">
@@ -767,8 +767,8 @@ export const ToggleButSell = ({
             </div>
           ) : (
             <div
-              className={`w-full  transition-all duration-500 delay-100 ${
-                isOpen ? "space-y-3" : "space-y-0"
+              className={`w-full  transition-all duration-500 pb-10 delay-100 ${
+                isOpen ? "space-y-1.5" : "space-y-0"
               } `}
             >
               <div
@@ -903,8 +903,8 @@ export const ToggleButSell = ({
         >
           {activeItem === "Buy" ? (
             <div
-              className={`w-full  transition-all duration-500 delay-1000 ${
-                isOpen ? "space-y-6" : "space-y-2"
+              className={`w-full pb-10  transition-all duration-500 delay-1000 ${
+                isOpen ? "space-y-3" : "space-y-0"
               }`}
             >
               <div className="p-[5px]">
@@ -1016,8 +1016,8 @@ export const ToggleButSell = ({
             </div>
           ) : (
             <div
-              className={`w-full  transition-all duration-500 delay-100 ${
-                isOpen ? "space-y-6" : "space-y-2"
+              className={`w-full  transition-all duration-500 pb-10 delay-100 ${
+                isOpen ? "space-y-3" : "space-y-0"
               } `}
             >
               <div style={{ padding: "5px", maxWidth: "100%" }}>
@@ -1138,8 +1138,8 @@ export const ToggleButSell = ({
         >
           {activeItem === "Buy" ? (
             <div
-              className={`w-full  transition-all duration-500 delay-1000 ${
-                isOpen ? "space-y-3" : "space-y-0"
+              className={`w-full  transition-all duration-500 pb-10 delay-1000 ${
+                isOpen ? "space-y-1.5" : "space-y-0"
               }`}
             >
               <div className="p-[5px] flex flex-col gap-2">
@@ -1274,8 +1274,8 @@ export const ToggleButSell = ({
             </div>
           ) : (
             <div
-              className={`w-full  transition-all duration-500 delay-100 ${
-                isOpen ? "space-y-3" : "space-y-0"
+              className={`w-full  transition-all pb-10 duration-500 delay-100 ${
+                isOpen ? "space-y-1.5" : "space-y-0"
               } `}
             >
               <div
