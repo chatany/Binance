@@ -228,11 +228,13 @@ export const ModifyPopup = ({ orderId }) => {
     };
 
     if (showPopup) {
+      document.body.style.overflow = "hidden";
       document.addEventListener("mousedown", handleClickOutside);
     }
 
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
+      document.body.style.overflow = "auto";
     };
   }, [showPopup, dispatch]);
 
