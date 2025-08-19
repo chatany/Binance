@@ -8,6 +8,8 @@ import { FaStar } from "react-icons/fa";
 import { apiRequest } from "../Helper";
 import { formatToKMB } from "../Constant";
 import { IoCloseSharp } from "react-icons/io5";
+import { showError } from "../Toastify/toastServices";
+import { useAuth } from "../hooks/useAuth";
 export const MarketPopup = ({
   setSearchQuery,
   searchQuery,
@@ -18,12 +20,19 @@ export const MarketPopup = ({
   const { faverateData, searchData } = useSelector((state) => state.counter);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const token = useAuth();
   const [isVolume, setIsVolume] = useState(false);
   const [searchInput, setSearchInput] = useState("");
-  const filteredData = Array.isArray(searchData) && searchData?.filter((item) =>
-    item.pair_symbol?.toLowerCase().includes(searchInput.toLowerCase())
-  );
+  const filteredData =
+    Array.isArray(searchData) &&
+    searchData?.filter((item) =>
+      item.pair_symbol?.toLowerCase().includes(searchInput.toLowerCase())
+    );
   const handleChange = async (pairId, fav) => {
+    if (!token) {
+      showError("You are not authorized");
+      return;
+    }
     const faverae = !fav;
     const favData = {
       pair_id: String(pairId),
@@ -35,6 +44,9 @@ export const MarketPopup = ({
         url: `https://test.bitzup.com/onboarding/currency/add-favorite`,
         data: favData,
       });
+      if(data?.status!=1){
+        showError(data?.message)
+      }
     } catch (err) {
       console.error("Failed to fetch second API", err);
     } finally {

@@ -5,6 +5,7 @@ export const MarketInput = ({
   unit,
   defaultValue,
   dark,
+  disable,
   item,
   onChange,
   decimalQuantity,
@@ -42,6 +43,7 @@ export const MarketInput = ({
         <input
           type="text"
           value={value}
+          disabled={disable}
           onChange={handleChange}
           className={`${
             dark ? "text-white" : "text-black"

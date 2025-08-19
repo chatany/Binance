@@ -173,6 +173,7 @@ export const openOrders = async (pairId, userId, dispatch) => {
   }
 };
 export const OrderHistory = async (dispatch) => {
+  dispatch(setLoading(true));
   try {
     const { data, status } = await apiRequest({
       method: "post",
@@ -189,6 +190,8 @@ export const OrderHistory = async (dispatch) => {
     }
   } catch (err) {
     console.error("Failed to fetch second API", err);
+  } finally {
+    setLoading(false);
   }
 };
 export const deleteOpenOrder = async (
@@ -207,21 +210,26 @@ export const deleteOpenOrder = async (
     });
     if (status === 200 && data?.status == 1) {
       dispatch(setIsSuccess(false));
-      openOrders(pair_id, user_id, dispatch);
-      buysellBalance(pair_id, dispatch);
-      OrderHistory(dispatch);
-    }
-    if (status === 400 && data?.status == 3) {
-      // window.location.href = "/login";
-      localStorage.removeItem("userData");
-      window.dispatchEvent(new Event("userDataChanged"));
-    }
-    if (status === 500) {
-      showError(data?.msg);
+    } else {
+      showError(data?.message);
+      if (status === 400 && data?.status == 3) {
+        // window.location.href = "/login";
+        localStorage.removeItem("userData");
+        window.dispatchEvent(new Event("userDataChanged"));
+      }
+      if (status === 400 && data?.status == 0) {
+      }
+      if (status === 500) {
+        showError(data?.msg);
+      }
     }
   } catch (err) {
     console.error("Failed to fetch second API", err);
     showError(err);
+  } finally {
+    openOrders(pair_id, user_id, dispatch);
+    buysellBalance(pair_id, dispatch);
+    OrderHistory(dispatch);
   }
 };
 
@@ -268,7 +276,7 @@ export const getFundsData = async (dispatch) => {
       data: {},
     });
 
-    if (status === 200) {
+    if (status === 200 && data?.status == 1) {
       dispatch(setFundData(data.data));
     }
     if (status === 400 && data?.status === 3) {

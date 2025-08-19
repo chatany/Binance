@@ -5,13 +5,16 @@ import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import { OrderHistory } from "./apiCall";
 import { ScaleLoader } from "react-spinners";
+import { useAuth } from "../hooks/useAuth";
 
 export const History = () => {
-  const { orderHistory } = useSelector((state) => state.counter);
+  const { orderHistory, loading } = useSelector((state) => state.counter);
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const token = useAuth();
   const dark = JSON.parse(localStorage.getItem("theme"));
   useEffect(() => {
+    if (!token) return;
     OrderHistory(dispatch);
   }, []);
   return (
@@ -23,59 +26,68 @@ export const History = () => {
       <div
         className={`flex w-full ${
           dark ? "bg-[#181A20]" : "bg-white"
-        } justify-between p-3 text-[16px] fixed top-0 z-30`}
+        }  p-5 fixed top-0 z-30`}
       >
-        <div onClick={() => navigate(-1)} className="w-[50%] cursor-pointer">
+        <div onClick={() => navigate(-1)} className="cursor-pointer text-[20px] w-[40%]">
           <FaArrowLeft />
         </div>
-        <div className="flex  w-full"> OrderHistory</div>
+        <div className="flex text-[16px] w-[60%]"> OrderHistory</div>
       </div>
       <div className="p-4 h-full mt-6  overflow-y-scroll no-scrollbar ">
-        {orderHistory?.length > 0 ? (
+        {!loading ? (
           <>
-            {Array.isArray(orderHistory) &&
-              orderHistory?.map((item, index) => {
-                const date = formatDate(item?.date_time);
-                return (
-                  <div
-                    className={`flex justify-between border-b-1 ${
-                      dark ? "border-[#333B47]" : "border-[#EAECEF]"
-                    } p-[16px_0px_16px_0px]`}
-                    key={index}
-                  >
-                    <div className="flex flex-col justify-between gap-3">
-                      <div className="flex flex-col gap-1">
-                        <div>{item?.pair_symbol}</div>
-                        <div
-                          className={`${
-                            item?.type === "BUY"
-                              ? "text-[#2EBD85] "
-                              : "text-[#F6465D] "
-                          }`}
-                        >
-                          {item?.order_type}/{item?.type}
+            {Array.isArray(orderHistory) &&orderHistory?.length > 0 ? (
+              <>
+                {Array.isArray(orderHistory) &&
+                  orderHistory?.map((item, index) => {
+                    const date = formatDate(item?.date_time);
+                    return (
+                      <div
+                        className={`flex justify-between border-b-1 ${
+                          dark ? "border-[#333B47]" : "border-[#EAECEF]"
+                        } p-[16px_0px_16px_0px]`}
+                        key={index}
+                      >
+                        <div className="flex flex-col justify-between gap-3">
+                          <div className="flex flex-col gap-1">
+                            <div>{item?.pair_symbol}</div>
+                            <div
+                              className={`${
+                                item?.type === "BUY"
+                                  ? "text-[#2EBD85] "
+                                  : "text-[#F6465D] "
+                              }`}
+                            >
+                              {item?.order_type}/{item?.type}
+                            </div>
+                          </div>
+                          <div className="flex flex-col gap-1">
+                            <div>Amount</div>
+                            <div>Price</div>
+                          </div>
+                        </div>
+                        <div className="flex flex-col justify-between gap-3">
+                          <div className="flex flex-col gap-1 items-end">
+                            <div>{date}</div>
+                            <div>{item?.status}</div>
+                          </div>
+                          <div className="flex flex-col gap-1 items-end">
+                            <div>
+                              {item?.executed_base_quantity}/
+                              {item?.base_quantity}
+                            </div>
+                            <div>{item?.order_price}</div>
+                          </div>
                         </div>
                       </div>
-                      <div className="flex flex-col gap-1">
-                        <div>Amount</div>
-                        <div>Price</div>
-                      </div>
-                    </div>
-                    <div className="flex flex-col justify-between gap-3">
-                      <div className="flex flex-col gap-1 items-end">
-                        <div>{date}</div>
-                        <div>{item?.status}</div>
-                      </div>
-                      <div className="flex flex-col gap-1 items-end">
-                        <div>
-                          {item?.executed_base_quantity}/{item?.base_quantity}
-                        </div>
-                        <div>{item?.order_price}</div>
-                      </div>
-                    </div>
-                  </div>
-                );
-              })}
+                    );
+                  })}
+              </>
+            ) : (
+               <div className="h-full w-full flex justify-center items-center">
+                No Data Found
+              </div>
+            )}
           </>
         ) : (
           <div className="h-full w-full flex justify-center items-center">

@@ -7,11 +7,14 @@ import { formatDecimal, formatToKMB, formatToKMBWithCommas } from "../Constant";
 import { RiArrowDownSFill } from "react-icons/ri";
 import { useEffect, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
+import { useAuth } from "../hooks/useAuth";
+import { showError } from "../Toastify/toastServices";
 export const TopIconBar1 = ({ dark }) => {
   const { tikerData, iconURL, isFav, tradeData, pairId, priceDecimal } =
     useSelector((state) => state.counter);
   const [priceColor, setPriceColor] = useState(false);
   const lastPriceRef = useRef(null);
+  const token = useAuth();
 
   useEffect(() => {
     const currentPrice = parseFloat(tikerData?.lastPrice);
@@ -33,6 +36,10 @@ export const TopIconBar1 = ({ dark }) => {
 
   const dispatch = useDispatch();
   const handleChange = async () => {
+    if (!token) {
+      showError("You are not authorized");
+      return;
+    }
     const faverae = !isFav;
     const favData = {
       pair_id: String(pairId),
@@ -46,7 +53,8 @@ export const TopIconBar1 = ({ dark }) => {
       });
       if (status === 200) {
       }
-      if (data?.status == 0) {
+      if (data?.status != 1) {
+        showError(data?.message);
       }
     } catch (err) {
       console.error("Failed to fetch second API", err);
@@ -83,10 +91,15 @@ export const TopIconBar1 = ({ dark }) => {
             priceColor ? "text-[#2EBD85] " : "text-[#F6465D] "
           } text-[20px] leading-5  min-w-max `}
         >
-          {formatToKMBWithCommas(formatDecimal(tikerData?.lastPrice, priceDecimal))}
+          {formatToKMBWithCommas(
+            formatDecimal(tikerData?.lastPrice, priceDecimal)
+          )}
         </div>
         <div className="lg:text-[12px]  text-[8px] leading-4 min-w-max ">
-          ${formatToKMBWithCommas(formatDecimal(tikerData?.lastPrice, priceDecimal))}
+          $
+          {formatToKMBWithCommas(
+            formatDecimal(tikerData?.lastPrice, priceDecimal)
+          )}
         </div>
       </div>
       <div className="flex flex-col">
@@ -163,7 +176,12 @@ export const TopIconBar2 = ({ dark }) => {
   const { tikerData, iconURL, isFav, tradeData, pairId, priceDecimal } =
     useSelector((state) => state.counter);
   const dispatch = useDispatch();
+  const token = useAuth();
   const handleChange = async () => {
+    if (!token) {
+      showError("You are not authorized");
+      return;
+    }
     const faverae = !isFav;
     const favData = {
       pair_id: String(pairId),
@@ -177,7 +195,8 @@ export const TopIconBar2 = ({ dark }) => {
       });
       if (status === 200) {
       }
-      if (data?.status == 0) {
+      if (data?.status != 1) {
+        showError(data?.message);
       }
     } catch (err) {
       console.error("Failed to fetch second API", err);
@@ -235,10 +254,15 @@ export const TopIconBar2 = ({ dark }) => {
               priceColor ? "text-[#2EBD85] " : "text-[#F6465D] "
             }  md:text-[12px] text-[10px]`}
           >
-            {formatToKMBWithCommas(formatDecimal(tikerData?.lastPrice, priceDecimal))}
+            {formatToKMBWithCommas(
+              formatDecimal(tikerData?.lastPrice, priceDecimal)
+            )}
           </div>
           <div className="md:text-[12px] text-[10px]">
-            ${formatToKMBWithCommas(formatDecimal(tikerData?.lastPrice, priceDecimal))}
+            $
+            {formatToKMBWithCommas(
+              formatDecimal(tikerData?.lastPrice, priceDecimal)
+            )}
           </div>
         </div>
       </div>
@@ -326,7 +350,12 @@ export const TopIconBar3 = ({ dark }) => {
     useSelector((state) => state.counter);
   const dispatch = useDispatch();
   const { symbol } = useParams();
+  const token = useAuth();
   const handleChange = async () => {
+    if (!token) {
+      showError("You are not authorized");
+      return;
+    }
     const faverae = !isFav;
     const favData = {
       pair_id: String(pairId),
@@ -340,7 +369,8 @@ export const TopIconBar3 = ({ dark }) => {
       });
       if (status === 200) {
       }
-      if (data?.status == 0) {
+      if (data?.status != 1) {
+        showError(data?.message);
       }
     } catch (err) {
       console.error("Failed to fetch second API", err);
@@ -369,7 +399,10 @@ export const TopIconBar3 = ({ dark }) => {
     }
     const formate = tikerData?.lastPrice.toString();
     const num = formatToKMBWithCommas(formate);
-    document.title = `${num} | ${symbol} | ${symbol.toLowerCase().split('usdt')[0].toUpperCase()} to USDT | Bitzup Spot`;
+    document.title = `${num} | ${symbol} | ${symbol
+      .toLowerCase()
+      .split("usdt")[0]
+      .toUpperCase()} to USDT | Bitzup Spot`;
   }, [tikerData?.lastPrice]);
   return (
     <div
@@ -401,10 +434,15 @@ export const TopIconBar3 = ({ dark }) => {
               priceColor ? "text-[#2EBD85] " : "text-[#F6465D] "
             } md:text-[12px] text-[10px]`}
           >
-            {formatToKMBWithCommas(formatDecimal(tikerData?.lastPrice, priceDecimal))}
+            {formatToKMBWithCommas(
+              formatDecimal(tikerData?.lastPrice, priceDecimal)
+            )}
           </div>
           <div className="md:text-[12px] text-[10px]">
-            ${formatToKMBWithCommas(formatDecimal(tikerData?.lastPrice, priceDecimal))}
+            $
+            {formatToKMBWithCommas(
+              formatDecimal(tikerData?.lastPrice, priceDecimal)
+            )}
           </div>
         </div>
       </div>
@@ -537,11 +575,16 @@ export const TopIconBar4 = ({ dark, setOpenMarketPopup }) => {
                 priceColor ? "text-[#2EBD85] " : "text-[#F6465D] "
               } `}
             >
-              {formatToKMBWithCommas(formatDecimal(tikerData?.lastPrice, priceDecimal))}
+              {formatToKMBWithCommas(
+                formatDecimal(tikerData?.lastPrice, priceDecimal)
+              )}
             </div>
             <div className="flex gap-6">
               <div className="text-[12px]  min-w-max">
-                ${formatToKMBWithCommas(formatDecimal(tikerData?.lastPrice, priceDecimal))}
+                $
+                {formatToKMBWithCommas(
+                  formatDecimal(tikerData?.lastPrice, priceDecimal)
+                )}
               </div>
               <div className="text-green-500 text-[12px]  min-w-max">
                 {tikerData?.priceChangePercent

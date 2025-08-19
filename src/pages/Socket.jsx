@@ -13,6 +13,7 @@ import { allMovers, getFundsData, TopMoves } from "./apiCall";
 import { io } from "socket.io-client";
 import { CircularProgressbarWithChildren } from "react-circular-progressbar";
 import { apiRequest } from "../Helper";
+import { useAuth } from "../hooks/useAuth";
 const socket = io("https://socket.bitzup.com");
 export const Socket = ({ searchQuery }) => {
   const dispatch = useDispatch();
@@ -24,17 +25,18 @@ export const Socket = ({ searchQuery }) => {
   const fallbackIntervalRef = useRef(null);
   const fallbackIntervalRef1 = useRef(null);
   const reconnectTimerRef2 = useRef(null);
+  const token = useAuth();
   const fallbackIntervalRef2 = useRef(null);
   const tradesDataRef = useRef([]);
   const { tradeData, apiId } = useSelector((state) => state.counter);
   useEffect(() => {
     tradesDataRef.current = tradeData; //
   }, [tradeData]);
-  useEffect(() => {
-    TopMoves(dispatch);
-    allMovers(dispatch);
-    getFundsData(dispatch);
-  }, []);
+  // useEffect(() => {
+  //   TopMoves(dispatch);
+  //   allMovers(dispatch);
+  //   getFundsData(dispatch);
+  // }, []);
   useEffect(() => {
     if (!searchQuery) return;
     const fetchRestData = async () => {
@@ -320,15 +322,43 @@ export const Socket = ({ searchQuery }) => {
     };
   }, [searchQuery]);
   useEffect(() => {
-    socket.on("disconnect", () => {});
-    socket.emit("market", (data) => {});
-    socket.on("market", (event) => {
-      const data = JSON.parse(event);
-      if (data) {
-        dispatch(setAllMovers(data));
-        dispatch(setTopMovers(data));
+    // Step 1: Call API first
+    const fetchInitialData = async () => {
+      await TopMoves(dispatch);
+      await allMovers(dispatch);
+      if (token) {
+        await getFundsData(dispatch);
       }
-    });
-  }, []);
+
+      // Step 2: Setup socket after API is done
+      socket.on("disconnect", () => {
+        console.log("Socket disconnected");
+      });
+
+      socket.emit("market", (data) => {
+        console.log("Market subscribed:", data);
+      });
+
+      socket.on("market", (event) => {
+        try {
+          const data = JSON.parse(event);
+          if (data) {
+            dispatch(setAllMovers(data));
+            dispatch(setTopMovers(data));
+          }
+        } catch (err) {
+          console.error("Invalid socket data:", event);
+        }
+      });
+    };
+
+    fetchInitialData();
+
+    return () => {
+      socket.off("market");
+      socket.off("disconnect");
+    };
+  }, [dispatch]);
+
   return null;
 };

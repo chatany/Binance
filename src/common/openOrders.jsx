@@ -35,9 +35,12 @@ export const OpenOrders = ({ dark }) => {
   const deviceInfo = useDeviceInfo();
   const reconnectTimerRef = useRef(null);
   const userData = JSON.parse(localStorage.getItem("userData"));
+  const [pendingOrderId, setPendingOrderId] = useState(null);
   const navigate = useNavigate();
 
-  const deleteOrder = (order_id, pair_id) => {
+  const deleteOrder = async (order_id, pair_id) => {
+    setPendingOrderId(order_id); // disable button for this order
+
     const orderData = {
       order_id: order_id,
       pair_id: pair_id,
@@ -46,13 +49,18 @@ export const OpenOrders = ({ dark }) => {
       device_info: deviceInfo?.device_info,
       source: deviceInfo?.source,
     };
-    deleteOpenOrder(
-      orderData,
-      dispatch,
-      setIsSuccess,
-      pair_id,
-      userData.user_id
-    );
+
+    try {
+      await deleteOpenOrder(
+        orderData,
+        dispatch,
+        setIsSuccess,
+        pair_id,
+        userData.user_id
+      );
+    } finally {
+      setPendingOrderId(null);
+    }
   };
   const userid = userData?.user_id;
   useEffect(() => {
@@ -367,6 +375,8 @@ export const OpenOrders = ({ dark }) => {
                                       <td
                                         className="lg:text-[12px] text-[.6rem] pl-1 pr-1 p-[4px] text-center capitalize cursor-pointer"
                                         onClick={() => {
+                                          if (item?.order_id === pendingOrderId)
+                                            return;
                                           setIsPopup(!isPopup);
                                           setOrderId(item?.order_id);
                                         }}

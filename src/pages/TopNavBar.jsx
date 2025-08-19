@@ -15,6 +15,8 @@ import { SidePopup } from "./sidePopup";
 import { RiLogoutBoxRLine } from "react-icons/ri";
 import { ConfirmationBox } from "../common/deletePopup";
 import { Tooltip } from "@mui/material";
+import { setBalance, setFundData } from "../store/webSocket";
+import { useAuth } from "../hooks/useAuth";
 
 export const TopNav = ({
   dark,
@@ -40,17 +42,26 @@ export const TopNav = ({
     return JSON.parse(localStorage.getItem("userData")) || {};
   });
   const [currentItem, setCurrentItem] = useState("");
+  const token = useAuth();
   const [hoverPosition, setHoverPosition] = useState({ x: 0, y: 0, width: 0 });
   const popupRef = useRef(null);
   const dispatch = useDispatch();
   useEffect(() => {
     helpCenterApi(dispatch);
   }, []);
+  useEffect(() => {
+    if (!token) {
+      dispatch(setBalance({}));
+      dispatch(setFundData([]));
+    }
+  }, [token]);
   const handleLogout = () => {
     localStorage.removeItem("userData");
     window.dispatchEvent(new Event("userDataChanged"));
     setUserData({});
     setShowLogoutPopup(false);
+    dispatch(setBalance({}));
+    dispatch(setFundData([]));
   };
   useEffect(() => {
     const handleStorageChange = () => {

@@ -15,7 +15,8 @@ import {
   setQuantityDecimal,
 } from "../store/webSocket";
 import { useDeviceInfo } from "../hooks/useDeviceInfo";
-import { showError } from "../Toastify/toastServices";
+import { showError, showSuccess } from "../Toastify/toastServices";
+import { useAuth } from "../hooks/useAuth";
 export const Form = ({ dark, searchQuery }) => {
   const isOpen = useSelector((state) => state.counter.open);
   const { allMovers, currentPrice, balance } = useSelector(
@@ -26,6 +27,14 @@ export const Form = ({ dark, searchQuery }) => {
   const [sellSliderValue, setSellSliderValue] = useState(0);
   const [buyMarketSliderValue, setBuyMarketSliderValue] = useState(0);
   const [sellMarketSliderValue, setSellMarketSliderValue] = useState(0);
+  const token = useAuth();
+  const [limitBuyLoading, setLimitBuyLoading] = useState(false);
+  const [limitSellLoading, setLimitSellLoading] = useState(false);
+  const [marketBuyLoading, setMarketBuyLoading] = useState(false);
+  const [marketSellLoading, setMarketSellLoading] = useState(false);
+  const [stopBuyLoading, setStopBuyLoading] = useState(false);
+  const [stopSellLoading, setStopSellLoading] = useState(false);
+
   const [buyStopSliderValue, setBuyStopSliderValue] = useState(0);
   const [sellStopSliderValue, setSellStopSliderValue] = useState(0);
   const [apiId, setApiId] = useState("");
@@ -143,9 +152,11 @@ export const Form = ({ dark, searchQuery }) => {
     },
   }));
   useEffect(() => {
+    if (!token) return;
     OrderHistory(dispatch);
   }, []);
   useEffect(() => {
+    if (!token) return;
     if (item?.pair_id) {
       buysellBalance(item?.pair_id, dispatch);
       openOrders(item?.pair_id, userData?.user_id, dispatch);
@@ -153,11 +164,11 @@ export const Form = ({ dark, searchQuery }) => {
         setApiId(item?.api_id);
         dispatch(setApiIds(item?.api_id));
       }
-      // if (pairId !== item?.pair_id) {
-        dispatch(setPriceDecimal(item?.price_decimal));
-        dispatch(setQuantityDecimal(item?.quantity_decimal));
-      // }
     }
+  }, [item?.pair_id]);
+  useEffect(() => {
+    dispatch(setPriceDecimal(item?.price_decimal));
+    dispatch(setQuantityDecimal(item?.quantity_decimal));
   }, [item?.pair_id]);
   useEffect(() => {
     setTimeout(() => {
@@ -203,19 +214,30 @@ export const Form = ({ dark, searchQuery }) => {
   };
   const handleBuy = async () => {
     if (error.limitBuyErr) return;
+    setLimitBuyLoading(true);
     try {
       const { data, status } = await apiRequest({
         method: "post",
         url: `https://test.bitzup.com/order/user/place-buy-order`,
         data: buyObj,
       });
-      if (status === 200) {
-        setSuccessMsg((prev) => ({
+      if (status === 200 && data?.status == 1) {
+        showSuccess(data?.message);
+        buysellBalance(item?.pair_id, dispatch);
+        openOrders(item?.pair_id, userData?.user_id, dispatch);
+        OrderHistory(dispatch);
+        setBuySliderValue(0);
+        setFormValues((prev) => ({
           ...prev,
-          limitBuy: data?.message,
+          limitAmount: "",
+        }));
+         setError((prev) => ({
+          ...prev,
+          limitBuyErr: "Amount must be greater than 10 and less than or equal to 9000000",
         }));
       }
-      if (data?.status == 0) {
+      if (data?.status != 1) {
+        showError(data?.message);
         setError((prev) => ({
           ...prev,
           limitBuyErr: data?.message,
@@ -225,31 +247,35 @@ export const Form = ({ dark, searchQuery }) => {
       showError(err);
       console.error("Failed to fetch second API", err);
     } finally {
-      buysellBalance(item?.pair_id, dispatch);
-      openOrders(item?.pair_id, userData?.user_id, dispatch);
-      OrderHistory(dispatch);
-      setBuySliderValue(0);
-      setFormValues((prev) => ({
-        ...prev,
-        limitAmount: "",
-      }));
+      setLimitBuyLoading(false);
     }
   };
   const handleSell = async () => {
     if (error.limitSellErr) return;
+    setLimitSellLoading(true);
     try {
       const { data, status } = await apiRequest({
         method: "post",
         url: `https://test.bitzup.com/order/user/place-sell-order`,
         data: SellObj,
       });
-      if (status === 200) {
-        setSuccessMsg((prev) => ({
+      if (status === 200 && data?.status == 1) {
+        showSuccess(data?.message);
+        buysellBalance(item?.pair_id, dispatch);
+        openOrders(item?.pair_id, userData?.user_id, dispatch);
+        OrderHistory(dispatch);
+        setSellSliderValue(0);
+        setFormValues((prev) => ({
           ...prev,
-          limitSell: data?.message,
+          sellAmount: "",
+        }));
+         setError((prev) => ({
+          ...prev,
+          limitSellErr: "Amount must be greater than 10 and less than or equal to 9000000",
         }));
       }
-      if (data?.status == 0) {
+      if (data?.status != 1) {
+        showError(data?.message);
         setError((prev) => ({
           ...prev,
           limitSellErr: data?.message,
@@ -259,14 +285,7 @@ export const Form = ({ dark, searchQuery }) => {
       showError(err);
       console.error("Failed to fetch second API", err);
     } finally {
-      buysellBalance(item?.pair_id, dispatch);
-      openOrders(item?.pair_id, userData?.user_id, dispatch);
-      OrderHistory(dispatch);
-      setSellSliderValue(0);
-      setFormValues((prev) => ({
-        ...prev,
-        sellAmount: "",
-      }));
+      setLimitSellLoading(false);
     }
   };
   const marketObj = {
@@ -284,38 +303,45 @@ export const Form = ({ dark, searchQuery }) => {
   };
   const handleMarket = async () => {
     if (error.marketBuyErr) return;
-
+    setMarketBuyLoading(true);
     try {
       const { data, status } = await apiRequest({
         method: "post",
         url: `https://test.bitzup.com/order/user/place-buy-order`,
         data: marketObj,
       });
-      if (status === 200) {
-        setSuccessMsg((prev) => ({
+      if (status === 200 && data?.status == 1) {
+        showSuccess(data?.message);
+        // setSuccessMsg((prev) => ({
+        //   ...prev,
+        //   marketBuy: data?.message,
+        // }));
+        buysellBalance(item?.pair_id, dispatch);
+        openOrders(item?.pair_id, userData?.user_id, dispatch);
+        OrderHistory(dispatch);
+
+        setBuyMarketSliderValue(0);
+        setFormValues((prev) => ({
           ...prev,
-          marketBuy: data?.message,
+          MarketBuy: "",
+        }));
+        setError((prev) => ({
+          ...prev,
+          marketBuyErr: "Amount must be greater than 10 and less than or equal to 9000000",
         }));
       }
-      if (data?.status == 0) {
-        // setError((prev) => ({
-        //   ...prev,
-        //   limitBuyErr: data?.message,
-        // }));
+      if (data?.status != 1) {
+        showError(data?.message);
+        setError((prev) => ({
+          ...prev,
+          marketBuyErr: data?.message,
+        }));
       }
     } catch (err) {
       showError(err);
       console.error("Failed to fetch second API", err);
     } finally {
-      buysellBalance(item?.pair_id, dispatch);
-      openOrders(item?.pair_id, userData?.user_id, dispatch);
-      OrderHistory(dispatch);
-
-      setBuyMarketSliderValue(0);
-      setFormValues((prev) => ({
-        ...prev,
-        MarketBuy: "",
-      }));
+      setMarketBuyLoading(false);
     }
   };
   const marketSellObj = {
@@ -329,38 +355,46 @@ export const Form = ({ dark, searchQuery }) => {
     device_info: deviceInfo?.device_info,
   };
   const handleMarketSell = async () => {
-    // if (error.marketSellErr) return;
+    if (error.marketSellErr) return;
+    setMarketSellLoading(true);
     try {
       const { data, status } = await apiRequest({
         method: "post",
         url: `https://test.bitzup.com/order/user/place-sell-order`,
         data: marketSellObj,
       });
-      if (status === 200) {
-        setSuccessMsg((prev) => ({
+      if (status === 200 && data?.status == 1) {
+        showSuccess(data?.message);
+        // setSuccessMsg((prev) => ({
+        //   ...prev,
+        //   marketSell: data?.message,
+        // }));
+        buysellBalance(item?.pair_id, dispatch);
+        openOrders(item?.pair_id, userData?.user_id, dispatch);
+        OrderHistory(dispatch);
+
+        setSellMarketSliderValue(0);
+        setFormValues((prev) => ({
           ...prev,
-          marketSell: data?.message,
+          MarketSell: "",
+        }));
+        setError((prev) => ({
+          ...prev,
+          marketSellErr: "Amount must be greater than 10 and less than or equal to 9000000",
         }));
       }
-      if (data?.status == 0) {
-        // setError((prev) => ({
-        //   ...prev,
-        //   limitBuyErr: data?.message,
-        // }));
+      if (data?.status != 1) {
+        showError(data?.message);
+        setError((prev) => ({
+          ...prev,
+          marketSellErr: data?.message,
+        }));
       }
     } catch (err) {
       showError(err);
       console.error("Failed to fetch second API", err);
     } finally {
-      buysellBalance(item?.pair_id, dispatch);
-      openOrders(item?.pair_id, userData?.user_id, dispatch);
-      OrderHistory(dispatch);
-
-      setSellMarketSliderValue(0);
-      setFormValues((prev) => ({
-        ...prev,
-        MarketSell: "",
-      }));
+      setMarketSellLoading(false);
     }
   };
   const validateBuyAmount = (val, price, key) => {
@@ -456,63 +490,80 @@ export const Form = ({ dark, searchQuery }) => {
   };
   const handleStopBuy = async () => {
     if (error.stopBuyErr) return;
-
+    setStopBuyLoading(true);
     try {
       const { data, status } = await apiRequest({
         method: "post",
         url: `https://test.bitzup.com/order/user/place-buy-stop-limit`,
         data: StopBuyObj,
       });
-      if (status === 200) {
-        setSuccessMsg((prev) => ({
+      if (status === 200 && data?.status == 1) {
+        showSuccess(data?.message);
+        buysellBalance(item?.pair_id, dispatch);
+        openOrders(item?.pair_id, userData?.user_id, dispatch);
+        OrderHistory(dispatch);
+        setBuyStopSliderValue(0);
+        setFormValues((prev) => ({
           ...prev,
-          stopBuy: data?.message,
+          stopBuyAmount: "",
+          stopBuyStop: "",
+        }));
+         setError((prev) => ({
+          ...prev,
+          stopBuyErr: "Amount must be greater than 10 and less than or equal to 9000000",
+        }));
+      }
+      if (data?.status != 1) {
+        showError(data?.message);
+         setError((prev) => ({
+          ...prev,
+          stopBuyErr: data?.message,
         }));
       }
     } catch (err) {
       showError(err);
       console.error("Failed to fetch second API", err);
     } finally {
-      buysellBalance(item?.pair_id, dispatch);
-      openOrders(item?.pair_id, userData?.user_id, dispatch);
-      OrderHistory(dispatch);
-      setBuyStopSliderValue(0);
-      setFormValues((prev) => ({
-        ...prev,
-        stopBuyAmount: "",
-        stopBuyStop: "",
-      }));
+      setStopBuyLoading(false);
     }
   };
   const handleStopSell = async () => {
     if (error.stopSellErr) return;
+    setStopSellLoading(true);
     try {
       const { data, status } = await apiRequest({
         method: "post",
         url: `https://test.bitzup.com/order/user/place-sell-stop-limit`,
         data: StopSellObj,
       });
-      if (status === 200) {
-        setSuccessMsg((prev) => ({
+      if (status === 200 && data?.status == 1) {
+        showSuccess(data?.message);
+        buysellBalance(item?.pair_id, dispatch);
+        openOrders(item?.pair_id, userData?.user_id, dispatch);
+        OrderHistory(dispatch);
+        setSellSliderValue(0);
+        setFormValues((prev) => ({
           ...prev,
-          stopSell: data?.message,
+          stopSellAmount: "",
+          stopSellStop: "",
+        }));
+         setError((prev) => ({
+          ...prev,
+          stopSellErr: "Amount must be greater than 10 and less than or equal to 9000000",
         }));
       }
-      if (data?.status == 0) {
+      if (data?.status != 1) {
+        showError(data?.message);
+         setError((prev) => ({
+          ...prev,
+          stopSellErr: data?.message,
+        }));
       }
     } catch (err) {
       showError(err);
       console.error("Failed to fetch second API", err);
     } finally {
-      buysellBalance(item?.pair_id, dispatch);
-      openOrders(item?.pair_id, userData?.user_id, dispatch);
-      OrderHistory(dispatch);
-      setSellSliderValue(0);
-      setFormValues((prev) => ({
-        ...prev,
-        stopSellAmount: "",
-        stopSellStop: "",
-      }));
+      setStopSellLoading(false);
     }
   };
   const handleNavigate = () => {
@@ -588,6 +639,7 @@ export const Form = ({ dark, searchQuery }) => {
                   setFormValues((prev) => ({ ...prev, limitPrice: val }));
                 }}
                 dark={dark}
+                disable={limitBuyLoading}
                 decimalQuantity={item?.price_decimal}
                 searchQuery={searchQuery}
               />
@@ -598,6 +650,7 @@ export const Form = ({ dark, searchQuery }) => {
                   .split("usdt")[0]
                   .toUpperCase()}
                 step={0.01}
+                disable={limitBuyLoading}
                 value={formValues.limitAmount}
                 onChange={(val) => {
                   setFormValues((prev) => ({ ...prev, limitAmount: val }));
@@ -636,7 +689,7 @@ export const Form = ({ dark, searchQuery }) => {
                   min={0}
                   max={100}
                   step={null}
-                  disabled={!userData?.token}
+                  disabled={!userData?.token || limitBuyLoading}
                   onChange={(e, newValue) => {
                     setBuySliderValue(newValue);
                     handleChange(
@@ -691,7 +744,8 @@ export const Form = ({ dark, searchQuery }) => {
             </div>
             <div className="w-full flex justify-center">
               <button
-              name="market-buy"
+                name="market-buy"
+                disabled={limitBuyLoading}
                 onClick={() => {
                   handleBuy();
                   handleNavigate();
@@ -717,6 +771,7 @@ export const Form = ({ dark, searchQuery }) => {
                 unit="USDT"
                 searchQuery={searchQuery}
                 step={0.01}
+                disable={limitSellLoading}
                 dark={dark}
                 value={formValues.sellPrice}
                 onChange={(val) =>
@@ -736,6 +791,7 @@ export const Form = ({ dark, searchQuery }) => {
                     : ""
                 }
                 step={0.01}
+                disable={limitSellLoading}
                 dark={dark}
                 value={formValues.sellAmount}
                 onChange={(val) => {
@@ -761,7 +817,7 @@ export const Form = ({ dark, searchQuery }) => {
                 <CustomSlider
                   value={sellSliderValue}
                   marks={marks}
-                  disabled={!userData?.token}
+                  disabled={!userData?.token || limitSellLoading}
                   min={0}
                   max={100}
                   onChange={(e, newValue) => {
@@ -823,7 +879,8 @@ export const Form = ({ dark, searchQuery }) => {
             </div>
             <div className="w-full flex justify-center">
               <button
-              name="market-sell"
+                name="market-sell"
+                disabled={limitSellLoading}
                 onClick={() => {
                   handleSell();
                   handleNavigate();
@@ -861,6 +918,7 @@ export const Form = ({ dark, searchQuery }) => {
               <MarketInput
                 label="Amount"
                 item={item}
+                disable={marketBuyLoading}
                 unit={item?.quote_asset_symbol}
                 // step={0.01}
                 decimalQuantity={item?.quantity_decimal + item?.price_decimal}
@@ -890,7 +948,7 @@ export const Form = ({ dark, searchQuery }) => {
                   value={buyMarketSliderValue}
                   marks={marks}
                   min={0}
-                  disabled={!userData?.token}
+                  disabled={!userData?.token || marketBuyLoading}
                   max={100}
                   onChange={(e, newValue) => {
                     setBuyMarketSliderValue(newValue);
@@ -935,7 +993,8 @@ export const Form = ({ dark, searchQuery }) => {
             </div>
             <div className="w-full flex justify-center">
               <button
-              name="limit-buy"
+                name="limit-buy"
+                disabled={marketBuyLoading}
                 onClick={() => {
                   handleMarket();
                   handleNavigate();
@@ -973,6 +1032,7 @@ export const Form = ({ dark, searchQuery }) => {
               <MarketInput
                 label="Amount"
                 dark={dark}
+                disable={marketSellLoading}
                 item={item}
                 unit={item?.base_asset_symbol}
                 decimalQuantity={item?.quantity_decimal}
@@ -1003,7 +1063,7 @@ export const Form = ({ dark, searchQuery }) => {
                 <CustomSlider
                   value={sellMarketSliderValue}
                   marks={marks}
-                  disabled={!userData?.token}
+                  disabled={!userData?.token || marketSellLoading}
                   min={0}
                   max={100}
                   step={null}
@@ -1036,7 +1096,6 @@ export const Form = ({ dark, searchQuery }) => {
                 <div className="flex justify-between text-gray-400">Avbl</div>
                 <div>
                   {" "}
-                 {" "}
                   {parseFloat(
                     balance?.base_balance ? balance?.base_balance : 0
                   ).toString()}{" "}
@@ -1051,7 +1110,8 @@ export const Form = ({ dark, searchQuery }) => {
             </div>
             <div className="w-full flex justify-center">
               <button
-              name="limit-sell"
+                name="limit-sell"
+                disabled={marketSellLoading}
                 onClick={() => {
                   handleMarketSell();
                   handleNavigate();
@@ -1081,6 +1141,7 @@ export const Form = ({ dark, searchQuery }) => {
                 label="Stop"
                 unit="USDT"
                 step={0.01}
+                disable={stopBuyLoading}
                 dark={dark}
                 decimalQuantity={item?.price_decimal}
                 searchQuery={searchQuery}
@@ -1093,6 +1154,7 @@ export const Form = ({ dark, searchQuery }) => {
               <CryptoInput
                 label="Limit"
                 unit="USDT"
+                disable={stopBuyLoading}
                 step={0.01}
                 defaultValue={currentPrice}
                 dark={dark}
@@ -1108,6 +1170,7 @@ export const Form = ({ dark, searchQuery }) => {
                 step={0.01}
                 decimalQuantity={item?.quantity_decimal}
                 dark={dark}
+                disable={stopBuyLoading}
                 unit={item?.pair_symbol
                   .toLowerCase()
                   .split("usdt")[0]
@@ -1149,7 +1212,7 @@ export const Form = ({ dark, searchQuery }) => {
                   value={buyStopSliderValue}
                   marks={marks}
                   min={0}
-                  disabled={!userData?.token}
+                  disabled={!userData?.token || stopBuyLoading}
                   max={100}
                   step={null}
                   onChange={(e, newValue) => {
@@ -1184,7 +1247,8 @@ export const Form = ({ dark, searchQuery }) => {
             </div>
             <div className="w-full flex justify-center">
               <button
-              name="stop-buy"
+                name="stop-buy"
+                disabled={stopBuyLoading}
                 onClick={() => {
                   handleStopBuy();
                   handleNavigate();
@@ -1211,6 +1275,7 @@ export const Form = ({ dark, searchQuery }) => {
                 unit="USDT"
                 searchQuery={searchQuery}
                 step={0.01}
+                disable={stopSellLoading}
                 dark={dark}
                 decimalQuantity={item?.price_decimal}
                 value={formValues.stopSellStop}
@@ -1224,6 +1289,7 @@ export const Form = ({ dark, searchQuery }) => {
                 searchQuery={searchQuery}
                 step={0.01}
                 dark={dark}
+                disable={stopSellLoading}
                 defaultValue={currentPrice}
                 decimalQuantity={item?.price_decimal}
                 value={formValues.stopSellLimit}
@@ -1234,6 +1300,7 @@ export const Form = ({ dark, searchQuery }) => {
               <CryptoInput
                 label="Amount"
                 step={0.01}
+                disable={stopSellLoading}
                 dark={dark}
                 decimalQuantity={item?.quantity_decimal}
                 unit={item?.pair_symbol
@@ -1280,7 +1347,7 @@ export const Form = ({ dark, searchQuery }) => {
                   value={sellStopSliderValue}
                   marks={marks}
                   min={0}
-                  disabled={!userData?.token}
+                  disabled={!userData?.token || stopSellLoading}
                   step={null}
                   max={100}
                   onChange={(e, newValue) => {
@@ -1320,7 +1387,7 @@ export const Form = ({ dark, searchQuery }) => {
             </div>
             <div className="w-full flex justify-center">
               <button
-              name="stop-sell"
+                name="stop-sell"
                 className={`w-[100%]
                     bg-[#F6465D] hover:bg-[#c74052]
                  cursor-pointer  h-[3rem]  py-2 m-2 rounded-md text-[16px] font-semibold`}
@@ -1328,6 +1395,7 @@ export const Form = ({ dark, searchQuery }) => {
                   handleNavigate();
                   handleStopSell();
                 }}
+                disabled={stopSellLoading}
                 style={{ background: error.stopSellErr && "[#e9d8da]" }}
               >
                 {userData?.token ? "Sell" : " Log In"}

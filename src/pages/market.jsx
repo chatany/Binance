@@ -15,11 +15,14 @@ import { FaStar } from "react-icons/fa";
 import { apiRequest } from "../Helper";
 import { formatDecimal, formatToKMBWithCommas } from "../Constant";
 import { Tooltip } from "@mui/material";
+import { showError } from "../Toastify/toastServices";
+import { useAuth } from "../hooks/useAuth";
 export const MarketCom = ({ dark, SetSearchQuery, searchQuery }) => {
   const [activeTab, setActiveTab] = useState("Market Trade");
   const [isVolume, setIsVolume] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const dispatch = useDispatch();
+  const token = useAuth();
   const [favorite, setFavorite] = useState(false);
   const [filteredData, setFilteredData] = useState([]);
   const [searchInput, setSearchInput] = useState("");
@@ -62,6 +65,10 @@ export const MarketCom = ({ dark, SetSearchQuery, searchQuery }) => {
     setIsVolume(!isVolume);
   };
   const handleChange = async (pairId, fav) => {
+    if (!token) {
+      showError("You are not authorized");
+      return;
+    }
     const faverae = !fav;
     const favData = {
       pair_id: String(pairId),
@@ -73,6 +80,9 @@ export const MarketCom = ({ dark, SetSearchQuery, searchQuery }) => {
         url: `https://test.bitzup.com/onboarding/currency/add-favorite`,
         data: favData,
       });
+      if (status === 400 && data.status == 3) {
+        showError(data?.message);
+      }
     } catch (err) {
       console.error("Failed to fetch second API", err);
     } finally {
@@ -132,6 +142,7 @@ export const MarketCom = ({ dark, SetSearchQuery, searchQuery }) => {
     };
   }, [showPopup]);
   useEffect(() => {
+    if (!token) return;
     getFaverateData(dispatch);
   }, []);
   return (
@@ -163,19 +174,24 @@ export const MarketCom = ({ dark, SetSearchQuery, searchQuery }) => {
           } items-center`}
         >
           <div className="pl-6 flex justify-center items-center gap-2">
-            <Tooltip title="Favorite" arrow placement="top"  componentsProps={{
-                  tooltip: {
-                    sx: {
-                      bgcolor: dark ? "#EAECEF" : "#000000",
-                      color: dark ? "#0B0E11" : "#FAFAFA",
-                    },
+            <Tooltip
+              title="Favorite"
+              arrow
+              placement="top"
+              componentsProps={{
+                tooltip: {
+                  sx: {
+                    bgcolor: dark ? "#EAECEF" : "#000000",
+                    color: dark ? "#0B0E11" : "#FAFAFA",
                   },
-                  arrow: {
-                    sx: {
-                      color: dark ? "#EAECEF" : "#000000",
-                    },
+                },
+                arrow: {
+                  sx: {
+                    color: dark ? "#EAECEF" : "#000000",
                   },
-                }}>
+                },
+              }}
+            >
               <FaStar
                 className={`h-[14px] w-[14px] cursor-pointer ml-2 ${
                   favorite ? "text-yellow-400" : " text-[#707A8A]"

@@ -11,7 +11,7 @@ import { apiRequest } from "../Helper";
 import { BuySellToggle } from "../common/ToggleButton";
 import { IoCloseSharp } from "react-icons/io5";
 import { useNavigate } from "react-router-dom";
-import { showError } from "../Toastify/toastServices";
+import { showError, showSuccess } from "../Toastify/toastServices";
 
 export const ToggleButSell = ({
   activeItem,
@@ -33,6 +33,12 @@ export const ToggleButSell = ({
   const [buyMarketSliderValue, setBuyMarketSliderValue] = useState(0);
   const [sellMarketSliderValue, setSellMarketSliderValue] = useState(0);
   const [buyStopSliderValue, setBuyStopSliderValue] = useState(0);
+  const [limitBuyLoading, setLimitBuyLoading] = useState(false);
+  const [limitSellLoading, setLimitSellLoading] = useState(false);
+  const [marketBuyLoading, setMarketBuyLoading] = useState(false);
+  const [marketSellLoading, setMarketSellLoading] = useState(false);
+  const [stopBuyLoading, setStopBuyLoading] = useState(false);
+  const [stopSellLoading, setStopSellLoading] = useState(false);
   const navigate = useNavigate();
   const [sellStopSliderValue, setSellStopSliderValue] = useState(0);
   const dispatch = useDispatch();
@@ -187,48 +193,54 @@ export const ToggleButSell = ({
   const handleBuy = async () => {
     setIsSuccess(true);
     if (error.limitBuyErr) return;
+    setLimitBuyLoading(true);
     try {
       const { data, status } = await apiRequest({
         method: "post",
         url: `https://test.bitzup.com/order/user/place-buy-order`,
         data: buyObj,
       });
-      if (status === 200) {
-        setSuccessMsg((prev) => ({
+      if (status === 200 && data?.status == 1) {
+        showSuccess(data?.message);
+        buysellBalance(item?.pair_id, dispatch);
+        openOrders(item?.pair_id, userData?.user_id, dispatch);
+        OrderHistory(dispatch);
+        setBuySliderValue(0);
+        setFormValues((prev) => ({
           ...prev,
-          marketBuy: data?.message,
+          limitAmount: "",
+          sellAmount: "",
+          MarketBuy: "",
+          MarketSell: "",
+          stopBuyAmount: "",
+          stopBuyStop: "",
+          stopSellAmount: "",
+          stopSellStop: "",
+        }));
+        setError((prev) => ({
+          ...prev,
+          limitBuyErr:
+            "Amount must be greater than 10 and less than or equal to 9000000",
         }));
       }
-      if (data?.status == 0) {
+      if (data?.status != 1) {
         setError((prev) => ({
           ...prev,
           limitBuyErr: data?.message,
         }));
+        showError(data?.message);
       }
     } catch (err) {
       showError(err);
       console.error("Failed to fetch second API", err);
     } finally {
+      setLimitBuyLoading(false);
       setIsSuccess(false);
-      buysellBalance(item?.pair_id, dispatch);
-      openOrders(item?.pair_id, userData?.user_id, dispatch);
-      OrderHistory(dispatch);
-      setBuySliderValue(0);
-      setFormValues((prev) => ({
-        ...prev,
-        limitAmount: "",
-        sellAmount: "",
-        MarketBuy: "",
-        MarketSell: "",
-        stopBuyAmount: "",
-        stopBuyStop: "",
-        stopSellAmount: "",
-        stopSellStop: "",
-      }));
     }
   };
   const handleSell = async () => {
     if (error.limitSellErr) return;
+    setLimitSellLoading(true);
     setIsSuccess(true);
     try {
       const { data, status } = await apiRequest({
@@ -236,31 +248,35 @@ export const ToggleButSell = ({
         url: `https://test.bitzup.com/order/user/place-sell-order`,
         data: SellObj,
       });
-      if (status === 200) {
-        setSuccessMsg((prev) => ({
+      if (status === 200 && data?.status == 1) {
+        showSuccess(data?.message);
+        buysellBalance(item?.pair_id, dispatch);
+        openOrders(item?.pair_id, userData?.user_id, dispatch);
+        OrderHistory(dispatch);
+        setSellSliderValue(0);
+        setFormValues((prev) => ({
           ...prev,
-          limitSell: data?.message,
+          sellAmount: "",
+        }));
+        setError((prev) => ({
+          ...prev,
+          limitSellErr:
+            "Amount must be greater than 10 and less than or equal to 9000000",
         }));
       }
-      if (data?.status == 0) {
+      if (data?.status != 1) {
         setError((prev) => ({
           ...prev,
           limitSellErr: data?.message,
         }));
+        showError(data?.message);
       }
     } catch (err) {
       showError(err);
       console.error("Failed to fetch second API", err);
     } finally {
       setIsSuccess(false);
-      buysellBalance(item?.pair_id, dispatch);
-      openOrders(item?.pair_id, userData?.user_id, dispatch);
-      OrderHistory(dispatch);
-      setSellSliderValue(0);
-      setFormValues((prev) => ({
-        ...prev,
-        sellAmount: "",
-      }));
+      setLimitSellLoading(false);
     }
   };
   const marketObj = {
@@ -275,6 +291,7 @@ export const ToggleButSell = ({
   };
   const handleMarket = async () => {
     if (error.marketBuyErr) return;
+    setMarketBuyLoading(true);
     try {
       const { data, status } = await apiRequest({
         method: "post",
@@ -282,31 +299,35 @@ export const ToggleButSell = ({
         data: marketObj,
       });
       setIsSuccess(true);
-      if (status === 200) {
-        setSuccessMsg((prev) => ({
+      if (status === 200 && data?.status == 1) {
+        showSuccess(data?.message);
+        buysellBalance(item?.pair_id, dispatch);
+        openOrders(item?.pair_id, userData?.user_id, dispatch);
+        OrderHistory(dispatch);
+        setBuyMarketSliderValue(0);
+        setFormValues((prev) => ({
           ...prev,
-          marketBuy: data?.message,
+          MarketBuy: "",
+        }));
+        setError((prev) => ({
+          ...prev,
+          marketBuyErr:
+            "Amount must be greater than 10 and less than or equal to 9000000",
         }));
       }
-      if (data?.status == 0) {
-        // setError((prev) => ({
-        //   ...prev,
-        //   limitBuyErr: data?.message,
-        // }));
+      if (data?.status != 1) {
+        setError((prev) => ({
+          ...prev,
+          marketBuyErr: data?.message,
+        }));
+        showError(data?.message);
       }
     } catch (err) {
       showError(err);
       console.error("Failed to fetch second API", err);
     } finally {
       setIsSuccess(false);
-      buysellBalance(item?.pair_id, dispatch);
-      openOrders(item?.pair_id, userData?.user_id, dispatch);
-      OrderHistory(dispatch);
-      setBuyMarketSliderValue(0);
-      setFormValues((prev) => ({
-        ...prev,
-        MarketBuy: "",
-      }));
+      setMarketBuyLoading(false);
     }
   };
   const marketSellObj = {
@@ -322,38 +343,44 @@ export const ToggleButSell = ({
   const handleMarketSell = async () => {
     if (error.marketSellErr) return;
     setIsSuccess(true);
+    setMarketSellLoading(true);
     try {
       const { data, status } = await apiRequest({
         method: "post",
         url: `https://test.bitzup.com/order/user/place-sell-order`,
         data: marketSellObj,
       });
-      if (status === 200) {
-        setSuccessMsg((prev) => ({
+      if (status === 200 && data?.status == 1) {
+        showSuccess(data?.message);
+
+        buysellBalance(item?.pair_id, dispatch);
+        openOrders(item?.pair_id, userData?.user_id, dispatch);
+        OrderHistory(dispatch);
+        setSellMarketSliderValue(0);
+        setFormValues((prev) => ({
           ...prev,
-          marketSell: data?.message,
+
+          MarketSell: "",
+        }));
+        setError((prev) => ({
+          ...prev,
+          marketSellErr:
+            "Amount must be greater than 10 and less than or equal to 9000000",
         }));
       }
-      if (data?.status == 0) {
-        // setError((prev) => ({
-        //   ...prev,
-        //   limitBuyErr: data?.message,
-        // }));
+      if (data?.status != 1) {
+        setError((prev) => ({
+          ...prev,
+          marketSellErr: data?.message,
+        }));
+        showError(data?.message);
       }
     } catch (err) {
       showError(err);
       console.error("Failed to fetch second API", err);
     } finally {
       setIsSuccess(false);
-      buysellBalance(item?.pair_id, dispatch);
-      openOrders(item?.pair_id, userData?.user_id, dispatch);
-      OrderHistory(dispatch);
-      setSellMarketSliderValue(0);
-      setFormValues((prev) => ({
-        ...prev,
-
-        MarketSell: "",
-      }));
+      setMarketSellLoading(false);
     }
   };
   const validateBuyAmount = (val, price, key) => {
@@ -451,6 +478,7 @@ export const ToggleButSell = ({
   const handleStopBuy = async () => {
     if (error.stopBuyErr) return;
     setIsSuccess(true);
+    setStopBuyLoading(true);
 
     try {
       const { data, status } = await apiRequest({
@@ -459,37 +487,43 @@ export const ToggleButSell = ({
         data: StopBuyObj,
       });
       setIsSuccess(true);
-      if (status === 200) {
-        setSuccessMsg((prev) => ({
+      if (status === 200 && data?.status == 1) {
+        showSuccess(data?.message);
+
+        buysellBalance(item?.pair_id, dispatch);
+        openOrders(item?.pair_id, userData?.user_id, dispatch);
+        OrderHistory(dispatch);
+        setBuyStopSliderValue(0);
+        setFormValues((prev) => ({
           ...prev,
-          stopBuy: data?.message,
+          stopBuyAmount: "",
+          stopBuyStop: "",
+        }));
+        setError((prev) => ({
+          ...prev,
+          stopBuyErr:
+            "Amount must be greater than 10 and less than or equal to 9000000",
         }));
       }
-      if (data?.status == 0) {
-        // setError((prev) => ({
-        //   ...prev,
-        //   limitBuyErr: data?.message,
-        // }));
+      if (data?.status != 1) {
+        setError((prev) => ({
+          ...prev,
+          stopBuyErr: data?.message,
+        }));
+        showError(data?.message);
       }
     } catch (err) {
       showError(err);
       console.error("Failed to fetch second API", err);
     } finally {
       setIsSuccess(false);
-      buysellBalance(item?.pair_id, dispatch);
-      openOrders(item?.pair_id, userData?.user_id, dispatch);
-      OrderHistory(dispatch);
-      setBuyStopSliderValue(0);
-      setFormValues((prev) => ({
-        ...prev,
-        stopBuyAmount: "",
-        stopBuyStop: "",
-      }));
+      setStopBuyLoading(false);
     }
   };
   const handleStopSell = async () => {
     if (error.stopSellErr) return;
     setIsSuccess(true);
+    setStopSellLoading(true);
     try {
       const { data, status } = await apiRequest({
         method: "post",
@@ -497,28 +531,36 @@ export const ToggleButSell = ({
         data: StopSellObj,
       });
       setIsSuccess(true);
-      if (status === 200) {
-        setSuccessMsg((prev) => ({
+      if (status === 200 && data?.status == 1) {
+        showSuccess(data?.message);
+        buysellBalance(item?.pair_id, dispatch);
+        openOrders(item?.pair_id, userData?.user_id, dispatch);
+        OrderHistory(dispatch);
+        setSellStopSliderValue(0);
+        setFormValues((prev) => ({
           ...prev,
-          stopSell: data?.message,
+          stopSellAmount: "",
+          stopSellStop: "",
+        }));
+        setError((prev) => ({
+          ...prev,
+          stopSellErr:
+            "Amount must be greater than 10 and less than or equal to 9000000",
         }));
       }
-      if (data?.status == 0) {
+      if (data?.status != 1) {
+        showError(data?.message);
+        setError((prev) => ({
+          ...prev,
+          stopSellErr: data?.message,
+        }));
       }
     } catch (err) {
       showError(err);
       console.error("Failed to fetch second API", err);
     } finally {
       setIsSuccess(false);
-      buysellBalance(item?.pair_id, dispatch);
-      openOrders(item?.pair_id, userData?.user_id, dispatch);
-      OrderHistory(dispatch);
-      setSellStopSliderValue(0);
-      setFormValues((prev) => ({
-        ...prev,
-        stopSellAmount: "",
-        stopSellStop: "",
-      }));
+      setStopSellLoading(false);
     }
   };
   const handleNavigate = () => {
@@ -541,7 +583,9 @@ export const ToggleButSell = ({
         } border-b-1 p-[12px_12px_12px_12px]  flex justify-between items-center`}
       >
         <div
-          className={` flex text-[12px] p-[12px_12px_12px_12px] ${close ? "w-[70%]" : "w-full"}`}
+          className={` flex text-[12px] p-[12px_12px_12px_12px] ${
+            close ? "w-[70%]" : "w-full"
+          }`}
         >
           {/* {tab.map((tab) => (
             <button
@@ -567,7 +611,7 @@ export const ToggleButSell = ({
       <div className=" flex text-[12px] p-2 w-[80%]">
         {marketTabs.map((tab) => (
           <button
-          name="item2"
+            name="item2"
             key={tab}
             onClick={() => setActiveTab(tab)}
             className={`flex-1 text-center py-2 font-medium transition-colors cursor-pointer duration-300 ${
@@ -602,6 +646,7 @@ export const ToggleButSell = ({
                   unit="USDT"
                   // step={0.01}
                   defaultValue={currentPrice}
+                  disable={limitBuyLoading}
                   value={formValues.limitPrice}
                   onChange={(val) => {
                     setFormValues((prev) => ({ ...prev, limitPrice: val }));
@@ -612,6 +657,7 @@ export const ToggleButSell = ({
                 />
                 <CryptoInput
                   label="Amount"
+                  disable={limitBuyLoading}
                   unit={item?.pair_symbol
                     .toLowerCase()
                     .split("usdt")[0]
@@ -661,7 +707,7 @@ export const ToggleButSell = ({
                     value={buySliderValue}
                     min={0}
                     max={100}
-                    disabled={!userData?.token}
+                    disabled={!userData?.token || limitBuyLoading}
                     step={null}
                     onChange={(e, newValue) => {
                       setBuySliderValue(newValue);
@@ -707,7 +753,8 @@ export const ToggleButSell = ({
               </div>
               <div className="w-full flex justify-center">
                 <button
-                name="limit-buy"
+                  name="limit-buy"
+                  disabled={limitBuyLoading}
                   onClick={() => {
                     handleBuy();
                     handleNavigate();
@@ -734,6 +781,7 @@ export const ToggleButSell = ({
                   searchQuery={searchQuery}
                   step={0.01}
                   dark={dark}
+                  disable={limitSellLoading}
                   value={formValues.sellPrice}
                   onChange={(val) =>
                     setFormValues((prev) => ({ ...prev, sellPrice: val }))
@@ -749,6 +797,7 @@ export const ToggleButSell = ({
                     .toUpperCase()}
                   step={0.01}
                   dark={dark}
+                  disable={limitSellLoading}
                   value={formValues.sellAmount}
                   onChange={(val) => {
                     setFormValues((prev) => ({ ...prev, sellAmount: val }));
@@ -781,7 +830,7 @@ export const ToggleButSell = ({
                   <CustomSlider
                     value={sellSliderValue}
                     marks={marks}
-                    disabled={!userData?.token}
+                    disabled={!userData?.token || limitSellLoading}
                     min={0}
                     max={100}
                     onChange={(e, newValue) => {
@@ -836,6 +885,7 @@ export const ToggleButSell = ({
                     handleNavigate();
                   }}
                   name="limit-sell"
+                  disabled={limitSellLoading}
                   className="w-[100%] bg-[#F6465D] hover:bg-[#c74052] cursor-pointer  h-[3rem]  py-2 m-2 rounded-md text-[16px] font-semibold"
                 >
                   {userData ? "Sell" : " Log In"}
@@ -876,6 +926,7 @@ export const ToggleButSell = ({
                   // step={0.01}
                   decimalQuantity={item?.quantity_decimal + item?.price_decimal}
                   dark={dark}
+                  disable={marketBuyLoading}
                   value={formValues.MarketBuy}
                   onChange={(val) => {
                     setFormValues((prev) => ({ ...prev, MarketBuy: val }));
@@ -905,7 +956,7 @@ export const ToggleButSell = ({
                     marks={marks}
                     min={0}
                     max={100}
-                    disabled={!userData?.token}
+                    disabled={!userData?.token || marketBuyLoading}
                     onChange={(e, newValue) => {
                       setBuyMarketSliderValue(newValue);
                       handleSellSlider(
@@ -956,6 +1007,7 @@ export const ToggleButSell = ({
                     handleNavigate();
                   }}
                   name="market-buy"
+                  disabled={marketBuyLoading}
                   className="w-[100%]  bg-[#2EBD85] hover:bg-[#0e9e67]  m-2 py-2 rounded-md h-[3rem] text-[16px] font-semibold cursor-pointer"
                 >
                   {userData ? "Buy" : " Log In"}
@@ -984,6 +1036,7 @@ export const ToggleButSell = ({
                   label="Amount"
                   dark={dark}
                   item={item}
+                  disable={marketSellLoading}
                   unit={item?.base_asset_symbol}
                   decimalQuantity={item?.quantity_decimal}
                   value={formValues.MarketSell}
@@ -1019,7 +1072,7 @@ export const ToggleButSell = ({
                     marks={marks}
                     min={0}
                     max={100}
-                    disabled={!userData?.token}
+                    disabled={!userData?.token || marketSellLoading}
                     step={null}
                     onChange={(e, newValue) => {
                       setSellMarketSliderValue(newValue);
@@ -1067,6 +1120,7 @@ export const ToggleButSell = ({
                     handleNavigate();
                   }}
                   name="market-sell"
+                  disabled={marketSellLoading}
                   className="w-[100%] bg-[#F6465D] hover:bg-[#c74052] cursor-pointer  h-[3rem]  py-2 m-2 rounded-md text-[16px] font-semibold"
                 >
                   {userData ? "Sell" : " Log In"}
@@ -1091,6 +1145,7 @@ export const ToggleButSell = ({
               <div className="p-[5px] flex flex-col gap-2">
                 <CryptoInput
                   label="Stop"
+                  disable={stopBuyLoading}
                   unit="USDT"
                   step={0.01}
                   dark={dark}
@@ -1106,6 +1161,7 @@ export const ToggleButSell = ({
                   label="Limit"
                   unit="USDT"
                   step={0.01}
+                  disable={stopBuyLoading}
                   defaultValue={currentPrice}
                   dark={dark}
                   decimalQuantity={item?.price_decimal}
@@ -1120,6 +1176,7 @@ export const ToggleButSell = ({
                   step={0.01}
                   decimalQuantity={item?.quantity_decimal}
                   dark={dark}
+                  disable={stopBuyLoading}
                   unit={item?.pair_symbol
                     .toLowerCase()
                     .split("usdt")[0]
@@ -1169,7 +1226,7 @@ export const ToggleButSell = ({
                     marks={marks}
                     min={0}
                     max={100}
-                    disabled={!userData?.token}
+                    disabled={!userData?.token || stopBuyLoading}
                     step={null}
                     onChange={(e, newValue) => {
                       setBuyStopSliderValue(newValue);
@@ -1203,11 +1260,12 @@ export const ToggleButSell = ({
               </div>
               <div className="w-full flex justify-center">
                 <button
-                name="stop-buy"
+                  name="stop-buy"
                   onClick={() => {
                     handleStopBuy();
                     handleNavigate();
                   }}
+                  disabled={stopBuyLoading}
                   className="w-[100%]  bg-[#2EBD85] hover:bg-[#0e9e67]  m-2 py-2 rounded-md h-[3rem] text-[16px] font-semibold cursor-pointer"
                 >
                   {userData ? "Buy" : " Log In"}
@@ -1229,6 +1287,7 @@ export const ToggleButSell = ({
                   unit="USDT"
                   searchQuery={searchQuery}
                   step={0.01}
+                  disable={stopSellLoading}
                   dark={dark}
                   decimalQuantity={item?.price_decimal}
                   value={formValues.stopSellStop}
@@ -1242,6 +1301,7 @@ export const ToggleButSell = ({
                   searchQuery={searchQuery}
                   step={0.01}
                   dark={dark}
+                  disable={stopSellLoading}
                   defaultValue={currentPrice}
                   decimalQuantity={item?.price_decimal}
                   value={formValues.stopSellLimit}
@@ -1252,6 +1312,7 @@ export const ToggleButSell = ({
                 <CryptoInput
                   label="Amount"
                   step={0.01}
+                  disable={stopSellLoading}
                   dark={dark}
                   decimalQuantity={item?.quantity_decimal}
                   unit={item?.pair_symbol
@@ -1303,7 +1364,7 @@ export const ToggleButSell = ({
                     marks={marks}
                     min={0}
                     step={null}
-                    disabled={!userData?.token}
+                    disabled={!userData?.token || stopSellLoading}
                     max={100}
                     onChange={(e, newValue) => {
                       setSellStopSliderValue(newValue);
@@ -1339,7 +1400,8 @@ export const ToggleButSell = ({
               </div>
               <div className="w-full flex justify-center">
                 <button
-                name="stop-sell"
+                  name="stop-sell"
+                  disabled={stopSellLoading}
                   onClick={() => {
                     handleNavigate();
                     handleStopSell();

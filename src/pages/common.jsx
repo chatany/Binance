@@ -4,6 +4,7 @@ const CryptoInput = ({
   label,
   unit,
   step,
+  disable,
   value,
   onChange,
   dark,
@@ -58,6 +59,7 @@ const CryptoInput = ({
         <input
           type="text"
           value={value}
+          disabled={disable}
           onChange={handleChange}
           className={`${
             dark ? "text-white" : "text-black"
