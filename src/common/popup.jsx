@@ -243,7 +243,7 @@ export const ModifyPopup = ({ orderId }) => {
       style={{ boxShadow: "0px 0px 40px 0px rgb(0,0,0,0.10)" }}
       ref={popupRef}
     >
-      <div className=" flex flex-col gap-4 mb-8">
+      <div className=" flex flex-col gap-4 mb-8 pb-5">
         <div className="text-[16px] text-black flex justify-between w-full items-center p-2">
           Modify Order
           <IoCloseSharp
@@ -252,7 +252,7 @@ export const ModifyPopup = ({ orderId }) => {
           />
         </div>
         {item?.order_type !== "STOP_LIMIT" ? (
-          <div className="p-[5px] flex flex-col gap-4 justify-center w-full items-center">
+          <div className="p-[5px] flex flex-col gap-4 justify-center w-full items-center pb-5">
             <div className="w-full flex flex-col gap-2">
               <label
                 htmlFor="price"
@@ -309,7 +309,7 @@ export const ModifyPopup = ({ orderId }) => {
         ) : (
           <div
             style={{ padding: "5px", maxWidth: "100%" }}
-            className=" flex flex-col gap-2 items-center w-full"
+            className=" flex flex-col gap-2 items-center w-full pb-5"
           >
             <div className="w-full flex flex-col gap-3">
               <label
