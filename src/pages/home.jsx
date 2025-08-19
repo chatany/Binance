@@ -91,7 +91,12 @@ export const Home = () => {
       <Socket searchQuery={searchQuery} />
       {show && (
         <div className="App">
-          <MobileSidebar show={show} setShow={setShow} dark={dark} setDark={setDark} />
+          <MobileSidebar
+            show={show}
+            setShow={setShow}
+            dark={dark}
+            setDark={setDark}
+          />
         </div>
       )}
       <div
@@ -228,7 +233,9 @@ export const Home = () => {
         >
           <div
             onClick={() => {
-              userData?.token ? setIsLogin(!isLogin) : navigate("/login");
+              userData?.token
+                ? (setIsLogin(!isLogin), setActiveItem("Sell"))
+                : navigate("/login");
             }}
             className="w-[50%] flex justify-center bg-[#F6465D] hover:bg-[#c74052] rounded-md h-[2.5rem] cursor-pointer"
           >
@@ -238,7 +245,9 @@ export const Home = () => {
           </div>
           <div
             onClick={() => {
-              userData?.token ? setIsLogin(!isLogin) : navigate("/login");
+              userData?.token
+                ? (setIsLogin(!isLogin), setActiveItem("Buy"))
+                : navigate("/login");
             }}
             className="w-[50%]  flex justify-center bg-[#0ECB81] hover:bg-[#0e9e67] rounded-md h-[2.5rem] cursor-pointer"
           >
