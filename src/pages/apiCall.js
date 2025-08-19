@@ -191,7 +191,7 @@ export const OrderHistory = async (dispatch) => {
   } catch (err) {
     console.error("Failed to fetch second API", err);
   } finally {
-    setLoading(false);
+    dispatch(setLoading(false));
   }
 };
 export const deleteOpenOrder = async (
