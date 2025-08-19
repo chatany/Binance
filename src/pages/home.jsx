@@ -91,7 +91,7 @@ export const Home = () => {
       <Socket searchQuery={searchQuery} />
       {show && (
         <div className="App">
-          <MobileSidebar show={show} setShow={setShow} dark={dark} />
+          <MobileSidebar show={show} setShow={setShow} dark={dark} setDark={setDark} />
         </div>
       )}
       <div
