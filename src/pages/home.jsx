@@ -261,7 +261,7 @@ export const Home = () => {
             <div
               className={`md:hidden ${
                 dark ? "bg-[#181E25]" : "bg-white"
-              } w-full fixed bottom-0 z-50 flex justify-center gap-2 text-white rounded-[43px_4px_3px_1px] h-[70%]`}
+              } w-full fixed bottom-0 z-50 flex justify-center gap-2 text-white rounded-[43px_4px_3px_1px] min-h-[70%]`}
               ref={popupRef}
             >
               <ToggleButSell

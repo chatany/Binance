@@ -917,7 +917,7 @@ export const ToggleButSell = ({
         >
           {activeItem === "Buy" ? (
             <div
-              className={`w-full pb-10  transition-all duration-500 delay-1000 ${
+              className={`w-full pb-10 mb-14  transition-all duration-500 delay-1000 ${
                 isOpen ? "space-y-3" : "space-y-0"
               }`}
             >
@@ -1030,7 +1030,7 @@ export const ToggleButSell = ({
             </div>
           ) : (
             <div
-              className={`w-full  transition-all duration-500 pb-10 delay-100 ${
+              className={`w-full  transition-all mb-14 duration-500 pb-10 delay-100 ${
                 isOpen ? "space-y-3" : "space-y-0"
               } `}
             >
@@ -1152,7 +1152,7 @@ export const ToggleButSell = ({
         >
           {activeItem === "Buy" ? (
             <div
-              className={`w-full  transition-all duration-500 pb-10 delay-1000 ${
+              className={`w-full  transition-all duration-500 mb-14 pb-10 delay-1000 ${
                 isOpen ? "space-y-1.5" : "space-y-0"
               }`}
             >
@@ -1288,7 +1288,7 @@ export const ToggleButSell = ({
             </div>
           ) : (
             <div
-              className={`w-full  transition-all pb-10 duration-500 delay-100 ${
+              className={`w-full  transition-all pb-10 mb-14 duration-500 delay-100 ${
                 isOpen ? "space-y-1.5" : "space-y-0"
               } `}
             >
