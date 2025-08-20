@@ -2,7 +2,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { formatDate, tabs } from "../Constant";
 import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { deleteOpenOrder } from "../pages/apiCall";
+import { buysellBalance, deleteOpenOrder, OrderHistory } from "../pages/apiCall";
 import {
   setIsSuccess,
   setOpenOrderData,
@@ -102,6 +102,8 @@ export const OpenOrders = ({ dark }) => {
         if (messageData.status === "3" || messageData.status === "4") {
           const filtered = openOrder.filter((o) => o.order_id !== orderId);
           dispatch(setOpenOrderData(filtered));
+          buysellBalance(pairId,dispatch)
+          OrderHistory(dispatch)
         }
         console.log("📩 Message:", messageData);
       };
