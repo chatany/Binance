@@ -33,7 +33,7 @@ export const History = () => {
         </div>
         <div className="flex text-[16px] w-[60%]"> OrderHistory</div>
       </div>
-      <div className="p-4 h-full mt-6  overflow-y-scroll no-scrollbar ">
+      <div className="p-4 h-full mt-10  overflow-y-scroll no-scrollbar ">
         {!loading ? (
           <>
             {Array.isArray(orderHistory) &&orderHistory?.length > 0 ? (
