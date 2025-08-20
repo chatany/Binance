@@ -154,6 +154,9 @@ export const Login = () => {
         showSuccess("Login Successfull");
         navigate("/");
       }
+      if(data?.status !=1){
+        showError(data?.message)
+      }
       if (status === 200 && data?.status == 0) {
         // showError(data?.message);
         setError(data?.message);

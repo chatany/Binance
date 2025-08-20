@@ -103,7 +103,7 @@ export const Order = ({ dark }) => {
             dark ? "border-[#333B47]" : "border-[#EDEDED]"
           } border-b-1 p-3 items-center justify-between w-full h-fit`}
         >
-          <div className="text-[1rem]">Order</div>
+          <div className="text-[1rem]">Order Book</div>
           <div className="relative cursor-pointer ">
             <HiDotsHorizontal onClick={() => setToggle(!toggle)} />
             {toggle && (

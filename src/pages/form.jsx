@@ -51,12 +51,12 @@ export const Form = ({ dark, searchQuery }) => {
     stopSell: "",
   });
   const [error, setError] = useState({
-    limitBuyErr: "Base volume is required for LIMIT order type",
-    limitSellErr: "Base volume is required for LIMIT order type",
-    marketSellErr: "Base volume is required for Market order type",
-    marketBuyErr: "Base volume is required for Market order type",
-    stopBuyErr: "Base volume is required for Market order type",
-    stopSellErr: "Base volume is required for Market order type",
+    limitBuyErr: "",
+    limitSellErr: "",
+    marketSellErr: "",
+    marketBuyErr: "",
+    stopBuyErr: "",
+    stopSellErr: "",
   });
   const [formValues, setFormValues] = useState({
     limitPrice: currentPrice ?? "",
@@ -168,7 +168,7 @@ export const Form = ({ dark, searchQuery }) => {
     }
   }, [item?.pair_id]);
   useEffect(() => {
-    dispatch(setCoinName(item?.coin_name))
+    dispatch(setCoinName(item?.coin_name));
     dispatch(setPriceDecimal(item?.price_decimal));
     dispatch(setQuantityDecimal(item?.quantity_decimal));
   }, [item?.pair_id]);
@@ -233,9 +233,10 @@ export const Form = ({ dark, searchQuery }) => {
           ...prev,
           limitAmount: "",
         }));
-         setError((prev) => ({
+        setError((prev) => ({
           ...prev,
-          limitBuyErr: "Amount must be greater than 10 and less than or equal to 9000000",
+          limitBuyErr:
+            "Amount must be greater than 10 and less than or equal to 9000000",
         }));
       }
       if (data?.status != 1) {
@@ -271,9 +272,10 @@ export const Form = ({ dark, searchQuery }) => {
           ...prev,
           sellAmount: "",
         }));
-         setError((prev) => ({
+        setError((prev) => ({
           ...prev,
-          limitSellErr: "Amount must be greater than 10 and less than or equal to 9000000",
+          limitSellErr:
+            "Amount must be greater than 10 and less than or equal to 9000000",
         }));
       }
       if (data?.status != 1) {
@@ -329,7 +331,8 @@ export const Form = ({ dark, searchQuery }) => {
         }));
         setError((prev) => ({
           ...prev,
-          marketBuyErr: "Amount must be greater than 10 and less than or equal to 9000000",
+          marketBuyErr:
+            "Amount must be greater than 10 and less than or equal to 9000000",
         }));
       }
       if (data?.status != 1) {
@@ -382,7 +385,8 @@ export const Form = ({ dark, searchQuery }) => {
         }));
         setError((prev) => ({
           ...prev,
-          marketSellErr: "Amount must be greater than 10 and less than or equal to 9000000",
+          marketSellErr:
+            "Amount must be greater than 10 and less than or equal to 9000000",
         }));
       }
       if (data?.status != 1) {
@@ -492,12 +496,12 @@ export const Form = ({ dark, searchQuery }) => {
   };
   const handleStopBuy = async () => {
     if (error.stopBuyErr) return;
-    if(formValues.stopBuyStop<=0){
+    if (formValues.stopBuyStop <= 0) {
       setError((prev) => ({
-          ...prev,
-          stopBuyErr: "Stop Limit is requried",
-        }));
-        return;
+        ...prev,
+        stopBuyErr: "Stop Limit is requried",
+      }));
+      return;
     }
     setStopBuyLoading(true);
     try {
@@ -517,14 +521,15 @@ export const Form = ({ dark, searchQuery }) => {
           stopBuyAmount: "",
           stopBuyStop: "",
         }));
-         setError((prev) => ({
+        setError((prev) => ({
           ...prev,
-          stopBuyErr: "Amount must be greater than 10 and less than or equal to 9000000",
+          stopBuyErr:
+            "Amount must be greater than 10 and less than or equal to 9000000",
         }));
       }
       if (data?.status != 1) {
         showError(data?.message);
-         setError((prev) => ({
+        setError((prev) => ({
           ...prev,
           stopBuyErr: data?.message,
         }));
@@ -538,12 +543,12 @@ export const Form = ({ dark, searchQuery }) => {
   };
   const handleStopSell = async () => {
     if (error.stopSellErr) return;
-    if(formValues.stopSellStop<=0){
+    if (formValues.stopSellStop <= 0) {
       setError((prev) => ({
-          ...prev,
-          stopSellErr: "Stop Limit is requried",
-        }));
-        return;
+        ...prev,
+        stopSellErr: "Stop Limit is requried",
+      }));
+      return;
     }
     setStopSellLoading(true);
     try {
@@ -563,14 +568,15 @@ export const Form = ({ dark, searchQuery }) => {
           stopSellAmount: "",
           stopSellStop: "",
         }));
-         setError((prev) => ({
+        setError((prev) => ({
           ...prev,
-          stopSellErr: "Amount must be greater than 10 and less than or equal to 9000000",
+          stopSellErr:
+            "Amount must be greater than 10 and less than or equal to 9000000",
         }));
       }
       if (data?.status != 1) {
         showError(data?.message);
-         setError((prev) => ({
+        setError((prev) => ({
           ...prev,
           stopSellErr: data?.message,
         }));
@@ -763,7 +769,7 @@ export const Form = ({ dark, searchQuery }) => {
                 name="market-buy"
                 disabled={limitBuyLoading}
                 onClick={() => {
-                  handleBuy();
+                 userData?.token ? handleBuy():
                   handleNavigate();
                 }}
                 className={`w-[100%] 
@@ -898,7 +904,7 @@ export const Form = ({ dark, searchQuery }) => {
                 name="market-sell"
                 disabled={limitSellLoading}
                 onClick={() => {
-                  handleSell();
+                 userData?.token ? handleSell():
                   handleNavigate();
                 }}
                 className={`w-[100%] 
@@ -1012,7 +1018,7 @@ export const Form = ({ dark, searchQuery }) => {
                 name="limit-buy"
                 disabled={marketBuyLoading}
                 onClick={() => {
-                  handleMarket();
+                  userData?.token ?handleMarket():
                   handleNavigate();
                 }}
                 className={`w-[100%] 
@@ -1129,7 +1135,7 @@ export const Form = ({ dark, searchQuery }) => {
                 name="limit-sell"
                 disabled={marketSellLoading}
                 onClick={() => {
-                  handleMarketSell();
+                 userData?.token ? handleMarketSell():
                   handleNavigate();
                 }}
                 className={`w-[100%]
@@ -1266,7 +1272,7 @@ export const Form = ({ dark, searchQuery }) => {
                 name="stop-buy"
                 disabled={stopBuyLoading}
                 onClick={() => {
-                  handleStopBuy();
+                 userData?.token ? handleStopBuy():
                   handleNavigate();
                 }}
                 className={`w-[100%] 
@@ -1408,8 +1414,7 @@ export const Form = ({ dark, searchQuery }) => {
                     bg-[#F6465D] hover:bg-[#c74052]
                  cursor-pointer  h-[3rem]  py-2 m-2 rounded-md text-[16px] font-semibold`}
                 onClick={() => {
-                  handleNavigate();
-                  handleStopSell();
+                  !userData?.token ? handleNavigate() : handleStopSell();
                 }}
                 disabled={stopSellLoading}
                 style={{ background: error.stopSellErr && "[#e9d8da]" }}

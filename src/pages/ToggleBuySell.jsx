@@ -44,12 +44,12 @@ export const ToggleButSell = ({
   const dispatch = useDispatch();
   const [isSuccess, setIsSuccess] = useState(false);
   const [error, setError] = useState({
-    limitBuyErr: "Base volume is required for LIMIT order type",
-    limitSellErr: "Base volume is required for LIMIT order type",
-    marketSellErr: "Base volume is required for Market order type",
-    marketBuyErr: "Base volume is required for Market order type",
-    stopBuyErr: "Base volume is required for Market order type",
-    stopSellErr: "Base volume is required for Market order type",
+    limitBuyErr: "",
+    limitSellErr: "",
+    marketSellErr: "",
+    marketBuyErr: "",
+    stopBuyErr: "",
+    stopSellErr: "",
   });
   const [formValues, setFormValues] = useState({
     limitPrice: currentPrice ?? "",
@@ -770,7 +770,7 @@ export const ToggleButSell = ({
                   name="limit-buy"
                   disabled={limitBuyLoading}
                   onClick={() => {
-                    handleBuy();
+                   !userData?.token ? handleBuy():
                     handleNavigate();
                   }}
                   className="w-[100%]  bg-[#2EBD85] hover:bg-[#0e9e67]  m-2 py-2 rounded-md h-[3rem] text-[16px] font-semibold cursor-pointer"
@@ -895,7 +895,7 @@ export const ToggleButSell = ({
               <div className="w-full flex justify-center">
                 <button
                   onClick={() => {
-                    handleSell();
+                   userData?.token ? handleSell():
                     handleNavigate();
                   }}
                   name="limit-sell"
@@ -1017,7 +1017,7 @@ export const ToggleButSell = ({
               <div className="w-full flex justify-center">
                 <button
                   onClick={() => {
-                    handleMarket();
+                  userData?.token ?  handleMarket():
                     handleNavigate();
                   }}
                   name="market-buy"
@@ -1130,7 +1130,7 @@ export const ToggleButSell = ({
               <div className="w-full flex justify-center">
                 <button
                   onClick={() => {
-                    handleMarketSell();
+                   userData?.token ? handleMarketSell():
                     handleNavigate();
                   }}
                   name="market-sell"
@@ -1276,7 +1276,7 @@ export const ToggleButSell = ({
                 <button
                   name="stop-buy"
                   onClick={() => {
-                    handleStopBuy();
+                    userData?.token ?handleStopBuy():
                     handleNavigate();
                   }}
                   disabled={stopBuyLoading}
@@ -1417,7 +1417,7 @@ export const ToggleButSell = ({
                   name="stop-sell"
                   disabled={stopSellLoading}
                   onClick={() => {
-                    handleNavigate();
+                    !userData?.token ?handleNavigate():
                     handleStopSell();
                   }}
                   className="w-[100%] bg-[#F6465D] hover:bg-[#c74052] cursor-pointer  h-[3rem]  py-2 m-2 rounded-md text-[16px] font-semibold"
