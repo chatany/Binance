@@ -10,7 +10,7 @@ import { useParams } from "react-router-dom";
 import { useAuth } from "../hooks/useAuth";
 import { showError } from "../Toastify/toastServices";
 export const TopIconBar1 = ({ dark }) => {
-  const { tikerData, iconURL, isFav, tradeData, pairId, priceDecimal } =
+  const { tikerData, iconURL, isFav,coinName, pairId, priceDecimal } =
     useSelector((state) => state.counter);
   const [priceColor, setPriceColor] = useState(false);
   const lastPriceRef = useRef(null);
@@ -82,7 +82,7 @@ export const TopIconBar1 = ({ dark }) => {
           {tikerData?.symbol?.split("USDT")[0] + "/USDT"}
         </div>
         <div className="lg:text-[18px] text-gray-400 text-[10px] font-medium min-w-max">
-          Bitcoin Price
+          {coinName} Price
         </div>
       </div>
       <div className="flex flex-col gap-0.5">
@@ -173,7 +173,7 @@ export const TopIconBar1 = ({ dark }) => {
   );
 };
 export const TopIconBar2 = ({ dark }) => {
-  const { tikerData, iconURL, isFav, tradeData, pairId, priceDecimal } =
+  const { tikerData, iconURL, isFav,coinName, pairId, priceDecimal } =
     useSelector((state) => state.counter);
   const dispatch = useDispatch();
   const token = useAuth();
@@ -245,7 +245,7 @@ export const TopIconBar2 = ({ dark }) => {
             {tikerData?.symbol?.split("USDT")[0] + "/USDT"}
           </div>
           <div className="md:text-[14px] text-[10px] text-gray-400 min-w-max">
-            Bitcoin Price
+            {coinName} Price
           </div>
         </div>
         <div className="flex flex-col">
@@ -346,7 +346,7 @@ export const TopIconBar2 = ({ dark }) => {
   );
 };
 export const TopIconBar3 = ({ dark }) => {
-  const { tikerData, iconURL, isFav, tradeData, pairId, priceDecimal } =
+  const { tikerData, iconURL, isFav,coinName, pairId, priceDecimal } =
     useSelector((state) => state.counter);
   const dispatch = useDispatch();
   const { symbol } = useParams();
@@ -399,10 +399,7 @@ export const TopIconBar3 = ({ dark }) => {
     }
     const formate = tikerData?.lastPrice.toString();
     const num = formatToKMBWithCommas(formate);
-    document.title = `${num} | ${symbol} | ${symbol
-      .toLowerCase()
-      .split("usdt")[0]
-      .toUpperCase()} to USDT | Bitzup Spot`;
+    document.title = `${num} | ${symbol} | ${coinName?.toUpperCase()} to USDT | Bitzup Spot`;
   }, [tikerData?.lastPrice]);
   return (
     <div
@@ -425,7 +422,7 @@ export const TopIconBar3 = ({ dark }) => {
             {tikerData?.symbol?.split("USDT")[0] + "/USDT"}
           </div>
           <div className="md:text-[14px] text-[10px] text-gray-400 min-w-max">
-            Bitcoin Price
+            {coinName} Price
           </div>
         </div>
         <div className="flex flex-col">
@@ -526,7 +523,7 @@ export const TopIconBar3 = ({ dark }) => {
   );
 };
 export const TopIconBar4 = ({ dark, setOpenMarketPopup }) => {
-  const { tikerData, iconURL, priceDecimal } = useSelector(
+  const { tikerData, iconURL, priceDecimal,coinName } = useSelector(
     (state) => state.counter
   );
   const [priceColor, setPriceColor] = useState(false);
@@ -565,7 +562,7 @@ export const TopIconBar4 = ({ dark, setOpenMarketPopup }) => {
         </div>
       </div>
       <div className="flex items-center text-gray-400  text-[10px] justify-center pl-10">
-        Bitcoin Price
+        {coinName} Price
       </div>
       <div>
         <div className="flex flex-col">

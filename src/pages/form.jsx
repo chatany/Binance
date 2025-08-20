@@ -11,6 +11,7 @@ import { apiRequest } from "../Helper";
 import { useNavigate } from "react-router-dom";
 import {
   setApiIds,
+  setCoinName,
   setPriceDecimal,
   setQuantityDecimal,
 } from "../store/webSocket";
@@ -167,6 +168,7 @@ export const Form = ({ dark, searchQuery }) => {
     }
   }, [item?.pair_id]);
   useEffect(() => {
+    dispatch(setCoinName(item?.coin_name))
     dispatch(setPriceDecimal(item?.price_decimal));
     dispatch(setQuantityDecimal(item?.quantity_decimal));
   }, [item?.pair_id]);

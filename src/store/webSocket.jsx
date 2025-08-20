@@ -50,10 +50,14 @@ export const counterSlice = createSlice({
     searchData: [],
     fundData: [],
     showPopup: false,
+    coinName:""
   },
   reducers: {
     incrementByAmount: (state, action) => {
       state.tikerData = action.payload;
+    },
+    setCoinName:(state,action)=>{
+      state.coinName=action.payload;
     },
     setFundData: (state, action) => {
       state.fundData = action.payload;
@@ -211,6 +215,7 @@ export const {
   setOrderHistory,
   SetHelpCenterData,
   setFaverateData,
+  setCoinName,
 } = counterSlice.actions;
 
 export default counterSlice.reducer;
