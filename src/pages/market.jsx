@@ -117,11 +117,14 @@ export const MarketCom = ({ dark, SetSearchQuery, searchQuery }) => {
     const icon = searchData.find((item) =>
       item.pair_symbol?.toLowerCase().includes(searchQuery.toLowerCase())
     );
-    const isFav = faverateData?.some((item) => item?.pair_id == icon?.pair_id);
-
-    dispatch(setIconUrl(icon?.coin_icon));
-    dispatch(setPairId(icon?.pair_id));
-    dispatch(setIsFav(isFav));
+    if (icon) {
+      const isFav = faverateData?.some(
+        (item) => item?.pair_id == icon?.pair_id
+      );
+      dispatch(setIconUrl(icon?.coin_icon));
+      dispatch(setPairId(icon?.pair_id));
+      dispatch(setIsFav(isFav));
+    }
   }, [searchQuery, isLoading, faverateData]);
   const popupRef = useRef(null);
 

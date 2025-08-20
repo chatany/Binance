@@ -2,10 +2,11 @@ import { useDispatch, useSelector } from "react-redux";
 import { formatDate, tabs } from "../Constant";
 import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { buysellBalance, deleteOpenOrder, OrderHistory } from "../pages/apiCall";
+import {
+  deleteOpenOrder,
+} from "../pages/apiCall";
 import {
   setIsSuccess,
-  setOpenOrderData,
   setShowPopup,
 } from "../store/webSocket";
 import { ScaleLoader } from "react-spinners";
@@ -20,7 +21,6 @@ export const OpenOrders = ({ dark }) => {
     orderHistory,
     loading,
     fundData,
-    apiId,
     showPopup,
     searchData,
     pairId,
@@ -31,9 +31,7 @@ export const OpenOrders = ({ dark }) => {
   const [currentItem, setCurrentItem] = useState("");
   const [isPopup, setIsPopup] = useState(false);
   const dispatch = useDispatch();
-  const wsRef = useRef(null);
   const deviceInfo = useDeviceInfo();
-  const reconnectTimerRef = useRef(null);
   const userData = JSON.parse(localStorage.getItem("userData"));
   const [pendingOrderId, setPendingOrderId] = useState(null);
   const navigate = useNavigate();
@@ -62,73 +60,8 @@ export const OpenOrders = ({ dark }) => {
       setPendingOrderId(null);
     }
   };
-  const userid = userData?.user_id;
-  useEffect(() => {
-    const startWebSocket = () => {
-      const url =
-        apiId == "bitget"
-          ? "wss://test.bitzup.com/bit-exec-report"
-          : "wss://test.bitzup.com/bin-exec-report";
-      wsRef.current = new WebSocket(url);
 
-      wsRef.current.onopen = () => {
-        wsRef.current.send(JSON.stringify({ user_id: userid }));
-
-        console.log(`📤 Sent: ${userid}`);
-      };
-
-      wsRef.current.onmessage = (event) => {
-        const messageData = JSON.parse(event.data);
-
-        if (!messageData?.status || !messageData?.data) return;
-
-        const orderId = messageData.data.order_id;
-
-        if (messageData.status === "1") {
-          const orderExists = openOrder.some((o) => o.order_id === orderId);
-
-          if (!orderExists) {
-            dispatch(setOpenOrderData([messageData.data, ...openOrder]));
-          }
-        }
-
-        if (messageData.status === "2") {
-          const updated = openOrder.map((o) =>
-            o.order_id === orderId ? messageData.data : o
-          );
-          dispatch(setOpenOrderData(updated));
-        }
-
-        if (messageData.status === "3" || messageData.status === "4") {
-          const filtered = openOrder.filter((o) => o.order_id !== orderId);
-          dispatch(setOpenOrderData(filtered));
-          buysellBalance(pairId,dispatch)
-          OrderHistory(dispatch)
-        }
-        console.log("📩 Message:", messageData);
-      };
-
-      wsRef.current.onerror = (error) => {
-        wsRef.current.close();
-      };
-
-      wsRef.current.onclose = () => {
-        reconnectTimerRef.current = setTimeout(() => {
-          startWebSocket();
-        }, 1000);
-      };
-    };
-    startWebSocket();
-    // return () => {
-    return () => {
-      if (wsRef.current) {
-        wsRef.current.onclose = null;
-        wsRef.current.close();
-      }
-      if (reconnectTimerRef.current) clearTimeout(reconnectTimerRef.current);
-    };
-    // };
-  }, [apiId]);
+  
   const handleDispatch = () => {
     dispatch(setShowPopup(true));
   };

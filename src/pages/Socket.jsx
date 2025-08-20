@@ -4,20 +4,26 @@ import {
   incrementByAmount,
   setAllMovers,
   setCurrentPrice,
+  setOpenOrderData,
   setOrderData,
-  setPairId,
   setTopMovers,
   setTradeData,
 } from "../store/webSocket";
-import { allMovers, getFundsData, TopMoves } from "./apiCall";
+import {
+  allMovers,
+  buysellBalance,
+  getFundsData,
+  OrderHistory,
+  TopMoves,
+} from "./apiCall";
 import { io } from "socket.io-client";
-import { CircularProgressbarWithChildren } from "react-circular-progressbar";
 import { apiRequest } from "../Helper";
 import { useAuth } from "../hooks/useAuth";
 const socket = io("https://socket.bitzup.com");
 export const Socket = ({ searchQuery }) => {
   const dispatch = useDispatch();
   const wsRef = useRef(null);
+  const wsRef1 = useRef(null);
   const orderRef = useRef(null);
   const tradeRef = useRef(null);
   const reconnectTimerRef = useRef(null);
@@ -25,10 +31,14 @@ export const Socket = ({ searchQuery }) => {
   const fallbackIntervalRef = useRef(null);
   const fallbackIntervalRef1 = useRef(null);
   const reconnectTimerRef2 = useRef(null);
+  const reconnectTimerRef4 = useRef(null);
   const token = useAuth();
   const fallbackIntervalRef2 = useRef(null);
+  const userid = token?.user_id;
   const tradesDataRef = useRef([]);
-  const { tradeData, apiId } = useSelector((state) => state.counter);
+  const { tradeData, apiId, openOrder, pairId } = useSelector(
+    (state) => state.counter
+  );
   useEffect(() => {
     tradesDataRef.current = tradeData; //
   }, [tradeData]);
@@ -359,6 +369,75 @@ export const Socket = ({ searchQuery }) => {
       socket.off("disconnect");
     };
   }, [dispatch]);
+  useEffect(() => {
+    if (!apiId) return;
+    const startWebSocket = () => {
+      const url =
+        apiId == "bitget"
+          ? "wss://test.bitzup.com/bit-exec-report"
+          : "wss://test.bitzup.com/bin-exec-report";
+      wsRef1.current = new WebSocket(url);
+
+      wsRef1.current.onopen = () => {
+        wsRef1.current.send(JSON.stringify({ user_id: userid }));
+
+        console.log(`📤 Sent: ${userid}`);
+      };
+
+      wsRef1.current.onmessage = (event) => {
+        const messageData = JSON.parse(event.data);
+
+        if (!messageData?.status || !messageData?.data) return;
+
+        const orderId = messageData.data.order_id;
+
+        if (messageData.status === "1") {
+          const orderExists = openOrder.some((o) => o.order_id === orderId);
+
+          if (!orderExists) {
+            dispatch(setOpenOrderData([messageData.data, ...openOrder]));
+          }
+        }
+
+        if (messageData.status === "2") {
+          const updated = openOrder.map((o) =>
+            o.order_id === orderId ? messageData.data : o
+          );
+          dispatch(setOpenOrderData(updated));
+        }
+
+        if (messageData.status === "3" || messageData.status === "4") {
+          const filtered = openOrder.filter((o) => o.order_id !== orderId);
+          dispatch(setOpenOrderData(filtered));
+          if (messageData.status === "3") {
+            buysellBalance(pairId, dispatch);
+            OrderHistory(dispatch);
+          }
+        }
+        console.log("📩 Message:", messageData);
+      };
+
+      wsRef1.current.onerror = (error) => {
+        wsRef1.current.close();
+      };
+
+      wsRef1.current.onclose = () => {
+        reconnectTimerRef4.current = setTimeout(() => {
+          startWebSocket();
+        }, 1000);
+      };
+    };
+    startWebSocket();
+    // return () => {
+    return () => {
+      if (wsRef1.current) {
+        wsRef1.current.onclose = null;
+        wsRef1.current.close();
+      }
+      if (reconnectTimerRef4.current) clearTimeout(reconnectTimerRef4.current);
+    };
+    // };
+  }, [apiId]);
 
   return null;
 };
