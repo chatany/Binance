@@ -490,6 +490,13 @@ export const Form = ({ dark, searchQuery }) => {
   };
   const handleStopBuy = async () => {
     if (error.stopBuyErr) return;
+    if(formValues.stopBuyStop<=0){
+      setError((prev) => ({
+          ...prev,
+          stopBuyErr: "Stop Limit is requried",
+        }));
+        return;
+    }
     setStopBuyLoading(true);
     try {
       const { data, status } = await apiRequest({
@@ -529,6 +536,13 @@ export const Form = ({ dark, searchQuery }) => {
   };
   const handleStopSell = async () => {
     if (error.stopSellErr) return;
+    if(formValues.stopSellStop<=0){
+      setError((prev) => ({
+          ...prev,
+          stopSellErr: "Stop Limit is requried",
+        }));
+        return;
+    }
     setStopSellLoading(true);
     try {
       const { data, status } = await apiRequest({

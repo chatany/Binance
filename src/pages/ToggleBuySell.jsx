@@ -477,6 +477,13 @@ export const ToggleButSell = ({
   };
   const handleStopBuy = async () => {
     if (error.stopBuyErr) return;
+    if(formValues.stopBuyStop<=0){
+      setError((prev) => ({
+          ...prev,
+          stopBuyErr: "Stop Limit is requried",
+        }));
+        return;
+    }
     setIsSuccess(true);
     setStopBuyLoading(true);
 
@@ -522,6 +529,13 @@ export const ToggleButSell = ({
   };
   const handleStopSell = async () => {
     if (error.stopSellErr) return;
+    if(formValues.stopSellStop<=0){
+      setError((prev) => ({
+          ...prev,
+          stopSellErr: "Stop Limit is requried",
+        }));
+        return;
+    }
     setIsSuccess(true);
     setStopSellLoading(true);
     try {

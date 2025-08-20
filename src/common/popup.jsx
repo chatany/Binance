@@ -155,6 +155,7 @@ export const ModifyPopup = ({ orderId }) => {
       item?.type === "BUY"
         ? `https://test.bitzup.com/order/user/place-buy-stop-limit`
         : `https://test.bitzup.com/order/user/place-sell-stop-limit`;
+    dispatch(setShowPopup(false));
     const handleChange = async () => {
       try {
         const { data, status } = await apiRequest({
