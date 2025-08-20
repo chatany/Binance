@@ -12,7 +12,7 @@ export const ChartEmbed = ({ searchQuery }) => {
         title="BTCUSDT Chart"
         width={"100%"}
         height={"100%"}
-        style={{ border: "none", pointerEvents: "none" }}
+        style={{ border: "none" }}
         allowFullScreen={true}
       />
     </div>
