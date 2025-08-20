@@ -3,7 +3,7 @@ import { useSelector } from "react-redux";
 export const ChartEmbed = ({ searchQuery }) => {
   const query = searchQuery || "BTCUSDT";
   const apiId  = useSelector((state) => state.counter.apiId);
-  const url=`https://graph.suncrypto.in/`
+  const url=`https://chart.bitzup.com/${apiId==="bitget"?"v2":"v1"}/?market=${query}`
   
   return (
     <div className="max-w-full h-full rounded-lg">
