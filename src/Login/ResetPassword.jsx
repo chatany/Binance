@@ -6,6 +6,7 @@ import { useNavigate, useParams } from "react-router-dom";
 export const ResetPassword = () => {
   const { userId } = useParams();
   const navigate = useNavigate();
+  const [disable, setDisable] = useState(false);
   const formatTime = (seconds) => {
     const mins = Math.floor(seconds / 60)
       .toString()
@@ -38,6 +39,7 @@ export const ResetPassword = () => {
   };
   const handleSubmit = async () => {
     try {
+      setDisable(true);
       const { data, status } = await apiRequest({
         method: "post",
         url: `https://test.bitzup.com/onboarding/user/forget-password/verfiy`,
@@ -52,6 +54,7 @@ export const ResetPassword = () => {
       }
     } catch (err) {
     } finally {
+      setDisable(false);
     }
   };
   const handle = (key, e) => {
@@ -91,9 +94,7 @@ export const ResetPassword = () => {
   }, [timer]);
   return (
     <div className="min-h-screen w-full flex justify-center items-center bg-white font-medium">
-      <div
-        className="w-[400px] md:border-1 border-[#EDEDED] rounded-2xl p-4 text-[14px] sm:shadow-[0px_0px_40px_0px_rgba(0,0,0,0.06)]"
-      >
+      <div className="w-[400px] md:border-1 border-[#EDEDED] rounded-2xl p-4 text-[14px] sm:shadow-[0px_0px_40px_0px_rgba(0,0,0,0.06)]">
         <div className="p-4 flex flex-col h-full gap-5">
           <div className=" text-black text-[20px] capitalize font-bold">
             Reset Your Password
@@ -140,8 +141,11 @@ export const ResetPassword = () => {
             ) : (
               <div className="flex gap-1">
                 <span className="text-red-500">Didn't receive code?</span>
-                <button onClick={handleReset} className="text-[#757575]"
-                name="resend">
+                <button
+                  onClick={handleReset}
+                  className="text-[#757575]"
+                  name="resend"
+                >
                   Resend OTP
                 </button>
               </div>
@@ -150,8 +154,11 @@ export const ResetPassword = () => {
           <div className="flex w-full justify-center">
             <button
               onClick={handleSubmit}
+              disabled={disable}
               name="reset"
-              className="bg-[#2EDBAD]  rounded-xl w-[60%]  h-[2.2rem] hover:bg-[#2EDBAD] text-black cursor-pointer capitalize"
+              className={` ${
+                !disable ? "bg-[#2EDBAD] hover:bg-[#2EDBAD]" : "bg-[#e7eeec]"
+              } rounded-xl w-[60%]  h-[2.2rem]  text-black cursor-pointer capitalize`}
             >
               Reset Password
             </button>

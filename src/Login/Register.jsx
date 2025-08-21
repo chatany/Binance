@@ -14,6 +14,7 @@ export const Register = () => {
   const { countryData } = useSelector((state) => state.counter);
   const navigate = useNavigate();
   const [isOpenPopup, setIsOpenPopup] = useState(false);
+  const [disable, setDisable] = useState(false);
   const [verifyPopup, setVerifyPopup] = useState(false);
   const [isRefferal, setIsRefferal] = useState(false);
   const [timer, setTimer] = useState(0);
@@ -55,6 +56,7 @@ export const Register = () => {
   };
   const handleSubmit = async () => {
     try {
+      setDisable(true);
       const { data, status } = await apiRequest({
         method: "post",
         url: `https://test.bitzup.com/onboarding/user/signup`,
@@ -86,6 +88,7 @@ export const Register = () => {
     } catch (err) {
       showError(err, "poi");
     } finally {
+      setDisable(false);
     }
   };
   const verify = async () => {
@@ -94,6 +97,7 @@ export const Register = () => {
       return;
     }
     try {
+      setDisable(true);
       const { data, status } = await apiRequest({
         method: "post",
         url: `https://test.bitzup.com/onboarding/user/signup`,
@@ -115,6 +119,7 @@ export const Register = () => {
     } catch (err) {
       setError(err);
     } finally {
+      setDisable(false);
     }
   };
   const Resend = async () => {
@@ -373,8 +378,11 @@ export const Register = () => {
           <div className="flex w-full justify-center">
             <button
               onClick={handleSubmit}
+              disabled={disable}
               name="account"
-              className="bg-[#2EDBAD]  rounded-xl w-[60%]  h-[2.2rem] hover:bg-[#2EDBAD] text-black cursor-pointer capitalize"
+              className={`${
+                !disable ? "bg-[#2EDBAD] hover:bg-[#2EDBAD]" : "bg-[#e7eeec]"
+              } rounded-xl w-[60%]  h-[2.2rem] text-black cursor-pointer capitalize`}
             >
               Create Account
             </button>
@@ -425,8 +433,11 @@ export const Register = () => {
                 ) : (
                   <div className="flex gap-1">
                     <span className="text-red-500">Didn't receive code?</span>
-                    <button onClick={Resend} className="text-[#757575]"
-                    name="resend">
+                    <button
+                      onClick={Resend}
+                      className="text-[#757575]"
+                      name="resend"
+                    >
                       Resend OTP
                     </button>
                   </div>
@@ -435,8 +446,13 @@ export const Register = () => {
               <div className="flex w-full justify-center">
                 <button
                   onClick={verify}
+                  disabled={disable}
                   name="verify"
-                  className="bg-[#2EDBAD]  rounded-xl w-[60%]  h-[2.2rem] hover:bg-[#2EDBAD] text-black cursor-pointer capitalize"
+                  className={`${
+                    !disable
+                      ? "bg-[#2EDBAD] hover:bg-[#2EDBAD]"
+                      : "bg-[#e7eeec]"
+                  }   rounded-xl w-[60%]  h-[2.2rem]  text-black cursor-pointer capitalize`}
                 >
                   Verify Email
                 </button>

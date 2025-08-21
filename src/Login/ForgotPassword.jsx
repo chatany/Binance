@@ -7,6 +7,7 @@ import { useNavigate } from "react-router-dom";
 export const Forgotpass = () => {
   const [timer, setTimer] = useState(0);
   const navigate = useNavigate();
+  const [disable, setDisable] = useState(false);
   const [userData, setUserData] = useState({
     email: "",
   });
@@ -64,6 +65,7 @@ export const Forgotpass = () => {
   };
   const handleSubmit = async () => {
     try {
+      setDisable(true)
       const { data, status } = await apiRequest({
         method: "post",
         url: `https://test.bitzup.com/onboarding/user/forgot-password`,
@@ -79,13 +81,12 @@ export const Forgotpass = () => {
       }
     } catch (err) {
     } finally {
+      setDisable(false)
     }
   };
   return (
     <div className="min-h-screen w-full flex justify-center items-center bg-white font-medium">
-      <div
-        className="w-[400px] h-[20rem] md:border-1 border-[#EDEDED] rounded-2xl p-4 sm:shadow-[0px_0px_40px_0px_rgba(0,0,0,0.06)]"
-      >
+      <div className="w-[400px] h-[20rem] md:border-1 border-[#EDEDED] rounded-2xl p-4 sm:shadow-[0px_0px_40px_0px_rgba(0,0,0,0.06)]">
         <div className="p-4 flex flex-col h-full justify-between">
           <div className=" text-black text-[20px] capitalize font-bold">
             Forgot Password
@@ -107,8 +108,9 @@ export const Forgotpass = () => {
           <div className="flex w-full justify-center">
             <button
               onClick={handleSubmit}
+              disabled={disable}
               name="submit"
-              className="bg-[#2EDBAD]  rounded-xl w-[60%]  h-[2.2rem] hover:bg-[#2EDBAD] text-black cursor-pointer capitalize"
+              className={`${!disable?"bg-[#2EDBAD] hover:bg-[#2EDBAD]":"bg-[#e7eeec]"} rounded-xl w-[60%]  h-[2.2rem]  text-black cursor-pointer capitalize`}
             >
               Next
             </button>

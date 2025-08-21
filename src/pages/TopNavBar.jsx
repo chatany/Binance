@@ -124,7 +124,6 @@ export const TopNav = ({
           "Trade",
           "Futures",
           "Earn",
-          "Square",
           "More",
         ].map((item, i) => (
           <div
@@ -139,6 +138,9 @@ export const TopNav = ({
                 y: rect.bottom,
                 width: rect.width,
               });
+            }}
+            onClick={() => {
+              i == 0 || i == 1 ? window.location.reload() : "";
             }}
             // onMouseLeave={() => setHoveredItemIndex(null)}
           >
@@ -186,6 +188,11 @@ export const TopNav = ({
                                   ele.array.map((val, ind) => (
                                     <div
                                       key={ind}
+                                      onClick={() =>
+                                        val?.title === "Spot"
+                                          ?window.location.reload()
+                                          : ""
+                                      }
                                       className={`${
                                         dark
                                           ? "hover:bg-[#161A1E]"

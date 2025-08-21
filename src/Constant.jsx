@@ -650,16 +650,6 @@ export const data = [
     ],
   },
   {
-    category: "Square",
-    item: [
-      { title: "Square", description: "Stay informed with everything crypto" },
-      {
-        title: "Academy (Learn & Earn)",
-        description: "Earn crypto by learning about blockchain",
-      },
-    ],
-  },
-  {
     category: "More",
     item: [
       {
