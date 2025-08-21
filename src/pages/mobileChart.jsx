@@ -77,7 +77,7 @@ export const MobileChartBar = ({ dark }) => {
       <div className="h-full">
         {activeTab === tab[0] && (
           <div className="h-full w-full">
-            <ChartEmbed searchQuery={"BTCUSDT"} dark={true} />
+            <ChartEmbed searchQuery={"BTCUSDT"} dark={dark} />
           </div>
         )}
         {activeTab === tab[2] && (
