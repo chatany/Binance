@@ -336,7 +336,7 @@ export const MobileChartBar = ({ dark }) => {
                           Amount ({tikerData?.symbol?.split("USDT")[0]})
                         </th>
                         <th
-                          className={`text-[12px] text-gray-400  text-center  sticky w-1/3 top-0 ${
+                          className={`text-[12px] text-gray-400  text-right  sticky w-1/3 top-0 ${
                             dark ? "bg-[#181A20]" : "bg-white"
                           } z-30`}
                         >
@@ -425,7 +425,7 @@ export const MobileChartBar = ({ dark }) => {
                             Amount({tikerData?.symbol?.split("USDT")[0]})
                           </th>
                           <th
-                            className={`text-[12px] text-gray-400 p-1  text-center ${
+                            className={`text-[12px] text-gray-400 p-1  text-right ${
                               dark ? "bg-[#181A20]" : "bg-white"
                             } w-1/3  sticky top-0 z-30`}
                           >
