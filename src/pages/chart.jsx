@@ -1,10 +1,13 @@
 import { useSelector } from "react-redux";
 
-export const ChartEmbed = ({ searchQuery }) => {
+export const ChartEmbed = ({ searchQuery, dark }) => {
   const query = searchQuery || "BTCUSDT";
-  const apiId  = useSelector((state) => state.counter.apiId);
-  const url=`http://localhost:3000/v2`
-  
+  const apiId = useSelector((state) => state.counter.apiId);
+  const url = `https://bespoke-dolphin-35e511.netlify.app/?market=${query}&theme=${
+    dark ? "dark" : "light"
+  }
+  `;
+
   return (
     <div className="max-w-full h-full rounded-lg">
       <iframe

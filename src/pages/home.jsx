@@ -20,6 +20,7 @@ import { Middle } from "./MiddleCom";
 import { TopNav } from "./TopNavBar";
 import { MarketPopup } from "./marketPopup";
 import { Funds } from "./funds";
+import { MobileChartBar } from "./mobileChart";
 export const Home = () => {
   const [dark, setDark] = useState(() => {
     const storedTheme = localStorage.getItem("theme");
@@ -135,7 +136,7 @@ export const Home = () => {
                     } max-h-[800px]   text-xs w-full`}
                   >
                     <div className="h-[500px] w-full rounded-lg">
-                      <ChartEmbed searchQuery={symbol} className="w-full" />
+                      <ChartEmbed searchQuery={symbol} dark={dark} className="w-full" />
                     </div>
                   </div>
                   <div className="w-full">
@@ -181,6 +182,7 @@ export const Home = () => {
               <div className="h-[400px]  text-xs w-full bg-gray-800  rounded-md ">
                 <ChartEmbed
                   searchQuery={symbol}
+                  dark={dark}
                   className="h-full w-full rounded-2xl"
                 />
               </div>
@@ -216,11 +218,12 @@ export const Home = () => {
                 />
               </div>
               <div
-                className={`h-[400px] ${
+                className={`h-[450px] ${
                   dark ? "bg-[#181A20] " : "bg-white"
                 }  w-full`}
               >
-                <ChartEmbed searchQuery={symbol} />
+                {/* <ChartEmbed searchQuery={symbol} dark={dark}/> */}
+                <MobileChartBar dark={dark}/>
               </div>
               <Funds dark={dark} />
             </div>
