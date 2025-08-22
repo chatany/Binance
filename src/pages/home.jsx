@@ -223,7 +223,7 @@ export const Home = () => {
                 }  w-full`}
               >
                 {/* <ChartEmbed searchQuery={symbol} dark={dark}/> */}
-                <MobileChartBar dark={dark}/>
+                <MobileChartBar dark={dark} searchQuery={searchQuery}/>
               </div>
               <Funds dark={dark} />
             </div>

@@ -6,11 +6,13 @@ import { MdDarkMode } from "react-icons/md";
 import { RxHamburgerMenu } from "react-icons/rx";
 import { TbWorld } from "react-icons/tb";
 import { useNavigate } from "react-router-dom";
-import { data } from "../Constant";
+import { data, MenuItem } from "../Constant";
 import { useEffect, useRef, useState } from "react";
 import { HelpCenter } from "./helpCenter";
+import { CgProfile } from "react-icons/cg";
 import { useDispatch } from "react-redux";
 import { helpCenterApi } from "./apiCall";
+import { HiDownload } from "react-icons/hi";
 import { SidePopup } from "./sidePopup";
 import { RiLogoutBoxRLine } from "react-icons/ri";
 import { ConfirmationBox } from "../common/deletePopup";
@@ -28,6 +30,7 @@ export const TopNav = ({
 }) => {
   const navigate = useNavigate();
   const [showHelpPopup, setShowHelpPopup] = useState(false);
+  const [profile,setProfile]=useState(false);
   const [showLogoutPopup, setShowLogoutPopup] = useState(false);
   const handleClose = () => {
     setShow(!show);
@@ -118,46 +121,41 @@ export const TopNav = ({
             />
           )}
         </div>
-        {[
-          "Buy Crypto",
-          "Markets",
-          "Trade",
-          "Futures",
-          "Earn",
-          "More",
-        ].map((item, i) => (
-          <div
-            key={i}
-            className="hover:text-amber-400 text-[14px] lg:flex hidden items-center gap-1 cursor-pointer relative  "
-            onMouseEnter={(e) => {
-              const rect = e.currentTarget.getBoundingClientRect();
-              setHoveredItemIndex(i);
-              setCurrentItem(item);
-              setHoverPosition({
-                x: rect.left,
-                y: rect.bottom,
-                width: rect.width,
-              });
-            }}
-            onClick={() => {
-              i == 0 || i == 1 ? window.location.reload() : "";
-            }}
-            // onMouseLeave={() => setHoveredItemIndex(null)}
-          >
-            {item}
-            {i !== 0 && i !== 1 && (
-              <div
-                className={`${
-                  i === hoveredItemIndex
-                    ? "transition-transform rotate-180"
-                    : " "
-                }`}
-              >
-                <FaAngleDown />
-              </div>
-            )}
-          </div>
-        ))}
+        {["Buy Crypto", "Markets", "Trade", "Futures", "Earn", "More"].map(
+          (item, i) => (
+            <div
+              key={i}
+              className="hover:text-amber-400 text-[14px] lg:flex hidden items-center gap-1 cursor-pointer relative  "
+              onMouseEnter={(e) => {
+                const rect = e.currentTarget.getBoundingClientRect();
+                setHoveredItemIndex(i);
+                setCurrentItem(item);
+                setHoverPosition({
+                  x: rect.left,
+                  y: rect.bottom,
+                  width: rect.width,
+                });
+              }}
+              onClick={() => {
+                i == 0 || i == 1 ? window.location.reload() : "";
+              }}
+              // onMouseLeave={() => setHoveredItemIndex(null)}
+            >
+              {item}
+              {i !== 0 && i !== 1 && (
+                <div
+                  className={`${
+                    i === hoveredItemIndex
+                      ? "transition-transform rotate-180"
+                      : " "
+                  }`}
+                >
+                  <FaAngleDown />
+                </div>
+              )}
+            </div>
+          )
+        )}
         {hoveredItemIndex !== null &&
           hoveredItemIndex !== 0 &&
           hoveredItemIndex !== 1 && (
@@ -190,7 +188,7 @@ export const TopNav = ({
                                       key={ind}
                                       onClick={() =>
                                         val?.title === "Spot"
-                                          ?window.location.reload()
+                                          ? window.location.reload()
                                           : ""
                                       }
                                       className={`${
@@ -301,6 +299,40 @@ export const TopNav = ({
             onClick={() => setShowSideBar(true)}
           />
         </Tooltip>
+        {/* {userData?.token && (
+          <div className="relative flex">
+            <CgProfile  className=" hover:text-amber-400 h-6 w-6" onMouseEnter={()=>setProfile(!profile)} />
+            <div
+              className=" text-[14px] font-medium leading-6 hover:opacity-85 items-center text-black bg-[#fcd535] rounded-sm px-2 py-1 flex"
+              onClick={() => navigate("/register")}
+            >
+              <HiDownload on className="h-4 w-4 md:block hidden hover:text-amber-400" />
+              Deposit
+            </div>
+            {
+              profile &&
+            <div className="absolute top-10 sm:shadow-[0px_0px_40px_0px_rgba(0,0,0,0.06)] z-50">
+              <div className="p-5">
+                <div className="flex gap-2">
+                  <div>
+                    <img src="" />
+                  </div>
+                  <div>
+                    <div>er***@gmail.com</div>
+                    <div className="text-[11px]">Regular User</div>
+                  </div>
+                </div>
+                {MenuItem.map((item)=>(
+                  <div className="flex gap-2">
+                    <div>{item?.icon}</div>
+                    <div>{item?.name}</div>
+                  </div>
+                ))}
+              </div>
+            </div>
+            }
+          </div>
+        )} */}
         {showSideBar && (
           <div>
             <SidePopup

@@ -1,3 +1,5 @@
+import { CgArrowsExchangeV, CgEye } from "react-icons/cg";
+import { CiLogout } from "react-icons/ci";
 import {
   FaBalanceScale,
   FaComments,
@@ -5,502 +7,10 @@ import {
   FaMoneyBill,
   FaQuestionCircle,
 } from "react-icons/fa";
+import { IoSettings } from "react-icons/io5";
+import { RiAccountCircle2Line } from "react-icons/ri";
 
-export const price = [
-  { price: 106237.16, amout: 0.043657, total: 645 + "k", id: 1 },
-  { price: 1076217.16, amout: 0.043657, total: 34 + "k", id: 2 },
-  { price: 106317.16, amout: 0.043657, total: 84 + "k", id: 3 },
-  { price: 1062137.16, amout: 0.043657, total: 98 + "k", id: 4 },
-  { price: 106217.16, amout: 0.043657, total: 56 + "k", id: 5 },
-  { price: 106257.16, amout: 0.043657, total: 45 + "k", id: 6 },
-  { price: 106219.16, amout: 0.043657, total: 767 + "k", id: 7 },
-  { price: 106216.16, amout: 0.043657, total: 63 + "k", id: 8 },
-  { price: 106216.16, amout: 0.043657, total: 62 + "k", id: 9 },
-  { price: 106210.16, amout: 0.043657, total: 94 + "k", id: 10 },
-  { price: 106214.16, amout: 0.043657, total: 324 + "k", id: 11 },
-  { price: 106212.16, amout: 0.043657, total: 647 + "k", id: 7 },
-  { price: 106216.16, amout: 0.043657, total: 63 + "k", id: 8 },
-  { price: 106219.16, amout: 0.043657, total: 62 + "k", id: 9 },
-  { price: 106216.16, amout: 0.043657, total: 63 + "k", id: 8 },
-  { price: 106213.16, amout: 0.043657, total: 604 + "k", id: 10 },
-  { price: 106214.16, amout: 0.043657, total: 324 + "k", id: 11 },
-  { price: 106212.16, amout: 0.043657, total: 647 + "k", id: 7 },
-  { price: 106216.16, amout: 0.043657, total: 63 + "k", id: 8 },
-  { price: 106219.16, amout: 0.043657, total: 62 + "k", id: 9 },
-  { price: 106213.16, amout: 0.043657, total: 604 + "k", id: 10 },
-  { price: 1062133.16, amout: 0.043657, total: 61 + "k", id: 11 },
-];
 
-export const order = [
-  { price: 106217.16, amout: 0.043657, total: 64 + "k", id: 1 },
-  { price: 106217.16, amout: 0.043657, total: 64 + "k", id: 2 },
-  { price: 106217.16, amout: 0.043657, total: 64 + "k", id: 3 },
-  { price: 106217.16, amout: 0.043657, total: 64 + "k", id: 4 },
-  { price: 106217.16, amout: 0.043657, total: 64 + "k", id: 5 },
-  { price: 106217.16, amout: 0.043657, total: 64 + "k", id: 6 },
-  { price: 106217.16, amout: 0.043657, total: 64 + "k", id: 7 },
-  { price: 106217.16, amout: 0.043657, total: 64 + "k", id: 8 },
-  { price: 106217.16, amout: 0.043657, total: 64 + "k", id: 9 },
-  { price: 106217.16, amout: 0.043657, total: 64 + "k", id: 10 },
-  { price: 106217.16, amout: 0.043657, total: 64 + "k", id: 11 },
-  { price: 106217.16, amout: 0.043657, total: 64 + "k", id: 7 },
-  { price: 106217.16, amout: 0.043657, total: 64 + "k", id: 8 },
-  { price: 106217.16, amout: 0.043657, total: 64 + "k", id: 9 },
-  { price: 106217.16, amout: 0.043657, total: 64 + "k", id: 10 },
-  { price: 106217.16, amout: 0.043657, total: 64 + "k", id: 11 },
-];
-export const Markets = [
-  {
-    price: 106 + "," + 29010,
-    amount: 0.0098,
-    time: 12 + ":" + 27 + ":" + 10,
-  },
-  {
-    price: 106 + "," + 29010,
-    amount: 0.0098,
-    time: 12 + ":" + 27 + ":" + 10,
-  },
-  {
-    price: 106 + "," + 29010,
-    amount: 0.0098,
-    time: 12 + ":" + 27 + ":" + 10,
-  },
-  {
-    price: 106 + "," + 29010,
-    amount: 0.0098,
-    time: 12 + ":" + 27 + ":" + 10,
-  },
-  {
-    price: 106 + "," + 29010,
-    amount: 0.0098,
-    time: 12 + ":" + 27 + ":" + 10,
-  },
-  {
-    price: 106 + "," + 29010,
-    amount: 0.0098,
-    time: 12 + ":" + 27 + ":" + 10,
-  },
-  {
-    price: 106 + "," + 29010,
-    amount: 0.0098,
-    time: 12 + ":" + 27 + ":" + 10,
-  },
-  {
-    price: 106 + "," + 29010,
-    amount: 0.0098,
-    time: 12 + ":" + 27 + ":" + 10,
-  },
-  {
-    price: 106 + "," + 29010,
-    amount: 0.0098,
-    time: 12 + ":" + 27 + ":" + 10,
-  },
-  {
-    price: 106 + "," + 29010,
-    amount: 0.0098,
-    time: 12 + ":" + 27 + ":" + 10,
-  },
-  {
-    price: 106 + "," + 29010,
-    amount: 0.0098,
-    time: 12 + ":" + 27 + ":" + 10,
-  },
-  {
-    price: 106 + "," + 29010,
-    amount: 0.0098,
-    time: 12 + ":" + 27 + ":" + 10,
-  },
-  {
-    price: 106 + "," + 29010,
-    amount: 0.0098,
-    time: 12 + ":" + 27 + ":" + 10,
-  },
-  {
-    price: 106 + "," + 29010,
-    amount: 0.0098,
-    time: 12 + ":" + 27 + ":" + 10,
-  },
-  {
-    price: 106 + "," + 29010,
-    amount: 0.0098,
-    time: 12 + ":" + 27 + ":" + 10,
-  },
-  {
-    price: 106 + "," + 29010,
-    amount: 0.0098,
-    time: 12 + ":" + 27 + ":" + 10,
-  },
-  {
-    price: 106 + "," + 29010,
-    amount: 0.0098,
-    time: 12 + ":" + 27 + ":" + 10,
-  },
-  {
-    price: 106 + "," + 29010,
-    amount: 0.0098,
-    time: 12 + ":" + 27 + ":" + 10,
-  },
-  {
-    price: 106 + "," + 29010,
-    amount: 0.0098,
-    time: 12 + ":" + 27 + ":" + 10,
-  },
-  {
-    price: 106 + "," + 29010,
-    amount: 0.0098,
-    time: 12 + ":" + 27 + ":" + 10,
-  },
-  {
-    price: 106 + "," + 29010,
-    amount: 0.0098,
-    time: 12 + ":" + 27 + ":" + 10,
-  },
-  {
-    price: 106 + "," + 29010,
-    amount: 0.0098,
-    time: 12 + ":" + 27 + ":" + 10,
-  },
-];
-export const search = [
-  {
-    bit: "BTC/USDT",
-    price: 106 + "," + 310.49,
-    percentage: "+0.87%",
-    color: "text-green-700",
-  },
-  {
-    bit: "AAVE/USDT",
-    price: 108 + "," + 3.34,
-    percentage: "-0.22%",
-    color: "text-red-700",
-  },
-  {
-    bit: "BTC/USDT",
-    price: 106 + "," + 310.49,
-    percentage: "+0.87%",
-    color: "text-green-700",
-  },
-  {
-    bit: "AAVE/USDT",
-    price: 108 + "," + 3.34,
-    percentage: "-0.22%",
-    color: "text-red-700",
-  },
-  {
-    bit: "BTC/USDT",
-    price: 106 + "," + 310.49,
-    percentage: "+0.87%",
-    color: "text-green-700",
-  },
-  {
-    bit: "AAVE/USDT",
-    price: 108 + "," + 3.34,
-    percentage: "-0.22%",
-    color: "text-red-700",
-  },
-  {
-    bit: "BTC/USDT",
-    price: 106 + "," + 310.49,
-    percentage: "+0.87%",
-    color: "text-green-700",
-  },
-  {
-    bit: "AAVE/USDT",
-    price: 108 + "," + 3.34,
-    percentage: "-0.22%",
-    color: "text-red-700",
-  },
-  {
-    bit: "BTC/USDT",
-    price: 106 + "," + 310.49,
-    percentage: "+0.87%",
-    color: "text-green-700",
-  },
-  {
-    bit: "BTC/USDT",
-    price: 106 + "," + 310.49,
-    percentage: "+0.87%",
-    color: "text-green-700",
-  },
-  {
-    bit: "AAVE/USDT",
-    price: 108 + "," + 3.34,
-    percentage: "-0.22%",
-    color: "text-red-700",
-  },
-  {
-    bit: "BTC/USDT",
-    price: 106 + "," + 310.49,
-    percentage: "+0.87%",
-    color: "text-green-700",
-  },
-  {
-    bit: "AAVE/USDT",
-    price: 108 + "," + 3.34,
-    percentage: "-0.22%",
-    color: "text-red-700",
-  },
-  {
-    bit: "BTC/USDT",
-    price: 106 + "," + 310.49,
-    percentage: "+0.87%",
-    color: "text-green-700",
-  },
-  {
-    bit: "AAVE/USDT",
-    price: 108 + "," + 3.34,
-    percentage: "-0.22%",
-    color: "text-red-700",
-  },
-  {
-    bit: "BTC/USDT",
-    price: 106 + "," + 310.49,
-    percentage: "+0.87%",
-    color: "text-green-700",
-  },
-  {
-    bit: "AAVE/USDT",
-    price: 108 + "," + 3.34,
-    percentage: "-0.22%",
-    color: "text-red-700",
-  },
-  {
-    bit: "BTC/USDT",
-    price: 106 + "," + 310.49,
-    percentage: "+0.87%",
-    color: "text-green-700",
-  },
-  {
-    bit: "BTC/USDT",
-    price: 106 + "," + 310.49,
-    percentage: "+0.87%",
-    color: "text-green-700",
-  },
-  {
-    bit: "AAVE/USDT",
-    price: 108 + "," + 3.34,
-    percentage: "-0.22%",
-    color: "text-red-700",
-  },
-  {
-    bit: "BTC/USDT",
-    price: 106 + "," + 310.49,
-    percentage: "+0.87%",
-    color: "text-green-700",
-  },
-  {
-    bit: "AAVE/USDT",
-    price: 108 + "," + 3.34,
-    percentage: "-0.22%",
-    color: "text-red-700",
-  },
-  {
-    bit: "BTC/USDT",
-    price: 106 + "," + 310.49,
-    percentage: "+0.87%",
-    color: "text-green-700",
-  },
-  {
-    bit: "AAVE/USDT",
-    price: 108 + "," + 3.34,
-    percentage: "-0.22%",
-    color: "text-red-700",
-  },
-  {
-    bit: "AAVE/USDT",
-    price: 108 + "," + 3.34,
-    percentage: "-0.22%",
-    color: "text-red-700",
-  },
-  {
-    bit: "BTC/USDT",
-    price: 106 + "," + 310.49,
-    percentage: "+0.87%",
-    color: "text-green-700",
-  },
-  {
-    bit: "AAVE/USDT",
-    price: 108 + "," + 3.34,
-    percentage: "-0.22%",
-    color: "text-red-700",
-  },
-  {
-    bit: "BTC/USDT",
-    price: 106 + "," + 310.49,
-    percentage: "+0.87%",
-    color: "text-green-700",
-  },
-  {
-    bit: "AAVE/USDT",
-    price: 108 + "," + 3.34,
-    percentage: "-0.22%",
-    color: "text-red-700",
-  },
-  {
-    bit: "BTC/USDT",
-    price: 106 + "," + 310.49,
-    percentage: "+0.87%",
-    color: "text-green-700",
-  },
-  {
-    bit: "AAVE/USDT",
-    price: 108 + "," + 3.34,
-    percentage: "-0.22%",
-    color: "text-red-700",
-  },
-  {
-    bit: "BTC/USDT",
-    price: 106 + "," + 310.49,
-    percentage: "+0.87%",
-    color: "text-green-700",
-  },
-  {
-    bit: "AAVE/USDT",
-    price: 108 + "," + 3.34,
-    percentage: "-0.22%",
-    color: "text-red-700",
-  },
-  {
-    bit: "BTC/USDT",
-    price: 106 + "," + 310.49,
-    percentage: "+0.87%",
-    color: "text-green-700",
-  },
-  {
-    bit: "AAVE/USDT",
-    price: 108 + "," + 3.34,
-    percentage: "-0.22%",
-    color: "text-red-700",
-  },
-];
-export const marketArr = [
-  {
-    price: 106 + "," + 29010,
-    amount: 0.0098,
-    time: 12 + ":" + 27 + ":" + 10,
-  },
-  {
-    price: 106 + "," + 29010,
-    amount: 0.0098,
-    time: 12 + ":" + 27 + ":" + 10,
-  },
-  {
-    price: 106 + "," + 29010,
-    amount: 0.0098,
-    time: 12 + ":" + 27 + ":" + 10,
-  },
-  {
-    price: 106 + "," + 29010,
-    amount: 0.0098,
-    time: 12 + ":" + 27 + ":" + 10,
-  },
-  {
-    price: 106 + "," + 29010,
-    amount: 0.0098,
-    time: 12 + ":" + 27 + ":" + 10,
-  },
-  {
-    price: 106 + "," + 29010,
-    amount: 0.0098,
-    time: 12 + ":" + 27 + ":" + 10,
-  },
-  {
-    price: 106 + "," + 29010,
-    amount: 0.0098,
-    time: 12 + ":" + 27 + ":" + 10,
-  },
-  {
-    price: 106 + "," + 29010,
-    amount: 0.0098,
-    time: 12 + ":" + 27 + ":" + 10,
-  },
-  {
-    price: 106 + "," + 29010,
-    amount: 0.0098,
-    time: 12 + ":" + 27 + ":" + 10,
-  },
-  {
-    price: 106 + "," + 29010,
-    amount: 0.0098,
-    time: 12 + ":" + 27 + ":" + 10,
-  },
-  {
-    price: 106 + "," + 29010,
-    amount: 0.0098,
-    time: 12 + ":" + 27 + ":" + 10,
-  },
-  {
-    price: 106 + "," + 29010,
-    amount: 0.0098,
-    time: 12 + ":" + 27 + ":" + 10,
-  },
-  {
-    price: 106 + "," + 29010,
-    amount: 0.0098,
-    time: 12 + ":" + 27 + ":" + 10,
-  },
-  {
-    price: 106 + "," + 29010,
-    amount: 0.0098,
-    time: 12 + ":" + 27 + ":" + 10,
-  },
-  {
-    price: 106 + "," + 29010,
-    amount: 0.0098,
-    time: 12 + ":" + 27 + ":" + 10,
-  },
-  {
-    price: 106 + "," + 29010,
-    amount: 0.0098,
-    time: 12 + ":" + 27 + ":" + 10,
-  },
-  {
-    price: 106 + "," + 29010,
-    amount: 0.0098,
-    time: 12 + ":" + 27 + ":" + 10,
-  },
-  {
-    price: 106 + "," + 29010,
-    amount: 0.0098,
-    time: 12 + ":" + 27 + ":" + 10,
-  },
-  {
-    price: 106 + "," + 29010,
-    amount: 0.0098,
-    time: 12 + ":" + 27 + ":" + 10,
-  },
-  {
-    price: 106 + "," + 29010,
-    amount: 0.0098,
-    time: 12 + ":" + 27 + ":" + 10,
-  },
-  {
-    price: 106 + "," + 29010,
-    amount: 0.0098,
-    time: 12 + ":" + 27 + ":" + 10,
-  },
-  {
-    price: 106 + "," + 29010,
-    amount: 0.0098,
-    time: 12 + ":" + 27 + ":" + 10,
-  },
-];
-export const priceArr = [
-  { price: 106219.16, amout: 0.043657, total: 767 + "k", id: 7 },
-  { price: 106216.16, amout: 0.043657, total: 63 + "k", id: 8 },
-  { price: 106216.16, amout: 0.043657, total: 62 + "k", id: 9 },
-  { price: 106210.16, amout: 0.043657, total: 94 + "k", id: 10 },
-];
-
-export const orderArr = [
-  { price: 106217.16, amout: 0.043657, total: 64 + "k", id: 1 },
-  { price: 106217.16, amout: 0.043657, total: 64 + "k", id: 2 },
-  { price: 106217.16, amout: 0.043657, total: 64 + "k", id: 3 },
-  { price: 106217.16, amout: 0.043657, total: 64 + "k", id: 4 },
-  { price: 106217.16, amout: 0.043657, total: 64 + "k", id: 5 },
-  { price: 106217.16, amout: 0.043657, total: 64 + "k", id: 6 },
-  { price: 106217.16, amout: 0.043657, total: 64 + "k", id: 7 },
-];
 export const marks = [
   { value: 0, label: "0" },
   { value: 25, label: "25" },
@@ -567,23 +77,51 @@ export const formatToKMB = (num) => {
   }
 };
 export const formatToKMBWithCommas = (num) => {
-  const formated = new Intl.NumberFormat("en-IN").format(num);
-  return formated;
+  const n = Number(num);
+  if (isNaN(n)) return "";
+
+  // For large numbers use Intl formatting with commas
+  if (n >= 1000) {
+    return new Intl.NumberFormat("en-IN").format(n);
+  }
+
+  // For small numbers → don’t use Intl, just format decimals
+  return formatDecimal(n, 8);
 };
+export const MenuItem = [
+  { icon: <CgEye />, name: "Dashboard" },
+  { icon: <CgEye />, name: "Assets" },
+  { icon: <CgEye />, name: "Orders" },
+  { icon: <CgEye />, name: "Account" },
+  { icon: <CgEye />, name: "Referral" },
+  { icon: <CgEye />, name: "Rewards Hub" },
+  { icon: <RiAccountCircle2Line />, name: "Sub Accounts" },
+  { icon: <IoSettings />, name: "Settings" },
+  { icon: <CgArrowsExchangeV />, name: "Switch Account" },
+  { icon: <CiLogout />, name: "Log Out" }
+
+];
 export const formatDecimal = (value, decimalPlaces) => {
   const num = Number(value);
   if (isNaN(num)) return "";
 
-  // Round to the desired decimal places and keep trailing zeros
-  const fixed = num.toFixed(decimalPlaces);
+  // Convert to string with full precision
+  let str = num.toString();
 
-  // Only remove zeros *after* the decimalPlaces limit
-  const parts = fixed.split(".");
-  if (parts.length === 2 && parts[1].length > decimalPlaces) {
-    parts[1] = parts[1].substring(0, decimalPlaces);
+  // If in scientific notation (e.g., 1.234e-5), convert to fixed-point
+  if (str.includes("e") || str.includes("E")) {
+    str = num.toFixed(decimalPlaces + 2); // extra buffer
   }
 
-  return parts.join(".");
+  // Ensure decimal part exists
+  if (!str.includes(".")) str += ".";
+
+  let [intPart, decPart = ""] = str.split(".");
+
+  // Trim/pad decimal part without rounding
+  decPart = (decPart + "0".repeat(decimalPlaces)).slice(0, decimalPlaces);
+
+  return `${intPart}.${decPart}`;
 };
 
 export const RenderLabel = ({ childern, dark }) => {

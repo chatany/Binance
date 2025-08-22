@@ -7,7 +7,7 @@ import { formatDecimal, formatToKMBWithCommas } from "../Constant";
 import { FaAngleRight, FaArrowDown, FaArrowUp } from "react-icons/fa";
 import { setCurrentPrice } from "../store/webSocket";
 
-export const MobileChartBar = ({ dark }) => {
+export const MobileChartBar = ({ dark ,searchQuery}) => {
   const tab = ["Chart", "Order Book", "Trades"];
   const { tikerData, tradeData, priceDecimal, orderData, rounding } =
     useSelector((state) => state.counter);
@@ -77,7 +77,7 @@ export const MobileChartBar = ({ dark }) => {
       <div className="h-full">
         {activeTab === tab[0] && (
           <div className="h-full w-full">
-            <ChartEmbed searchQuery={"BTCUSDT"} dark={dark} />
+            <ChartEmbed searchQuery={searchQuery} dark={dark} />
           </div>
         )}
         {activeTab === tab[2] && (
