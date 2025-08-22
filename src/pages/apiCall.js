@@ -31,7 +31,7 @@ export const SearchData = async ({ dispatch, setIsLoading }) => {
   try {
     const response1 = await apiRequest({
       method: "get",
-      url: `https://server-production-70e4.up.railway.app/binance-exchange`,
+      url: `https://server-yo1d.onrender.com/binance-exchange`,
     });
     dispatch(setSearchData(response1?.data));
   } catch (err) {
@@ -65,7 +65,7 @@ export const Orders = async ({ searchQuery, setOrderData }) => {
   try {
     const { data, status } = await apiRequest({
       method: "get",
-      url: `https://server-production-70e4.up.railway.app/binance-order?url=${searchQuery}`,
+      url: `https://server-yo1d.onrender.com/binance-order?url=${searchQuery}`,
     });
     if (status === 200) {
       setOrderData(data);
@@ -79,7 +79,7 @@ export const Trades = async ({ searchQuery, setTradesData }) => {
   try {
     const { data, status } = await apiRequest({
       method: "get",
-      url: `https://server-production-70e4.up.railway.app/binance-Trades?url=${searchQuery}`,
+      url: `https://server-yo1d.onrender.com/binance-Trades?url=${searchQuery}`,
     });
     if (status === 200) {
       setTradesData(data);
@@ -92,7 +92,7 @@ export const TopMoves = async (dispatch) => {
   try {
     const { data, status } = await apiRequest({
       method: "get",
-      url: `https://server-production-70e4.up.railway.app/binance-Movers`,
+      url: `https://server-yo1d.onrender.com/binance-Movers`,
     });
     if (status === 200) {
       dispatch(setTopMovers(data));
@@ -106,7 +106,7 @@ export const allMovers = async (dispatch) => {
   try {
     const { data, status } = await apiRequest({
       method: "get",
-      url: `https://server-production-70e4.up.railway.app/binance-allMovers`,
+      url: `https://server-yo1d.onrender.com/binance-allMovers`,
     });
     if (status === 200) {
       dispatch(setAllMovers(data));

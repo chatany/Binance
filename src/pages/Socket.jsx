@@ -53,7 +53,7 @@ export const Socket = ({ searchQuery }) => {
       try {
         const { data, status } = await apiRequest({
           method: "get",
-          url: `https://server-production-70e4.up.railway.app/binance-ticker?url=${searchQuery.toUpperCase()}`,
+          url: `https://server-yo1d.onrender.com/binance-ticker?url=${searchQuery.toUpperCase()}`,
         });
         dispatch(setCurrentPrice(data?.lastPrice));
         if (status === 200) {
@@ -165,7 +165,7 @@ export const Socket = ({ searchQuery }) => {
       try {
         const { data, status } = await apiRequest({
           method: "get",
-          url: `https://server-production-70e4.up.railway.app/binance-order?url=${searchQuery.toUpperCase()}`,
+          url: `https://server-yo1d.onrender.com/binance-order?url=${searchQuery.toUpperCase()}`,
         });
         if (status === 200) {
           dispatch(setOrderData(data));
@@ -241,7 +241,7 @@ export const Socket = ({ searchQuery }) => {
       try {
         const { data, status } = await apiRequest({
           method: "get",
-          url: `https://server-production-70e4.up.railway.app/binance-Trades?url=${searchQuery.toUpperCase()}`,
+          url: `https://server-yo1d.onrender.com/binance-Trades?url=${searchQuery.toUpperCase()}`,
         });
         if (status === 200) {
           dispatch(setTradeData(data));
