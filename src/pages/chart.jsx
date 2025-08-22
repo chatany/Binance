@@ -3,7 +3,7 @@ import { useSelector } from "react-redux";
 export const ChartEmbed = ({ searchQuery, dark }) => {
   const query = searchQuery || "BTCUSDT";
   const apiId = useSelector((state) => state.counter.apiId);
-  const url = `bitzupchart.netlify.app/?market=${query}&theme=${
+  const url = `https://bitzupchart.netlify.app/?market=${query}&theme=${
     dark ? "dark" : "light"
   }
   `;
