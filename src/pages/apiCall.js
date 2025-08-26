@@ -102,7 +102,7 @@ export const TopMoves = async (dispatch) => {
   }
 };
 
-export const allMovers = async (dispatch) => {
+export const allMover = async (dispatch) => {
   try {
     const { data, status } = await apiRequest({
       method: "get",

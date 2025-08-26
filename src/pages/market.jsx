@@ -162,8 +162,10 @@ export const MarketCom = ({ dark, SetSearchQuery, searchQuery }) => {
     h-[1.5rem] p-4 text-[1rem] text-gray-400
     border
     hover:border-[#b89c4f]
-     border-[${dark ? `#474D57` : `#D8DCE1`}]
-    focus:border-[${dark ? `#b89c4f` : `#fce788`}] 
+     ${dark 
+      ? "border-[#474D57] focus:border-[#b89c4f]" 
+      : "border-[#D8DCE1] focus:border-[#fce788]"
+    }
     focus:outline-none 
      transition-colors duration-300 delay-200
     `}

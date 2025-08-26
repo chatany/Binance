@@ -12,7 +12,7 @@ import {
   TopIconBar4,
 } from "./TopIconBars";
 import { Socket } from "./Socket";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import { ToggleButSell } from "./ToggleBuySell";
 import { OpenOrders } from "../common/openOrders";
@@ -21,11 +21,9 @@ import { TopNav } from "./TopNavBar";
 import { MarketPopup } from "./marketPopup";
 import { Funds } from "./funds";
 import { MobileChartBar } from "./mobileChart";
+import { setDark, setSearchQuery, setShow } from "../store/webSocket";
 export const Home = () => {
-  const [dark, setDark] = useState(() => {
-    const storedTheme = localStorage.getItem("theme");
-    return storedTheme ? JSON.parse(storedTheme) : true; // default true
-  });
+    const { dark, searchQuery, show } = useSelector((state) => state.counter);
 
   useEffect(() => {
     localStorage.setItem("theme", JSON.stringify(dark));
@@ -36,13 +34,14 @@ export const Home = () => {
   const [active, setActive] = useState("Spot");
   const navigate = useNavigate();
   const { symbol } = useParams();
+  const dispatch=useDispatch()
   const popupRef = useRef(null);
-  const [searchQuery, setSearchQuery] = useState(symbol || "BTCUSDT");
+ 
   const userData = JSON.parse(localStorage.getItem("userData"));
   const [activeItem, setActiveItem] = useState("Buy");
   const [openMarketPopup, setOpenMarketPopup] = useState(false);
 
-  const [show, setShow] = useState(false);
+  
   useEffect(() => {
     if (symbol) {
       const pair = `${symbol}`; // e.g., spot/DOGEUSDT
@@ -93,10 +92,9 @@ export const Home = () => {
       {show && (
         <div className="App">
           <MobileSidebar
-            show={show}
-            setShow={setShow}
+             setShow={(val) => dispatch(setShow(val))}
             dark={dark}
-            setDark={setDark}
+            setDark={(val) => dispatch(setDark(val))}
           />
         </div>
       )}
@@ -107,12 +105,6 @@ export const Home = () => {
       >
         {/* Top Navbar */}
         <TopNav
-          dark={dark}
-          setDark={setDark}
-          searchQuery={searchQuery}
-          setSearchQuery={setSearchQuery}
-          show={show}
-          setShow={setShow}
         />
         {/* Main Content */}
         <div className="w-full flex flex-col items-center gap-1 justify-between md:p-[4px_4px_4px_4px]">
@@ -149,7 +141,7 @@ export const Home = () => {
             <div className="xl:max-w-[320px] max-w-[250px] w-full lg:flex hidden flex-col gap-1">
               <MarketCom
                 dark={dark}
-                SetSearchQuery={setSearchQuery}
+                SetSearchQuery={(val)=>dispatch(setSearchQuery(val))}
                 searchQuery={searchQuery}
               />
               <div
@@ -161,7 +153,7 @@ export const Home = () => {
               >
                 <TopMovers
                   dark={dark}
-                  setSearchQuery={setSearchQuery}
+                  setSearchQuery={()=>dispatch(setSearchQuery())}
                   searchQuery={searchQuery}
                 />
               </div>
@@ -282,7 +274,7 @@ export const Home = () => {
         {openMarketPopup && (
           <div>
             <MarketPopup
-              setSearchQuery={setSearchQuery}
+              setSearchQuery={()=>dispatch(setSearchQuery)}
               searchQuery={searchQuery}
               dark={dark}
               handleClose={() => setOpenMarketPopup(false)}

@@ -18,10 +18,13 @@ import ToastProvider from "./Toastify/ToastProvider";
 import { ResetPassword } from "./Login/ResetPassword";
 import { useAuth } from "./hooks/useAuth";
 import { History } from "./pages/history";
+import { Dashboard } from "./pages/dashboard";
+import { OpenOrders } from "./common/openOrders";
+import { LayoutWeb } from "./pages/LayoutWeb";
+import { Spot } from "./pages/Spot";
 function App() {
   const last = JSON.parse(localStorage.getItem("lastPair")) || "BTCUSDT";
   const userData = useAuth();
-
   return (
     <>
       <ToastProvider />
@@ -38,10 +41,25 @@ function App() {
             element={<Navigate to={`/spot/${last}`} replace />}
           />
           <Route path="/order" element={<Order />} />
+          <Route
+            path="/dashboard"
+            element={<LayoutWeb component={<Dashboard />} />}
+          />
           <Route path="/chart" element={<ChartEmbed />} />
-          <Route path="/Market" element={<MarketCom />} />
+          <Route
+            path="/Market"
+            element={<LayoutWeb component={<MarketCom />} />}
+          />
           <Route path="/input" element={<InputComponent />} />
-          <Route path="/history" element={<History />} />
+          <Route path="/asstes" element={<LayoutWeb component={<Spot />} />} />
+          <Route
+            path="orders"
+            element={<LayoutWeb component={<OpenOrders />} />}
+          />
+          <Route
+            path="/history"
+            element={<LayoutWeb component={<History />} />}
+          />
           <Route path="/w" element={<Socket />} />
           <Route
             path="/login"

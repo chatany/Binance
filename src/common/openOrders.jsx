@@ -15,7 +15,7 @@ import { FaRegEdit } from "react-icons/fa";
 import { ConfirmationBox } from "./deletePopup";
 import { useDeviceInfo } from "../hooks/useDeviceInfo";
 
-export const OpenOrders = ({ dark }) => {
+export const OpenOrders = () => {
   const {
     openOrder,
     orderHistory,
@@ -24,6 +24,7 @@ export const OpenOrders = ({ dark }) => {
     showPopup,
     searchData,
     pairId,
+    dark,
   } = useSelector((state) => state.counter);
   const popupRef = useRef(null);
   const [activeTab, setActiveTab] = useState("Open Orders");

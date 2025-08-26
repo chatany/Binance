@@ -10,33 +10,28 @@ import { data, MenuItem } from "../Constant";
 import { useEffect, useRef, useState } from "react";
 import { HelpCenter } from "./helpCenter";
 import { CgProfile } from "react-icons/cg";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { helpCenterApi } from "./apiCall";
 import { HiDownload } from "react-icons/hi";
 import { SidePopup } from "./sidePopup";
 import { RiLogoutBoxRLine } from "react-icons/ri";
 import { ConfirmationBox } from "../common/deletePopup";
 import { Tooltip } from "@mui/material";
-import { setBalance, setFundData } from "../store/webSocket";
+import { setBalance, setDark, setFundData, setSearchQuery, setShow } from "../store/webSocket";
 import { useAuth } from "../hooks/useAuth";
 
-export const TopNav = ({
-  dark,
-  setDark,
-  searchQuery,
-  setSearchQuery,
-  show,
-  setShow,
-}) => {
+export const TopNav = () => {
   const navigate = useNavigate();
+  const { dark, searchQuery, show } = useSelector((state) => state.counter);
+
   const [showHelpPopup, setShowHelpPopup] = useState(false);
-  const [profile,setProfile]=useState(false);
+  const [profile, setProfile] = useState(false);
   const [showLogoutPopup, setShowLogoutPopup] = useState(false);
   const handleClose = () => {
-    setShow(!show);
+    dispatch(setShow(true))
   };
   const handleTheme = () => {
-    setDark(!dark);
+    dispatch(setDark(!dark));
   };
   const [hoveredItemIndex, setHoveredItemIndex] = useState(null);
   const [showPopup, setShowPopup] = useState(false);
@@ -299,44 +294,64 @@ export const TopNav = ({
             onClick={() => setShowSideBar(true)}
           />
         </Tooltip>
-        {/* {userData?.token && (
-          <div className="relative flex">
-            <CgProfile  className=" hover:text-amber-400 h-6 w-6" onMouseEnter={()=>setProfile(!profile)} />
             <div
               className=" text-[14px] font-medium leading-6 hover:opacity-85 items-center text-black bg-[#fcd535] rounded-sm px-2 py-1 flex"
               onClick={() => navigate("/register")}
             >
-              <HiDownload on className="h-4 w-4 md:block hidden hover:text-amber-400" />
+              <HiDownload
+                className="h-4 w-4 md:block hidden hover:text-amber-400"
+              />
               Deposit
             </div>
-            {
-              profile &&
-            <div className="absolute top-10 sm:shadow-[0px_0px_40px_0px_rgba(0,0,0,0.06)] z-50">
-              <div className="p-5">
-                <div className="flex gap-2">
-                  <div>
-                    <img src="" />
+        {userData?.token && (
+          <div className="relative flex items-center gap-4" onMouseEnter={()=>setProfile(!profile)} onMouseLeave={()=>setProfile(!profile)}>
+            <CgProfile
+              className=" hover:text-amber-400 h-6 w-6"
+              // onClick={() => setProfile(!profile)}
+            />
+            {profile && (
+              <div
+                className={`absolute w-[268px] ${
+                  dark ? "bg-[#1E2329]" : "bg-[#ffffff]"
+                } top-6 sm:shadow-[0px_0px_40px_0px_rgba(0,0,0,0.1)] right-0 z-50 rounded-xl`}
+              >
+                <div onMouseLeave={()=>setProfile(!profile)}>
+                  <div className="flex gap-2 items-center p-[10px_20px_10px_20px] ">
+                    <div className="w-14 h-14 rounded-full overflow-hidden">
+                      <img src="/Avatar.png" />
+                    </div>
+                    <div>
+                      <div>er***@gmail.com</div>
+                      <div className="text-[11px] p-1 bg-">Regular User</div>
+                    </div>
                   </div>
-                  <div>
-                    <div>er***@gmail.com</div>
-                    <div className="text-[11px]">Regular User</div>
+                  <div className="flex flex-col">
+                  {MenuItem.map((item, index) => (
+                    <div
+                      className={`flex items-center ${dark?"hover:bg-[#2B3139]":"hover:bg-[#EAECEF]"} p-[10px_20px_10px_20px] gap-2 ${
+                        index === MenuItem?.length - 1
+                          ? dark
+                            ? "border-[#333B47] border-t-1 rounded-b-xl"
+                            : "border-[#EDEDED] border-t-1 rounded-b-xl"
+                          : ""
+                      } `}
+                      key={index}
+                      onClick={()=>navigate("/dashboard")}
+                    >
+                      <div>{item?.icon}</div>
+                      <div>{item?.name}</div>
+                    </div>
+                  ))}
                   </div>
                 </div>
-                {MenuItem.map((item)=>(
-                  <div className="flex gap-2">
-                    <div>{item?.icon}</div>
-                    <div>{item?.name}</div>
-                  </div>
-                ))}
               </div>
-            </div>
-            }
+            )}
           </div>
-        )} */}
+        )}
         {showSideBar && (
           <div>
             <SidePopup
-              setSearchQuery={setSearchQuery}
+              setSearchQuery={(val)=>dispatch(setSearchQuery(val))}
               searchQuery={searchQuery}
               dark={dark}
               handleClose={() => setShowSideBar(false)}

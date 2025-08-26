@@ -11,6 +11,9 @@ const updateMoversSection = (existing, incoming) => {
   }
   return updated;
 };
+const storedTheme = localStorage.getItem("theme");
+const initialDark = storedTheme ? JSON.parse(storedTheme) : true;
+const last = JSON.parse(localStorage.getItem("lastPair"));
 
 export const counterSlice = createSlice({
   name: "counter",
@@ -50,14 +53,27 @@ export const counterSlice = createSlice({
     searchData: [],
     fundData: [],
     showPopup: false,
-    coinName:""
+    coinName: "",
+    dark: initialDark,
+    searchQuery: last || "BTCUSDT",
+    show: false,
   },
   reducers: {
     incrementByAmount: (state, action) => {
       state.tikerData = action.payload;
     },
-    setCoinName:(state,action)=>{
-      state.coinName=action.payload;
+    setDark: (state, action) => {
+      state.dark = action.payload;
+      localStorage.setItem("theme", JSON.stringify(state.dark));
+    },
+    setSearchQuery: (state, action) => {
+      state.searchQuery = action.payload;
+    },
+    setShow: (state, action) => {
+      state.show = action.payload;
+    },
+    setCoinName: (state, action) => {
+      state.coinName = action.payload;
     },
     setFundData: (state, action) => {
       state.fundData = action.payload;
@@ -188,6 +204,9 @@ export const counterSlice = createSlice({
 
 export const {
   increment,
+  setDark,
+  setShow,
+  setSearchQuery,
   setFundData,
   setCountryData,
   setBalance,

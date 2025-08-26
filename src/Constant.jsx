@@ -7,9 +7,15 @@ import {
   FaMoneyBill,
   FaQuestionCircle,
 } from "react-icons/fa";
+import { LuWallet } from "react-icons/lu";
+import { PiHouseSimple } from "react-icons/pi";
+import { MdDashboardCustomize } from "react-icons/md";
+import { HiOfficeBuilding } from "react-icons/hi";
+import { FaUserLarge } from "react-icons/fa6";
+import { MdOutlinePendingActions } from "react-icons/md";
+import { FaUserPlus } from "react-icons/fa";
 import { IoSettings } from "react-icons/io5";
 import { RiAccountCircle2Line } from "react-icons/ri";
-
 
 export const marks = [
   { value: 0, label: "0" },
@@ -89,17 +95,26 @@ export const formatToKMBWithCommas = (num) => {
   return formatDecimal(n, 8);
 };
 export const MenuItem = [
-  { icon: <CgEye />, name: "Dashboard" },
-  { icon: <CgEye />, name: "Assets" },
-  { icon: <CgEye />, name: "Orders" },
-  { icon: <CgEye />, name: "Account" },
-  { icon: <CgEye />, name: "Referral" },
+  { icon: <MdDashboardCustomize />, name: "Dashboard" },
+  { icon: <LuWallet />, name: "Assets" },
+  { icon: <HiOfficeBuilding />, name: "Orders" },
+  { icon: <FaUserLarge />, name: "Account" },
+  { icon: <FaUserPlus />, name: "Referral" },
   { icon: <CgEye />, name: "Rewards Hub" },
   { icon: <RiAccountCircle2Line />, name: "Sub Accounts" },
   { icon: <IoSettings />, name: "Settings" },
   { icon: <CgArrowsExchangeV />, name: "Switch Account" },
-  { icon: <CiLogout />, name: "Log Out" }
-
+  { icon: <CiLogout />, name: "Log Out" },
+];
+export const menu = [
+  { icon: <PiHouseSimple />, name: "Dashboard" ,path:"/dashboard"},
+  { icon: <LuWallet />, name: "Assets",item:["Spot"] ,path:"/asstes"},
+  { icon: <MdOutlinePendingActions />, name: "Orders" ,item:["Spot Orders"],path:"/orders"},
+  { icon: <CgEye />, name: "Rewards Hub",path:"#" },
+  { icon: <FaUserPlus />, name: "Referral",path:"#" },
+  { icon: <FaUserLarge />, name: "Account",path:"#" },
+  { icon: <RiAccountCircle2Line />, name: "Sub Accounts",path:"#" },
+  { icon: <IoSettings />, name: "Settings",path:"#" },
 ];
 export const formatDecimal = (value, decimalPlaces) => {
   const num = Number(value);

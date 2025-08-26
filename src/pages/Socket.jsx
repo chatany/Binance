@@ -10,7 +10,7 @@ import {
   setTradeData,
 } from "../store/webSocket";
 import {
-  allMovers,
+  allMover,
   buysellBalance,
   getFundsData,
   OrderHistory,
@@ -335,7 +335,7 @@ export const Socket = ({ searchQuery }) => {
     // Step 1: Call API first
     const fetchInitialData = async () => {
       await TopMoves(dispatch);
-      await allMovers(dispatch);
+      await allMover(dispatch);
       if (token) {
         await getFundsData(dispatch);
       }
