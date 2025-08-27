@@ -17,7 +17,13 @@ import { SidePopup } from "./sidePopup";
 import { RiLogoutBoxRLine } from "react-icons/ri";
 import { ConfirmationBox } from "../common/deletePopup";
 import { Tooltip } from "@mui/material";
-import { setBalance, setDark, setFundData, setSearchQuery, setShow } from "../store/webSocket";
+import {
+  setBalance,
+  setDark,
+  setFundData,
+  setSearchQuery,
+  setShow,
+} from "../store/webSocket";
 import { useAuth } from "../hooks/useAuth";
 
 export const TopNav = () => {
@@ -28,7 +34,7 @@ export const TopNav = () => {
   const [profile, setProfile] = useState(false);
   const [showLogoutPopup, setShowLogoutPopup] = useState(false);
   const handleClose = () => {
-    dispatch(setShow(true))
+    dispatch(setShow(true));
   };
   const handleTheme = () => {
     dispatch(setDark(!dark));
@@ -294,17 +300,21 @@ export const TopNav = () => {
             onClick={() => setShowSideBar(true)}
           />
         </Tooltip>
-            <div
-              className=" text-[14px] font-medium leading-6 hover:opacity-85 items-center text-black bg-[#fcd535] rounded-sm px-2 py-1 flex"
-              onClick={() => navigate("/register")}
-            >
-              <HiDownload
-                className="h-4 w-4 md:block hidden hover:text-amber-400"
-              />
-              Deposit
-            </div>
         {userData?.token && (
-          <div className="relative flex items-center gap-4" onMouseEnter={()=>setProfile(!profile)} onMouseLeave={()=>setProfile(!profile)}>
+          <div
+            className=" text-[14px] font-medium leading-6 hover:opacity-85 items-center text-black bg-[#fcd535] rounded-sm px-2 py-1 flex"
+            onClick={() => navigate("/register")}
+          >
+            <HiDownload className="h-4 w-4 md:block hidden hover:text-amber-400" />
+            Deposit
+          </div>
+        )}
+        {userData?.token && (
+          <div
+            className="relative flex items-center gap-4"
+            onMouseEnter={() => setProfile(!profile)}
+            onMouseLeave={() => setProfile(!profile)}
+          >
             <CgProfile
               className=" hover:text-amber-400 h-6 w-6"
               // onClick={() => setProfile(!profile)}
@@ -315,7 +325,7 @@ export const TopNav = () => {
                   dark ? "bg-[#1E2329]" : "bg-[#ffffff]"
                 } top-6 sm:shadow-[0px_0px_40px_0px_rgba(0,0,0,0.1)] right-0 z-50 rounded-xl`}
               >
-                <div onMouseLeave={()=>setProfile(!profile)}>
+                <div onMouseLeave={() => setProfile(!profile)}>
                   <div className="flex gap-2 items-center p-[10px_20px_10px_20px] ">
                     <div className="w-14 h-14 rounded-full overflow-hidden">
                       <img src="/Avatar.png" />
@@ -326,22 +336,24 @@ export const TopNav = () => {
                     </div>
                   </div>
                   <div className="flex flex-col">
-                  {MenuItem.map((item, index) => (
-                    <div
-                      className={`flex items-center ${dark?"hover:bg-[#2B3139]":"hover:bg-[#EAECEF]"} p-[10px_20px_10px_20px] gap-2 ${
-                        index === MenuItem?.length - 1
-                          ? dark
-                            ? "border-[#333B47] border-t-1 rounded-b-xl"
-                            : "border-[#EDEDED] border-t-1 rounded-b-xl"
-                          : ""
-                      } `}
-                      key={index}
-                      onClick={()=>navigate("/dashboard")}
-                    >
-                      <div>{item?.icon}</div>
-                      <div>{item?.name}</div>
-                    </div>
-                  ))}
+                    {MenuItem.map((item, index) => (
+                      <div
+                        className={`flex items-center ${
+                          dark ? "hover:bg-[#2B3139]" : "hover:bg-[#EAECEF]"
+                        } p-[10px_20px_10px_20px] gap-2 ${
+                          index === MenuItem?.length - 1
+                            ? dark
+                              ? "border-[#333B47] border-t-1 rounded-b-xl"
+                              : "border-[#EDEDED] border-t-1 rounded-b-xl"
+                            : ""
+                        } `}
+                        key={index}
+                        onClick={() => navigate("/dashboard")}
+                      >
+                        <div>{item?.icon}</div>
+                        <div>{item?.name}</div>
+                      </div>
+                    ))}
                   </div>
                 </div>
               </div>
@@ -351,7 +363,7 @@ export const TopNav = () => {
         {showSideBar && (
           <div>
             <SidePopup
-              setSearchQuery={(val)=>dispatch(setSearchQuery(val))}
+              setSearchQuery={(val) => dispatch(setSearchQuery(val))}
               searchQuery={searchQuery}
               dark={dark}
               handleClose={() => setShowSideBar(false)}
