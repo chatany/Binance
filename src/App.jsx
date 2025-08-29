@@ -22,6 +22,12 @@ import { Dashboard } from "./pages/dashboard";
 import { OpenOrders } from "./common/openOrders";
 import { LayoutWeb } from "./pages/LayoutWeb";
 import { Spot } from "./pages/Spot";
+import { Referral } from "./pages/Referral";
+import { RewardHub } from "./pages/RewardHub";
+import { Identification } from "./Account/Identification";
+import { Security } from "./Account/Security";
+import { Setting } from "./pages/Settings";
+import { Footer } from "./pages/Footer";
 function App() {
   const last = JSON.parse(localStorage.getItem("lastPair")) || "BTCUSDT";
   const userData = useAuth();
@@ -40,7 +46,7 @@ function App() {
             path="/spot/:symbol"
             element={<Navigate to={`/spot/${last}`} replace />}
           />
-          <Route path="/order" element={<Order />} />
+          <Route path="/order" element={<Footer />} />
           <Route
             path="/dashboard"
             element={<LayoutWeb component={<Dashboard />} />}
@@ -100,6 +106,20 @@ function App() {
                 <ResetPassword />
               )
             }
+          />
+          <Route path="Referral" element={<Referral />} />
+          <Route path="Reward" element={<RewardHub />} />
+          <Route
+            path="Identity"
+            element={<LayoutWeb component={<Identification />} />}
+          />
+          <Route
+            path="security"
+            element={<LayoutWeb component={<Security />} />}
+          />
+          <Route
+            path="settings"
+            element={<LayoutWeb component={<Setting />} />}
           />
         </Routes>
       </Router>

@@ -3,7 +3,7 @@ import { useSelector } from "react-redux";
 export const ChartEmbed = ({ searchQuery, dark }) => {
   const query = searchQuery || "BTCUSDT";
   const apiId = useSelector((state) => state.counter.apiId);
-  const url = `https://chart.bitzup.com/?market=${query}&theme=${
+  const url = `https://chart.bitzup.com/${apiId==="binance"?"v1":"v2"}/${query.toUpperCase()}?theme=${
     dark ? "dark" : "light"
   }
   `;

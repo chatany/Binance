@@ -57,10 +57,14 @@ export const counterSlice = createSlice({
     dark: initialDark,
     searchQuery: last || "BTCUSDT",
     show: false,
+    activeItem: false,
   },
   reducers: {
     incrementByAmount: (state, action) => {
       state.tikerData = action.payload;
+    },
+    setActiveItem: (state, action) => {
+      state.activeItem = action.payload;
     },
     setDark: (state, action) => {
       state.dark = action.payload;
@@ -205,6 +209,7 @@ export const counterSlice = createSlice({
 export const {
   increment,
   setDark,
+  setActiveItem,
   setShow,
   setSearchQuery,
   setFundData,

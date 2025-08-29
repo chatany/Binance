@@ -138,7 +138,7 @@ export const TopNav = () => {
                 });
               }}
               onClick={() => {
-                i == 0 || i == 1 ? window.location.reload() : "";
+                i == 0 || i == 1 ? navigate("/"): "";
               }}
               // onMouseLeave={() => setHoveredItemIndex(null)}
             >
@@ -162,7 +162,7 @@ export const TopNav = () => {
           hoveredItemIndex !== 1 && (
             <div
               className={`absolute max-w-[40rem]  border-1 ${
-                dark ? "bg-[#161A1E] text-white" : "bg-white text-black"
+                dark ? "bg-[#1E2329] text-white" : "bg-white text-black"
               }  opacity-95  ${
                 dark ? "border-[#2B3139]" : "border-[#EAECEF]"
               }   p-2  shadow-lg rounded-md  z-999 hidden lg:block transition-all duration-200`}
@@ -189,7 +189,7 @@ export const TopNav = () => {
                                       key={ind}
                                       onClick={() =>
                                         val?.title === "Spot"
-                                          ? window.location.reload()
+                                          ? navigate("/")
                                           : ""
                                       }
                                       className={`${
@@ -348,7 +348,7 @@ export const TopNav = () => {
                             : ""
                         } `}
                         key={index}
-                        onClick={() => navigate("/dashboard")}
+                        onClick={() => navigate(item?.path)}
                       >
                         <div>{item?.icon}</div>
                         <div>{item?.name}</div>

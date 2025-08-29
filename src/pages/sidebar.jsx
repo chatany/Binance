@@ -5,10 +5,14 @@ import { Link, useNavigate } from "react-router-dom";
 import styled from "@emotion/styled";
 import { Switch, Tooltip } from "@mui/material";
 import { useAuth } from "../hooks/useAuth";
+import { useDispatch, useSelector } from "react-redux";
+import { setDark, setShow } from "../store/webSocket";
 
-export default function MobileSidebar({ show, setShow, dark, setDark }) {
+export default function MobileSidebar() {
+  const { dark, show } = useSelector((state) => state.counter);
   const [openMenus, setOpenMenus] = useState({ trade: false, earn: false });
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const token = useAuth();
   const toggleMenu = (menu) => {
     setOpenMenus((prev) => ({ ...prev, [menu]: !prev[menu] }));
@@ -61,7 +65,7 @@ export default function MobileSidebar({ show, setShow, dark, setDark }) {
   }));
   const handleTheme = (e) => {
     const value = e.target.checked;
-    setDark(value);
+    dispatch(setDark(value));
   };
   return (
     show && (
@@ -78,7 +82,7 @@ export default function MobileSidebar({ show, setShow, dark, setDark }) {
           )}
           <IoMdClose
             className="text-[2rem] cursor-pointer"
-            onClick={() => setShow(false)}
+            onClick={() => dispatch(setShow(false))}
           />
         </div>
         <div className="w-full justify-between flex p-1 gap-2">

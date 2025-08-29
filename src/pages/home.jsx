@@ -23,7 +23,7 @@ import { Funds } from "./funds";
 import { MobileChartBar } from "./mobileChart";
 import { setDark, setSearchQuery, setShow } from "../store/webSocket";
 export const Home = () => {
-    const { dark, searchQuery, show } = useSelector((state) => state.counter);
+  const { dark, searchQuery, show } = useSelector((state) => state.counter);
 
   useEffect(() => {
     localStorage.setItem("theme", JSON.stringify(dark));
@@ -34,14 +34,13 @@ export const Home = () => {
   const [active, setActive] = useState("Spot");
   const navigate = useNavigate();
   const { symbol } = useParams();
-  const dispatch=useDispatch()
+  const dispatch = useDispatch();
   const popupRef = useRef(null);
- 
+
   const userData = JSON.parse(localStorage.getItem("userData"));
   const [activeItem, setActiveItem] = useState("Buy");
   const [openMarketPopup, setOpenMarketPopup] = useState(false);
 
-  
   useEffect(() => {
     if (symbol) {
       const pair = `${symbol}`; // e.g., spot/DOGEUSDT
@@ -91,11 +90,7 @@ export const Home = () => {
       <Socket searchQuery={searchQuery} />
       {show && (
         <div className="App">
-          <MobileSidebar
-             setShow={(val) => dispatch(setShow(val))}
-            dark={dark}
-            setDark={(val) => dispatch(setDark(val))}
-          />
+          <MobileSidebar />
         </div>
       )}
       <div
@@ -104,8 +99,7 @@ export const Home = () => {
        h-full flex flex-col gap-0  `}
       >
         {/* Top Navbar */}
-        <TopNav
-        />
+        <TopNav />
         {/* Main Content */}
         <div className="w-full flex flex-col items-center gap-1 justify-between md:p-[4px_4px_4px_4px]">
           <div className="max-w-[1528px] overflow-hidden w-full lg:flex hidden gap-1.5">
@@ -128,7 +122,11 @@ export const Home = () => {
                     } max-h-[800px]   text-xs w-full`}
                   >
                     <div className="h-[500px] w-full rounded-lg">
-                      <ChartEmbed searchQuery={symbol} dark={dark} className="w-full" />
+                      <ChartEmbed
+                        searchQuery={symbol}
+                        dark={dark}
+                        className="w-full"
+                      />
                     </div>
                   </div>
                   <div className="w-full">
@@ -141,7 +139,7 @@ export const Home = () => {
             <div className="xl:max-w-[320px] max-w-[250px] w-full lg:flex hidden flex-col gap-1">
               <MarketCom
                 dark={dark}
-                SetSearchQuery={(val)=>dispatch(setSearchQuery(val))}
+                SetSearchQuery={(val) => dispatch(setSearchQuery(val))}
                 searchQuery={searchQuery}
               />
               <div
@@ -153,7 +151,7 @@ export const Home = () => {
               >
                 <TopMovers
                   dark={dark}
-                  setSearchQuery={()=>dispatch(setSearchQuery())}
+                  setSearchQuery={() => dispatch(setSearchQuery())}
                   searchQuery={searchQuery}
                 />
               </div>
@@ -215,7 +213,7 @@ export const Home = () => {
                 }  w-full`}
               >
                 {/* <ChartEmbed searchQuery={symbol} dark={dark}/> */}
-                <MobileChartBar dark={dark} searchQuery={searchQuery}/>
+                <MobileChartBar dark={dark} searchQuery={searchQuery} />
               </div>
               <Funds dark={dark} />
             </div>
@@ -274,7 +272,7 @@ export const Home = () => {
         {openMarketPopup && (
           <div>
             <MarketPopup
-              setSearchQuery={()=>dispatch(setSearchQuery)}
+              setSearchQuery={() => dispatch(setSearchQuery)}
               searchQuery={searchQuery}
               dark={dark}
               handleClose={() => setOpenMarketPopup(false)}

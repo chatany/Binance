@@ -14,6 +14,14 @@ import { HiOfficeBuilding } from "react-icons/hi";
 import { FaUserLarge } from "react-icons/fa6";
 import { MdOutlinePendingActions } from "react-icons/md";
 import { FaUserPlus } from "react-icons/fa";
+import { RiTelegramFill } from "react-icons/ri";
+import { FaInstagram } from "react-icons/fa";
+import { RiWhatsappFill } from "react-icons/ri";
+import { RiTwitterXLine } from "react-icons/ri";
+import { FaReddit } from "react-icons/fa";
+import { FaYoutube } from "react-icons/fa";
+import { FaFacebook } from "react-icons/fa";
+import { FaTiktok } from "react-icons/fa";
 import { IoSettings } from "react-icons/io5";
 import { RiAccountCircle2Line } from "react-icons/ri";
 
@@ -95,26 +103,47 @@ export const formatToKMBWithCommas = (num) => {
   return formatDecimal(n, 8);
 };
 export const MenuItem = [
-  { icon: <MdDashboardCustomize />, name: "Dashboard" },
-  { icon: <LuWallet />, name: "Assets" },
-  { icon: <HiOfficeBuilding />, name: "Orders" },
+  { icon: <MdDashboardCustomize />, name: "Dashboard", path: "/dashboard" },
+  { icon: <LuWallet />, name: "Assets", path: "/asstes" },
+  { icon: <HiOfficeBuilding />, name: "Orders", path: "/orders" },
   { icon: <FaUserLarge />, name: "Account" },
-  { icon: <FaUserPlus />, name: "Referral" },
-  { icon: <CgEye />, name: "Rewards Hub" },
+  { icon: <FaUserPlus />, name: "Referral", path: "/Referral" },
+  { icon: <CgEye />, name: "Rewards Hub", path: "/Reward" },
   { icon: <RiAccountCircle2Line />, name: "Sub Accounts" },
   { icon: <IoSettings />, name: "Settings" },
   { icon: <CgArrowsExchangeV />, name: "Switch Account" },
   { icon: <CiLogout />, name: "Log Out" },
 ];
 export const menu = [
-  { icon: <PiHouseSimple />, name: "Dashboard" ,path:"/dashboard"},
-  { icon: <LuWallet />, name: "Assets",item:["Spot"] ,path:"/asstes"},
-  { icon: <MdOutlinePendingActions />, name: "Orders" ,item:["Spot Orders"],path:"/orders"},
-  { icon: <CgEye />, name: "Rewards Hub",path:"#" },
-  { icon: <FaUserPlus />, name: "Referral",path:"#" },
-  { icon: <FaUserLarge />, name: "Account",path:"#" },
-  { icon: <RiAccountCircle2Line />, name: "Sub Accounts",path:"#" },
-  { icon: <IoSettings />, name: "Settings",path:"#" },
+  { icon: <PiHouseSimple />, name: "Dashboard", path: "/dashboard" },
+  {
+    icon: <LuWallet />,
+    name: "Assets",
+    category: [{ name: "Spot", path: "/asstes" }],
+    path: "",
+  },
+  {
+    icon: <MdOutlinePendingActions />,
+    name: "Orders",
+    category: [{ name: "Spot Orders", path: "/orders" }],
+  },
+  { icon: <CgEye />, name: "Rewards Hub", path: "#" },
+  { icon: <FaUserPlus />, name: "Referral", path: "#" },
+  {
+    icon: <FaUserLarge />,
+    name: "Account",
+    path: "#",
+    category: [
+      { name: "Identification", path: "/Identity" },
+      { name: "Security", path: "/security" },
+      { name: "Payment", path: "#" },
+      { name: "API Management", path: "#" },
+      { name: "Account Statement", path: "#" },
+      { name: "Financial Reports", path: "#" },
+    ],
+  },
+  { icon: <RiAccountCircle2Line />, name: "Sub Accounts", path: "#" },
+  { icon: <IoSettings />, name: "Settings", path: "/settings" },
 ];
 export const formatDecimal = (value, decimalPlaces) => {
   const num = Number(value);
@@ -226,4 +255,87 @@ export const data = [
       },
     ],
   },
+];
+export const footerItems = [
+  {
+    title: "About Us",
+    category: [
+      "About",
+      "Careers",
+      "Announcements",
+      "News",
+      "Press",
+      "Legal",
+      "Terms",
+      "Privacy",
+      "Building Trust",
+      "Blog",
+      "Community",
+      "Risk Warning",
+      "Notices",
+      "Downloads",
+      "Desktop Application",
+    ],
+  },
+  {
+    title: "Learn",
+    category: [
+      "Learn & Earn",
+      "Browse Crypto Prices",
+      "Bitcoin Price",
+      "Ethereum Price",
+      "Browse Crypto Price Predictions",
+      "Bitcoin Price Prediction",
+      "Ethereum Price Prediction",
+      "Ethereum Upgrade (Pectra)",
+      "Buy Bitcoin",
+      "Buy BNB",
+      "Buy XRP",
+      "Buy Dogecoin",
+      "Buy Ethereum",
+      "Buy Tradable Altcoins",
+    ],
+  },
+  {
+    title: "Products",
+    category: [
+      "Exchange",
+      "Buy Crypto",
+      "Pay",
+      "Academy",
+      "Live",
+      "Gift Card",
+      "Launchpool",
+      "Auto-Invest",
+      "ETH Staking",
+      "NFT",
+      "BABT",
+      "Research",
+      "Charity",
+    ],
+  },
+  {
+    title: "Support",
+    category: [
+      " 24/7 Chat Support",
+      "Support Center",
+      "Product Feedback & Suggestions",
+      "Fees",
+      "APIs",
+      "Binance Verify",
+      "Trading Rules",
+      "Binance Airdrop Portal",
+      "Law Enforcement Requests",
+    ],
+  },
+];
+export const socialIcons = [
+  <RiTelegramFill className="size-6"/>,
+  <FaInstagram className="size-6" />,
+  <RiWhatsappFill className="size-6" />,
+  <RiTwitterXLine className="size-6" />,
+  <FaReddit className="size-6" />,
+  <FaYoutube className="size-6" />,
+  <FaFacebook className="size-6" />,
+  <FaTiktok className="size-6" />,
 ];

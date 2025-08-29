@@ -303,7 +303,6 @@ export const Form = ({ dark, searchQuery }) => {
     limit_price: 0,
     device_type: deviceInfo?.device_type,
     device_info: deviceInfo?.device_info,
-    source: deviceInfo?.source,
   };
   const handleMarket = async () => {
     if (error.marketBuyErr) return;
