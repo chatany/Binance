@@ -54,7 +54,7 @@ function App() {
           <Route path="/chart" element={<ChartEmbed />} />
           <Route
             path="/Market"
-            element={<LayoutWeb component={<MarketCom />} />}
+            element={<MarketCom />}
           />
           <Route path="/input" element={<InputComponent />} />
           <Route path="/asstes" element={<LayoutWeb component={<Spot />} />} />
@@ -64,7 +64,7 @@ function App() {
           />
           <Route
             path="/history"
-            element={<LayoutWeb component={<History />} />}
+            element={<History />}
           />
           <Route path="/w" element={<Socket />} />
           <Route

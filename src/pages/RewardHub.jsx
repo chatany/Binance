@@ -2,6 +2,7 @@ import { useSelector } from "react-redux";
 import { TopNav } from "./TopNavBar";
 import { GoChevronRight } from "react-icons/go";
 import { useEffect, useRef, useState } from "react";
+import { Footer } from "./Footer";
 
 export const RewardHub = () => {
   const dark = useSelector((state) => state.counter.dark);
@@ -176,6 +177,9 @@ export const RewardHub = () => {
             </div>
           </div>
         </div>
+      </div>
+      <div className="p-10">
+      <Footer/>
       </div>
     </div>
   );

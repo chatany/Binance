@@ -94,13 +94,12 @@ export const formatToKMBWithCommas = (num) => {
   const n = Number(num);
   if (isNaN(n)) return "";
 
-  // For large numbers use Intl formatting with commas
   if (n >= 1000) {
     return new Intl.NumberFormat("en-IN").format(n);
+  }else{
+    return num;
   }
 
-  // For small numbers → don’t use Intl, just format decimals
-  return formatDecimal(n, 8);
 };
 export const MenuItem = [
   { icon: <MdDashboardCustomize />, name: "Dashboard", path: "/dashboard" },

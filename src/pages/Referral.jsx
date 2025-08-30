@@ -3,6 +3,7 @@ import { FaFacebook, FaReddit, FaTelegram, FaWhatsapp } from "react-icons/fa";
 import { useSelector } from "react-redux";
 import { TopNav } from "./TopNavBar";
 import { RiTwitterXLine } from "react-icons/ri";
+import { Footer } from "./Footer";
 export const Referral = () => {
   const dark = useSelector((state) => state.counter.dark);
   return (
@@ -192,9 +193,7 @@ export const Referral = () => {
           <div className="text-[20px] font-semibold">Overview</div>
           <div className="flex w-full">
             <div className="w-full p-3">
-              <div
-                className={`w-full  text-[16px] p-5`}
-              >
+              <div className={`w-full  text-[16px] p-5`}>
                 <div>Total Rewards (USD)</div>
                 <div className="font-bold text-[48px]">0</div>
                 <div>≈ $0</div>
@@ -202,24 +201,32 @@ export const Referral = () => {
             </div>
             <div className="grid grid-cols-2 w-full gap-[16px]">
               <div
-                className={`w-full ${dark ? "bg-[#0B0E11]" : "bg-[#FAFAFA]"} w-full font-medium p-5 `}
+                className={`w-full ${
+                  dark ? "bg-[#0B0E11]" : "bg-[#FAFAFA]"
+                } w-full font-medium p-5 `}
               >
                 Total Referral
               </div>
               <div
-                className={`w-full ${dark ? "bg-[#0B0E11]" : "bg-[#FAFAFA]"} font-medium p-5`}
+                className={`w-full ${
+                  dark ? "bg-[#0B0E11]" : "bg-[#FAFAFA]"
+                } font-medium p-5`}
               >
                 Task Completed Referrals
               </div>
               <div
-                className={`w-full  ${dark ? "bg-[#0B0E11]" : "bg-[#FAFAFA]"} p-5`}
+                className={`w-full  ${
+                  dark ? "bg-[#0B0E11]" : "bg-[#FAFAFA]"
+                } p-5`}
               >
                 <div>Total Trading Fee Rebate Voucher (USD)</div>
                 <div className="font-bold text-[28px]">0</div>
                 <div>≈ $NaN</div>
               </div>
               <div
-                className={`w-full ${dark ? "bg-[#0B0E11]" : "bg-[#FAFAFA]"} p-5`}
+                className={`w-full ${
+                  dark ? "bg-[#0B0E11]" : "bg-[#FAFAFA]"
+                } p-5`}
               >
                 <div>Total Token Voucher (USD)</div>
                 <div className="font-bold text-[28px]">0</div>
@@ -228,6 +235,9 @@ export const Referral = () => {
             </div>
           </div>
         </div>
+      </div>
+      <div className="p-10">
+        <Footer />
       </div>
     </div>
   );
