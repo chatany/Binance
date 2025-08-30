@@ -126,6 +126,8 @@ export const Login = () => {
       });
       if (data?.showAuth) {
         setShowAuth(true);
+      }else{
+        setShowAuth(false);
       }
       if (status === 200 && data?.status == 1) {
         setVerifyPopup(!verifyPopup);
