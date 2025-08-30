@@ -397,8 +397,9 @@ export const TopIconBar3 = ({ dark }) => {
     if (!isNaN(currentPrice)) {
       lastPriceRef.current = currentPrice;
     }
-    const formate = tikerData?.lastPrice.toString();
-    const num = formatToKMBWithCommas(formate);
+    const num = formatToKMBWithCommas(
+            formatDecimal(tikerData?.lastPrice, priceDecimal)
+          );
     document.title = `${num} | ${symbol} | ${coinName?.toUpperCase()} to USDT | Bitzup Spot`;
   }, [tikerData?.lastPrice]);
   return (
