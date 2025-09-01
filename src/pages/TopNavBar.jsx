@@ -1,4 +1,4 @@
-import { CiSearch } from "react-icons/ci";
+import { CiAirportSign1, CiAlarmOff, CiSearch } from "react-icons/ci";
 import { FaAngleDown, FaBalanceScale, FaQuestion } from "react-icons/fa";
 import { IoMdSettings } from "react-icons/io";
 import { IoDownloadOutline, IoSunnyOutline } from "react-icons/io5";
@@ -102,6 +102,14 @@ export const TopNav = () => {
       document.body.style.overflow = "auto";
     };
   }, [showLogoutPopup]);
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
   return (
     <div
       className={`flex  justify-between items-center md:border-b-1 h-[4rem] ${
@@ -316,14 +324,15 @@ export const TopNav = () => {
         {userData?.token && (
           <div
             className="relative flex items-center gap-4"
-            onMouseEnter={() => setProfile(!profile)}
-            onMouseLeave={() => setProfile(!profile)}
+            onMouseEnter={() => !isMobile && setProfile(!profile)}
+            onMouseLeave={() => !isMobile &&setProfile(!profile)}
+             onClick={() => setProfile(!profile)}
           >
             <CgProfile
               className=" hover:text-amber-400 h-6 w-6"
               // onClick={() => setProfile(!profile)}
             />
-            {profile && (
+            {profile && !isMobile && (
               <div
                 className={`absolute w-[268px] ${
                   dark ? "bg-[#1E2329]" : "bg-[#ffffff]"
@@ -360,6 +369,49 @@ export const TopNav = () => {
                     ))}
                   </div>
                 </div>
+              </div>
+            )}
+            {isMobile && profile && (
+              <div
+                className={`fixed inset-0 z-50 ${
+                  dark ? "bg-[#1E2329] text-white" : "bg-white text-black"
+                }  w-full h-full overflow-y-auto p-4`}
+              >
+                <div className="flex justify-between items-center mb-4">
+                  <h2 className="text-lg font-semibold">My Account</h2>
+                  <button onClick={() => setProfile(false)}>✖</button>
+                </div>
+                <div className="flex gap-4">
+                  <div className="h-14 w-14 rounded-full overflow-hidden">
+                    <img src="/Avatar.png" />
+                  </div>
+                  <div className="flex flex-col">
+                    <div>Selma Albrekht AzE3</div>
+                    <div className="flex">
+                      <div className="p-1">
+                        <CiAlarmOff />
+                      </div>
+                      <div className="p-1">
+                        <CiAirportSign1 />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                {MenuItem.map((item, index) => (
+                  <div
+                    key={index}
+                    className={`flex items-center ${
+                      dark ? "hover:bg-[#2B3139]" : "hover:bg-[#EAECEF]"
+                    } p-3 gap-2 rounded-lg`}
+                    onClick={() => {
+                      setProfile(false);
+                      navigate(item?.path);
+                    }}
+                  >
+                    <div>{item?.icon}</div>
+                    <div>{item?.name}</div>
+                  </div>
+                ))}
               </div>
             )}
           </div>
