@@ -9,6 +9,7 @@ import {
   setLoading,
   setOpenOrderData,
   setOrderHistory,
+  setReferralData,
   setSearchData,
   setTopMovers,
 } from "../store/webSocket";
@@ -258,7 +259,7 @@ export const getFaverateData = async (dispatch) => {
     if (status === 200) {
       dispatch(setFaverateData(data.data));
     }
-    if (status === 400 && data?.status === 3) {
+    if (status === 400 && data?.status ==3) {
       // window.location.href = "/login";
       localStorage.removeItem("userData");
       window.dispatchEvent(new Event("userDataChanged"));
@@ -279,8 +280,32 @@ export const getFundsData = async (dispatch) => {
     if (status === 200 && data?.status == 1) {
       dispatch(setFundData(data.data));
     }
-    if (status === 400 && data?.status === 3) {
+    if (status === 400 && data?.status ==3) {
       // window.location.href = "/login";
+      localStorage.removeItem("userData");
+      window.dispatchEvent(new Event("userDataChanged"));
+    }
+  } catch (err) {
+    console.error("Failed to fetch second API", err);
+  }
+};
+
+export const getReferralData = async (dispatch) => {
+  try {
+    const { data, status } = await apiRequest({
+      method: "get",
+      url: `https://test.bitzup.com/onboarding/user/getReferralCodeURl`,
+    });
+
+    if (status === 200 && data?.status == 1) {
+      dispatch(setReferralData(data.data));
+    }
+    console.log(status);
+    
+    if (data?.status != 1) {
+      showError(data?.message);
+    }
+    if (status === 400 && data?.status ==3) {
       localStorage.removeItem("userData");
       window.dispatchEvent(new Event("userDataChanged"));
     }

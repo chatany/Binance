@@ -109,7 +109,7 @@ export const MenuItem = [
   { icon: <FaUserPlus />, name: "Referral", path: "/Referral" },
   { icon: <CgEye />, name: "Rewards Hub", path: "/Reward" },
   { icon: <RiAccountCircle2Line />, name: "Sub Accounts" },
-  { icon: <IoSettings />, name: "Settings" },
+  { icon: <IoSettings />, name: "Settings",path: "/settings" },
   { icon: <CgArrowsExchangeV />, name: "Switch Account" },
   { icon: <CiLogout />, name: "Log Out" },
 ];
@@ -131,7 +131,7 @@ export const menu = [
   {
     icon: <FaUserLarge />,
     name: "Account",
-    path: "#",
+    path: "",
     category: [
       { name: "Identification", path: "/Identity" },
       { name: "Security", path: "/security" },

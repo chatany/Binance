@@ -1,16 +1,28 @@
 import { PiCopyLight } from "react-icons/pi";
 import { FaFacebook, FaReddit, FaTelegram, FaWhatsapp } from "react-icons/fa";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { TopNav } from "./TopNavBar";
 import { RiTwitterXLine } from "react-icons/ri";
 import { Footer } from "./Footer";
 import { useEffect, useRef, useState } from "react";
+import { getReferralData } from "./apiCall";
+import { showError, showSuccess } from "../Toastify/toastServices";
 export const Referral = () => {
-  const dark = useSelector((state) => state.counter.dark);
+  const { dark, referralCode } = useSelector((state) => state.counter);
   const [current, setCurrent] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
   const intervalRef = useRef(null);
+  const dispatch = useDispatch();
 
+  const copyToClipboard = async (text) => {
+    try {
+      await navigator.clipboard.writeText(text);
+      showSuccess("copy to clipboard");
+    } catch (err) {
+      showError("Failed to copy");
+      console.error("Failed to copy:", err);
+    }
+  };
   useEffect(() => {
     if (!isPaused) {
       intervalRef.current = setInterval(() => {
@@ -38,6 +50,9 @@ export const Referral = () => {
       title: "Receive trading fee rebate vouchers worth $100 each.",
     },
   ];
+  useEffect(() => {
+    getReferralData(dispatch);
+  }, []);
   return (
     <div
       className={`${
@@ -72,8 +87,11 @@ export const Referral = () => {
                   Referral Code
                 </div>
                 <div className="flex gap-2 items-center">
-                  <div>CPA_00WZ6EH548</div>
-                  <PiCopyLight />
+                  <div>{referralCode?.referral_code}</div>
+                  <PiCopyLight
+                    onClick={() => copyToClipboard(referralCode?.referral_code)}
+                    className="cursor-pointer"
+                  />
                 </div>
               </div>
               <div
@@ -87,8 +105,11 @@ export const Referral = () => {
                   Refer Link
                 </div>
                 <div className="flex items-center gap-2">
-                  <div>https://ww...H548</div>
-                  <PiCopyLight />
+                  <div>{referralCode?.referral_url}</div>
+                  <PiCopyLight
+                    onClick={() => copyToClipboard(referralCode?.referral_url)}
+                    className="cursor-pointer"
+                  />
                 </div>
               </div>
             </div>
@@ -101,13 +122,23 @@ export const Referral = () => {
                       dark ? "border-[#333B47]" : "border-[#EDEDED]"
                     } border-1 gap-2 items-center p-[11px]`}
                   >
-                    <RiTwitterXLine
-                      className={`rounded-[50%] h-[24px] w-[24px] p-[4px] ${
-                        dark
-                          ? "text-[#FFFFFF] bg-[#000000]"
-                          : "text-[#000000] bg-[#FFFFFF]"
-                      }`}
-                    />
+                    <a
+                      href={`https://twitter.com/intent/tweet?url=${encodeURIComponent(
+                        referralCode?.referral_url
+                      )}&text=${encodeURIComponent(
+                        "Join me using this referral link!"
+                      )}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      <RiTwitterXLine
+                        className={`rounded-[50%] h-[24px] w-[24px] p-[4px] ${
+                          dark
+                            ? "text-[#FFFFFF] bg-[#000000]"
+                            : "text-[#000000] bg-[#FFFFFF]"
+                        }`}
+                      />
+                    </a>
                   </div>
                   x
                 </div>
@@ -117,13 +148,21 @@ export const Referral = () => {
                       dark ? "border-[#333B47]" : "border-[#EDEDED]"
                     } border-1 gap-2 items-center p-[11px]`}
                   >
-                    <FaFacebook
-                      className={`rounded-[50%] p-[4px] h-[24px] w-[24px] ${
-                        dark
-                          ? "text-[#FFFFFF] bg-[#000000]"
-                          : "text-[#000000] bg-[#FFFFFF]"
-                      }`}
-                    />{" "}
+                    <a
+                      href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(
+                        referralCode?.referral_url
+                      )}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      <FaFacebook
+                        className={`rounded-[50%] p-[4px] h-[24px] w-[24px] ${
+                          dark
+                            ? "text-[#FFFFFF] bg-[#000000]"
+                            : "text-[#000000] bg-[#FFFFFF]"
+                        }`}
+                      />{" "}
+                    </a>
                   </div>
                   facebook
                 </div>
@@ -133,13 +172,24 @@ export const Referral = () => {
                       dark ? "border-[#333B47]" : "border-[#EDEDED]"
                     } border-1 gap-2 items-center p-[11px]`}
                   >
-                    <FaTelegram
-                      className={`rounded-[50%] h-[24px] w-[24px] p-[4px] ${
-                        dark
-                          ? "text-[#FFFFFF] bg-[#000000]"
-                          : "text-[#000000] bg-[#FFFFFF]"
-                      }`}
-                    />{" "}
+                    {" "}
+                    <a
+                      href={`https://t.me/share/url?url=${encodeURIComponent(
+                        referralCode?.referral_url
+                      )}&text=${encodeURIComponent(
+                        "Join me using this referral link!"
+                      )}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      <FaTelegram
+                        className={`rounded-[50%] h-[24px] w-[24px] p-[4px] ${
+                          dark
+                            ? "text-[#FFFFFF] bg-[#000000]"
+                            : "text-[#000000] bg-[#FFFFFF]"
+                        }`}
+                      />{" "}
+                    </a>
                   </div>
                   telegram
                 </div>
@@ -149,13 +199,22 @@ export const Referral = () => {
                       dark ? "border-[#333B47]" : "border-[#EDEDED]"
                     } border-1 gap-2 items-center p-[11px]`}
                   >
-                    <FaWhatsapp
-                      className={`rounded-[50%] h-[24px] w-[24px] p-[4px] ${
-                        dark
-                          ? "text-[#FFFFFF] bg-[#000000]"
-                          : "text-[#000000] bg-[#FFFFFF]"
-                      }`}
-                    />{" "}
+                    <a
+                      href={`https://wa.me/?text=${encodeURIComponent(
+                        "Join me using this referral link: " +
+                          referralCode?.referral_url
+                      )}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      <FaWhatsapp
+                        className={`rounded-[50%] h-[24px] w-[24px] p-[4px] ${
+                          dark
+                            ? "text-[#FFFFFF] bg-[#000000]"
+                            : "text-[#000000] bg-[#FFFFFF]"
+                        }`}
+                      />{" "}
+                    </a>
                   </div>
                   whatsapp
                 </div>
@@ -165,13 +224,23 @@ export const Referral = () => {
                       dark ? "border-[#333B47]" : "border-[#EDEDED]"
                     } border-1 gap-2 items-center p-[11px]`}
                   >
-                    <FaReddit
-                      className={`rounded-[50%] h-[24px] w-[24px] p-[4px] ${
-                        dark
-                          ? "text-[#FFFFFF] bg-[#000000]"
-                          : "text-[#000000] bg-[#FFFFFF]"
-                      }`}
-                    />{" "}
+                    <a
+                      href={`https://www.reddit.com/submit?url=${encodeURIComponent(
+                        referralCode?.referral_url
+                      )}&title=${encodeURIComponent(
+                        "Join me using this referral link!"
+                      )}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      <FaReddit
+                        className={`rounded-[50%] h-[24px] w-[24px] p-[4px] ${
+                          dark
+                            ? "text-[#FFFFFF] bg-[#000000]"
+                            : "text-[#000000] bg-[#FFFFFF]"
+                        }`}
+                      />{" "}
+                    </a>
                   </div>
                   reddit
                 </div>
@@ -255,8 +324,11 @@ export const Referral = () => {
                 Referral Code
               </div>
               <div className="flex gap-2 items-center">
-                <div>CPA_00WZ6EH548</div>
-                <PiCopyLight />
+                <div>{referralCode?.referral_code}</div>
+                <PiCopyLight
+                  onClick={() => copyToClipboard(referralCode?.referral_code)}
+                  className="cursor-pointer"
+                />
               </div>
             </div>
             <div
@@ -268,8 +340,11 @@ export const Referral = () => {
                 Refer Link
               </div>
               <div className="flex items-center gap-2">
-                <div>https://ww...H548</div>
-                <PiCopyLight />
+                <div>{referralCode?.referral_url}</div>
+                <PiCopyLight
+                  onClick={() => copyToClipboard(referralCode?.referral_url)}
+                  className="cursor-pointer"
+                />
               </div>
             </div>
           </div>
@@ -282,13 +357,23 @@ export const Referral = () => {
                     dark ? "border-[#333B47]" : "border-[#EDEDED]"
                   } border-1 gap-2 items-center p-[11px]`}
                 >
-                  <RiTwitterXLine
-                    className={`rounded-[50%] h-[24px] w-[24px] p-[4px] ${
-                      dark
-                        ? "text-[#FFFFFF] bg-[#000000]"
-                        : "text-[#000000] bg-[#FFFFFF]"
-                    }`}
-                  />
+                  <a
+                    href={`https://twitter.com/intent/tweet?url=${encodeURIComponent(
+                      referralCode?.referral_url
+                    )}&text=${encodeURIComponent(
+                      "Join me using this referral link!"
+                    )}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <RiTwitterXLine
+                      className={`rounded-[50%] h-[24px] w-[24px] p-[4px] ${
+                        dark
+                          ? "text-[#FFFFFF] bg-[#000000]"
+                          : "text-[#000000] bg-[#FFFFFF]"
+                      }`}
+                    />
+                  </a>
                 </div>
                 x
               </div>
@@ -298,13 +383,21 @@ export const Referral = () => {
                     dark ? "border-[#333B47]" : "border-[#EDEDED]"
                   } border-1 gap-2 items-center p-[11px]`}
                 >
-                  <FaFacebook
-                    className={`rounded-[50%] p-[4px] h-[24px] w-[24px] ${
-                      dark
-                        ? "text-[#FFFFFF] bg-[#000000]"
-                        : "text-[#000000] bg-[#FFFFFF]"
-                    }`}
-                  />{" "}
+                  <a
+                    href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(
+                      referralCode?.referral_url
+                    )}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <FaFacebook
+                      className={`rounded-[50%] p-[4px] h-[24px] w-[24px] ${
+                        dark
+                          ? "text-[#FFFFFF] bg-[#000000]"
+                          : "text-[#000000] bg-[#FFFFFF]"
+                      }`}
+                    />{" "}
+                  </a>
                 </div>
                 facebook
               </div>
@@ -314,13 +407,23 @@ export const Referral = () => {
                     dark ? "border-[#333B47]" : "border-[#EDEDED]"
                   } border-1 gap-2 items-center p-[11px]`}
                 >
-                  <FaTelegram
-                    className={`rounded-[50%] h-[24px] w-[24px] p-[4px] ${
-                      dark
-                        ? "text-[#FFFFFF] bg-[#000000]"
-                        : "text-[#000000] bg-[#FFFFFF]"
-                    }`}
-                  />{" "}
+                  <a
+                    href={`https://t.me/share/url?url=${encodeURIComponent(
+                      referralCode?.referral_url
+                    )}&text=${encodeURIComponent(
+                      "Join me using this referral link!"
+                    )}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <FaTelegram
+                      className={`rounded-[50%] h-[24px] w-[24px] p-[4px] ${
+                        dark
+                          ? "text-[#FFFFFF] bg-[#000000]"
+                          : "text-[#000000] bg-[#FFFFFF]"
+                      }`}
+                    />{" "}
+                  </a>
                 </div>
                 telegram
               </div>
@@ -330,13 +433,23 @@ export const Referral = () => {
                     dark ? "border-[#333B47]" : "border-[#EDEDED]"
                   } border-1 gap-2 items-center p-[11px]`}
                 >
-                  <FaWhatsapp
-                    className={`rounded-[50%] h-[24px] w-[24px] p-[4px] ${
-                      dark
-                        ? "text-[#FFFFFF] bg-[#000000]"
-                        : "text-[#000000] bg-[#FFFFFF]"
-                    }`}
-                  />{" "}
+                  {" "}
+                  <a
+                    href={`https://wa.me/?text=${encodeURIComponent(
+                      "Join me using this referral link: " +
+                        referralCode?.referral_url
+                    )}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <FaWhatsapp
+                      className={`rounded-[50%] h-[24px] w-[24px] p-[4px] ${
+                        dark
+                          ? "text-[#FFFFFF] bg-[#000000]"
+                          : "text-[#000000] bg-[#FFFFFF]"
+                      }`}
+                    />{" "}
+                  </a>
                 </div>
                 whatsapp
               </div>
@@ -346,13 +459,23 @@ export const Referral = () => {
                     dark ? "border-[#333B47]" : "border-[#EDEDED]"
                   } border-1 gap-2 items-center p-[11px]`}
                 >
-                  <FaReddit
-                    className={`rounded-[50%] h-[24px] w-[24px] p-[4px] ${
-                      dark
-                        ? "text-[#FFFFFF] bg-[#000000]"
-                        : "text-[#000000] bg-[#FFFFFF]"
-                    }`}
-                  />{" "}
+                  <a
+                    href={`https://www.reddit.com/submit?url=${encodeURIComponent(
+                      referralCode?.referral_url
+                    )}&title=${encodeURIComponent(
+                      "Join me using this referral link!"
+                    )}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <FaReddit
+                      className={`rounded-[50%] h-[24px] w-[24px] p-[4px] ${
+                        dark
+                          ? "text-[#FFFFFF] bg-[#000000]"
+                          : "text-[#000000] bg-[#FFFFFF]"
+                      }`}
+                    />{" "}
+                  </a>
                 </div>
                 reddit
               </div>

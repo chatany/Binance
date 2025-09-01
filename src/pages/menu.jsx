@@ -153,7 +153,6 @@ export const Menu = () => {
           /* item?.name != "Assets" && item?.name != "Orders"
               ? location.pathname === item.path
               : false; */
-
           return (
             <>
               {active && (
@@ -162,7 +161,7 @@ export const Menu = () => {
                     onClick={() => {
                       item?.category && toggleMenu(item?.name);
                       handleClose(item?.path);
-                      item?.path != "" && handleActiveItem();
+                      item?.path  && handleActiveItem();
                     }}
                     key={index}
                     className={`flex flex-col p-[10px_20px_10px_20px]  cursor-pointer rounded-xl gap-2 w-full`}

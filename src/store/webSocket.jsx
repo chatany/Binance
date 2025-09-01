@@ -58,10 +58,14 @@ export const counterSlice = createSlice({
     searchQuery: last || "BTCUSDT",
     show: false,
     activeItem: false,
+    referralCode: {},
   },
   reducers: {
     incrementByAmount: (state, action) => {
       state.tikerData = action.payload;
+    },
+    setReferralData: (state, action) => {
+      state.referralCode = action.payload;
     },
     setActiveItem: (state, action) => {
       state.activeItem = action.payload;
@@ -208,6 +212,7 @@ export const counterSlice = createSlice({
 
 export const {
   increment,
+  setReferralData,
   setDark,
   setActiveItem,
   setShow,

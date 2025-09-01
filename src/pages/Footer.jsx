@@ -23,7 +23,7 @@ export const Footer = () => {
   return (
     <div
       className={`
-        ${dark ? "bg-[#0B0E11] text-[#EAECEF]" : "bg-[#FFFFFF] text-[#202630]"}
+        ${dark ? "bg-[#181A20] text-[#EAECEF]" : "bg-[#FFFFFF] text-[#202630]"}
        h-full flex flex-col gap-0 w-full items-center `}
     >
       <div className=" xl:w-[1200px] w-full">
