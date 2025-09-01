@@ -92,7 +92,7 @@ export const TopNav = () => {
       }
     };
 
-    if (showLogoutPopup) {
+    if (showLogoutPopup||profile) {
       document.addEventListener("mousedown", handleClickOutside);
       document.body.style.overflow = "hidden";
     }
@@ -101,7 +101,7 @@ export const TopNav = () => {
       document.removeEventListener("mousedown", handleClickOutside);
       document.body.style.overflow = "auto";
     };
-  }, [showLogoutPopup]);
+  }, [showLogoutPopup,profile]);
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
   useEffect(() => {
     const handleResize = () => {
