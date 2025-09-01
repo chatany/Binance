@@ -340,7 +340,7 @@ export const Referral = () => {
                 Refer Link
               </div>
               <div className="flex items-center gap-2">
-                <div>{referralCode?.referral_url}</div>
+                <div>{`https://ww...H548`}</div>
                 <PiCopyLight
                   onClick={() => copyToClipboard(referralCode?.referral_url)}
                   className="cursor-pointer"
