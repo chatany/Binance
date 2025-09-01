@@ -401,7 +401,7 @@ export const TopIconBar3 = () => {
             formatDecimal(tikerData?.lastPrice, priceDecimal)
           );
     document.title = `${num} | ${symbol} | ${coinName?.toUpperCase()} to USDT | Bitzup Spot`;
-  }, [tikerData?.lastPrice]);
+  }, [tikerData?.lastPrice,coinName]);
   return (
     <div
       className={` w-full text-xs  ${
