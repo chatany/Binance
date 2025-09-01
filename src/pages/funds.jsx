@@ -10,8 +10,8 @@ import { setIsSuccess, setShowPopup } from "../store/webSocket";
 import { ModifyPopup } from "../common/popup";
 import { ConfirmationBox } from "../common/deletePopup";
 
-export const Funds = ({ dark }) => {
-  const { fundData, openOrder, showPopup } = useSelector(
+export const Funds = () => {
+  const { fundData, openOrder, showPopup,dark } = useSelector(
     (state) => state.counter
   );
   const [activeTab, SetActiveTab] = useState("open orders");

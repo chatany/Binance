@@ -16,7 +16,9 @@ export const Menu = () => {
   };
 
   const [openMenus, setOpenMenus] = useState(getInitialState);
-
+  const handleActiveItem = () => {
+    dispatch(setActiveItem(!active));
+  };
   useEffect(() => {
     localStorage.setItem("openMenus", JSON.stringify(openMenus));
   }, [openMenus]);
@@ -133,7 +135,7 @@ export const Menu = () => {
           className={`flex justify-between  ${
             dark ? "border-[#333B47]" : "border-[#EDEDED]"
           } border-b-1 w-full p-[0px_30px_10px_30px]`}
-          onClick={() => dispatch(setActiveItem(!active))}
+          onClick={handleActiveItem}
         >
           <div className="text-[16px] font-medium leading-[24px]">
             {activeName}
@@ -160,6 +162,7 @@ export const Menu = () => {
                     onClick={() => {
                       item?.category && toggleMenu(item?.name);
                       handleClose(item?.path);
+                      item?.path != "" && handleActiveItem();
                     }}
                     key={index}
                     className={`flex flex-col p-[10px_20px_10px_20px]  cursor-pointer rounded-xl gap-2 w-full`}
@@ -191,6 +194,7 @@ export const Menu = () => {
                                 onClick={(e) => {
                                   e.stopPropagation();
                                   handleClose(val?.path);
+                                  handleActiveItem();
                                 }}
                               >
                                 {val.name}

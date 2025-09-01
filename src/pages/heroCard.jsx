@@ -4,9 +4,9 @@ export const HeroSection = () => {
   const dark = useSelector((state) => state.counter.dark);
   return (
     <div
-      className={`flex ${
+      className={`flex flex-col md:flex-row gap-2 ${
         dark ? "border-[#333B47]" : "border-[#EDEDED]"
-      } border-1 w-full justify-between p-5 rounded-2xl`}
+      } md:border-1 w-full justify-between md:p-5 rounded-2xl`}
     >
       <div className={`${dark ? "text-[#EAECEF]" : "text-[#1E2329]"}`}>
         <div className="text-[20px]">Estimated Balance</div>
@@ -17,23 +17,23 @@ export const HeroSection = () => {
         <div className="text-[14px]">Today`s PnL + $37.76(0.58%)</div>
       </div>
       <div>
-        <div className="flex gap-5">
+        <div className="flex gap-5 w-full justify-between">
           <div
-            className={`hover:text-gray-400 rounded-sm text-[14px] md:flex hidden font-semibold ${
+            className={`hover:text-gray-400 rounded-sm text-[14px] w-full text-center font-semibold ${
               dark ? "bg-[#2b3139]" : "bg-[#EAECEF]"
             }  leading-6 px-2 py-1 `}
           >
             Deposit
           </div>
           <div
-            className={`hover:text-gray-400 rounded-sm text-[14px] md:flex hidden font-semibold ${
+            className={`hover:text-gray-400 rounded-sm text-[14px] w-full text-center font-semibold ${
               dark ? "bg-[#2b3139]" : "bg-[#EAECEF]"
             }  leading-6 px-2 py-1 `}
           >
             Withdraw
           </div>
           <div
-            className={`hover:text-gray-400 rounded-sm text-[14px] md:flex hidden font-semibold ${
+            className={`hover:text-gray-400 rounded-sm text-[14px] w-full text-center  font-semibold ${
               dark ? "bg-[#2b3139]" : "bg-[#EAECEF]"
             }  leading-6 px-2 py-1 `}
           >

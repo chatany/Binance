@@ -20,7 +20,7 @@ import { io } from "socket.io-client";
 import { apiRequest } from "../Helper";
 import { useAuth } from "../hooks/useAuth";
 const socket = io("https://socket.bitzup.com");
-export const Socket = ({ searchQuery }) => {
+export const Socket = () => {
   const dispatch = useDispatch();
   const wsRef = useRef(null);
   const wsRef1 = useRef(null);
@@ -36,7 +36,7 @@ export const Socket = ({ searchQuery }) => {
   const fallbackIntervalRef2 = useRef(null);
   const userid = token?.user_id;
   const tradesDataRef = useRef([]);
-  const { tradeData, apiId, openOrder, pairId } = useSelector(
+  const { tradeData, apiId, openOrder, pairId,searchQuery } = useSelector(
     (state) => state.counter
   );
   useEffect(() => {

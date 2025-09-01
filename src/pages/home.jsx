@@ -2,7 +2,6 @@ import { useEffect, useRef, useState } from "react";
 import { Order } from "./Order";
 import { MarketCom } from "./market";
 import { Form } from "./form";
-import MobileSidebar from "./sidebar";
 import { ChartEmbed } from "./chart";
 import TopMovers from "./move";
 import {
@@ -12,7 +11,7 @@ import {
   TopIconBar4,
 } from "./TopIconBars";
 import { Socket } from "./Socket";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import { ToggleButSell } from "./ToggleBuySell";
 import { OpenOrders } from "../common/openOrders";
@@ -21,9 +20,8 @@ import { TopNav } from "./TopNavBar";
 import { MarketPopup } from "./marketPopup";
 import { Funds } from "./funds";
 import { MobileChartBar } from "./mobileChart";
-import { setDark, setSearchQuery, setShow } from "../store/webSocket";
 export const Home = () => {
-  const { dark, searchQuery, show } = useSelector((state) => state.counter);
+  const { dark, show } = useSelector((state) => state.counter);
 
   useEffect(() => {
     localStorage.setItem("theme", JSON.stringify(dark));
@@ -34,7 +32,6 @@ export const Home = () => {
   const [active, setActive] = useState("Spot");
   const navigate = useNavigate();
   const { symbol } = useParams();
-  const dispatch = useDispatch();
   const popupRef = useRef(null);
 
   const userData = JSON.parse(localStorage.getItem("userData"));
@@ -48,7 +45,6 @@ export const Home = () => {
     }
   }, [symbol]);
   useEffect(() => {
-    // If either missing, redirect to last known or default
     if (!symbol) {
       const last = JSON.parse(localStorage.getItem("lastPair"));
       navigate(`/spot/${last}`, { replace: true });
@@ -86,26 +82,20 @@ export const Home = () => {
   }, [isLogin]);
 
   return (
-    <>
-      <Socket searchQuery={searchQuery} />
-      {show && (
-        <div className="App">
-          <MobileSidebar />
-        </div>
-      )}
       <div
         className={`
         ${dark ? "bg-[#0B0E11] text-[#EAECEF]" : "bg-[#F5F5F5] text-[#262030]"}
        h-full flex flex-col gap-0  `}
       >
+        <Socket />
         {/* Top Navbar */}
         <TopNav />
         {/* Main Content */}
         <div className="w-full flex flex-col items-center gap-1 justify-between md:p-[4px_4px_4px_4px]">
           <div className="max-w-[1528px] overflow-hidden w-full lg:flex hidden gap-1.5">
             <div className=" flex flex-col w-full items-center gap-1.5 ">
-              <TopIconBar1 dark={dark} />
-              <TopIconBar2 dark={dark} />
+              <TopIconBar1 />
+              <TopIconBar2 />
 
               <div className="flex w-full gap-1.5">
                 <div
@@ -113,7 +103,7 @@ export const Home = () => {
                     isOpen ? "h-[60.1rem]" : "h-[56.8rem]"
                   }`}
                 >
-                  <Order dark={dark} />
+                  <Order />
                 </div>
                 <div className="flex flex-col  w-full gap-1">
                   <div
@@ -122,26 +112,18 @@ export const Home = () => {
                     } max-h-[800px]   text-xs w-full`}
                   >
                     <div className="h-[500px] w-full rounded-lg">
-                      <ChartEmbed
-                        searchQuery={symbol}
-                        dark={dark}
-                        className="w-full"
-                      />
+                      <ChartEmbed />
                     </div>
                   </div>
                   <div className="w-full">
-                    <Form dark={dark} searchQuery={searchQuery} />
+                    <Form />
                   </div>
                 </div>
               </div>
             </div>
 
             <div className="xl:max-w-[320px] max-w-[250px] w-full lg:flex hidden flex-col gap-1">
-              <MarketCom
-                dark={dark}
-                SetSearchQuery={(val) => dispatch(setSearchQuery(val))}
-                searchQuery={searchQuery}
-              />
+              <MarketCom />
               <div
                 className={`[26rem] flex flex-col  rounded-lg items-end ${
                   dark
@@ -149,11 +131,7 @@ export const Home = () => {
                     : "bg-white text-black w-full"
                 }  `}
               >
-                <TopMovers
-                  dark={dark}
-                  setSearchQuery={() => dispatch(setSearchQuery())}
-                  searchQuery={searchQuery}
-                />
+                <TopMovers />
               </div>
             </div>
           </div>
@@ -162,24 +140,20 @@ export const Home = () => {
               dark ? " bg-[#181A20]" : " bg-white "
             } `}
           >
-            <OpenOrders dark={dark} />
+            <OpenOrders />
           </div>
         </div>
         <div className="lg:hidden flex flex-col w-full p-[0px_4px_4px_4px] ">
-          <TopIconBar3 dark={dark} />
+          <TopIconBar3 />
           <div className="w-full md:flex hidden pb-2 gap-1">
             <div className="w-[67%] flex flex-col gap-2 p-1">
               <div className="h-[400px]  text-xs w-full bg-gray-800  rounded-md ">
-                <ChartEmbed
-                  searchQuery={symbol}
-                  dark={dark}
-                  className="h-full w-full rounded-2xl"
-                />
+                <ChartEmbed />
               </div>
               <div className="lg:h-[25rem] h-[40rem]">
-                <Middle dark={dark} />
+                <Middle />
               </div>
-              <OpenOrders dark={dark} />
+              <OpenOrders />
             </div>
             <div
               className={`${
@@ -189,7 +163,6 @@ export const Home = () => {
               <ToggleButSell
                 activeItem={activeItem}
                 setActiveItem={setActiveItem}
-                dark={dark}
                 active={active}
                 searchQuery={symbol}
                 setActive={setActive}
@@ -202,10 +175,7 @@ export const Home = () => {
               <div
                 className={` w-full ${dark ? "bg-[#181A20] " : "bg-white"} `}
               >
-                <TopIconBar4
-                  dark={dark}
-                  setOpenMarketPopup={setOpenMarketPopup}
-                />
+                <TopIconBar4 setOpenMarketPopup={setOpenMarketPopup} />
               </div>
               <div
                 className={`h-[450px] ${
@@ -213,9 +183,9 @@ export const Home = () => {
                 }  w-full`}
               >
                 {/* <ChartEmbed searchQuery={symbol} dark={dark}/> */}
-                <MobileChartBar dark={dark} searchQuery={searchQuery} />
+                <MobileChartBar />
               </div>
-              <Funds dark={dark} />
+              <Funds />
             </div>
           </div>
         </div>
@@ -260,9 +230,7 @@ export const Home = () => {
               <ToggleButSell
                 activeItem={activeItem}
                 setActiveItem={setActiveItem}
-                dark={dark}
                 active={active}
-                searchQuery={symbol}
                 setActive={setActive}
                 handleClose={() => setIsLogin(false)}
               />
@@ -272,15 +240,11 @@ export const Home = () => {
         {openMarketPopup && (
           <div>
             <MarketPopup
-              setSearchQuery={() => dispatch(setSearchQuery)}
-              searchQuery={searchQuery}
-              dark={dark}
               handleClose={() => setOpenMarketPopup(false)}
               openMarketPopup={openMarketPopup}
             />
           </div>
         )}
       </div>
-    </>
   );
 };

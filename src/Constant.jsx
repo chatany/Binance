@@ -126,8 +126,8 @@ export const menu = [
     name: "Orders",
     category: [{ name: "Spot Orders", path: "/orders" }],
   },
-  { icon: <CgEye />, name: "Rewards Hub", path: "#" },
-  { icon: <FaUserPlus />, name: "Referral", path: "#" },
+  { icon: <CgEye />, name: "Rewards Hub", path: "/Reward" },
+  { icon: <FaUserPlus />, name: "Referral", path: "/Referral" },
   {
     icon: <FaUserLarge />,
     name: "Account",

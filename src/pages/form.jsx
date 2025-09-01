@@ -18,9 +18,9 @@ import {
 import { useDeviceInfo } from "../hooks/useDeviceInfo";
 import { showError, showSuccess } from "../Toastify/toastServices";
 import { useAuth } from "../hooks/useAuth";
-export const Form = ({ dark, searchQuery }) => {
+export const Form = () => {
   const isOpen = useSelector((state) => state.counter.open);
-  const { allMovers, currentPrice, balance } = useSelector(
+  const { allMovers, currentPrice, balance,dark, searchQuery } = useSelector(
     (state) => state.counter
   );
   const [activeTab, setActiveTab] = useState("Limit");

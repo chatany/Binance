@@ -12,8 +12,8 @@ import { Tooltip } from "@mui/material";
 import { useState } from "react";
 import { formatToKMBWithCommas } from "../Constant";
 
-export const Middle = ({ dark }) => {
-  const { tradeData, tikerData, orderData } = useSelector(
+export const Middle = () => {
+  const { tradeData, tikerData, orderData,dark } = useSelector(
     (state) => state.counter
   );
   const dispatch = useDispatch();

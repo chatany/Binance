@@ -16,15 +16,11 @@ import { showError, showSuccess } from "../Toastify/toastServices";
 export const ToggleButSell = ({
   activeItem,
   setActiveItem,
-  dark,
-  active,
-  setActive,
   close = true,
   handleClose,
-  searchQuery,
 }) => {
   const isOpen = useSelector((state) => state.counter.open);
-  const { allMovers, currentPrice, apiId, balance } = useSelector(
+  const { allMovers, currentPrice, apiId, balance,dark,searchQuery } = useSelector(
     (state) => state.counter
   );
   const [activeTab, setActiveTab] = useState("Limit");
@@ -42,7 +38,6 @@ export const ToggleButSell = ({
   const navigate = useNavigate();
   const [sellStopSliderValue, setSellStopSliderValue] = useState(0);
   const dispatch = useDispatch();
-  const [isSuccess, setIsSuccess] = useState(false);
   const [error, setError] = useState({
     limitBuyErr: "",
     limitSellErr: "",
@@ -191,7 +186,7 @@ export const ToggleButSell = ({
     api_id: apiId,
   };
   const handleBuy = async () => {
-    setIsSuccess(true);
+    
     if (error.limitBuyErr) return;
     setLimitBuyLoading(true);
     try {
@@ -235,13 +230,13 @@ export const ToggleButSell = ({
       console.error("Failed to fetch second API", err);
     } finally {
       setLimitBuyLoading(false);
-      setIsSuccess(false);
+      
     }
   };
   const handleSell = async () => {
     if (error.limitSellErr) return;
     setLimitSellLoading(true);
-    setIsSuccess(true);
+    
     try {
       const { data, status } = await apiRequest({
         method: "post",
@@ -275,7 +270,7 @@ export const ToggleButSell = ({
       showError(err);
       console.error("Failed to fetch second API", err);
     } finally {
-      setIsSuccess(false);
+      
       setLimitSellLoading(false);
     }
   };
@@ -298,7 +293,7 @@ export const ToggleButSell = ({
         url: `https://test.bitzup.com/order/user/place-buy-order`,
         data: marketObj,
       });
-      setIsSuccess(true);
+      
       if (status === 200 && data?.status == 1) {
         showSuccess(data?.message);
         buysellBalance(item?.pair_id, dispatch);
@@ -326,7 +321,7 @@ export const ToggleButSell = ({
       showError(err);
       console.error("Failed to fetch second API", err);
     } finally {
-      setIsSuccess(false);
+      
       setMarketBuyLoading(false);
     }
   };
@@ -342,7 +337,7 @@ export const ToggleButSell = ({
   };
   const handleMarketSell = async () => {
     if (error.marketSellErr) return;
-    setIsSuccess(true);
+    
     setMarketSellLoading(true);
     try {
       const { data, status } = await apiRequest({
@@ -379,7 +374,7 @@ export const ToggleButSell = ({
       showError(err);
       console.error("Failed to fetch second API", err);
     } finally {
-      setIsSuccess(false);
+      
       setMarketSellLoading(false);
     }
   };
@@ -484,7 +479,7 @@ export const ToggleButSell = ({
         }));
         return;
     }
-    setIsSuccess(true);
+    
     setStopBuyLoading(true);
 
     try {
@@ -493,7 +488,7 @@ export const ToggleButSell = ({
         url: `https://test.bitzup.com/order/user/place-buy-stop-limit`,
         data: StopBuyObj,
       });
-      setIsSuccess(true);
+      
       if (status === 200 && data?.status == 1) {
         showSuccess(data?.message);
 
@@ -523,7 +518,7 @@ export const ToggleButSell = ({
       showError(err);
       console.error("Failed to fetch second API", err);
     } finally {
-      setIsSuccess(false);
+      
       setStopBuyLoading(false);
     }
   };
@@ -536,7 +531,7 @@ export const ToggleButSell = ({
         }));
         return;
     }
-    setIsSuccess(true);
+    
     setStopSellLoading(true);
     try {
       const { data, status } = await apiRequest({
@@ -544,7 +539,7 @@ export const ToggleButSell = ({
         url: `https://test.bitzup.com/order/user/place-sell-stop-limit`,
         data: StopSellObj,
       });
-      setIsSuccess(true);
+      
       if (status === 200 && data?.status == 1) {
         showSuccess(data?.message);
         buysellBalance(item?.pair_id, dispatch);
@@ -573,7 +568,7 @@ export const ToggleButSell = ({
       showError(err);
       console.error("Failed to fetch second API", err);
     } finally {
-      setIsSuccess(false);
+      
       setStopSellLoading(false);
     }
   };

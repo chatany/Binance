@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { ScaleLoader } from "react-spinners";
 import { useNavigate } from "react-router-dom";
-import { setAllMovers, setSearchQuery } from "../store/webSocket";
+import {  setSearchQuery } from "../store/webSocket";
 import { HeroSection } from "./heroCard";
 import { allMover, TopMoves } from "./apiCall";
 
@@ -24,8 +24,6 @@ export const Dashboard = () => {
       navigate(`/spot/${symbols}`);
     }
   };
-  console.log("oo");
-  
   useEffect(() => {
     if (allMovers?.length === 0) {
       TopMoves(dispatch);

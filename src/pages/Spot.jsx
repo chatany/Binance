@@ -1,24 +1,31 @@
 import { CgSearch } from "react-icons/cg";
 import { HeroSection } from "./heroCard";
 import { TbArrowsExchange2 } from "react-icons/tb";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { HiOutlineDotsVertical } from "react-icons/hi";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { getFundsData } from "./apiCall";
 
 export const Spot = () => {
-    const {fundData,dark} =useSelector((state)=>state.counter)
-    const [showIndex, setShowIndex] = useState(null);
+  const { fundData, dark } = useSelector((state) => state.counter);
+  const [showIndex, setShowIndex] = useState(null);
+  const dispatch = useDispatch();
+  useEffect(() => {
+    if (fundData?.length <= 0) {
+      getFundsData(dispatch);
+    }
+  }, [fundData]);
   return (
     <div className="w-full p-5 flex flex-col gap-3">
       <HeroSection />
       <div
-        className={` h-[480px] rounded-xl p-5 ${
+        className={` h-[480px] rounded-xl md:p-5 ${
           dark ? "border-[#333B47]" : "border-[#EDEDED]"
-        } border-1 w-full flex flex-col gap-4`}
+        } md:border-1 w-full flex flex-col gap-4`}
       >
-        <div className="flex items-center justify-between">
+        <div className="flex flex-col md:flex-row md:items-center justify-between">
           <div>Spot</div>
-          <div className="flex gap-2">
+          <div className="gap-2 md:flex hidden">
             <div className="relative flex  items-center focus-within:justify-start hover:justify-start justify-center">
               <input
                 name="Search"
@@ -40,13 +47,42 @@ export const Spot = () => {
             </div>
             <div className="flex gap-2 items-center text-[14px]">
               <input type="checkbox" />
-              Hide assets 1 USD
+              {"Hide assets < 1 USD"}
+            </div>
+          </div>
+          <div className="gap-2 flex justify-between md:hidden">
+            <div className="flex gap-2 items-center  text-[14px]">
+              <input type="checkbox" />
+              {"Hide assets < 1 USD"}
+            </div>
+            <div className="flex gap-2">
+              <div className="relative flex  items-center  focus-within:justify-start  hover:justify-start justify-center focus:w-[8rem]">
+                <input
+                  name="Search"
+                  className={`border
+    hover:border-[#b89c4f] w-[2rem] hover:w-[6rem] pl-6
+    rounded-[6px]
+    ${
+      dark
+        ? "border-[#474D57] focus:border-[#b89c4f] focus:w-[6rem]"
+        : "border-[#D8DCE1] focus:border-[#fce788] focus:w-[6rem]"
+    }
+    focus:outline-none 
+     transition-colors duration-300 delay-200`}
+                />
+                <div className="absolute focus-within:p-2">
+                  <CgSearch />
+                </div>
+              </div>
+              <div className="flex gap-0.5 items-center text-[14px]">
+                <TbArrowsExchange2 className="size-6" />
+              </div>
             </div>
           </div>
         </div>
         <div className="h-[400px] overflow-y-auto">
           <table className="w-full">
-            <thead>
+            <thead className="max-md:hidden">
               <tr
                 className={`${
                   dark ? "text-[#848E9C]" : "text-[#929AA5]"
@@ -80,7 +116,7 @@ export const Spot = () => {
                           {Number(item?.balance) +
                             Number(item?.unavailable_balance)}
                         </td>
-                        <td className="lg:text-[12px] text-[.6rem]  text-right capitalize p-[20px]">
+                        <td className="lg:text-[12px] text-[.6rem]  text-right capitalize p-[20px]  max-md:hidden">
                           {item?.balance}
                         </td>
                         <td className="lg:text-[12px] text-[.6rem]  text-right   capitalize">
@@ -89,14 +125,14 @@ export const Spot = () => {
                             <div
                               className={`${
                                 dark ? "text-[#F0B90B]" : " text-[#D89F00]"
-                              } cursor-pointer underline`}
+                              } cursor-pointer underline hidden md:flex`}
                             >
                               convert
                             </div>
                             <div
                               className={`${
                                 dark ? "text-[#F0B90B]" : " text-[#D89F00]"
-                              } cursor-pointer underline`}
+                              } cursor-pointer underline hidden md:flex`}
                             >
                               Earn
                             </div>
@@ -105,7 +141,7 @@ export const Spot = () => {
                               onMouseEnter={() => setShowIndex(index)}
                               onMouseLeave={() => setShowIndex(null)}
                             >
-                              <HiOutlineDotsVertical />
+                              <HiOutlineDotsVertical className="size-5" />
                               {showIndex === index && (
                                 <div
                                   className={`absolute  ${

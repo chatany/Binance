@@ -28,6 +28,7 @@ import { Identification } from "./Account/Identification";
 import { Security } from "./Account/Security";
 import { Setting } from "./pages/Settings";
 import { Footer } from "./pages/Footer";
+import MobileSidebar from "./pages/sidebar";
 function App() {
   const last = JSON.parse(localStorage.getItem("lastPair")) || "BTCUSDT";
   const userData = useAuth();
@@ -35,6 +36,7 @@ function App() {
     <>
       <ToastProvider />
       <Router>
+          <MobileSidebar />
         <Routes>
           <Route path="/" element={<Navigate to={`/spot/${last}`} replace />} />
           <Route path="/spot/:symbol" element={<Home />} />
@@ -52,20 +54,14 @@ function App() {
             element={<LayoutWeb component={<Dashboard />} />}
           />
           <Route path="/chart" element={<ChartEmbed />} />
-          <Route
-            path="/Market"
-            element={<MarketCom />}
-          />
+          <Route path="/Market" element={<MarketCom />} />
           <Route path="/input" element={<InputComponent />} />
           <Route path="/asstes" element={<LayoutWeb component={<Spot />} />} />
           <Route
             path="orders"
             element={<LayoutWeb component={<OpenOrders />} />}
           />
-          <Route
-            path="/history"
-            element={<History />}
-          />
+          <Route path="/history" element={<History />} />
           <Route path="/w" element={<Socket />} />
           <Route
             path="/login"

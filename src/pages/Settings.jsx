@@ -7,22 +7,22 @@ export const Setting = () => {
     <div>
       <div className="text-[14px]">
         <div
-          className={`p-[24px] mb-[24px] ${
-            dark ? "border-[#333B47]" : "border-[#EDEDED]"
-          } border-1 flex flex-col rounded-[16px] gap-[20px]`}
+          className={`md:p-[24px] mb-[24px] ${
+            dark ? "md:border-[#333B47]" : "md:border-[#EDEDED]"
+          } md:border-1 flex flex-col rounded-[16px] gap-[20px]`}
         >
           <div className="text-[24px] font-semibold leading-[32px]">
             Profile
           </div>
-          <div className="flex justify-between">
-            <div className="flex flex-col gap-1 w-1/2">
+          <div className="flex md:flex-row flex-col gap-2 w-full justify-between ">
+            <div className="flex flex-col gap-1 md:w-1/2">
               <div className="text-[16px]">Nickname & Avatar</div>
               <div className="text-[#707A8A] text-[14px] font-normal leading-[20px]">
                 Set up an avatar and nickname, it is suggested not to use your
                 real name or the name of your social account as a nickname.
               </div>
             </div>
-            <div className="flex gap-4 items-center w-1/2 justify-end">
+            <div className="flex gap-4 items-center md:w-1/2 md:justify-end">
               <div className="flex gap-4 items-center ">
                 <div className="h-10 w-10 rounded-full bg-[#4653C8] flex justify-center items-center">
                   s
@@ -41,7 +41,7 @@ export const Setting = () => {
               </div>
             </div>
           </div>
-          <div className="flex justify-between items-center">
+          <div className="flex md:flex-row flex-col gap-2 md:justify-between ">
             <div className="flex flex-col gap-1">
               <div className="text-[16px]">C2C Profile</div>
               <div className="text-[#707A8A] text-[14px] font-normal leading-[20px]">
@@ -70,21 +70,21 @@ export const Setting = () => {
           </div>
         </div>
         <div
-          className={`p-[24px] mb-[24px] ${
-            dark ? "border-[#333B47]" : "border-[#EDEDED]"
-          } border-1 flex flex-col rounded-[16px] gap-[20px]`}
+          className={`md:p-[24px] mb-[24px] ${
+            dark ? "md:border-[#333B47]" : "md:border-[#EDEDED]"
+          } md:border-1 flex flex-col rounded-[16px] gap-[20px]`}
         >
           <div className="text-[24px] font-semibold leading-[32px]">
             Notifications
           </div>
-          <div className="flex justify-between">
-            <div className="flex flex-col gap-1 w-1/2">
+          <div className="flex md:flex-row flex-col justify-between  gap-2">
+            <div className="flex flex-col gap-1 md:w-1/2">
               <div className="text-[16px]">Notification Language</div>
               <div className="text-[#707A8A] text-[14px] font-normal leading-[20px]">
                 This will affect the language settings of E-mail and App push.
               </div>
             </div>
-            <div className="flex gap-4 items-center w-1/2 justify-end">
+            <div className="flex gap-4 items-center md:w-1/2 md:justify-end">
               <div className="flex gap-4 items-center ">
                 <div>Default</div>
               </div>
@@ -100,7 +100,7 @@ export const Setting = () => {
               </div>
             </div>
           </div>
-          <div className="flex justify-between items-center">
+          <div className="flex md:flex-row flex-col gap-2 justify-between ">
             <div className="flex flex-col gap-1">
               <div className="text-[16px]">Notification Preferences</div>
               <div className="text-[#707A8A] text-[14px] font-normal leading-[20px]">
@@ -126,7 +126,7 @@ export const Setting = () => {
               </div>
             </div>
           </div>
-          <div className="flex justify-between items-center">
+          <div className="flex flex-col md:flex-row gap-2 justify-between ">
             <div className="flex flex-col gap-1">
               <div className="text-[16px]">Auto Price Alert</div>
               <div className="text-[#707A8A] text-[14px] font-normal leading-[20px]">
@@ -152,22 +152,22 @@ export const Setting = () => {
           </div>
         </div>
         <div
-          className={`p-[24px] mb-[24px] ${
-            dark ? "border-[#333B47]" : "border-[#EDEDED]"
-          } border-1 flex flex-col rounded-[16px] gap-[20px]`}
+          className={`md:p-[24px] mb-[24px] ${
+            dark ? "md:border-[#333B47]" : "md:border-[#EDEDED]"
+          } md:border-1 flex flex-col rounded-[16px] gap-[20px]`}
         >
           <div className="text-[24px] font-semibold leading-[32px]">
             Withdrawal
           </div>
-          <div className="flex justify-between">
-            <div className="flex flex-col gap-1 w-1/2">
+          <div className="flex justify-between flex-col md:flex-row  gap-2">
+            <div className="flex flex-col gap-1 md:w-1/2">
               <div className="text-[16px]">Withdrawal Whitelist</div>
               <div className="text-[#707A8A] text-[14px] font-normal leading-[20px]">
                 Once this function is enabled, your account will only be able to
                 withdraw to addresses on your whitelist.
               </div>
             </div>
-            <div className="flex gap-4 items-center w-1/2 justify-end">
+            <div className="flex gap-4 items-center md:w-1/2 md:justify-end">
               <div className="flex gap-4 items-center ">
                 <div>Default</div>
               </div>{" "}
@@ -185,7 +185,7 @@ export const Setting = () => {
               </div>
             </div>
           </div>
-          <div className="flex justify-between items-center">
+          <div className="flex flex-col md:flex-row gap-2 justify-between ">
             <div className="flex flex-col gap-1">
               <div className="text-[16px]">One-step Withdrawal</div>
               <div className="text-[#707A8A] text-[14px] font-normal leading-[20px]">
@@ -206,7 +206,7 @@ export const Setting = () => {
               </button>
             </div>
           </div>
-          <div className="flex justify-between items-center">
+          <div className="flex flex-col md:flex-row gap-2 justify-between ">
             <div className="flex flex-col gap-1">
               <div className="text-[16px]">Withdraw Setting</div>
               <div className="text-[#707A8A] text-[14px] font-normal leading-[20px]">
@@ -232,20 +232,20 @@ export const Setting = () => {
           </div>
         </div>
         <div
-          className={`p-[24px] mb-[24px] ${
-            dark ? "border-[#333B47]" : "border-[#EDEDED]"
-          } border-1 flex flex-col rounded-[16px] gap-[20px]`}
+          className={`md:p-[24px] mb-[24px] ${
+            dark ? "md:border-[#333B47]" : "md:border-[#EDEDED]"
+          } md:border-1 flex flex-col rounded-[16px] gap-[20px]`}
         >
           <div className="text-[24px] font-semibold leading-[32px]">Trade</div>
-          <div className="flex justify-between">
-            <div className="flex flex-col gap-1 w-1/2">
+          <div className="flex flex-col md:flex-row  gap-2 justify-between">
+            <div className="flex flex-col gap-1 md:w-1/2">
               <div className="text-[16px]">Order Confirmation Reminders</div>
               <div className="text-[#707A8A] text-[14px] font-normal leading-[20px]">
                 If the order reminder function is enabled, it will need to be
                 reconfirmed every time an order is submitted.
               </div>
             </div>
-            <div className="flex gap-4 items-center w-1/2 justify-end">
+            <div className="flex gap-4 items-center md:w-1/2 md:justify-end">
               <div className="flex gap-4 items-center ">
                 <div>
                   Limit Order, Market Order, Stop-Limit Order, Auto Borrow/Repay
@@ -264,7 +264,7 @@ export const Setting = () => {
               </div>
             </div>
           </div>
-          <div className="flex justify-between items-center">
+          <div className="flex flex-col md:flex-row gap-2 justify-between ">
             <div className="flex flex-col gap-1">
               <div className="text-[16px]">Fee Deduction</div>
               <div className="text-[#707A8A] text-[14px] font-normal leading-[20px]">
@@ -289,21 +289,21 @@ export const Setting = () => {
           </div>
         </div>
         <div
-          className={`p-[24px] mb-[24px] ${
-            dark ? "border-[#333B47]" : "border-[#EDEDED]"
-          } border-1 flex flex-col rounded-[16px] gap-[20px]`}
+          className={`md:p-[24px] mb-[24px] ${
+            dark ? "md:border-[#333B47]" : "md:border-[#EDEDED]"
+          } md:border-1 flex flex-col rounded-[16px] gap-[20px]`}
         >
           <div className="text-[24px] font-semibold leading-[32px]">
             Link Account
           </div>
-          <div className="flex justify-between">
-            <div className="flex flex-col gap-1 w-1/2">
+          <div className="flex flex-col md:flex-row  gap-2 justify-between ">
+            <div className="flex flex-col gap-1 md:w-1/2">
               <div className="text-[16px]">Link X Account</div>
               <div className="text-[#707A8A] text-[14px] font-normal leading-[20px]">
                 Link your X Account to Binance.
               </div>
             </div>
-            <div className="flex gap-4 items-center w-1/2 justify-end">
+            <div className="flex gap-4 items-center md:w-1/2 md:justify-end">
               <div className="flex gap-4 items-center ">
                 <div>Not Linked</div>
               </div>
@@ -321,15 +321,15 @@ export const Setting = () => {
           </div>
         </div>
         <div
-          className={`p-[24px] mb-[24px] ${
-            dark ? "border-[#333B47]" : "border-[#EDEDED]"
-          } border-1 flex flex-col rounded-[16px] gap-[20px]`}
+          className={`md:p-[24px] mb-[24px] ${
+            dark ? "md:border-[#333B47]" : "md:border-[#EDEDED]"
+          } md:border-1 flex flex-col rounded-[16px] gap-[20px]`}
         >
           <div className="text-[24px] font-semibold leading-[32px]">
             Privacy
           </div>
-          <div className="flex justify-between">
-            <div className="flex flex-col gap-1 w-1/2">
+          <div className="flex flex-col md:flex-row  gap-2 justify-between">
+            <div className="flex flex-col gap-1 md:w-1/2">
               <div className="text-[16px]">Download Personal Data</div>
               <div className="text-[#707A8A] text-[14px] font-normal leading-[20px]">
                 The download includes profile, withdrawal, deposit, and trading
@@ -337,7 +337,7 @@ export const Setting = () => {
                 *For KYC documents, contact the
               </div>
             </div>
-            <div className="flex gap-4 items-center w-1/2 justify-end">
+            <div className="flex gap-4 items-center md:w-1/2 justify-end">
                 {" "}
                 <button
                   className={`${
@@ -348,11 +348,11 @@ export const Setting = () => {
                 </button>
             </div>
           </div>
-          <div className="flex justify-between">
-            <div className="flex flex-col gap-1 w-1/2">
+          <div className="flex flex-col md:flex-row  gap-2 justify-between">
+            <div className="flex flex-col gap-1 md:w-1/2">
               <div className="text-[16px]">Export Transaction Records</div>
             </div>
-            <div className="flex gap-4 items-center w-1/2 justify-end">
+            <div className="flex gap-4 items-center md:w-1/2 justify-end">
                 {" "}
                 <button
                   className={`${
@@ -363,11 +363,11 @@ export const Setting = () => {
                 </button>
             </div>
           </div>
-          <div className="flex justify-between">
-            <div className="flex flex-col gap-1 w-1/2">
+          <div className="flex flex-col md:flex-row  gap-2 justify-between">
+            <div className="flex flex-col gap-1 md:w-1/2">
               <div className="text-[16px]">Delete Account</div>
             </div>
-            <div className="flex gap-4 items-center w-1/2 justify-end">
+            <div className="flex gap-4 items-center md:w-1/2 justify-end">
               <div>
                 {" "}
                 <button
@@ -380,11 +380,11 @@ export const Setting = () => {
               </div>
             </div>
           </div>
-          <div className="flex justify-between">
-            <div className="flex flex-col gap-1 w-1/2">
+          <div className="flex flex-col md:flex-row  gap-2 justify-between">
+            <div className="flex flex-col gap-1 md:w-1/2 w-full">
               <div className="text-[16px]">Privacy Portal</div>
             </div>
-            <div className="flex gap-4 items-center w-1/2 justify-end">
+            <div className="flex gap-4 items-center md:w-1/2 justify-end">
               <div>
                 {" "}
                 <button

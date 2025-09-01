@@ -4,12 +4,11 @@ import { ScaleLoader } from "react-spinners";
 import { useDispatch, useSelector } from "react-redux";
 import { Tooltip } from "@mui/material";
 import { formatDecimal, formatToKMBWithCommas } from "../Constant";
-import { FaAngleRight, FaArrowDown, FaArrowUp } from "react-icons/fa";
 import { setCurrentPrice } from "../store/webSocket";
 
-export const MobileChartBar = ({ dark ,searchQuery}) => {
+export const MobileChartBar = () => {
   const tab = ["Chart", "Order Book", "Trades"];
-  const { tikerData, tradeData, priceDecimal, orderData, rounding } =
+  const { tikerData, tradeData, priceDecimal, orderData, rounding,dark ,searchQuery } =
     useSelector((state) => state.counter);
   const [activeTab, setActiveTab] = useState(tab[0]);
   const [maxAmount, setMaxAmount] = useState(0);

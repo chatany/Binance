@@ -9,6 +9,7 @@ import {
   setIsFav,
   setPairId,
   setRoundingVal,
+  setSearchQuery,
 } from "../store/webSocket";
 import { ScaleLoader } from "react-spinners";
 import { FaStar } from "react-icons/fa";
@@ -17,7 +18,7 @@ import { formatDecimal, formatToKMBWithCommas } from "../Constant";
 import { Tooltip } from "@mui/material";
 import { showError } from "../Toastify/toastServices";
 import { useAuth } from "../hooks/useAuth";
-export const MarketCom = ({ dark, SetSearchQuery, searchQuery }) => {
+export const MarketCom = () => {
   const [activeTab, setActiveTab] = useState("Market Trade");
   const [isVolume, setIsVolume] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -38,6 +39,8 @@ export const MarketCom = ({ dark, SetSearchQuery, searchQuery }) => {
     faverateData,
     priceDecimal,
     searchData,
+    dark,
+    searchQuery,
   } = useSelector((state) => state.counter);
   useEffect(() => {
     // Step 1: Start with full searchData
@@ -106,7 +109,7 @@ export const MarketCom = ({ dark, SetSearchQuery, searchQuery }) => {
     dispatch(setRoundingVal(val));
   };
   const handlePairClick = (item) => {
-    SetSearchQuery(item);
+    dispatch(setSearchQuery(item));
     const symbols = item;
     if (symbols) {
       navigate(`/spot/${symbols}`);
@@ -162,10 +165,11 @@ export const MarketCom = ({ dark, SetSearchQuery, searchQuery }) => {
     h-[1.5rem] p-4 text-[1rem] text-gray-400
     border
     hover:border-[#b89c4f]
-     ${dark 
-      ? "border-[#474D57] focus:border-[#b89c4f]" 
-      : "border-[#D8DCE1] focus:border-[#fce788]"
-    }
+     ${
+       dark
+         ? "border-[#474D57] focus:border-[#b89c4f]"
+         : "border-[#D8DCE1] focus:border-[#fce788]"
+     }
     focus:outline-none 
      transition-colors duration-300 delay-200
     `}

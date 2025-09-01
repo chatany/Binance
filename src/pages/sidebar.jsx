@@ -67,6 +67,9 @@ export default function MobileSidebar() {
     const value = e.target.checked;
     dispatch(setDark(value));
   };
+  const handleClose = () => {
+    dispatch(setShow(false));
+  };
   return (
     show && (
       <div
@@ -82,7 +85,7 @@ export default function MobileSidebar() {
           )}
           <IoMdClose
             className="text-[2rem] cursor-pointer"
-            onClick={() => dispatch(setShow(false))}
+            onClick={handleClose}
           />
         </div>
         <div className="w-full justify-between flex p-1 gap-2">
@@ -90,14 +93,20 @@ export default function MobileSidebar() {
             <>
               <button
                 className="bg-gray-100 px-4 py-2 rounded w-full text-black"
-                onClick={() => navigate("/login")}
+                onClick={() => {
+                  handleClose();
+                  navigate("/login");
+                }}
                 name="login"
               >
                 Log In
               </button>
               <button
                 className="bg-yellow-400 px-4 py-2 rounded font-semibold w-full text-black"
-                onClick={() => navigate("/register")}
+                onClick={() => {
+                  handleClose();
+                  navigate("/register");
+                }}
                 name="sign up"
               >
                 Sign Up

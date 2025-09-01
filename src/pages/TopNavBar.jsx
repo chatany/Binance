@@ -28,7 +28,9 @@ import { useAuth } from "../hooks/useAuth";
 
 export const TopNav = () => {
   const navigate = useNavigate();
-  const { dark, searchQuery, show } = useSelector((state) => state.counter);
+  const { dark, searchQuery, show, helpCenter } = useSelector(
+    (state) => state.counter
+  );
 
   const [showHelpPopup, setShowHelpPopup] = useState(false);
   const [profile, setProfile] = useState(false);
@@ -51,7 +53,9 @@ export const TopNav = () => {
   const popupRef = useRef(null);
   const dispatch = useDispatch();
   useEffect(() => {
-    helpCenterApi(dispatch);
+    if (helpCenter?.topics?.length <= 0) {
+      helpCenterApi(dispatch);
+    }
   }, []);
   useEffect(() => {
     if (!token) {
@@ -138,7 +142,7 @@ export const TopNav = () => {
                 });
               }}
               onClick={() => {
-                i == 0 || i == 1 ? navigate("/"): "";
+                i == 0 || i == 1 ? navigate("/") : "";
               }}
               // onMouseLeave={() => setHoveredItemIndex(null)}
             >

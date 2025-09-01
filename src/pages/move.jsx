@@ -1,16 +1,15 @@
-import React, { useState, useRef, useEffect } from "react";
+import  { useState, useRef } from "react";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import { RiArrowUpDoubleLine } from "react-icons/ri";
 import { useDispatch, useSelector } from "react-redux";
-import { setOpen } from "../store/webSocket";
-import { TopMoves } from "./apiCall";
+import { setOpen, setSearchQuery } from "../store/webSocket";
 import { useNavigate } from "react-router-dom";
 import { ScaleLoader } from "react-spinners";
 
-const TopMovers = ({ dark, setSearchQuery, setSearchParams }) => {
+const TopMovers = () => {
   const tabs = ["All", "Hot", "Losers", "24h Vol", "Gainers"];
   const open = useSelector((state) => state.counter.open);
-  const { allMovers, movers } = useSelector((state) => state.counter);
+  const { allMovers, movers,dark } = useSelector((state) => state.counter);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState("All");
@@ -22,7 +21,7 @@ const TopMovers = ({ dark, setSearchQuery, setSearchParams }) => {
     tabRef.current.scrollBy({ left: offset, behavior: "smooth" });
   };
   const handlePairClick = (item) => {
-    setSearchQuery(item);
+    dispatch(setSearchQuery(item));
     const symbols = item;
     if (symbols) {
       navigate(`/spot/${symbols}`);

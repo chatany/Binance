@@ -9,8 +9,8 @@ import { useEffect, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useAuth } from "../hooks/useAuth";
 import { showError } from "../Toastify/toastServices";
-export const TopIconBar1 = ({ dark }) => {
-  const { tikerData, iconURL, isFav,coinName, pairId, priceDecimal } =
+export const TopIconBar1 = () => {
+  const { tikerData, iconURL, isFav,coinName, pairId, priceDecimal,dark } =
     useSelector((state) => state.counter);
   const [priceColor, setPriceColor] = useState(false);
   const lastPriceRef = useRef(null);
@@ -172,8 +172,8 @@ export const TopIconBar1 = ({ dark }) => {
     </div>
   );
 };
-export const TopIconBar2 = ({ dark }) => {
-  const { tikerData, iconURL, isFav,coinName, pairId, priceDecimal } =
+export const TopIconBar2 = () => {
+  const { tikerData, iconURL, isFav,coinName, pairId, priceDecimal,dark } =
     useSelector((state) => state.counter);
   const dispatch = useDispatch();
   const token = useAuth();
@@ -345,8 +345,8 @@ export const TopIconBar2 = ({ dark }) => {
     </div>
   );
 };
-export const TopIconBar3 = ({ dark }) => {
-  const { tikerData, iconURL, isFav,coinName, pairId, priceDecimal } =
+export const TopIconBar3 = () => {
+  const { tikerData, iconURL, isFav,coinName, pairId, priceDecimal,dark } =
     useSelector((state) => state.counter);
   const dispatch = useDispatch();
   const { symbol } = useParams();
@@ -523,8 +523,8 @@ export const TopIconBar3 = ({ dark }) => {
     </div>
   );
 };
-export const TopIconBar4 = ({ dark, setOpenMarketPopup }) => {
-  const { tikerData, iconURL, priceDecimal,coinName } = useSelector(
+export const TopIconBar4 = ({  setOpenMarketPopup }) => {
+  const { tikerData, iconURL, priceDecimal,coinName,dark } = useSelector(
     (state) => state.counter
   );
   const [priceColor, setPriceColor] = useState(false);

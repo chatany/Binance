@@ -1,14 +1,13 @@
 import { useEffect, useRef, useState } from "react";
 import { FaAngleRight, FaArrowDown, FaArrowUp } from "react-icons/fa";
-import { FaAngleDown } from "react-icons/fa";
 import { HiDotsHorizontal } from "react-icons/hi";
 import { useDispatch, useSelector } from "react-redux";
 import { setCurrentPrice, setRoundingVal } from "../store/webSocket";
 import { formatDecimal, formatToKMBWithCommas } from "../Constant";
 import { ScaleLoader } from "react-spinners";
 import { Tooltip } from "@mui/material";
-export const Order = ({ dark }) => {
-  const { orderData, tikerData, tradeData, rounding, priceDecimal } =
+export const Order = () => {
+  const { orderData, tikerData, rounding, priceDecimal,dark } =
     useSelector((state) => state.counter);
 
   const dispatch = useDispatch();

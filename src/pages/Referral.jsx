@@ -4,8 +4,40 @@ import { useSelector } from "react-redux";
 import { TopNav } from "./TopNavBar";
 import { RiTwitterXLine } from "react-icons/ri";
 import { Footer } from "./Footer";
+import { useEffect, useRef, useState } from "react";
 export const Referral = () => {
   const dark = useSelector((state) => state.counter.dark);
+  const [current, setCurrent] = useState(0);
+  const [isPaused, setIsPaused] = useState(false);
+  const intervalRef = useRef(null);
+
+  useEffect(() => {
+    if (!isPaused) {
+      intervalRef.current = setInterval(() => {
+        setCurrent((prev) => (prev + 1) % images.length);
+      }, 3000);
+    }
+    return () => clearInterval(intervalRef.current);
+  }, [isPaused]);
+  const handleDotClick = (index) => {
+    setCurrent(index);
+    setIsPaused(true);
+  };
+  const images = [
+    {
+      img: "/sharestep1.png",
+      title: "1.Share your referral link with friends",
+    },
+    {
+      img: "/sharestep2.png",
+      title:
+        "Your referred friend buys more than $50 worth of crypto within 14 days after registration.",
+    },
+    {
+      img: "/reward.png",
+      title: "Receive trading fee rebate vouchers worth $100 each.",
+    },
+  ];
   return (
     <div
       className={`${
@@ -13,8 +45,8 @@ export const Referral = () => {
       }`}
     >
       <TopNav />
-      <div className="w-full p-20">
-        <div className="flex items-center justify-center w-full">
+      <div className="w-full md:p-20 max-md:p-5">
+        <div className="flex items-center justify-center w-full max-md:hidden">
           <div className="w-[60%] flex flex-col gap-[22px]">
             <div className="text-[24px] font-semibold">Referral Lite</div>
             <div className="text-[28px] font-bold">
@@ -150,7 +182,184 @@ export const Referral = () => {
             <img src="/reward.png" className="w-full h-full" />
           </div>
         </div>
-        <div className="grid grid-cols-3 gap-6 h-[10rem]">
+        <div className="md:hidden">
+          <div className="flex justify-center flex-col items-center">
+            <div className="text-[28px] leading-[36px] font-bold">
+              Refer a Friend – Both Earn Up to $100
+            </div>
+            <div className="text-[14px] leading-[22px] font-normal">
+              Refer friends to purchase crypto worth over $50, and both of you
+              will receive a trading fee rebate voucher worth up to $100 within
+              48 hours.{" "}
+            </div>
+            <div>
+              <div
+                className="w-full overflow-hidden rounded-[10px] flex flex-col items-center"
+                onMouseEnter={() => setIsPaused(true)}
+                onMouseLeave={() => setIsPaused(false)}
+              >
+                <div
+                  style={{
+                    transition: "transform 0.6s ease-in-out",
+                    transform: `translateX(-${current * 100}%)`,
+                  }}
+                  className="flex "
+                >
+                  {images.map((src, i) => (
+                    <div
+                      key={i}
+                      className="min-w-full flex flex-col items-center"
+                    >
+                      <img
+                        src={src.img}
+                        alt={`slide-${i}`}
+                        className="h-[135px] max-w-[294px] w-full"
+                      />
+                      <div>
+                        <div className="text-[14px] font-normal leading-[22px]">
+                          How referral works
+                        </div>
+                        <div className="text-[16px] font-bold leading-[24px]">
+                          {src.title}
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+
+                <div className="text-center mt-[10px] flex gap-2 justify-center items-center">
+                  {images.map((_, i) => (
+                    <span
+                      key={i}
+                      className="h-[4px] w-[20px] inline-block rounded-[2px] cursor-pointer"
+                      style={{
+                        backgroundColor: current === i ? "#ffcc00" : "#aaa",
+                      }}
+                      onClick={() => handleDotClick(i)}
+                    ></span>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="flex flex-col gap-4">
+            <div className="font-medium leading-[18px] text-[14px]">
+              Invite via
+            </div>
+            <div
+              className={`${
+                !dark ? "bg-[#F5F5F5] " : "bg-[#29313D] "
+              } flex justify-between w-full rounded-2xl p-2 h-[40px]`}
+            >
+              <div className={`${!dark ? "text-[#9C9C9C]" : "text-[#707A8A]"}`}>
+                Referral Code
+              </div>
+              <div className="flex gap-2 items-center">
+                <div>CPA_00WZ6EH548</div>
+                <PiCopyLight />
+              </div>
+            </div>
+            <div
+              className={`${
+                !dark ? "bg-[#F5F5F5] " : "bg-[#29313D] "
+              } flex justify-between w-full h-[40px] p-2 rounded-2xl`}
+            >
+              <div className={`${!dark ? "text-[#9C9C9C]" : "text-[#707A8A]"}`}>
+                Refer Link
+              </div>
+              <div className="flex items-center gap-2">
+                <div>https://ww...H548</div>
+                <PiCopyLight />
+              </div>
+            </div>
+          </div>
+          <div className="flex flex-col gap-2">
+            <div>Share to </div>
+            <div className="flex justify-between">
+              <div className="flex flex-col capitalize gap-2 items-center text-[12px]">
+                <div
+                  className={`flex flex-col rounded-[16px]   ${
+                    dark ? "border-[#333B47]" : "border-[#EDEDED]"
+                  } border-1 gap-2 items-center p-[11px]`}
+                >
+                  <RiTwitterXLine
+                    className={`rounded-[50%] h-[24px] w-[24px] p-[4px] ${
+                      dark
+                        ? "text-[#FFFFFF] bg-[#000000]"
+                        : "text-[#000000] bg-[#FFFFFF]"
+                    }`}
+                  />
+                </div>
+                x
+              </div>
+              <div className="flex flex-col capitalize gap-2 items-center text-[12px]">
+                <div
+                  className={`flex flex-col rounded-[16px]   ${
+                    dark ? "border-[#333B47]" : "border-[#EDEDED]"
+                  } border-1 gap-2 items-center p-[11px]`}
+                >
+                  <FaFacebook
+                    className={`rounded-[50%] p-[4px] h-[24px] w-[24px] ${
+                      dark
+                        ? "text-[#FFFFFF] bg-[#000000]"
+                        : "text-[#000000] bg-[#FFFFFF]"
+                    }`}
+                  />{" "}
+                </div>
+                facebook
+              </div>
+              <div className="flex flex-col capitalize gap-2 items-center text-[12px]">
+                <div
+                  className={`flex flex-col rounded-[16px]   ${
+                    dark ? "border-[#333B47]" : "border-[#EDEDED]"
+                  } border-1 gap-2 items-center p-[11px]`}
+                >
+                  <FaTelegram
+                    className={`rounded-[50%] h-[24px] w-[24px] p-[4px] ${
+                      dark
+                        ? "text-[#FFFFFF] bg-[#000000]"
+                        : "text-[#000000] bg-[#FFFFFF]"
+                    }`}
+                  />{" "}
+                </div>
+                telegram
+              </div>
+              <div className="flex flex-col capitalize gap-2 items-center text-[12px]">
+                <div
+                  className={`flex flex-col rounded-[16px]  ${
+                    dark ? "border-[#333B47]" : "border-[#EDEDED]"
+                  } border-1 gap-2 items-center p-[11px]`}
+                >
+                  <FaWhatsapp
+                    className={`rounded-[50%] h-[24px] w-[24px] p-[4px] ${
+                      dark
+                        ? "text-[#FFFFFF] bg-[#000000]"
+                        : "text-[#000000] bg-[#FFFFFF]"
+                    }`}
+                  />{" "}
+                </div>
+                whatsapp
+              </div>
+              <div className="flex flex-col capitalize gap-2 items-center text-[12px]">
+                <div
+                  className={`flex capitalize flex-col rounded-[16px]  ${
+                    dark ? "border-[#333B47]" : "border-[#EDEDED]"
+                  } border-1 gap-2 items-center p-[11px]`}
+                >
+                  <FaReddit
+                    className={`rounded-[50%] h-[24px] w-[24px] p-[4px] ${
+                      dark
+                        ? "text-[#FFFFFF] bg-[#000000]"
+                        : "text-[#000000] bg-[#FFFFFF]"
+                    }`}
+                  />{" "}
+                </div>
+                reddit
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className="grid grid-cols-3 gap-6 h-[10rem] max-md:hidden">
           <div
             className={` border-1 flex items-center justify-center max-h-[10rem] w-full rounded-[16px] p-3  ${
               dark ? "border-[#333B47]" : "border-[#EDEDED]"
@@ -189,7 +398,7 @@ export const Referral = () => {
             </div>
           </div>
         </div>
-        <div className="w-full p-5">
+        <div className="w-full p-5 max-md:hidden">
           <div className="text-[20px] font-semibold">Overview</div>
           <div className="flex w-full">
             <div className="w-full p-3">

@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { getFaverateData, SearchData } from "./apiCall";
 import { useDispatch, useSelector } from "react-redux";
-import { setIconUrl, setIsFav, setPairId } from "../store/webSocket";
+import { setSearchQuery } from "../store/webSocket";
 import { useNavigate } from "react-router-dom";
 import { CiRepeat } from "react-icons/ci";
 import { FaStar } from "react-icons/fa";
@@ -10,14 +10,10 @@ import { formatToKMB } from "../Constant";
 import { IoCloseSharp } from "react-icons/io5";
 import { showError } from "../Toastify/toastServices";
 import { useAuth } from "../hooks/useAuth";
-export const MarketPopup = ({
-  setSearchQuery,
-  searchQuery,
-  dark,
-  handleClose,
-  openMarketPopup,
-}) => {
-  const { faverateData, searchData } = useSelector((state) => state.counter);
+export const MarketPopup = ({ handleClose, openMarketPopup }) => {
+  const { faverateData, searchData, dark } = useSelector(
+    (state) => state.counter
+  );
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const token = useAuth();
@@ -44,8 +40,8 @@ export const MarketPopup = ({
         url: `https://test.bitzup.com/onboarding/currency/add-favorite`,
         data: favData,
       });
-      if(data?.status!=1){
-        showError(data?.message)
+      if (data?.status != 1) {
+        showError(data?.message);
       }
     } catch (err) {
       console.error("Failed to fetch second API", err);
@@ -57,7 +53,7 @@ export const MarketPopup = ({
     setIsVolume(!isVolume);
   };
   const handlePairClick = (item) => {
-    setSearchQuery(item);
+    dispatch(setSearchQuery(item));
     const symbols = item;
     if (symbols) {
       navigate(`/spot/${item}`);
