@@ -87,7 +87,6 @@ export const Home = () => {
         ${dark ? "bg-[#0B0E11] text-[#EAECEF]" : "bg-[#F5F5F5] text-[#262030]"}
        h-full flex flex-col gap-0  `}
       >
-        <Socket />
         {/* Top Navbar */}
         <TopNav />
         {/* Main Content */}

@@ -111,45 +111,44 @@ export const counterSlice = createSlice({
       state.lastPrice = action.payload;
     },
     setTopMovers: (state, action) => {
-      const incoming = action.payload;
-      // if (state.movers && Object.keys(state.movers).length > 0) {
-      //   state.movers = updateMoversSection(state.movers, action.payload);
-      // } else {
-      //   state.movers = action.payload;
-      // }
-      if (
-        state.movers.Hot?.length > 0 ||
-        state.movers.Losers?.length > 0 ||
-        state.movers.Gainers?.length > 0
-      ) {
-        state.movers.Hot = state.movers.Hot.map((item) => {
-          const updatedItem =
-            Array.isArray(incoming) &&
-            incoming.find((d) => d.pair_symbol === item.pair_symbol);
-          return updatedItem ? { ...item, ...updatedItem } : item;
-        });
-        state.movers.Losers = state.movers.Losers.map((item) => {
-          const updatedItem =
-            Array.isArray(incoming) &&
-            incoming.find((d) => d.pair_symbol === item.pair_symbol);
-          return updatedItem ? { ...item, ...updatedItem } : item;
-        });
-        state.movers.Gainers = state.movers.Gainers.map((item) => {
-          const updatedItem = incoming?.find(
-            (d) => d.pair_symbol === item.pair_symbol
-          );
-          return updatedItem ? { ...item, ...updatedItem } : item;
-        });
-        state.movers["24h Vol"] = state.movers["24h Vol"].map((item) => {
-          const updatedItem = incoming.find(
-            (d) => d.pair_symbol === item.pair_symbol
-          );
-          return updatedItem ? { ...item, ...updatedItem } : item;
-        });
-      } else {
-        state.movers = action.payload;
-      }
-    },
+  const incoming = action.payload;
+
+  if (
+    state.movers.Hot?.length > 0 ||
+    state.movers.Losers?.length > 0 ||
+    state.movers.Gainers?.length > 0
+  ) {
+    state.movers.Hot = state.movers.Hot.map((item) => {
+      const updatedItem = incoming?.Hot?.find(
+        (d) => d.pair_symbol === item.pair_symbol
+      );
+      return updatedItem ? { ...item, ...updatedItem } : item;
+    });
+
+    state.movers.Losers = state.movers.Losers.map((item) => {
+      const updatedItem = incoming?.Losers?.find(
+        (d) => d.pair_symbol === item.pair_symbol
+      );
+      return updatedItem ? { ...item, ...updatedItem } : item;
+    });
+
+    state.movers.Gainers = state.movers.Gainers.map((item) => {
+      const updatedItem = incoming?.Gainers?.find(
+        (d) => d.pair_symbol === item.pair_symbol
+      );
+      return updatedItem ? { ...item, ...updatedItem } : item;
+    });
+
+    state.movers["24h Vol"] = state.movers["24h Vol"].map((item) => {
+      const updatedItem = incoming?.["24h Vol"]?.find(
+        (d) => d.pair_symbol === item.pair_symbol
+      );
+      return updatedItem ? { ...item, ...updatedItem } : item;
+    });
+  } else {
+    state.movers = action.payload;
+  }
+},
     setAllMovers: (state, action) => {
       const start = action.payload;
 
