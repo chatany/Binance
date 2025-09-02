@@ -25,6 +25,7 @@ import {
   setShow,
 } from "../store/webSocket";
 import { useAuth } from "../hooks/useAuth";
+import { BsMoon } from "react-icons/bs";
 
 export const TopNav = () => {
   const navigate = useNavigate();
@@ -595,7 +596,7 @@ export const TopNav = () => {
               },
             }}
           >
-            <MdDarkMode
+            <BsMoon
               className="hover:text-amber-400 sm:flex hidden h-6 w-6 md:h-6 md:w-6"
               onClick={handleTheme}
             />

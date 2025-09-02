@@ -765,7 +765,7 @@ export const ToggleButSell = ({
                   name="limit-buy"
                   disabled={limitBuyLoading}
                   onClick={() => {
-                   !userData?.token ? handleBuy():
+                   userData?.token ? handleBuy():
                     handleNavigate();
                   }}
                   className="w-[100%]  bg-[#2EBD85] hover:bg-[#0e9e67]  m-2 py-2 rounded-md h-[3rem] text-[16px] font-semibold cursor-pointer"
@@ -1412,7 +1412,7 @@ export const ToggleButSell = ({
                   name="stop-sell"
                   disabled={stopSellLoading}
                   onClick={() => {
-                    !userData?.token ?handleNavigate():
+                    userData?.token ?handleNavigate():
                     handleStopSell();
                   }}
                   className="w-[100%] bg-[#F6465D] hover:bg-[#c74052] cursor-pointer  h-[3rem]  py-2 m-2 rounded-md text-[16px] font-semibold"

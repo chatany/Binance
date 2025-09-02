@@ -21,7 +21,6 @@ import { History } from "./pages/history";
 import { Dashboard } from "./pages/dashboard";
 import { OpenOrders } from "./common/openOrders";
 import { LayoutWeb } from "./pages/LayoutWeb";
-import { Spot } from "./pages/Spot";
 import { Referral } from "./pages/Referral";
 import { RewardHub } from "./pages/RewardHub";
 import { Identification } from "./Account/Identification";
@@ -29,15 +28,18 @@ import { Security } from "./Account/Security";
 import { Setting } from "./pages/Settings";
 import { Footer } from "./pages/Footer";
 import MobileSidebar from "./pages/sidebar";
+import { Spot } from "./Asset/Spot";
+import { Overview } from "./Asset/Overview";
+import { Report } from "./Account/financialReport";
 function App() {
   const last = JSON.parse(localStorage.getItem("lastPair")) || "BTCUSDT";
   const userData = useAuth();
   return (
     <>
       <ToastProvider />
-      <Socket/>
+      <Socket />
       <Router>
-          <MobileSidebar />
+        <MobileSidebar />
         <Routes>
           <Route path="/" element={<Navigate to={`/spot/${last}`} replace />} />
           <Route path="/spot/:symbol" element={<Home />} />
@@ -113,6 +115,14 @@ function App() {
           <Route
             path="security"
             element={<LayoutWeb component={<Security />} />}
+          />
+          <Route
+            path="overview"
+            element={<LayoutWeb component={<Overview />} />}
+          />
+          <Route
+            path="reports"
+            element={<LayoutWeb component={<Report />} />}
           />
           <Route
             path="settings"

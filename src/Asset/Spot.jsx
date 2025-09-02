@@ -1,10 +1,10 @@
 import { CgSearch } from "react-icons/cg";
-import { HeroSection } from "./heroCard";
+import { HeroSection } from "../pages/heroCard";
 import { TbArrowsExchange2 } from "react-icons/tb";
 import { useDispatch, useSelector } from "react-redux";
 import { HiOutlineDotsVertical } from "react-icons/hi";
 import { useEffect, useState } from "react";
-import { getFundsData } from "./apiCall";
+import { getFundsData } from "../pages/apiCall";
 
 export const Spot = () => {
   const { fundData, dark } = useSelector((state) => state.counter);

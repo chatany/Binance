@@ -96,10 +96,9 @@ export const formatToKMBWithCommas = (num) => {
 
   if (n >= 1000) {
     return new Intl.NumberFormat("en-IN").format(n);
-  }else{
+  } else {
     return num;
   }
-
 };
 export const MenuItem = [
   { icon: <MdDashboardCustomize />, name: "Dashboard", path: "/dashboard" },
@@ -109,7 +108,7 @@ export const MenuItem = [
   { icon: <FaUserPlus />, name: "Referral", path: "/Referral" },
   { icon: <CgEye />, name: "Rewards Hub", path: "/Reward" },
   { icon: <RiAccountCircle2Line />, name: "Sub Accounts" },
-  { icon: <IoSettings />, name: "Settings",path: "/settings" },
+  { icon: <IoSettings />, name: "Settings", path: "/settings" },
   { icon: <CgArrowsExchangeV />, name: "Switch Account" },
   { icon: <CiLogout />, name: "Log Out" },
 ];
@@ -118,7 +117,11 @@ export const menu = [
   {
     icon: <LuWallet />,
     name: "Assets",
-    category: [{ name: "Spot", path: "/asstes" }],
+    category: [
+      { name: "Spot", path: "/asstes" },
+      { name: "Overview", path: "/overview" },
+      { name: "Margin", path: "" },
+    ],
     path: "",
   },
   {
@@ -138,7 +141,7 @@ export const menu = [
       { name: "Payment", path: "#" },
       { name: "API Management", path: "#" },
       { name: "Account Statement", path: "#" },
-      { name: "Financial Reports", path: "#" },
+      { name: "Financial Reports", path: "/reports" },
     ],
   },
   { icon: <RiAccountCircle2Line />, name: "Sub Accounts", path: "#" },
@@ -329,7 +332,7 @@ export const footerItems = [
   },
 ];
 export const socialIcons = [
-  <RiTelegramFill className="size-6"/>,
+  <RiTelegramFill className="size-6" />,
   <FaInstagram className="size-6" />,
   <RiWhatsappFill className="size-6" />,
   <RiTwitterXLine className="size-6" />,

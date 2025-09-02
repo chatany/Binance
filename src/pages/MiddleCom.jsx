@@ -11,6 +11,7 @@ import { ScaleLoader } from "react-spinners";
 import { Tooltip } from "@mui/material";
 import { useState } from "react";
 import { formatToKMBWithCommas } from "../Constant";
+import { BuyOrder, CommonOrder, SellOrder } from "../icons";
 
 export const Middle = () => {
   const { tradeData, tikerData, orderData,dark } = useSelector(
@@ -150,27 +151,7 @@ export const Middle = () => {
                       },
                     }}
                   >
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      className="h-5"
-                      viewBox="0 0 16 16"
-                      fill="none"
-                    >
-                      <path
-                        d="M2.66663 2.66699L7.33329 2.66699L7.33329 7.33366L2.66663 7.33366L2.66663 2.66699Z"
-                        fill="#F6465D"
-                      ></path>
-                      <path
-                        d="M2.66663 8.66699L7.33329 8.66699L7.33329 13.3337L2.66663 13.3337L2.66663 8.66699Z"
-                        fill="#2EBD85"
-                      ></path>
-                      <path
-                        fill-rule="evenodd"
-                        clip-rule="evenodd"
-                        d="M8.66663 2.66699L13.3333 2.66699L13.3333 5.33366L8.66663 5.33366L8.66663 2.66699ZM8.66663 6.66699L13.3333 6.66699L13.3333 9.33366L8.66663 9.33366L8.66663 6.66699ZM13.3333 10.667L8.66663 10.667L8.66663 13.3337L13.3333 13.3337L13.3333 10.667Z"
-                        fill="currentColor"
-                      ></path>
-                    </svg>
+                    <CommonOrder/>
                   </Tooltip>
                 </div>
                 <div
@@ -199,25 +180,7 @@ export const Middle = () => {
                       },
                     }}
                   >
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      className="h-5"
-                      viewBox="0 0 16 16"
-                      fill="none"
-                    >
-                      <g>
-                        <path
-                          d="M2.66663 2.66699L7.33329 2.66699L7.33329 13.3337L2.66663 13.3337L2.66663 2.66699Z"
-                          fill="#2EBD85"
-                        ></path>
-                        <path
-                          fill-rule="evenodd"
-                          clip-rule="evenodd"
-                          d="M8.66663 2.66699L13.3333 2.66699L13.3333 5.33366L8.66663 5.33366L8.66663 2.66699ZM8.66663 6.66699L13.3333 6.66699L13.3333 9.33366L8.66663 9.33366L8.66663 6.66699ZM13.3333 10.667L8.66663 10.667L8.66663 13.3337L13.3333 13.3337L13.3333 10.667Z"
-                          fill="currentColor"
-                        ></path>
-                      </g>
-                    </svg>
+                    <BuyOrder/>
                   </Tooltip>
                 </div>
                 <div
@@ -246,20 +209,7 @@ export const Middle = () => {
                       },
                     }}
                   >
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      className="h-5"
-                    >
-                      <path d="M4 4h7v16H4V4z" fill="#F6465D"></path>
-                      <path
-                        fillRule="evenodd"
-                        clipRule="evenodd"
-                        d="M13 4h7v4h-7V4zm0 6h7v4h-7v-4zm7 6h-7v4h7v-4z"
-                        fill="currentColor"
-                      ></path>
-                    </svg>
+                    <SellOrder/>
                   </Tooltip>
                 </div>
               </div>
