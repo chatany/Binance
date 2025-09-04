@@ -1,5 +1,5 @@
 :root {
-  font-family: BinancePlex, Arial, sans-serif;
+  font-family: BinanceNova, Arial, sans-serif !important;
   line-height: 1.5;
   font-weight: 400;
   background-color: #f1f1f1;
@@ -103,7 +103,7 @@ button:focus-visible {
 /* 1. Hide default scrollbar globally */
 * {
   -ms-overflow-style: none; /* IE & Edge */
-  scrollbar-width: none;    /* Firefox */
+  scrollbar-width: none; /* Firefox */
 }
 
 *::-webkit-scrollbar {
@@ -123,7 +123,7 @@ button:focus-visible {
 }
 
 .custom-scroll::-webkit-scrollbar-track {
-    /* background: #f1f1f1; */
+  /* background: #f1f1f1; */
   border-radius: 4px;
 }
 
@@ -147,14 +147,14 @@ button:focus-visible {
 } */
 
 /* ::-webkit-scrollbar { */
-  /* width: 5px; width of the scrollbar */
-  /* height: 2px; for horizontal scrollbars */
+/* width: 5px; width of the scrollbar */
+/* height: 2px; for horizontal scrollbars */
 /* } */
 
 /* Track (the background) */
 /* ::-webkit-scrollbar-track { */
-  /* background: #f1f1f1; */
-  /* border-radius: 4px; */
+/* background: #f1f1f1; */
+/* border-radius: 4px; */
 /* } */
 
 /* Handle (the draggable bar) */

@@ -59,10 +59,18 @@ export const counterSlice = createSlice({
     show: false,
     activeItem: false,
     referralCode: {},
+    authEnticatorKey: {},
+    auth: false,
   },
   reducers: {
     incrementByAmount: (state, action) => {
       state.tikerData = action.payload;
+    },
+    setAuth: (state, action) => {
+      state.auth = action.payload;
+    },
+    setAuthEnticatorKey: (state, action) => {
+      state.authEnticatorKey = action.payload;
     },
     setReferralData: (state, action) => {
       state.referralCode = action.payload;
@@ -111,44 +119,44 @@ export const counterSlice = createSlice({
       state.lastPrice = action.payload;
     },
     setTopMovers: (state, action) => {
-  const incoming = action.payload;
+      const incoming = action.payload;
 
-  if (
-    state.movers.Hot?.length > 0 ||
-    state.movers.Losers?.length > 0 ||
-    state.movers.Gainers?.length > 0
-  ) {
-    state.movers.Hot = state.movers.Hot.map((item) => {
-      const updatedItem = incoming?.Hot?.find(
-        (d) => d.pair_symbol === item.pair_symbol
-      );
-      return updatedItem ? { ...item, ...updatedItem } : item;
-    });
+      if (
+        state.movers.Hot?.length > 0 ||
+        state.movers.Losers?.length > 0 ||
+        state.movers.Gainers?.length > 0
+      ) {
+        state.movers.Hot = state.movers.Hot.map((item) => {
+          const updatedItem = incoming?.Hot?.find(
+            (d) => d.pair_symbol === item.pair_symbol
+          );
+          return updatedItem ? { ...item, ...updatedItem } : item;
+        });
 
-    state.movers.Losers = state.movers.Losers.map((item) => {
-      const updatedItem = incoming?.Losers?.find(
-        (d) => d.pair_symbol === item.pair_symbol
-      );
-      return updatedItem ? { ...item, ...updatedItem } : item;
-    });
+        state.movers.Losers = state.movers.Losers.map((item) => {
+          const updatedItem = incoming?.Losers?.find(
+            (d) => d.pair_symbol === item.pair_symbol
+          );
+          return updatedItem ? { ...item, ...updatedItem } : item;
+        });
 
-    state.movers.Gainers = state.movers.Gainers.map((item) => {
-      const updatedItem = incoming?.Gainers?.find(
-        (d) => d.pair_symbol === item.pair_symbol
-      );
-      return updatedItem ? { ...item, ...updatedItem } : item;
-    });
+        state.movers.Gainers = state.movers.Gainers.map((item) => {
+          const updatedItem = incoming?.Gainers?.find(
+            (d) => d.pair_symbol === item.pair_symbol
+          );
+          return updatedItem ? { ...item, ...updatedItem } : item;
+        });
 
-    state.movers["24h Vol"] = state.movers["24h Vol"].map((item) => {
-      const updatedItem = incoming?.["24h Vol"]?.find(
-        (d) => d.pair_symbol === item.pair_symbol
-      );
-      return updatedItem ? { ...item, ...updatedItem } : item;
-    });
-  } else {
-    state.movers = action.payload;
-  }
-},
+        state.movers["24h Vol"] = state.movers["24h Vol"].map((item) => {
+          const updatedItem = incoming?.["24h Vol"]?.find(
+            (d) => d.pair_symbol === item.pair_symbol
+          );
+          return updatedItem ? { ...item, ...updatedItem } : item;
+        });
+      } else {
+        state.movers = action.payload;
+      }
+    },
     setAllMovers: (state, action) => {
       const start = action.payload;
 
@@ -211,6 +219,8 @@ export const counterSlice = createSlice({
 
 export const {
   increment,
+  setAuthEnticatorKey,
+  setAuth,
   setReferralData,
   setDark,
   setActiveItem,

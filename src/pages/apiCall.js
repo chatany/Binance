@@ -1,6 +1,8 @@
 import { apiRequest } from "../Helper";
 import {
   setAllMovers,
+  setAuth,
+  setAuthEnticatorKey,
   setBalance,
   setCountryData,
   setFaverateData,
@@ -259,7 +261,7 @@ export const getFaverateData = async (dispatch) => {
     if (status === 200) {
       dispatch(setFaverateData(data.data));
     }
-    if (status === 400 && data?.status ==3) {
+    if (status === 400 && data?.status == 3) {
       // window.location.href = "/login";
       localStorage.removeItem("userData");
       window.dispatchEvent(new Event("userDataChanged"));
@@ -280,7 +282,7 @@ export const getFundsData = async (dispatch) => {
     if (status === 200 && data?.status == 1) {
       dispatch(setFundData(data.data));
     }
-    if (status === 400 && data?.status ==3) {
+    if (status === 400 && data?.status == 3) {
       // window.location.href = "/login";
       localStorage.removeItem("userData");
       window.dispatchEvent(new Event("userDataChanged"));
@@ -300,12 +302,56 @@ export const getReferralData = async (dispatch) => {
     if (status === 200 && data?.status == 1) {
       dispatch(setReferralData(data.data));
     }
-    console.log(status);
-    
+
     if (data?.status != 1) {
       showError(data?.message);
     }
-    if (status === 400 && data?.status ==3) {
+    if (status === 400 && data?.status == 3) {
+      localStorage.removeItem("userData");
+      window.dispatchEvent(new Event("userDataChanged"));
+    }
+  } catch (err) {
+    console.error("Failed to fetch second API", err);
+  }
+};
+export const getAuthenticationKey = async (dispatch) => {
+  try {
+    const { data, status } = await apiRequest({
+      method: "post",
+      url: `https://test.bitzup.com/onboarding/user/generate-2fa-key`,
+      data: {},
+    });
+    if (status === 200 && data?.status == 1) {
+      const key = JSON.parse(data?.data);
+      dispatch(setAuthEnticatorKey(key));
+    }
+    if (data?.status != 1) {
+      showError(data?.message);
+    }
+    if (status === 400 && data?.status == 3) {
+      localStorage.removeItem("userData");
+      window.dispatchEvent(new Event("userDataChanged"));
+    }
+  } catch (err) {
+    console.error("Failed to fetch second API", err);
+  }
+};
+export const getAuth = async (dispatch) => {
+  try {
+    const { data, status } = await apiRequest({
+      method: "post",
+      url: `https://test.bitzup.com/onboarding/user/get-2fa`,
+      data: {},
+    });
+
+    if (status === 200 && data?.status == 1) {
+      dispatch(setAuth(data?.data));
+    }
+
+    if (data?.status != 1) {
+      showError(data?.message);
+    }
+    if (status === 400 && data?.status == 3) {
       localStorage.removeItem("userData");
       window.dispatchEvent(new Event("userDataChanged"));
     }

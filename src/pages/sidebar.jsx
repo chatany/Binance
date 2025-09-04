@@ -73,7 +73,7 @@ export default function MobileSidebar() {
   return (
     show && (
       <div
-        className={`fixed inset-0 z-50 ${
+        className={`fixed inset-0 z-60 ${
           dark ? "bg-[#181A20] text-white" : "bg-white text-black"
         }  w-full h-full overflow-y-auto p-4`}
       >

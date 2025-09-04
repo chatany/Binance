@@ -93,7 +93,7 @@ export const TopNav = () => {
       }
     };
 
-    if (showLogoutPopup||profile) {
+    if (showLogoutPopup || profile) {
       document.addEventListener("mousedown", handleClickOutside);
       document.body.style.overflow = "hidden";
     }
@@ -102,7 +102,7 @@ export const TopNav = () => {
       document.removeEventListener("mousedown", handleClickOutside);
       document.body.style.overflow = "auto";
     };
-  }, [showLogoutPopup,profile]);
+  }, [showLogoutPopup, profile]);
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
   useEffect(() => {
     const handleResize = () => {
@@ -200,11 +200,12 @@ export const TopNav = () => {
                                   ele.array.map((val, ind) => (
                                     <div
                                       key={ind}
-                                      onClick={() =>
+                                      onClick={() => {
                                         val?.title === "Spot"
                                           ? navigate("/")
-                                          : ""
-                                      }
+                                          : "";
+                                        navigate(val.path);
+                                      }}
                                       className={`${
                                         dark
                                           ? "hover:bg-[#161A1E]"
@@ -260,6 +261,7 @@ export const TopNav = () => {
                               {
                                 <div
                                   key={index}
+                                  onClick={() => navigate(ele.path)}
                                   className={`${
                                     dark
                                       ? "hover:bg-[#161A1E]"
@@ -326,8 +328,8 @@ export const TopNav = () => {
           <div
             className="relative flex items-center gap-4"
             onMouseEnter={() => !isMobile && setProfile(!profile)}
-            onMouseLeave={() => !isMobile &&setProfile(!profile)}
-             onClick={() => setProfile(!profile)}
+            onMouseLeave={() => !isMobile && setProfile(!profile)}
+            onClick={() => setProfile(!profile)}
           >
             <CgProfile
               className=" hover:text-amber-400 h-6 w-6"

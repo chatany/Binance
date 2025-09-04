@@ -9,7 +9,7 @@ export const Identification = () => {
         dark ? "bg-[#181A20] flex justify-center flex-col  text-[#EAECEF]" : "bg-[#FFFFFF] text-[#000000]"
       }`}
     >
-    <div className="ml-[100px] flex flex-col gap-10">
+    <div className="md:ml-[100px] flex flex-col gap-10">
 
       <div className="flex gap-8">
         <div>
@@ -26,7 +26,7 @@ export const Identification = () => {
         </div>
       </div>
       <div
-        className={`flex gap-[16px] flex-col w-[600px] rounded-[16px] p-5 ${
+        className={`flex gap-[16px] flex-col w-[600px] max-lg:w-full rounded-[16px] p-5 ${
           dark ? "border-[#333B47]" : "border-[#EDEDED]"
         } border-1`}
       >

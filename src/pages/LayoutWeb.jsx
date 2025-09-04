@@ -11,16 +11,16 @@ export const LayoutWeb = ({ component }) => {
         ${dark ? "bg-[#0B0E11] text-[#EAECEF]" : "bg-[#FFFFFF] text-[#262030]"}
        h-full flex flex-col gap-0  `}
     >
-      <header>
+      <header className="fixed inset-0 z-50 h-fit">
         <TopNav />
       </header>
 
-      <div className="flex max-md:flex-col">
+      <div className="flex max-md:flex-col mt-20">
         <aside className="md:w-64 w-full">
           <Menu />
         </aside>
         {!activeItem && (
-          <main className="flex-1 md:p-6 p-2 overflow-y-auto">{component}</main>
+          <main className="flex-1 md:p-6 p-2 overflow-y-auto ">{component}</main>
         )}
       </div>
       {!activeItem && (

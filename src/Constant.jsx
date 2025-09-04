@@ -252,6 +252,7 @@ export const data = [
             title: "Referral Program",
             description:
               "Invite friends to earn either a commission rebate or a one-time reward",
+            path: "/Referral",
           },
         ],
       },

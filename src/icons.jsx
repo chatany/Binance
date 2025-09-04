@@ -89,3 +89,49 @@ export const CommonOrder = () => {
     </svg>
   );
 };
+export const Auth = () => {
+  return (
+    <svg
+      class="bn-svg h-[120px] w-[120px] mb-4"
+      viewBox="0 0 96 96"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        opacity="0.5"
+        d="M48.001 20c-8.837 0-16 7.163-16 16a15.95 15.95 0 004.686 11.314L48.001 36V20z"
+        fill="#929AA5"
+      ></path>
+      <path
+        opacity="0.15"
+        fill-rule="evenodd"
+        clip-rule="evenodd"
+        d="M12 8h72v56L48 88 12 64V8zm36.001 44c8.837 0 16-7.163 16-16s-7.164-16-16-16c-8.837 0-16 7.163-16 16s7.163 16 16 16z"
+        fill="currentColor"
+      ></path>
+      <path d="M26 60h12v4H26v-4z" fill="#F0B90B"></path>
+      <path
+        opacity="0.5"
+        d="M42 60h12v4H42v-4zM58 60h12v4H58v-4z"
+        fill="#929AA5"
+      ></path>
+    </svg>
+  );
+};
+export const AuthIcon = () => {
+  return (
+    <svg
+      class="bn-svg h-5 w-5"
+      viewBox="0 0 24 24"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M3.8 16.377l8.2 3.994 8.2-3.994V3.426H3.8v12.951zm18.2.189l-.004.107a1.5 1.5 0 01-.839 1.241l-8.5 4.14-.159.066a1.5 1.5 0 01-.996 0l-.16-.066-8.5-4.14a1.5 1.5 0 01-.838-1.24L2 16.565V3.126a1.5 1.5 0 011.347-1.492l.153-.008h17a1.5 1.5 0 011.5 1.5v13.44z"
+        fill="currentColor"
+      ></path>
+      <path
+        d="M9.176 6.332a.9.9 0 011.181.25l.05.077 1.598 2.757 1.597-2.752a.9.9 0 011.557.902l-1.588 2.74h3.182l.091.004a.9.9 0 010 1.79l-.091.005h-3.188l1.594 2.749.043.082a.901.901 0 01-1.55.898l-.05-.077-1.597-2.753-1.598 2.758-.05.077a.9.9 0 01-1.507-.98l1.597-2.754h-3.2a.9.9 0 010-1.8h3.194l-1.59-2.743-.044-.082a.9.9 0 01.37-1.148z"
+        fill="currentColor"
+      ></path>
+    </svg>
+  );
+};

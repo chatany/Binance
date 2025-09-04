@@ -31,6 +31,7 @@ import MobileSidebar from "./pages/sidebar";
 import { Spot } from "./Asset/Spot";
 import { Overview } from "./Asset/Overview";
 import { Report } from "./Account/financialReport";
+import { Authenticator } from "./Account/Authenticator";
 function App() {
   const last = JSON.parse(localStorage.getItem("lastPair")) || "BTCUSDT";
   const userData = useAuth();
@@ -57,7 +58,10 @@ function App() {
             element={<LayoutWeb component={<Dashboard />} />}
           />
           <Route path="/chart" element={<ChartEmbed />} />
-          <Route path="/Market" element={<MarketCom />} />
+          <Route
+            path="/authenticate"
+            element={<Authenticator />}
+          />
           <Route path="/input" element={<InputComponent />} />
           <Route path="/asstes" element={<LayoutWeb component={<Spot />} />} />
           <Route

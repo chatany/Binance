@@ -59,8 +59,10 @@ export const Referral = () => {
         dark ? "bg-[#181A20] text-[#EAECEF]" : "bg-[#FFFFFF] text-[#000000]"
       }`}
     >
-      <TopNav />
-      <div className="w-full md:p-20 max-md:p-5">
+      <div className="fixed inset-0 z-50 h-fit">
+        <TopNav />
+      </div>
+      <div className="w-full md:p-20 max-md:p-5 max-md:mt-12">
         <div className="flex items-center justify-center w-full max-md:hidden">
           <div className="w-[60%] flex flex-col gap-[22px]">
             <div className="text-[24px] font-semibold">Referral Lite</div>

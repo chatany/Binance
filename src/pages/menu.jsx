@@ -106,7 +106,7 @@ export const Menu = () => {
                     ? item?.category?.map((val, index) => (
                         <div
                           key={index}
-                          className={` p-[10px_10px_10px_40px] ${
+                          className={` p-[10px_10px_10px_45px] ${
                             location.pathname === val.path
                               ? dark
                                 ? "bg-[#2B3139]"

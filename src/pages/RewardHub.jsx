@@ -30,7 +30,9 @@ export const RewardHub = () => {
         dark ? "bg-[#181A20] text-[#EAECEF]" : "bg-[#FFFFFF] text-[#000000]"
       }`}
     >
-      <TopNav />
+       <div className="fixed inset-0 z-50 h-fit">
+        <TopNav />
+      </div>
       <div className="bg-[url(/logodark.svg)]  bg-contain bg-no-repeat bg-center md:h-[512px] max-md:h-[250px] max-w-full flex flex-col p-10 max-md:p-3 gap-6 justify-center">
         <div className="text-[48px] font-semibold leading-[64px] max-w-[792px] max-md:hidden">
           Join activities and earn attractive rewards in Rewards Hub.
