@@ -1,37 +1,26 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { DateRangePicker } from "react-date-range";
-import { addDays } from "date-fns";
 import "react-date-range/dist/styles.css";
 import "react-date-range/dist/theme/default.css";
+import { RiArrowLeftSLine } from "react-icons/ri";
+import { MdOutlineKeyboardArrowRight } from "react-icons/md";
+import { useSelector } from "react-redux";
 
-const BinanceDatePicker = () => {
-  const [range, setRange] = useState([
+const BinanceDatePicker = ({
+  onChange,
+  value = [
     {
       startDate: new Date(2019, 0, 1),
       endDate: new Date(),
       key: "selection",
     },
-  ]);
-
-  // Track which month/year is currently visible
+  ],
+}) => {
   const [shownDate, setShownDate] = useState(new Date());
+  const dark = useSelector((state) => state.counter.dark);
+  const [hasSelectedStart, setHasSelectedStart] = useState(false);
+  const [show, setShow] = useState(false);
 
-  const handleQuickSelect = (type) => {
-    let startDate,
-      endDate = new Date();
-
-    if (type === "7") {
-      startDate = addDays(new Date(), -7);
-    } else if (type === "30") {
-      startDate = addDays(new Date(), -30);
-    } else if (type === "all") {
-      startDate = new Date(2019, 0, 1);
-    }
-
-    setRange([{ startDate, endDate, key: "selection" }]);
-  };
-
-  // Year navigation (preserve month, only change year)
   const handleYearChange = (direction) => {
     setShownDate((prev) => {
       const newDate = new Date(prev);
@@ -40,48 +29,102 @@ const BinanceDatePicker = () => {
       return newDate;
     });
   };
-  console.log(range, "ll");
 
+const popupRef = useRef(null);
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      // If click is outside the popup
+      if (popupRef.current && !popupRef.current.contains(event.target)) {
+        setShow(false);
+      }
+    };
+
+    if (show) {
+      document.addEventListener("mousedown", handleClickOutside);
+      //   document.body.style.overflow = "hidden";
+    }
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+      //   document.body.style.overflow = "auto";
+    };
+  }, [show]);
   return (
-    <div className="relative flex flex-col items-center gap-4 p-4 rounded-2xl">
+    <div className="z-70 relative" ref={popupRef}>
       {/* Year Navigation */}
 
+      <div
+        className={`
+     flex items-center capitalize rounded-lg w-full
+    h-[40px] p-2 text-[1rem] text-gray-400
+    border
+    hover:border-[#b89c4f]
+     ${
+       dark
+         ? "border-[#474D57] focus:border-[#b89c4f]"
+         : "border-[#D8DCE1] focus:border-[#fce788]"
+     }
+    focus:outline-none 
+     transition-colors duration-300 delay-200
+    `}
+        onClick={() => setShow(!show)}
+      >
+        {value[0].startDate.toLocaleDateString("en-CA")} →{" "}
+        {value[0].endDate.toLocaleDateString("en-CA")}
+      </div>
       {/* Calendar */}
-      <div className="relative justify-between flex">
-        <DateRangePicker
-          className="w-[10px] rounded-2xl"
-          key={shownDate.toISOString()} // 👈 force re-render
-          ranges={range}
-          onChange={(item) => setRange([item.selection])}
-          showDateDisplay={false}
-          moveRangeOnFirstSelection={false}
-          direction="horizontal"
-          months={2}
-          staticRanges={[]}
-          inputRanges={[]}
-          shownDate={shownDate} // 👈 control calendar view
-        />
-        <div className=" absolute flex items-center justify-between w-full gap-10">
-          <button
-            onClick={() => handleYearChange(-1)}
-            className="px-3 py-1 bg-yellow-400 rounded hover:bg-yellow-500"
-          >
-            ⬅
-          </button>
-          <button
-            onClick={() => handleYearChange(1)}
-            className="px-3 py-1 bg-yellow-400 rounded hover:bg-yellow-500"
-          >
-            ➡
-          </button>
-        </div>
-      </div>
+      {show && (
+        <div
+          className={`absolute border-[1px] top-10 rounded-2xl   ${
+            dark
+              ? "border-[#474D57] focus:border-[#b89c4f]"
+              : "border-[#D8DCE1] focus:border-[#fce788]"
+          }`}
+        >
+          <div className="relative justify-between flex">
+            <DateRangePicker
+              key={shownDate.toISOString()} // 👈 force re-render
+              ranges={value}
+              onChange={(item) => {
 
-      {/* Selected Date Display */}
-      <div className="mt-3 text-sm text-gray-700">
-        {range[0].startDate.toLocaleDateString("en-CA")} →{" "}
-        {range[0].endDate.toLocaleDateString("en-CA")}
-      </div>
+                onChange([item.selection]);
+
+                if (!hasSelectedStart) {
+                  // First click (start date select)
+                  setHasSelectedStart(true);
+                } else {
+                  // Second click (end date select, same ya different ho)
+                  setHasSelectedStart(false);
+                  setShow(false); // ✅ ab band karo
+                }
+              }}
+              showDateDisplay={false}
+              moveRangeOnFirstSelection={false}
+              direction="horizontal"
+              months={2}
+              staticRanges={[]}
+              inputRanges={[]}
+              shownDate={shownDate} // 👈 control calendar view
+            />
+            {/* <div className="absolute flex w-full justify-center mt-7"> */}
+
+            {/* <div className=" flex items-center justify-between w-[70%] "> */}
+            <button
+              onClick={() => handleYearChange(-1)}
+              className=" absolute flex justify-center w-fit left-12 top-6 cursor-pointer"
+            >
+              <RiArrowLeftSLine className="size-6 text-black" />
+            </button>
+            <button
+              onClick={() => handleYearChange(1)}
+              className=" absolute flex justify-center w-fit right-12 top-6 cursor-pointer"
+            >
+              <MdOutlineKeyboardArrowRight className="size-6 text-black " />
+            </button>
+         
+          </div>
+        </div>
+      )}
     </div>
   );
 };

@@ -33,6 +33,7 @@ export const marks = [
   { value: 100, label: "100" },
 ];
 export const tabs = ["Open Orders", "Order History", "Funds"];
+export const spotTab = ["Open Orders", "Order History"];
 export const tab = ["Spot", "Cross", "Isolated", "Grid"];
 export const marketTabs = ["Limit", "Market", "Stop Limit"];
 export const formatDate = (isoDate) => {

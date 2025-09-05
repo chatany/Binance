@@ -176,7 +176,10 @@
 }
 /* Outer container */
 .rdrCalendarWrapper {
-  width: fit-content !important;  /* jitni chahiye utni width */
+  width: 500px !important;  /* jitni chahiye utni width */
   height: 400px !important; /* height bhi control kar sakte ho */
   border-radius: 12px !important; /* rounded corners */
+}
+.rdrDefinedRangesWrapper{
+display: none !important;
 }

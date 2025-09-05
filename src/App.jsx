@@ -32,6 +32,7 @@ import { Spot } from "./Asset/Spot";
 import { Overview } from "./Asset/Overview";
 import { Report } from "./Account/financialReport";
 import { Authenticator } from "./Account/Authenticator";
+import { SpotOrders } from "./Account/SpotOrders";
 function App() {
   const last = JSON.parse(localStorage.getItem("lastPair")) || "BTCUSDT";
   const userData = useAuth();
@@ -62,11 +63,10 @@ function App() {
             path="/authenticate"
             element={<Authenticator />}
           />
-          <Route path="/input" element={<InputComponent />} />
           <Route path="/asstes" element={<LayoutWeb component={<Spot />} />} />
           <Route
-            path="orders"
-            element={<LayoutWeb component={<OpenOrders />} />}
+            path="/orders"
+            element={<LayoutWeb component={<SpotOrders />} />}
           />
           <Route path="/history" element={<History />} />
           <Route path="/w" element={<Socket />} />
