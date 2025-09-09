@@ -1,24 +1,30 @@
 import { useEffect, useState } from "react";
 import { Auth, AuthIcon } from "../icons";
-import { getAuth, getAuthenticationKey } from "../pages/apiCall";
+import { getAuth } from "../pages/apiCall";
 import { useDispatch, useSelector } from "react-redux";
 import QRCode from "react-qr-code";
-import { IoIosCloseCircle, IoMdClose } from "react-icons/io";
+import { IoMdClose } from "react-icons/io";
 import { FiEdit } from "react-icons/fi";
 import { useDeviceInfo } from "../hooks/useDeviceInfo";
 import { apiRequest } from "../Helper";
-import { showError } from "../Toastify/toastServices";
+import { showError, showSuccess } from "../Toastify/toastServices";
 import { FaArrowLeftLong } from "react-icons/fa6";
-import { FaAngleLeft } from "react-icons/fa";
 import { RiArrowLeftSLine, RiDeleteBinLine } from "react-icons/ri";
 import { useNavigate } from "react-router-dom";
+import { ScaleLoader } from "react-spinners";
+import { PiCopyLight } from "react-icons/pi";
+import { copyToClipboard } from "../Constant";
+import { TopNav } from "../pages/TopNavBar";
 export const Authenticator = () => {
   const [showQr, setShowQr] = useState(false);
   const [opt, setOtp] = useState(false);
+  const [deletePopup, setDeletePopup] = useState(false);
   const [timer, setTimer] = useState(0);
+  const [isDisable, setIsDisable] = useState(false);
   const [userData, setUserData] = useState({
     otp: "",
     authCode: "",
+    password: "",
   });
   const handle = (key, e) => {
     setUserData((prev) => ({
@@ -27,13 +33,12 @@ export const Authenticator = () => {
     }));
   };
   const device = useDeviceInfo();
-
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const { authEnticatorKey, dark, auth } = useSelector(
     (state) => state.counter
   );
 
-  
   useEffect(() => {
     if (showQr) {
       document.body.style.overflow = "hidden";
@@ -71,6 +76,7 @@ export const Authenticator = () => {
     } catch (err) {}
   };
   const handleAuth = async () => {
+    setIsDisable(true);
     const user = {
       otp: userData?.otp,
       authenticator_code: userData?.authCode,
@@ -82,7 +88,17 @@ export const Authenticator = () => {
         url: `https://test.bitzup.com/onboarding/user/verify-otp-auth`,
         data: user,
       });
-    } catch (err) {}
+      if (status === 200 && data?.status === "1") {
+        setShowQr(false);
+        navigate(-1);
+      } else if (status === 200 && data?.status !== "1") {
+        showError(data?.message);
+      }
+    } catch (err) {
+      console.log(err);
+    } finally {
+      setIsDisable(false);
+    }
   };
   useEffect(() => {
     let interval = null;
@@ -93,12 +109,48 @@ export const Authenticator = () => {
     }
     return () => clearInterval(interval);
   }, [timer]);
+  const RemoveAuth = async () => {
+    setIsDisable(true);
+    try {
+      const { data, status } = await apiRequest({
+        method: "post",
+        url: `https://test.bitzup.com/onboarding/user/delete-2fa`,
+        data: { password: userData?.password },
+      });
+
+      if (status === 200 && data?.status == 1) {
+        showSuccess(data?.message);
+        getAuth(dispatch);
+        setDeletePopup(false);
+        navigate(-1);
+      }
+
+      if (data?.status != 1) {
+        showError(data?.message);
+      }
+      if (status === 400 && data?.status == 3) {
+        localStorage.removeItem("userData");
+        window.dispatchEvent(new Event("userDataChanged"));
+      }
+    } catch (err) {
+      console.error("Failed to fetch second API", err);
+    } finally {
+      setIsDisable(false);
+    }
+  };
+  const handleRemove = () => {
+    setDeletePopup(true);
+    setShowQr(true);
+  };
   return (
     <div
       className={`
         ${dark ? "bg-[#0B0E11] text-[#EAECEF]" : "bg-[#FFFFFF] text-[#262030]"}
        h-full min-h-screen flex flex-col gap-0  p-5`}
     >
+    <div className="fixed inset-0 z-50 h-fit">
+            <TopNav />
+          </div>
       <div className=" flex flex-col gap-2 h-full">
         <div
           className="flex  items-center w-full text-[16px]"
@@ -162,7 +214,7 @@ export const Authenticator = () => {
               </div>
               <div className="w-[30%] flex gap-3 justify-end">
                 <FiEdit className="size-6" />
-                <RiDeleteBinLine className="size-6" />
+                <RiDeleteBinLine className="size-6" onClick={handleRemove} />
               </div>
             </div>
           </div>
@@ -175,7 +227,7 @@ export const Authenticator = () => {
               dark ? "bg-[#1E2329] text-white" : "bg-white text-black"
             }   h-[580px] max-md:h-full  ${
               dark ? "border-[#2B3139]" : "border-[#EAECEF]"
-            }  p-5 w-[425px] max-md:w-full rounded-[20px]`}
+            }  p-5 w-[425px] max-md:w-full md:rounded-[20px]`}
           >
             {" "}
             {!opt ? (
@@ -213,11 +265,15 @@ export const Authenticator = () => {
                   />
                 </div>
                 <div
-                  className=" max-md:text-[13px]        text-[16px]
+                  className=" max-md:text-[13px] flex items-center gap-2        text-[16px]
         font-semibold 
         leading-[24px]"
                 >
                   {authEnticatorKey?.base32}
+                  <PiCopyLight
+                    onClick={() => copyToClipboard(authEnticatorKey?.base32)}
+                    className="cursor-pointer"
+                  />
                 </div>
                 <div
                   className="text-[16px] max-md:text-[14px]
@@ -263,10 +319,15 @@ export const Authenticator = () => {
                 <div>
                   <input
                     name="otp"
-                    className=" w-full  rounded-lg bg-[#D9D9D940]
-                          h-[3rem] p-4 text-[12px] text-[#757575]
+                    className={` w-full  rounded-lg 
+                          h-[3rem] p-4 text-[12px] 
                           focus:outline-none 
-                           transition-colors duration-300 delay-200"
+                          ${
+                            dark
+                              ? "border-[#474D57] focus:border-[#b89c4f]  border-1"
+                              : "text-[#757575] bg-[#D9D9D940]"
+                          }
+                           transition-colors duration-300 delay-200`}
                     placeholder="Enter Email OTP"
                     value={userData?.otp}
                     onChange={(e) => handle("otp", e)}
@@ -275,10 +336,15 @@ export const Authenticator = () => {
                 <div>
                   <input
                     name="authCode"
-                    className=" w-full  rounded-lg bg-[#D9D9D940]
-                          h-[3rem] p-4 text-[12px] text-[#757575]
+                    className={` w-full  rounded-lg 
+                          h-[3rem] p-4 text-[12px] 
                           focus:outline-none 
-                           transition-colors duration-300 delay-200"
+                          ${
+                            dark
+                              ? "border-[#474D57] focus:border-[#b89c4f]  border-1"
+                              : "text-[#757575] bg-[#D9D9D940]"
+                          }
+                           transition-colors duration-300 delay-200`}
                     placeholder="Enter Authenticator Code"
                     value={userData?.authCode}
                     onChange={(e) => handle("authCode", e)}
@@ -306,14 +372,92 @@ export const Authenticator = () => {
                 <div className="flex w-full justify-center">
                   <button
                     onClick={handleAuth}
+                    disabled={isDisable}
                     name="verify"
-                    className="rounded-[12px] p-2 w-full bg-[#FCD535] text-[#000000] cursor-pointer"
+                    className={`rounded-[12px]  w-full ${
+                      isDisable ? "bg-[#e7eeec]" : "bg-[#FCD535] p-2"
+                    } text-[#000000] cursor-pointer`}
                   >
-                    Verify
+                    {!isDisable ? (
+                      "Verify"
+                    ) : (
+                      <ScaleLoader height={"25px"} width={"3px"} />
+                    )}
                   </button>
                 </div>
               </div>
             )}
+          </div>
+        </div>
+      )}
+      {deletePopup && (
+        <div className="w-full h-full   flex justify-center items-center fixed inset-0 z-50 bg-[#00000080] overflow-hidden">
+          <div
+            className={`border-1 ${
+              dark ? "bg-[#1E2329] text-white" : "bg-white text-black"
+            }   h-[580px] max-md:h-full  ${
+              dark ? "border-[#2B3139]" : "border-[#EAECEF]"
+            }  p-5 w-[425px] max-md:w-full md:rounded-[20px]`}
+          >
+            <div>
+              <div className="flex flex-col items-center gap-5">
+                <div className="flex justify-end w-full">
+                  <IoMdClose
+                    className="size-6"
+                    onClick={() => {
+                      setDeletePopup(false);
+                    }}
+                  />
+                </div>
+                <div
+                  className="text-[32px] max-md:text-[20px]
+        font-semibold
+        leading-[40px]"
+                >
+                  Are You Sure You Want to Remove Authenticator App
+                  Verification?
+                </div>
+                <div
+                  className="text-[16px]
+        font-normal;
+        leading-[24px]"
+                >
+                  Please enter password To Remove Authenticator App Verification
+                </div>
+                <input
+                  name="otp"
+                  className={` w-full  rounded-lg 
+                          h-[3rem] p-4 text-[12px] 
+                          ${
+                            dark
+                              ? "border-[#474D57] focus:border-[#b89c4f]  border-1"
+                              : "text-[#757575] bg-[#D9D9D940]"
+                          }
+                          focus:outline-none 
+                           transition-colors duration-300 delay-200`}
+                  placeholder="Enter Password"
+                  value={userData?.password}
+                  onChange={(e) => handle("password", e)}
+                />
+                <div className="flex justify-between w-full gap-2">
+                  <button
+                    onClick={() => setDeletePopup(false)}
+                     className={`${
+                  dark ? "bg-[#2b3139]" : "bg-[#EAECEF]"
+                } p-[6px_12px_6px_12px] rounded-[8px] w-full`}
+                  >
+                    cancel
+                  </button>
+                  <button
+                    onClick={RemoveAuth}
+                    disabled={isDisable}
+                    className={`rounded-[12px] p-2 w-full ${!isDisable?"bg-[#FCD535]":"bg-[#EAECEF]"} text-[#000000] cursor-pointer`}
+                  >
+                    confirm
+                  </button>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       )}

@@ -19,10 +19,8 @@ import { useDeviceInfo } from "../hooks/useDeviceInfo";
 import { showError, showSuccess } from "../Toastify/toastServices";
 import { useAuth } from "../hooks/useAuth";
 export const Form = () => {
-  const isOpen = useSelector((state) => state.counter.open);
-  const { allMovers, currentPrice, balance,dark, searchQuery } = useSelector(
-    (state) => state.counter
-  );
+  const { searchData, currentPrice, balance, dark, searchQuery, open } =
+    useSelector((state) => state.counter);
   const [activeTab, setActiveTab] = useState("Limit");
   const [buySliderValue, setBuySliderValue] = useState(0);
   const [sellSliderValue, setSellSliderValue] = useState(0);
@@ -106,8 +104,8 @@ export const Form = () => {
   }, [currentPrice]);
   const userData = JSON.parse(localStorage.getItem("userData"));
   const item =
-    Array.isArray(allMovers) &&
-    allMovers?.find(
+    Array.isArray(searchData) &&
+    searchData?.find(
       (item) => item.pair_symbol?.toLowerCase() === searchQuery?.toLowerCase()
     );
   const CustomSlider = styled(Slider)(({ theme }) => ({
@@ -172,18 +170,18 @@ export const Form = () => {
     dispatch(setPriceDecimal(item?.price_decimal));
     dispatch(setQuantityDecimal(item?.quantity_decimal));
   }, [item?.pair_id]);
-  useEffect(() => {
-    setTimeout(() => {
-      setSuccessMsg({
-        limitBuy: "",
-        limitSell: "",
-        marketSell: "",
-        marketBuy: "",
-        stopBuy: "",
-        stopSell: "",
-      });
-    }, 5000);
-  }, [successMsg]);
+  // useEffect(() => {
+  //   setTimeout(() => {
+  //     setSuccessMsg({
+  //       limitBuy: "",
+  //       limitSell: "",
+  //       marketSell: "",
+  //       marketBuy: "",
+  //       stopBuy: "",
+  //       stopSell: "",
+  //     });
+  //   }, 5000);
+  // }, [successMsg]);
   const marks = [
     { value: 0, label: "0" },
     { value: 25, label: "25" },
@@ -540,6 +538,8 @@ export const Form = () => {
       setStopBuyLoading(false);
     }
   };
+  console.log("jfmi");
+
   const handleStopSell = async () => {
     if (error.stopSellErr) return;
     if (formValues.stopSellStop <= 0) {
@@ -596,7 +596,7 @@ export const Form = () => {
   return (
     <div
       className={` ${
-        isOpen ? "h-[28.7rem]" : "h-[25.2rem]"
+        open ? "h-[28.7rem]" : "h-[25.2rem]"
       } w-full     rounded-lg  ${dark ? "bg-[#181A20]" : "bg-white"}`}
     >
       {/* <div
@@ -648,7 +648,7 @@ export const Form = () => {
         <div
           className={`flex sm:flex-row justify-center w-full  gap-3 flex-col items-center  `}
         >
-          <div className={`w-[50%]   ${isOpen ? "space-y-6" : "space-y-2"}`}>
+          <div className={`w-[50%]   ${open ? "space-y-6" : "space-y-2"}`}>
             <div className="p-[5px] flex flex-col gap-2">
               <CryptoInput
                 label="Price"
@@ -768,8 +768,7 @@ export const Form = () => {
                 name="market-buy"
                 disabled={limitBuyLoading}
                 onClick={() => {
-                 userData?.token ? handleBuy():
-                  handleNavigate();
+                  userData?.token ? handleBuy() : handleNavigate();
                 }}
                 className={`w-[100%] 
                   bg-[#2EBD85] hover:bg-[#0e9e67]    m-2 py-2 rounded-md h-[3rem] text-[16px] font-semibold cursor-pointer`}
@@ -780,7 +779,7 @@ export const Form = () => {
           </div>
           <div
             className={`w-[50%]  transition-all duration-500 delay-100 ${
-              isOpen ? "space-y-6" : "space-y-2"
+              open ? "space-y-6" : "space-y-2"
             } `}
           >
             <div
@@ -903,8 +902,7 @@ export const Form = () => {
                 name="market-sell"
                 disabled={limitSellLoading}
                 onClick={() => {
-                 userData?.token ? handleSell():
-                  handleNavigate();
+                  userData?.token ? handleSell() : handleNavigate();
                 }}
                 className={`w-[100%] 
                    bg-[#F6465D] hover:bg-[#c74052]  cursor-pointer  h-[3rem]  py-2 m-2 rounded-md text-[16px] font-semibold`}
@@ -921,7 +919,7 @@ export const Form = () => {
         >
           <div
             className={`w-full  transition-all duration-500 delay-1000 ${
-              isOpen ? "space-y-6" : "space-y-2"
+              open ? "space-y-6" : "space-y-2"
             }`}
           >
             <div className="p-[5px]">
@@ -1017,8 +1015,7 @@ export const Form = () => {
                 name="limit-buy"
                 disabled={marketBuyLoading}
                 onClick={() => {
-                  userData?.token ?handleMarket():
-                  handleNavigate();
+                  userData?.token ? handleMarket() : handleNavigate();
                 }}
                 className={`w-[100%] 
                 bg-[#2EBD85] hover:bg-[#0e9e67]   m-2 py-2 rounded-md h-[3rem] text-[16px] font-semibold cursor-pointer`}
@@ -1035,7 +1032,7 @@ export const Form = () => {
             // }   border  space-y-2 w-full  text-xl`}
             // id="a"
             className={`w-full  transition-all duration-500 delay-100 ${
-              isOpen ? "space-y-6" : "space-y-2"
+              open ? "space-y-6" : "space-y-2"
             } `}
           >
             <div style={{ padding: "5px", maxWidth: "100%" }}>
@@ -1134,8 +1131,7 @@ export const Form = () => {
                 name="limit-sell"
                 disabled={marketSellLoading}
                 onClick={() => {
-                 userData?.token ? handleMarketSell():
-                  handleNavigate();
+                  userData?.token ? handleMarketSell() : handleNavigate();
                 }}
                 className={`w-[100%]
        
@@ -1154,7 +1150,7 @@ export const Form = () => {
         >
           <div
             className={`w-full  transition-all duration-500 delay-1000 ${
-              isOpen ? "space-y-3" : "space-y-0"
+              open ? "space-y-3" : "space-y-0"
             }`}
           >
             <div className="p-[5px] flex flex-col gap-2">
@@ -1271,8 +1267,7 @@ export const Form = () => {
                 name="stop-buy"
                 disabled={stopBuyLoading}
                 onClick={() => {
-                 userData?.token ? handleStopBuy():
-                  handleNavigate();
+                  userData?.token ? handleStopBuy() : handleNavigate();
                 }}
                 className={`w-[100%] 
                      bg-[#2EBD85] hover:bg-[#0e9e67]
@@ -1284,7 +1279,7 @@ export const Form = () => {
           </div>
           <div
             className={`w-full  transition-all duration-500 delay-100 ${
-              isOpen ? "space-y-3" : "space-y-0"
+              open ? "space-y-3" : "space-y-0"
             } `}
           >
             <div

@@ -24,6 +24,7 @@ import { FaFacebook } from "react-icons/fa";
 import { FaTiktok } from "react-icons/fa";
 import { IoSettings } from "react-icons/io5";
 import { RiAccountCircle2Line } from "react-icons/ri";
+import { showError, showSuccess } from "./Toastify/toastServices";
 
 export const marks = [
   { value: 0, label: "0" },
@@ -80,6 +81,22 @@ export const supportOptions = [
     desc: "Enhance transparency and combat financial crimes",
   },
 ];
+export const formatTime = (seconds) => {
+  const mins = Math.floor(seconds / 60)
+    .toString()
+    .padStart(2, "0");
+  const sec = (seconds % 60).toString().padStart(2, "0");
+  return `${mins}:${sec}`;
+};
+export const copyToClipboard = async (text) => {
+  try {
+    await navigator.clipboard.writeText(text);
+    showSuccess("copy to clipboard");
+  } catch (err) {
+    showError("Failed to copy");
+    console.error("Failed to copy:", err);
+  }
+};
 export const formatToKMB = (num) => {
   if (num >= 1_000_000_000) {
     return (num / 1_000_000_000).toFixed(2) + "B";

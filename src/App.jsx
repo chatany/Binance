@@ -33,6 +33,9 @@ import { Overview } from "./Asset/Overview";
 import { Report } from "./Account/financialReport";
 import { Authenticator } from "./Account/Authenticator";
 import { SpotOrders } from "./Account/SpotOrders";
+import { Activity } from "./Account/accountActivity";
+import { ChangePassword } from "./Account/ChangePassword";
+import { ChangeEmail } from "./Account/changeEmail";
 function App() {
   const last = JSON.parse(localStorage.getItem("lastPair")) || "BTCUSDT";
   const userData = useAuth();
@@ -53,23 +56,21 @@ function App() {
             path="/spot/:symbol"
             element={<Navigate to={`/spot/${last}`} replace />}
           />
+          <Route path="/activity" element={<Activity />} />
           <Route path="/order" element={<Footer />} />
           <Route
             path="/dashboard"
             element={<LayoutWeb component={<Dashboard />} />}
           />
-          <Route path="/chart" element={<ChartEmbed />} />
-          <Route
-            path="/authenticate"
-            element={<Authenticator />}
-          />
+          <Route path="/changeEmail" element={<ChangeEmail />} />
+          <Route path="/authenticate" element={<Authenticator />} />
           <Route path="/asstes" element={<LayoutWeb component={<Spot />} />} />
           <Route
             path="/orders"
             element={<LayoutWeb component={<SpotOrders />} />}
           />
           <Route path="/history" element={<History />} />
-          <Route path="/w" element={<Socket />} />
+          <Route path="/changePassword" element={<ChangePassword />} />
           <Route
             path="/login"
             element={

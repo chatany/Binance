@@ -11,17 +11,19 @@ import { RxCrossCircled } from "react-icons/rx";
 import { TbBrandAuth0, TbUserCog } from "react-icons/tb";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { getAuth, getAuthenticationKey } from "../pages/apiCall";
+import { getActivity, getAuth, getAuthenticationKey } from "../pages/apiCall";
 import { useEffect } from "react";
 import { IoIosCheckmarkCircleOutline } from "react-icons/io";
+import { formatDate } from "../Constant";
 export const Security = () => {
-  const { dark, auth } = useSelector((state) => state.counter);
+  const { dark, auth, activity } = useSelector((state) => state.counter);
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
   useEffect(() => {
     getAuthenticationKey(dispatch);
     getAuth(dispatch);
+    getActivity(dispatch);
   }, []);
   return (
     <div
@@ -43,7 +45,7 @@ export const Security = () => {
               {!auth ? (
                 <RxCrossCircled />
               ) : (
-                <IoIosCheckmarkCircleOutline className=" text-green-400 size-6" />
+                <IoIosCheckmarkCircleOutline className=" text-green-400 size-[18px]" />
               )}
               <div>Two-Factor Authentication (2FA)</div>
             </div>
@@ -127,7 +129,7 @@ export const Security = () => {
                   </>
                 ) : (
                   <>
-                    <IoIosCheckmarkCircleOutline className=" text-green-400 size-6" />{" "}
+                    <IoIosCheckmarkCircleOutline className=" text-green-400 size-[18px]" />{" "}
                     ON
                   </>
                 )}
@@ -152,18 +154,19 @@ export const Security = () => {
                 </div>
               </div>
             </div>
-              <div className="flex max-md:w-full justify-between gap-5">
-                <button className="flex items-center gap-1">
-                  ch****03@gmail.com
-                </button>
-                <button
-                  className={`${
-                    dark ? "bg-[#2b3139]" : "bg-[#EAECEF]"
-                  } p-[6px_12px_6px_12px] rounded-[8px]`}
-                >
-                  Manage
-                </button>
-              </div>
+            <div className="flex max-md:w-full justify-between gap-5">
+              <button className="flex items-center gap-1">
+                ch****03@gmail.com
+              </button>
+              <button
+                className={`${
+                  dark ? "bg-[#2b3139]" : "bg-[#EAECEF]"
+                } p-[6px_12px_6px_12px] rounded-[8px]`}
+                onClick={()=>navigate("/changeEmail")}
+              >
+                Manage
+              </button>
+            </div>
           </div>
           <div className="flex max-md:flex-col justify-between items-center">
             <div className="flex gap-5 ">
@@ -204,6 +207,7 @@ export const Security = () => {
                 className={`${
                   dark ? "bg-[#2b3139]" : "bg-[#EAECEF]"
                 } p-[6px_12px_6px_12px] rounded-[8px]`}
+                onClick={()=>navigate("/changePassword")}
               >
                 Manage
               </button>
@@ -228,17 +232,17 @@ export const Security = () => {
                 </div>
               </div>
             </div>
-              <div className="flex gap-5 max-md:w-full justify-between">
-                <button className="flex items-center gap-1">
-                  <RxCrossCircled /> OFF
-                </button>
-                <button
-                  className={`${
-                    dark ? "bg-[#2b3139]" : "bg-[#EAECEF]"
-                  } p-[6px_12px_6px_12px] rounded-[8px]`}
-                >
-                  Manage
-                </button>
+            <div className="flex gap-5 max-md:w-full justify-between">
+              <button className="flex items-center gap-1">
+                <RxCrossCircled /> OFF
+              </button>
+              <button
+                className={`${
+                  dark ? "bg-[#2b3139]" : "bg-[#EAECEF]"
+                } p-[6px_12px_6px_12px] rounded-[8px]`}
+              >
+                Manage
+              </button>
             </div>
           </div>
           <div className="flex max-md:flex-col justify-between items-center">
@@ -272,17 +276,17 @@ export const Security = () => {
                 </div>
               </div>
             </div>
-              <div className="flex gap-5 max-md:w-full justify-between">
-                <button className="flex items-center gap-1">
-                  <RxCrossCircled /> OFF
-                </button>
-                <button
-                  className={`${
-                    dark ? "bg-[#2b3139]" : "bg-[#EAECEF]"
-                  } p-[6px_12px_6px_12px] rounded-[8px]`}
-                >
-                  Enable
-                </button>
+            <div className="flex gap-5 max-md:w-full justify-between">
+              <button className="flex items-center gap-1">
+                <RxCrossCircled /> OFF
+              </button>
+              <button
+                className={`${
+                  dark ? "bg-[#2b3139]" : "bg-[#EAECEF]"
+                } p-[6px_12px_6px_12px] rounded-[8px]`}
+              >
+                Enable
+              </button>
             </div>
           </div>
           <div className="flex max-md:flex-col justify-between items-center">
@@ -342,7 +346,9 @@ export const Security = () => {
               <div className="flex flex-col gap-0.5 md:w-[60%] w-fit">
                 <div>Account Activity</div>
                 <div className="text-[#848E9C] text-[16px]">
-                  Last login: 2025-08-27 16:55:40 Suspicious account activity?
+                  {`Last login: ${formatDate(
+                    activity[0]?.timestamp
+                  )}  Suspicious account activity?`}
                 </div>
               </div>
             </div>
@@ -350,7 +356,8 @@ export const Security = () => {
               <button
                 className={`${
                   dark ? "bg-[#2b3139]" : "bg-[#EAECEF]"
-                } p-[6px_12px_6px_12px] rounded-[8px]`}
+                } p-[6px_12px_6px_12px] rounded-[8px] cursor-pointer`}
+                onClick={()=>navigate('/activity')}
               >
                 More
               </button>

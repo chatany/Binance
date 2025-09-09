@@ -1,5 +1,6 @@
 import { apiRequest } from "../Helper";
 import {
+  setActivity,
   setAllMovers,
   setAuth,
   setAuthEnticatorKey,
@@ -14,6 +15,7 @@ import {
   setReferralData,
   setSearchData,
   setTopMovers,
+  setUserProfile,
 } from "../store/webSocket";
 import { showError } from "../Toastify/toastServices";
 
@@ -346,6 +348,50 @@ export const getAuth = async (dispatch) => {
 
     if (status === 200 && data?.status == 1) {
       dispatch(setAuth(data?.data));
+    }
+
+    if (data?.status != 1) {
+      showError(data?.message);
+    }
+    if (status === 400 && data?.status == 3) {
+      localStorage.removeItem("userData");
+      window.dispatchEvent(new Event("userDataChanged"));
+    }
+  } catch (err) {
+    console.error("Failed to fetch second API", err);
+  }
+};
+export const getActivity = async (dispatch) => {
+  try {
+    const { data, status } = await apiRequest({
+      method: "get",
+      url: `https://test.bitzup.com/onboarding/user/getUserActivity`,
+    });
+
+    if (status === 200 && data?.status === "1") {
+      dispatch(setActivity(data?.data));
+    }
+
+    if (data?.status != 1) {
+      showError(data?.message);
+    }
+    if (status === 400 && data?.status == 3) {
+      localStorage.removeItem("userData");
+      window.dispatchEvent(new Event("userDataChanged"));
+    }
+  } catch (err) {
+    console.error("Failed to fetch second API", err);
+  }
+};
+export const getUserProfile = async (dispatch) => {
+  try {
+    const { data, status } = await apiRequest({
+      method: "get",
+      url: `https://test.bitzup.com/onboarding/user/getUserProfile`,
+    });
+
+    if (status === 200 && data?.status === "1") {
+      dispatch(setUserProfile(data?.data));
     }
 
     if (data?.status != 1) {

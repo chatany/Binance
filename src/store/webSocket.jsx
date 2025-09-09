@@ -61,10 +61,18 @@ export const counterSlice = createSlice({
     referralCode: {},
     authEnticatorKey: {},
     auth: false,
+    activity: [],
+    userProfile: {},
   },
   reducers: {
     incrementByAmount: (state, action) => {
       state.tikerData = action.payload;
+    },
+    setActivity: (state, action) => {
+      state.activity = action.payload;
+    },
+    setUserProfile: (state, action) => {
+      state.userProfile = action.payload;
     },
     setAuth: (state, action) => {
       state.auth = action.payload;
@@ -219,6 +227,8 @@ export const counterSlice = createSlice({
 
 export const {
   increment,
+  setActivity,
+  setUserProfile,
   setAuthEnticatorKey,
   setAuth,
   setReferralData,
