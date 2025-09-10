@@ -11,12 +11,21 @@ import { RxCrossCircled } from "react-icons/rx";
 import { TbBrandAuth0, TbUserCog } from "react-icons/tb";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { getActivity, getAuth, getAuthenticationKey } from "../pages/apiCall";
+import {
+  getActivity,
+  getAuth,
+  getAuthenticationKey,
+  getUserProfile,
+} from "../pages/apiCall";
 import { useEffect } from "react";
 import { IoIosCheckmarkCircleOutline } from "react-icons/io";
 import { formatDate } from "../Constant";
+import { ConfirmationPopup } from "../common/confirmationPopup";
 export const Security = () => {
-  const { dark, auth, activity } = useSelector((state) => state.counter);
+  const { dark, auth, activity, userProfile } = useSelector(
+    (state) => state.counter
+  );
+
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -24,6 +33,7 @@ export const Security = () => {
     getAuthenticationKey(dispatch);
     getAuth(dispatch);
     getActivity(dispatch);
+    getUserProfile(dispatch);
   }, []);
   return (
     <div
@@ -138,7 +148,7 @@ export const Security = () => {
                 className={`${
                   dark ? "bg-[#2b3139]" : "bg-[#EAECEF]"
                 } p-[6px_12px_6px_12px] rounded-[8px] cursor-pointer`}
-                onClick={() => navigate("/authenticate")}
+                onClick={() => navigate("/security/manage-google-authenticator")}
               >
                 Manage
               </button>
@@ -156,13 +166,13 @@ export const Security = () => {
             </div>
             <div className="flex max-md:w-full justify-between gap-5">
               <button className="flex items-center gap-1">
-                ch****03@gmail.com
+                {userProfile?.email}
               </button>
               <button
                 className={`${
                   dark ? "bg-[#2b3139]" : "bg-[#EAECEF]"
                 } p-[6px_12px_6px_12px] rounded-[8px]`}
-                onClick={()=>navigate("/changeEmail")}
+                onClick={() => navigate("/security/manage-email-address")}
               >
                 Manage
               </button>
@@ -207,7 +217,7 @@ export const Security = () => {
                 className={`${
                   dark ? "bg-[#2b3139]" : "bg-[#EAECEF]"
                 } p-[6px_12px_6px_12px] rounded-[8px]`}
-                onClick={()=>navigate("/changePassword")}
+                onClick={() => navigate("/security/manage-password")}
               >
                 Manage
               </button>
@@ -284,6 +294,7 @@ export const Security = () => {
                 className={`${
                   dark ? "bg-[#2b3139]" : "bg-[#EAECEF]"
                 } p-[6px_12px_6px_12px] rounded-[8px]`}
+                onClick={()=>navigate("/security/anti-phishing-code")}
               >
                 Enable
               </button>
@@ -357,7 +368,7 @@ export const Security = () => {
                 className={`${
                   dark ? "bg-[#2b3139]" : "bg-[#EAECEF]"
                 } p-[6px_12px_6px_12px] rounded-[8px] cursor-pointer`}
-                onClick={()=>navigate('/activity')}
+                onClick={() => navigate("/security/account-activity")}
               >
                 More
               </button>

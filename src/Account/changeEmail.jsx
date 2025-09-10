@@ -5,7 +5,6 @@ import { useSelector } from "react-redux";
 import { IoMdClose, IoMdEyeOff } from "react-icons/io";
 import { RiArrowLeftSLine } from "react-icons/ri";
 import { FiEdit } from "react-icons/fi";
-import { FaArrowLeftLong } from "react-icons/fa6";
 import { IoEye } from "react-icons/io5";
 import { showError } from "../Toastify/toastServices";
 import { apiRequest } from "../Helper";
@@ -13,7 +12,7 @@ import { useNavigate } from "react-router-dom";
 import { TopNav } from "../pages/TopNavBar";
 
 export const ChangeEmail = () => {
-  const dark = useSelector((state) => state.counter.dark);
+  const { userProfile, dark } = useSelector((state) => state.counter);
   const [showPopup, setShowPopup] = useState(false);
   const navigate = useNavigate();
   const [isDisable, setIsDisable] = useState(false);
@@ -115,7 +114,7 @@ export const ChangeEmail = () => {
           font-medium
           leading-[24px]"
               >
-                Authenticator
+                {userProfile?.email}
               </div>
             </div>
             <div className="w-[30%] flex gap-3 justify-end">

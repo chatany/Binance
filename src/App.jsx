@@ -36,6 +36,7 @@ import { SpotOrders } from "./Account/SpotOrders";
 import { Activity } from "./Account/accountActivity";
 import { ChangePassword } from "./Account/ChangePassword";
 import { ChangeEmail } from "./Account/changeEmail";
+import { AntiPhishing } from "./Account/AntiPhishing";
 function App() {
   const last = JSON.parse(localStorage.getItem("lastPair")) || "BTCUSDT";
   const userData = useAuth();
@@ -49,6 +50,10 @@ function App() {
           <Route path="/" element={<Navigate to={`/spot/${last}`} replace />} />
           <Route path="/spot/:symbol" element={<Home />} />
           <Route
+            path="/security/anti-phishing-code"
+            element={<AntiPhishing />}
+          />
+          <Route
             path="/spot"
             element={<Navigate to={`/spot/${last}`} replace />}
           />
@@ -56,21 +61,21 @@ function App() {
             path="/spot/:symbol"
             element={<Navigate to={`/spot/${last}`} replace />}
           />
-          <Route path="/activity" element={<Activity />} />
+          <Route path="/security/account-activity" element={<Activity />} />
           <Route path="/order" element={<Footer />} />
           <Route
             path="/dashboard"
             element={<LayoutWeb component={<Dashboard />} />}
           />
-          <Route path="/changeEmail" element={<ChangeEmail />} />
-          <Route path="/authenticate" element={<Authenticator />} />
+          <Route path="/security/manage-email-address" element={<ChangeEmail />} />
+          <Route path="/security/manage-google-authenticator" element={<Authenticator />} />
           <Route path="/asstes" element={<LayoutWeb component={<Spot />} />} />
           <Route
             path="/orders"
             element={<LayoutWeb component={<SpotOrders />} />}
           />
           <Route path="/history" element={<History />} />
-          <Route path="/changePassword" element={<ChangePassword />} />
+          <Route path="/security/manage-password" element={<ChangePassword />} />
           <Route
             path="/login"
             element={

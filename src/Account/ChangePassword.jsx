@@ -50,6 +50,10 @@ export const ChangePassword = () => {
     return () => clearInterval(interval);
   }, [timer]);
   const handleSubmit = async () => {
+    if (userData?.confirmPassword !== userData?.newPassword) {
+      showError("New Password and Confirm New Password are not same");
+      return;
+    }
     setIsDisable(true);
     const obj = {
       old_password: userData?.oldPassword,

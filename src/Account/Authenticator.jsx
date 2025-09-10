@@ -151,7 +151,7 @@ export const Authenticator = () => {
     <div className="fixed inset-0 z-50 h-fit">
             <TopNav />
           </div>
-      <div className=" flex flex-col gap-2 h-full">
+      <div className=" flex flex-col gap-2 h-full mt-16">
         <div
           className="flex  items-center w-full text-[16px]"
           onClick={() => navigate(-1)}
@@ -213,7 +213,6 @@ export const Authenticator = () => {
                 </div>
               </div>
               <div className="w-[30%] flex gap-3 justify-end">
-                <FiEdit className="size-6" />
                 <RiDeleteBinLine className="size-6" onClick={handleRemove} />
               </div>
             </div>
