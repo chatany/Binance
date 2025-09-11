@@ -10,10 +10,12 @@ import { showError } from "../Toastify/toastServices";
 import { apiRequest } from "../Helper";
 import { useNavigate } from "react-router-dom";
 import { TopNav } from "../pages/TopNavBar";
+import { ConfirmationPopup } from "../common/confirmationPopup";
 
 export const ChangeEmail = () => {
   const { userProfile, dark } = useSelector((state) => state.counter);
   const [showPopup, setShowPopup] = useState(false);
+  const [popup, setPopup] = useState(false);
   const navigate = useNavigate();
   const [isDisable, setIsDisable] = useState(false);
   const [showPassword, setShowPassword] = useState(true);
@@ -78,8 +80,11 @@ export const ChangeEmail = () => {
     });
   }, [showPopup]);
   const handlePopup = () => {
-    setShowPopup(!showPopup);
-    setOtp(false);
+    setPopup(false);
+    setTimeout(() => {
+      setShowPopup(!showPopup);
+      setOtp(false);
+    }, 500);
   };
   return (
     <div
@@ -118,11 +123,23 @@ export const ChangeEmail = () => {
               </div>
             </div>
             <div className="w-[30%] flex gap-3 justify-end">
-              <FiEdit className="size-6" onClick={handlePopup} />
+              <FiEdit className="size-6" onClick={() => setPopup(true)} />
             </div>
           </div>
         </div>
       </div>
+      {popup && (
+        <ConfirmationPopup
+          handleSubmit={handlePopup}
+          handleClose={() => setPopup(false)}
+          checkBox2=" The old email address cannot be used to re-register for 30 days
+                after updating it."
+          checkBox1=" Withdrawals and P2P transactions will be disabled for 24 hours
+                after changing your email verification to ensure the safety of
+                your assets."
+          title="Are You Sure You Want to Change Your Email Address?"
+        />
+      )}
       {showPopup && (
         <div className="w-full h-full   flex justify-center items-center fixed inset-0 z-50 bg-[#00000080] overflow-hidden">
           <div

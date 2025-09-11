@@ -15,9 +15,11 @@ import { ScaleLoader } from "react-spinners";
 import { PiCopyLight } from "react-icons/pi";
 import { copyToClipboard } from "../Constant";
 import { TopNav } from "../pages/TopNavBar";
+import { ConfirmationPopup } from "../common/confirmationPopup";
 export const Authenticator = () => {
   const [showQr, setShowQr] = useState(false);
   const [opt, setOtp] = useState(false);
+  const [popup, setPopup] = useState(false);
   const [deletePopup, setDeletePopup] = useState(false);
   const [timer, setTimer] = useState(0);
   const [isDisable, setIsDisable] = useState(false);
@@ -139,8 +141,11 @@ export const Authenticator = () => {
     }
   };
   const handleRemove = () => {
-    setDeletePopup(true);
-    setShowQr(true);
+    setPopup(false);
+    setTimeout(() => {
+      setDeletePopup(true);
+      setShowQr(true);
+    }, 500);
   };
   return (
     <div
@@ -148,9 +153,9 @@ export const Authenticator = () => {
         ${dark ? "bg-[#0B0E11] text-[#EAECEF]" : "bg-[#FFFFFF] text-[#262030]"}
        h-full min-h-screen flex flex-col gap-0  p-5`}
     >
-    <div className="fixed inset-0 z-50 h-fit">
-            <TopNav />
-          </div>
+      <div className="fixed inset-0 z-50 h-fit">
+        <TopNav />
+      </div>
       <div className=" flex flex-col gap-2 h-full mt-16">
         <div
           className="flex  items-center w-full text-[16px]"
@@ -219,6 +224,17 @@ export const Authenticator = () => {
           </div>
         )}
       </div>
+      {popup && (
+        <ConfirmationPopup
+          title="Are You Sure You Want to Remove Authenticator App Verification?"
+          handleClose={() => setPopup(false)}
+          handleSubmit={handleRemove}
+          checkBox1="Withdrawals and P2P transactions will be disabled for
+           24 hours after removing your authenticator app verification to ensure the safety of your assets."
+          checkBox2="Two security verification methods are required for withdrawals and other actions. 
+           Using only one verification method will put your account at greater risk."
+        />
+      )}
       {showQr && !auth && (
         <div className="w-full h-full   flex justify-center items-center fixed inset-0 z-50 bg-[#00000080] overflow-hidden">
           <div
@@ -441,16 +457,18 @@ export const Authenticator = () => {
                 <div className="flex justify-between w-full gap-2">
                   <button
                     onClick={() => setDeletePopup(false)}
-                     className={`${
-                  dark ? "bg-[#2b3139]" : "bg-[#EAECEF]"
-                } p-[6px_12px_6px_12px] rounded-[8px] w-full`}
+                    className={`${
+                      dark ? "bg-[#2b3139]" : "bg-[#EAECEF]"
+                    } p-[6px_12px_6px_12px] rounded-[8px] w-full`}
                   >
                     cancel
                   </button>
                   <button
                     onClick={RemoveAuth}
                     disabled={isDisable}
-                    className={`rounded-[12px] p-2 w-full ${!isDisable?"bg-[#FCD535]":"bg-[#EAECEF]"} text-[#000000] cursor-pointer`}
+                    className={`rounded-[12px] p-2 w-full ${
+                      !isDisable ? "bg-[#FCD535]" : "bg-[#EAECEF]"
+                    } text-[#000000] cursor-pointer`}
                   >
                     confirm
                   </button>

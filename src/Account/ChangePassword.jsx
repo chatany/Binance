@@ -8,9 +8,11 @@ import { IoIosCloseCircle, IoMdEyeOff } from "react-icons/io";
 import { apiRequest } from "../Helper";
 import { showError, showSuccess } from "../Toastify/toastServices";
 import { formatTime } from "../Constant";
+import { ConfirmationPopup } from "../common/confirmationPopup";
 
 export const ChangePassword = () => {
   const dark = useSelector((state) => state.counter.dark);
+  const [popup, setPopup] = useState(false);
   const [showAuth, setShowAuth] = useState(false);
   const [verifyPopup, setVerifyPopup] = useState(false);
   const [timer, setTimer] = useState(0);
@@ -113,6 +115,11 @@ export const ChangePassword = () => {
       }));
     }
   }, [verifyPopup]);
+  useEffect(() => {
+    setTimeout(() => {
+      setPopup(true);
+    }, 500);
+  }, []);
   return (
     <div
       className={`${
@@ -333,6 +340,16 @@ export const ChangePassword = () => {
             </div>
           </div>
         </div>
+      )}
+      {popup && (
+        <ConfirmationPopup
+          handleSubmit={() => setPopup(false)}
+          handleClose={() => navigate(-1)}
+          subTitle="In order to protect your account, withdrawals, P2P selling and payment services
+           might be disabled for 24 hours after you change your password."
+          check={false}
+          title="Account Restrictions"
+        />
       )}
     </div>
   );

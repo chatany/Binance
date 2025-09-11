@@ -19,14 +19,12 @@ import { ResetPassword } from "./Login/ResetPassword";
 import { useAuth } from "./hooks/useAuth";
 import { History } from "./pages/history";
 import { Dashboard } from "./pages/dashboard";
-import { OpenOrders } from "./common/openOrders";
 import { LayoutWeb } from "./pages/LayoutWeb";
 import { Referral } from "./pages/Referral";
 import { RewardHub } from "./pages/RewardHub";
 import { Identification } from "./Account/Identification";
 import { Security } from "./Account/Security";
 import { Setting } from "./pages/Settings";
-import { Footer } from "./pages/Footer";
 import MobileSidebar from "./pages/sidebar";
 import { Spot } from "./Asset/Spot";
 import { Overview } from "./Asset/Overview";
@@ -62,7 +60,6 @@ function App() {
             element={<Navigate to={`/spot/${last}`} replace />}
           />
           <Route path="/security/account-activity" element={<Activity />} />
-          <Route path="/order" element={<Footer />} />
           <Route
             path="/dashboard"
             element={<LayoutWeb component={<Dashboard />} />}
