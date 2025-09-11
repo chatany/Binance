@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { IoAlertCircle } from "react-icons/io5";
 import { useSelector } from "react-redux";
 
@@ -17,7 +17,13 @@ export const ConfirmationPopup = ({
     checkBox2: false,
   });
   const isDisable = checkbox.checkBox1 && checkbox.checkBox2;
+  useEffect(() => {
+    document.body.style.overflow = "hidden";
 
+    return () => {
+      document.body.style.overflow = "auto";
+    };
+  }, []);
   return (
     <div className="w-full h-full   flex justify-center  items-center max-md:items-end fixed inset-0 z-50 bg-[#00000080] overflow-hidden">
       <div
