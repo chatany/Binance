@@ -6,10 +6,6 @@ import {
   Navigate,
 } from "react-router-dom";
 import { Home } from "./pages/home";
-import { Order } from "./pages/Order";
-import { MarketCom } from "./pages/market";
-import { InputComponent } from "./pages/new";
-import { ChartEmbed } from "./pages/chart";
 import { Socket } from "./pages/Socket";
 import { Login } from "./Login/Login";
 import { Register } from "./Login/Register";
@@ -35,6 +31,7 @@ import { Activity } from "./Account/accountActivity";
 import { ChangePassword } from "./Account/ChangePassword";
 import { ChangeEmail } from "./Account/changeEmail";
 import { AntiPhishing } from "./Account/AntiPhishing";
+import { Crypto } from "./pages/DepositeCrypto";
 function App() {
   const last = JSON.parse(localStorage.getItem("lastPair")) || "BTCUSDT";
   const userData = useAuth();
@@ -64,15 +61,25 @@ function App() {
             path="/dashboard"
             element={<LayoutWeb component={<Dashboard />} />}
           />
-          <Route path="/security/manage-email-address" element={<ChangeEmail />} />
-          <Route path="/security/manage-google-authenticator" element={<Authenticator />} />
+          <Route
+            path="/security/manage-email-address"
+            element={<ChangeEmail />}
+          />
+          <Route
+            path="/security/manage-google-authenticator"
+            element={<Authenticator />}
+          />
           <Route path="/asstes" element={<LayoutWeb component={<Spot />} />} />
           <Route
             path="/orders"
             element={<LayoutWeb component={<SpotOrders />} />}
           />
           <Route path="/history" element={<History />} />
-          <Route path="/security/manage-password" element={<ChangePassword />} />
+          <Route path="/deposit" element={<Crypto />} />
+          <Route
+            path="/security/manage-password"
+            element={<ChangePassword />}
+          />
           <Route
             path="/login"
             element={

@@ -9,6 +9,7 @@ import { apiRequest } from "../Helper";
 import { showError, showSuccess } from "../Toastify/toastServices";
 import { formatTime } from "../Constant";
 import { ConfirmationPopup } from "../common/confirmationPopup";
+import CoinSelect from "../common/CoinSelect";
 
 export const ChangePassword = () => {
   const dark = useSelector((state) => state.counter.dark);
@@ -182,6 +183,7 @@ export const ChangePassword = () => {
               )}
             </div>
           </div>
+          <CoinSelect />
           <div className="relative">
             <label>New Password</label>
             <input
