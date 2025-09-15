@@ -318,7 +318,7 @@ export const TopNav = () => {
         {userData?.token && (
           <div
             className=" text-[14px] font-medium leading-6 hover:opacity-85 items-center text-black bg-[#fcd535] rounded-sm px-2 py-1 flex"
-            onClick={() => navigate("/deposit")}
+            onClick={() => navigate("/crypto/deposit")}
           >
             <HiDownload className="h-4 w-4 md:block hidden hover:text-amber-400" />
             Deposit

@@ -183,7 +183,6 @@ export const ChangePassword = () => {
               )}
             </div>
           </div>
-          <CoinSelect />
           <div className="relative">
             <label>New Password</label>
             <input

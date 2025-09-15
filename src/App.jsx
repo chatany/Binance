@@ -75,7 +75,8 @@ function App() {
             element={<LayoutWeb component={<SpotOrders />} />}
           />
           <Route path="/history" element={<History />} />
-          <Route path="/deposit" element={<Crypto />} />
+          <Route path="/crypto/deposit" element={<Crypto />} />
+          <Route path="/crypto/withdraw" element={<Crypto />} />
           <Route
             path="/security/manage-password"
             element={<ChangePassword />}

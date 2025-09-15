@@ -16,10 +16,10 @@ const CustomConnector = styled(StepConnector, {
   shouldForwardProp: (prop) => prop !== "dark",
 })(({ dark }) => ({
   [`&.${stepConnectorClasses.vertical}`]: {
-    marginLeft: 15,
+    marginLeft: 12,
   },
   [`& .${stepConnectorClasses.line}`]: {
-    borderLeftWidth: 3,
+    borderLeftWidth: 2,
     minHeight: 100,
     marginBottom: -20,
     marginTop: -56,
@@ -39,8 +39,8 @@ function DiamondStepIcon(props) {
   return (
     <div
       style={{
-        width: 32,
-        height: 32,
+        width: 24,
+        height: 24,
         backgroundColor:
           active || completed
             ? `${dark ? "#EAECEF" : "#2B3139"}`
@@ -54,7 +54,7 @@ function DiamondStepIcon(props) {
         fontSize: 14,
       }}
     >
-      {completed ? <FaCheck /> : icon}
+      {completed ? <FaCheck className="size-2.5"/> : icon}
     </div>
   );
 }
@@ -173,7 +173,7 @@ export default function VerticalLinearStepper() {
   }, []);
 
   return (
-    <div className=" mt-18 w-full  flex justify-center ">
+    <div className="w-full  flex justify-center ">
       <div className="w-full">
         <Stepper
           activeStep={activeStep}

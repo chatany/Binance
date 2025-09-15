@@ -96,7 +96,7 @@ export const Security = () => {
           <div className="text-[24px] leading-[34px] font-semibold">
             Two-Factor Authentication (2FA)
           </div>
-          <div className="flex justify-between max-md:flex-col items-center">
+          {/* <div className="flex justify-between max-md:flex-col items-center">
             <div className="flex gap-5">
               <GoPasskeyFill className="size-6" />
               <div className="flex flex-col gap-0.5 md:w-[60%] w-fit">
@@ -119,7 +119,7 @@ export const Security = () => {
                 Enable
               </button>
             </div>
-          </div>
+          </div> */}
           <div className="flex max-md:flex-col justify-between items-center">
             <div className="flex gap-5 ">
               <TbBrandAuth0 className="size-6" />
@@ -178,7 +178,7 @@ export const Security = () => {
               </button>
             </div>
           </div>
-          <div className="flex max-md:flex-col justify-between items-center">
+          {/* <div className="flex max-md:flex-col justify-between items-center">
             <div className="flex gap-5 ">
               <FaPhoneVolume className="size-6" />
               <div className="flex flex-col gap-0.5 md:w-[60%] w-fit">
@@ -201,7 +201,7 @@ export const Security = () => {
                 Manage
               </button>
             </div>
-          </div>
+          </div> */}
           <div className="flex max-md:flex-col justify-between items-center">
             <div className="flex gap-5 ">
               <CgPassword className="size-6" />
@@ -232,7 +232,7 @@ export const Security = () => {
           <div className="text-[24px] leading-[34px] font-semibold">
             Advanced Security
           </div>
-          <div className="flex max-md:flex-col justify-between items-center">
+          {/* <div className="flex max-md:flex-col justify-between items-center">
             <div className="flex gap-5">
               <RiContactsBook2Fill className="size-6" />
               <div className="flex flex-col gap-0.5 md:w-[60%] w-fit">
@@ -254,8 +254,8 @@ export const Security = () => {
                 Manage
               </button>
             </div>
-          </div>
-          <div className="flex max-md:flex-col justify-between items-center">
+          </div> */}
+          {/* <div className="flex max-md:flex-col justify-between items-center">
             <div className="flex gap-5 ">
               <LuUsers className="size-6" />
               <div className="flex flex-col gap-0.5 md:w-[60%] w-fit">
@@ -274,7 +274,7 @@ export const Security = () => {
                 Manage
               </button>
             </div>
-          </div>
+          </div> */}
           <div className="flex max-md:flex-col justify-between items-center">
             <div className="flex gap-5">
               <MdOutlineDevices className="size-6" />
@@ -300,7 +300,7 @@ export const Security = () => {
               </button>
             </div>
           </div>
-          <div className="flex max-md:flex-col justify-between items-center">
+          {/* <div className="flex max-md:flex-col justify-between items-center">
             <div className="flex gap-5 ">
               <PiUserListLight className="size-6" />
               <div className="flex flex-col gap-0.5 md:w-[60%] w-fit">
@@ -320,7 +320,7 @@ export const Security = () => {
                 Manage
               </button>
             </div>
-          </div>
+          </div> */}
         </div>
         <div
           className={`md:p-[24px] mb-[24px] ${
@@ -330,7 +330,7 @@ export const Security = () => {
           <div className="text-[24px] leading-[34px] font-semibold">
             Devices and Activities
           </div>
-          <div className="flex max-md:flex-col justify-between items-center">
+          {/* <div className="flex max-md:flex-col justify-between items-center">
             <div className="flex gap-5">
               <MdOutlineDevices className="size-6" />
               <div className="flex flex-col gap-0.5 md:w-[60%] w-fit">
@@ -350,7 +350,7 @@ export const Security = () => {
                 Manage
               </button>
             </div>
-          </div>
+          </div> */}
           <div className="flex max-md:flex-col justify-between items-center">
             <div className="flex gap-5 ">
               <TbUserCog className="size-6" />
@@ -375,7 +375,7 @@ export const Security = () => {
             </div>
           </div>
         </div>
-        <div
+        {/* <div
           className={`md:p-[24px] mb-[24px] ${
             dark ? "border-[#333B47]" : "border-[#EDEDED]"
           } md:border-1 flex flex-col rounded-[16px] gap-[20px]`}
@@ -428,7 +428,7 @@ export const Security = () => {
               </button>
             </div>
           </div>
-        </div>
+        </div> */}
       </div>
     </div>
   );

@@ -5,11 +5,13 @@ import { useDispatch, useSelector } from "react-redux";
 import { HiOutlineDotsVertical } from "react-icons/hi";
 import { useEffect, useState } from "react";
 import { getFundsData } from "../pages/apiCall";
+import { useNavigate } from "react-router-dom";
 
 export const Spot = () => {
   const { fundData, dark } = useSelector((state) => state.counter);
   const [showIndex, setShowIndex] = useState(null);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   useEffect(() => {
     if (fundData?.length <= 0) {
       getFundsData(dispatch);
@@ -126,15 +128,17 @@ export const Spot = () => {
                               className={`${
                                 dark ? "text-[#F0B90B]" : " text-[#D89F00]"
                               } cursor-pointer underline hidden md:flex`}
+                              onClick={() => navigate("/crypto/deposit")}
                             >
-                              convert
+                              deposit
                             </div>
                             <div
                               className={`${
                                 dark ? "text-[#F0B90B]" : " text-[#D89F00]"
                               } cursor-pointer underline hidden md:flex`}
+                              onClick={() => navigate("//crypto/withdraw")}
                             >
-                              Earn
+                              withdraw
                             </div>
                             <div
                               className="relative cursor-pointer"

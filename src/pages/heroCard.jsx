@@ -1,7 +1,9 @@
 import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 export const HeroSection = () => {
   const dark = useSelector((state) => state.counter.dark);
+  const navigate = useNavigate();
   return (
     <div
       className={`flex flex-col md:flex-row gap-2 ${
@@ -19,25 +21,20 @@ export const HeroSection = () => {
       <div>
         <div className="flex gap-5 w-full justify-between">
           <div
-            className={`hover:text-gray-400 rounded-sm text-[14px] w-full text-center font-semibold ${
+            className={`hover:text-gray-400 rounded-sm text-[14px] w-full text-center font-semibold cursor-pointer ${
               dark ? "bg-[#2b3139]" : "bg-[#EAECEF]"
             }  leading-6 px-2 py-1 `}
+            onClick={() => navigate("/crypto/deposit")}
           >
             Deposit
           </div>
           <div
-            className={`hover:text-gray-400 rounded-sm text-[14px] w-full text-center font-semibold ${
+            className={`hover:text-gray-400 rounded-sm text-[14px] w-full text-center font-semibold cursor-pointer ${
               dark ? "bg-[#2b3139]" : "bg-[#EAECEF]"
             }  leading-6 px-2 py-1 `}
+            onClick={() => navigate("/crypto/withdraw")}
           >
             Withdraw
-          </div>
-          <div
-            className={`hover:text-gray-400 rounded-sm text-[14px] w-full text-center  font-semibold ${
-              dark ? "bg-[#2b3139]" : "bg-[#EAECEF]"
-            }  leading-6 px-2 py-1 `}
-          >
-            Cash In
           </div>
         </div>
       </div>
