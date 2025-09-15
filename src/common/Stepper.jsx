@@ -8,8 +8,9 @@ import { showError } from "../Toastify/toastServices";
 import { styled, stepConnectorClasses, StepConnector } from "@mui/material";
 import QRCode from "react-qr-code";
 import { BsSearch } from "react-icons/bs";
-import { IoIosArrowDown, IoIosCloseCircle } from "react-icons/io";
+import { IoIosArrowDown, IoIosCheckmark, IoIosCloseCircle } from "react-icons/io";
 import { useSelector } from "react-redux";
+import { FaCheck } from "react-icons/fa";
 
 const CustomConnector = styled(StepConnector, {
   shouldForwardProp: (prop) => prop !== "dark",
@@ -42,8 +43,8 @@ function DiamondStepIcon(props) {
         height: 32,
         backgroundColor:
           active || completed
-            ? `${dark ? "#ccc" : "black"}`
-            : `${dark ? "black" : "#ccc"}`,
+            ? `${dark ? "#EAECEF" : "#2B3139"}`
+            : `${dark ? "#202630" : "#EAECEF"}`,
         clipPath: "polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%)",
         display: "flex",
         alignItems: "center",
@@ -53,7 +54,7 @@ function DiamondStepIcon(props) {
         fontSize: 14,
       }}
     >
-      {completed ? "✔" : icon}
+      {completed ? <FaCheck /> : icon}
     </div>
   );
 }
@@ -181,7 +182,7 @@ export default function VerticalLinearStepper() {
         >
           <Step>
             <StepLabel StepIconComponent={DiamondStepIcon}>
-              <div className="text-[20px] font-medium leading-[24px]">
+              <div className={`text-[20px] font-medium leading-[24px] ${dark ? " text-[#EAECEF]" : " text-[#262030]"}`}>
                 Select coin
               </div>
             </StepLabel>
@@ -257,7 +258,7 @@ export default function VerticalLinearStepper() {
           </Step>
           <Step>
             <StepLabel StepIconComponent={DiamondStepIcon}>
-              <div className="text-[20px] font-medium leading-[24px]">
+              <div className={`text-[20px] font-medium leading-[24px] ${dark ? " text-[#EAECEF]" : " text-[#262030]"}`}>
                 Select Network
               </div>
             </StepLabel>
@@ -311,7 +312,7 @@ export default function VerticalLinearStepper() {
           </Step>
           <Step>
             <StepLabel StepIconComponent={DiamondStepIcon}>
-              <div className="text-[20px] font-medium leading-[24px]">
+              <div className={`text-[20px] font-medium leading-[24px] ${dark ? " text-[#EAECEF]" : " text-[#262030]"}`}>
                 Deposit Address
               </div>
             </StepLabel>
