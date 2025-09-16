@@ -1,40 +1,19 @@
 import { CgPassword } from "react-icons/cg";
 import { CiMail } from "react-icons/ci";
-import { FaPhoneVolume } from "react-icons/fa";
-import { GoPasskeyFill } from "react-icons/go";
-import { LiaUserTimesSolid } from "react-icons/lia";
-import { LuUsers } from "react-icons/lu";
-import { MdOutlineDevices, MdSecurity } from "react-icons/md";
-import { PiUserListLight } from "react-icons/pi";
-import { RiContactsBook2Fill } from "react-icons/ri";
+import { MdOutlineDevices } from "react-icons/md";
 import { RxCrossCircled } from "react-icons/rx";
 import { TbBrandAuth0, TbUserCog } from "react-icons/tb";
-import { useDispatch, useSelector } from "react-redux";
+import {  useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import {
-  getActivity,
-  getAuth,
-  getAuthenticationKey,
-  getUserProfile,
-} from "../pages/apiCall";
-import { useEffect } from "react";
 import { IoIosCheckmarkCircleOutline } from "react-icons/io";
 import { formatDate } from "../Constant";
-import { ConfirmationPopup } from "../common/confirmationPopup";
 export const Security = () => {
   const { dark, auth, activity, userProfile } = useSelector(
     (state) => state.counter
   );
 
   const navigate = useNavigate();
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-    getAuthenticationKey(dispatch);
-    getAuth(dispatch);
-    getActivity(dispatch);
-    getUserProfile(dispatch);
-  }, []);
+ 
   return (
     <div
       className={`${
@@ -64,27 +43,16 @@ export const Security = () => {
               <div>Identity Verification</div>
             </div>
             <div className="flex gap-3 items-center">
-              <RxCrossCircled />
+              {userProfile?.anti_phishing_code ? (
+                <IoIosCheckmarkCircleOutline className=" text-green-400 size-[18px]" />
+              ) : (
+                <RxCrossCircled />
+              )}
               <div>Anti-Phishing Code</div>
             </div>
             <div className="flex gap-3 items-center">
               <RxCrossCircled />
               <div>Withdrawal Whitelist</div>
-            </div>
-          </div>
-          <div className="border-1 border-[#f0b9084d] bg-[#f0b9080d] rounded-[10px] flex justify-between h-[106px] p-2 items-center max-md:hidden">
-            <MdSecurity className="size-full w-[25%]" />
-            <div className="w-[50%]">
-              <div>Account At Risk</div>
-              <div>
-                You have not activated a passkey yet. We recommend adding a
-                passkey to protect your account.
-              </div>
-            </div>
-            <div>
-              <button className="text-[14px] bg-[#FCD535] text-[#282828] p-2 rounded-[8px] min-w-min">
-                Add PassKey
-              </button>
             </div>
           </div>
         </div>
@@ -148,7 +116,9 @@ export const Security = () => {
                 className={`${
                   dark ? "bg-[#2b3139]" : "bg-[#EAECEF]"
                 } p-[6px_12px_6px_12px] rounded-[8px] cursor-pointer`}
-                onClick={() => navigate("/security/manage-google-authenticator")}
+                onClick={() =>
+                  navigate("/security/manage-google-authenticator")
+                }
               >
                 Manage
               </button>
@@ -288,13 +258,22 @@ export const Security = () => {
             </div>
             <div className="flex gap-5 max-md:w-full justify-between">
               <button className="flex items-center gap-1">
-                <RxCrossCircled /> OFF
+                {!userProfile?.anti_phishing_code ? (
+                  <>
+                    <RxCrossCircled /> OFF
+                  </>
+                ) : (
+                  <>
+                    <IoIosCheckmarkCircleOutline className=" text-green-400 size-[18px]" />{" "}
+                    ON
+                  </>
+                )}
               </button>
               <button
                 className={`${
                   dark ? "bg-[#2b3139]" : "bg-[#EAECEF]"
                 } p-[6px_12px_6px_12px] rounded-[8px]`}
-                onClick={()=>navigate("/security/anti-phishing-code")}
+                onClick={() => navigate("/security/anti-phishing-code")}
               >
                 Enable
               </button>

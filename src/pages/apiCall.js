@@ -6,6 +6,7 @@ import {
   setAuthEnticatorKey,
   setBalance,
   setCountryData,
+  setDepositHistory,
   setFaverateData,
   setFundData,
   SetHelpCenterData,
@@ -16,6 +17,7 @@ import {
   setSearchData,
   setTopMovers,
   setUserProfile,
+  setWithdrawHistory,
 } from "../store/webSocket";
 import { showError } from "../Toastify/toastServices";
 
@@ -392,6 +394,52 @@ export const getUserProfile = async (dispatch) => {
 
     if (status === 200 && data?.status === "1") {
       dispatch(setUserProfile(data?.data));
+    }
+
+    if (data?.status != 1) {
+      showError(data?.message);
+    }
+    if (status === 400 && data?.status == 3) {
+      localStorage.removeItem("userData");
+      window.dispatchEvent(new Event("userDataChanged"));
+    }
+  } catch (err) {
+    console.error("Failed to fetch second API", err);
+  }
+};
+
+export const getDepositHistory = async (dispatch) => {
+  try {
+    const { data, status } = await apiRequest({
+      method: "get",
+      url: `https://test.bitzup.com/blockchain/deposit/deposit-history`,
+    });
+
+    if (status === 200 && data?.status === 1) {
+      dispatch(setDepositHistory(data?.data));
+    }
+
+    if (data?.status != 1) {
+      showError(data?.message);
+    }
+    if (status === 400 && data?.status == 3) {
+      localStorage.removeItem("userData");
+      window.dispatchEvent(new Event("userDataChanged"));
+    }
+  } catch (err) {
+    console.error("Failed to fetch second API", err);
+  }
+};
+
+export const getWithdrawHistory = async (dispatch) => {
+  try {
+    const { data, status } = await apiRequest({
+      method: "get",
+      url: `https://test.bitzup.com/blockchain/withdraw/withdrawal-history`,
+    });
+
+    if (status === 200 && data?.status === 1) {
+      dispatch(setWithdrawHistory(data?.data));
     }
 
     if (data?.status != 1) {

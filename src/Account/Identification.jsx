@@ -2,7 +2,7 @@ import { PiHeadsetFill } from "react-icons/pi";
 import { AiOutlinePullRequest } from "react-icons/ai";
 import { useSelector } from "react-redux";
 export const Identification = () => {
-  const dark = useSelector((state) => state.counter.dark);
+  const {dark,userProfile} = useSelector((state) => state.counter);
   return (
     <div
       className={`w-full ${
@@ -16,9 +16,9 @@ export const Identification = () => {
           <img src="./Avatar.png" className="h-[64px] w-[64px] rounded-[4px]" />
         </div>
         <div className="flex flex-col justify-between">
-          <div className="text-[16px]">Selma Albrekht AzE3</div>
+          <div className="text-[16px]">{userProfile?.name}</div>
           <div className="flex justify-between text-[14px] gap-4 items-center">
-            <div>ID: 1125578960</div>
+            <div>ID: {userProfile?.uid}</div>
             <div className={`${
                 dark ? "bg-[#2b3139]" : "bg-[#EAECEF]"
               } p-1`}>Unverified</div>

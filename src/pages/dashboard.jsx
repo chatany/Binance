@@ -13,7 +13,8 @@ export const Dashboard = () => {
   const [activeTab, setActiveTab] = useState(tabs[0]);
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { allMovers, movers } = useSelector((state) => state.counter);
+  const { allMovers, movers,userProfile } = useSelector((state) => state.counter);
+  
   const filteredData = () => {
     return activeTab !== "All" ? movers[activeTab] : allMovers;
   };
@@ -38,7 +39,7 @@ export const Dashboard = () => {
             <img src="/Avatar.png" />
           </div>
           <div className="flex flex-col">
-            <div>Selma Albrekht AzE3</div>
+            <div>{userProfile?.name}</div>
             <div className="flex">
               <div className="p-1">
                 <CiAlarmOff />
@@ -53,7 +54,7 @@ export const Dashboard = () => {
         <div className="w-[70%] flex justify-evenly flex-wrap">
           <div>
             <div>UID</div>
-            <div>28620061</div>
+            <div>{userProfile?.uid}</div>
           </div>
           <div>
             <div>VIP Level</div>

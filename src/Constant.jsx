@@ -122,12 +122,12 @@ export const MenuItem = [
   { icon: <MdDashboardCustomize />, name: "Dashboard", path: "/dashboard" },
   { icon: <LuWallet />, name: "Assets", path: "/asstes" },
   { icon: <HiOfficeBuilding />, name: "Orders", path: "/orders" },
-  { icon: <FaUserLarge />, name: "Account" },
+  { icon: <FaUserLarge />, name: "Account",path:"/Identity" },
   { icon: <FaUserPlus />, name: "Referral", path: "/Referral" },
   { icon: <CgEye />, name: "Rewards Hub", path: "/Reward" },
-  { icon: <RiAccountCircle2Line />, name: "Sub Accounts" },
+  // { icon: <RiAccountCircle2Line />, name: "Sub Accounts" },
   { icon: <IoSettings />, name: "Settings", path: "/settings" },
-  { icon: <CgArrowsExchangeV />, name: "Switch Account" },
+  // { icon: <CgArrowsExchangeV />, name: "Switch Account" },
   { icon: <CiLogout />, name: "Log Out" },
 ];
 export const menu = [
@@ -138,7 +138,7 @@ export const menu = [
     category: [
       { name: "Spot", path: "/asstes" },
       { name: "Overview", path: "/overview" },
-      { name: "Margin", path: "" },
+      // { name: "Margin", path: "" },
     ],
     path: "",
   },
@@ -156,13 +156,13 @@ export const menu = [
     category: [
       { name: "Identification", path: "/Identity" },
       { name: "Security", path: "/security" },
-      { name: "Payment", path: "#" },
-      { name: "API Management", path: "#" },
-      { name: "Account Statement", path: "#" },
+      // { name: "Payment", path: "#" },
+      // { name: "API Management", path: "#" },
+      // { name: "Account Statement", path: "#" },
       { name: "Financial Reports", path: "/reports" },
     ],
   },
-  { icon: <RiAccountCircle2Line />, name: "Sub Accounts", path: "#" },
+  // { icon: <RiAccountCircle2Line />, name: "Sub Accounts", path: "#" },
   { icon: <IoSettings />, name: "Settings", path: "/settings" },
 ];
 export const formatDecimal = (value, decimalPlaces) => {

@@ -63,10 +63,18 @@ export const counterSlice = createSlice({
     auth: false,
     activity: [],
     userProfile: {},
+    depositHistory: [],
+    withdrawHistory: [],
   },
   reducers: {
     incrementByAmount: (state, action) => {
       state.tikerData = action.payload;
+    },
+    setDepositHistory: (state, action) => {
+      state.depositHistory = action.payload;
+    },
+    setWithdrawHistory: (state, action) => {
+      state.withdrawHistory = action.payload;
     },
     setActivity: (state, action) => {
       state.activity = action.payload;
@@ -264,6 +272,8 @@ export const {
   SetHelpCenterData,
   setFaverateData,
   setCoinName,
+  setDepositHistory,
+  setWithdrawHistory,
 } = counterSlice.actions;
 
 export default counterSlice.reducer;

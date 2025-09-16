@@ -8,10 +8,15 @@ import { showError } from "../Toastify/toastServices";
 import { styled, stepConnectorClasses, StepConnector } from "@mui/material";
 import QRCode from "react-qr-code";
 import { BsSearch } from "react-icons/bs";
-import { IoIosArrowDown, IoIosCheckmark, IoIosCloseCircle } from "react-icons/io";
+import {
+  IoIosArrowDown,
+  IoIosCloseCircle,
+} from "react-icons/io";
 import { useSelector } from "react-redux";
 import { FaCheck } from "react-icons/fa";
-
+import { BiSolidCopy } from "react-icons/bi";
+import { copyToClipboard, formatDate } from "../Constant";
+import { RiArrowRightSLine } from "react-icons/ri";
 const CustomConnector = styled(StepConnector, {
   shouldForwardProp: (prop) => prop !== "dark",
 })(({ dark }) => ({
@@ -54,7 +59,7 @@ function DiamondStepIcon(props) {
         fontSize: 14,
       }}
     >
-      {completed ? <FaCheck className="size-2.5"/> : icon}
+      {completed ? <FaCheck className="size-2.5" /> : icon}
     </div>
   );
 }
@@ -68,7 +73,7 @@ export default function VerticalLinearStepper() {
   const [openNetwork, setOpenNetwork] = useState(false);
   const [obj, setObj] = useState({});
   const [addressCode, setAddressCode] = useState({});
-  const dark = useSelector((state) => state.counter.dark);
+  const { dark, depositHistory } = useSelector((state) => state.counter);
   const [query, setQuery] = useState("");
   const filteredCoins = coinData.filter(
     (c) =>
@@ -123,7 +128,6 @@ export default function VerticalLinearStepper() {
       if (status === 200 && data?.status === "1") {
         // setNewwork(data?.data);
         setAddressCode(data?.data);
-        console.log(data, "ipl");
       }
 
       if (data?.status != 1) {
@@ -182,7 +186,11 @@ export default function VerticalLinearStepper() {
         >
           <Step>
             <StepLabel StepIconComponent={DiamondStepIcon}>
-              <div className={`text-[20px] font-medium leading-[24px] ${dark ? " text-[#EAECEF]" : " text-[#262030]"}`}>
+              <div
+                className={`text-[20px] font-medium leading-[24px] ${
+                  dark ? " text-[#EAECEF]" : " text-[#262030]"
+                }`}
+              >
                 Select coin
               </div>
             </StepLabel>
@@ -231,34 +239,44 @@ export default function VerticalLinearStepper() {
               >
                 {" "}
                 <ul>
-                  {filteredCoins.map((coin, ind) => (
-                    <li
-                      key={ind}
-                      className={`flex items-center justify-between p-[16px_12px_16px_12px] ${
-                        dark ? "" : "hover:bg-[#F5F5F5]"
-                      } rounded-lg cursor-pointer`}
-                      onClick={() => handleSelect(coin)}
-                    >
-                      <div className="flex items-center gap-2">
-                        <img
-                          src={`https://bitzupicons.blr1.cdn.digitaloceanspaces.com/${coin.icon}`}
-                          alt={coin.icon}
-                          className="w-6 h-6"
-                        />
-                        <span className="font-medium">{coin.symbol}</span>
-                        <span className="text-gray-500 text-sm">
-                          {coin.coin}
-                        </span>
-                      </div>
-                    </li>
-                  ))}
+                  {filteredCoins?.length > 0 ? (
+                    filteredCoins.map((coin, ind) => (
+                      <li
+                        key={ind}
+                        className={`flex items-center justify-between p-[16px_12px_16px_12px] ${
+                          dark ? "" : "hover:bg-[#F5F5F5]"
+                        } rounded-lg cursor-pointer`}
+                        onClick={() => handleSelect(coin)}
+                      >
+                        <div className="flex items-center gap-2">
+                          <img
+                            src={`https://bitzupicons.blr1.cdn.digitaloceanspaces.com/${coin.icon}`}
+                            alt={coin.icon}
+                            className="w-6 h-6"
+                          />
+                          <span className="font-medium">{coin.symbol}</span>
+                          <span className="text-gray-500 text-sm">
+                            {coin.coin}
+                          </span>
+                        </div>
+                      </li>
+                    ))
+                  ) : (
+                    <div className="h-full w-full flex justify-center items-center">
+                      No Data Found
+                    </div>
+                  )}
                 </ul>
               </CoinSelect>
             </div>
           </Step>
           <Step>
             <StepLabel StepIconComponent={DiamondStepIcon}>
-              <div className={`text-[20px] font-medium leading-[24px] ${dark ? " text-[#EAECEF]" : " text-[#262030]"}`}>
+              <div
+                className={`text-[20px] font-medium leading-[24px] ${
+                  dark ? " text-[#EAECEF]" : " text-[#262030]"
+                }`}
+              >
                 Select Network
               </div>
             </StepLabel>
@@ -286,25 +304,33 @@ export default function VerticalLinearStepper() {
                   )}
                 >
                   <ul>
-                    {network.map((coin, ind) => (
-                      <li
-                        key={ind}
-                        className={`flex ${
-                          dark ? "" : "hover:bg-[#F5F5F5]"
-                        } items-center justify-between p-[16px_12px_16px_12px] rounded-lg cursor-pointer`}
-                        onClick={() => {
-                          handleNetwork(coin);
-                          setOpenNetwork(!openNetwork);
-                        }}
-                      >
-                        <div className="flex items-center gap-2">
-                          <span className="font-medium">{coin.chain_name}</span>
-                          <span className="text-gray-500 text-sm">
-                            {coin.coin}
-                          </span>
-                        </div>
-                      </li>
-                    ))}
+                    {network.length > 0 ? (
+                      network.map((coin, ind) => (
+                        <li
+                          key={ind}
+                          className={`flex ${
+                            dark ? "" : "hover:bg-[#F5F5F5]"
+                          } items-center justify-between p-[16px_12px_16px_12px] rounded-lg cursor-pointer`}
+                          onClick={() => {
+                            handleNetwork(coin);
+                            setOpenNetwork(!openNetwork);
+                          }}
+                        >
+                          <div className="flex items-center gap-2">
+                            <span className="font-medium">
+                              {coin.chain_name}
+                            </span>
+                            <span className="text-gray-500 text-sm">
+                              {coin.coin}
+                            </span>
+                          </div>
+                        </li>
+                      ))
+                    ) : (
+                      <div className="h-full w-full flex justify-center items-center">
+                        No Data Found
+                      </div>
+                    )}
                   </ul>
                 </CoinSelect>
               </div>
@@ -312,34 +338,158 @@ export default function VerticalLinearStepper() {
           </Step>
           <Step>
             <StepLabel StepIconComponent={DiamondStepIcon}>
-              <div className={`text-[20px] font-medium leading-[24px] ${dark ? " text-[#EAECEF]" : " text-[#262030]"}`}>
+              <div
+                className={`text-[20px] font-medium leading-[24px] ${
+                  dark ? " text-[#EAECEF]" : " text-[#262030]"
+                }`}
+              >
                 Deposit Address
               </div>
             </StepLabel>
             {activeStep > 1 && (
               <div
-                className={`pl-10 w-[520px] max-md:w-full  border-1 ${
+                className={`pl-10 w-full max-w-[700px] max-md:w-full  border-1 ${
                   dark ? "border-[#333B47]" : "border-[#EDEDED]"
                 }  p-[12px] rounded-lg`}
               >
-                <div className="flex gap-2">
+                <div className="flex max-md:flex-col justify-between gap-10 items-center">
                   <div>
                     <QRCode
                       className="w-[80px] h-[80px]"
                       value={addressCode?.address || ""}
                     />
                   </div>
-                  <div className="text-[14px] font-medium">
-                    <div className="font-normal">Address</div>
-                    <div className="leading-[22px] flex-wrap break-all">
-                      {addressCode?.address}
+                  <div className="flex  items-center justify-between w-full">
+                    <div className="text-[14px] font-medium flex flex-col ">
+                      <div className="font-normal ">Address</div>
+                      <div className="leading-[22px] flex-wrap break-all font-semibold">
+                        {addressCode?.address}
+                      </div>
                     </div>
+                    <BiSolidCopy
+                      className="size-[18px]"
+                      onClick={() => copyToClipboard(addressCode?.address)}
+                    />
                   </div>
                 </div>
               </div>
             )}
           </Step>
         </Stepper>
+        <div className="p-[40px] flex flex-col gap-10 w-full max-md:hidden">
+          <div className="flex justify-between items-center w-full">
+            <div className="text-[20px] font-semibold leading-[28px]">
+              Recent Deposits
+            </div>
+            <div className="text-[14px] font-medium leading-[22px] flex items-center">
+              More <RiArrowRightSLine className="size-5 font-light" />
+            </div>
+          </div>
+          <table className={`w-full`}>
+            <thead>
+              <tr
+                className={`text-[12px] ${
+                  dark
+                    ? "bg-[#2B3139] border-[#474d57]"
+                    : "bg-[#F5F5F5] border-[#eaecef]"
+                } text-[#848e9c] border-b-[1px] font-normal leading-[20px] w-full `}
+              >
+                <th className="text-left p-[12px_16px_12px_16px]">Time</th>
+                <th className="text-left p-[12px_16px_12px_16px]">Type</th>
+                <th className="text-left p-[12px_16px_12px_16px]">
+                  Deposit wallet
+                </th>
+                <th className="text-left p-[12px_16px_12px_16px]">Asset</th>
+                <th className="text-left p-[12px_16px_12px_16px]">amount</th>
+                <th className="text-left p-[12px_16px_12px_16px]">
+                  Destination{" "}
+                </th>
+                <th className="text-left p-[12px_16px_12px_16px]">TxID</th>
+                <th className="text-left p-[12px_16px_12px_16px]">Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              {depositHistory?.slice(0, 3).map((ele, index) => {
+                const date = formatDate(ele?.date);
+                return (
+                  <tr
+                    key={index}
+                    className={`text-[14px]  ${
+                      dark
+                        ? "text-[#EAECEF] border-[#474d57] hover:bg-[#2B3139]"
+                        : "text-[#1e2329] border-[#eaecef] hover:bg-[#F5F5F5]"
+                    } font-normal leading-[20px] border-b-[1px] `}
+                  >
+                    <td className="text-left p-[12px_16px_12px_16px]">
+                      {date}
+                    </td>
+                    <td className="text-left p-[12px_16px_12px_16px]">
+                      {`Deposit`}
+                    </td>
+                    <td className="text-left p-[12px_16px_12px_16px]">
+                      Spot wallet
+                    </td>
+                    <td className="text-left p-[12px_16px_12px_16px]">
+                      {ele?.symbol}
+                    </td>
+                    <td className="text-left p-[12px_16px_12px_16px]">
+                      {" "}
+                      {ele?.final_amount}
+                    </td>
+                    <td className="text-left p-[12px_16px_12px_16px]">--</td>
+                    <td className="text-left p-[12px_16px_12px_16px]">
+                      {ele?.address}
+                    </td>
+                    <td className="text-left p-[12px_16px_12px_16px]">
+                      {ele?.status}
+                    </td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+        </div>
+        <div className="p-[10px] flex flex-col gap-10 w-full md:hidden">
+          <div className="flex justify-between items-center w-full">
+            <div className="text-[20px] font-semibold leading-[28px]">
+              Recent Deposits
+            </div>
+            <div className="text-[14px] font-medium leading-[22px] flex items-center">
+              More <RiArrowRightSLine className="size-5 font-light" />
+            </div>
+          </div>
+          {depositHistory?.slice(0, 3).map((ele, index) => {
+            const date = formatDate(ele?.date);
+            return (
+              <div
+                className="flex justify-between items-center w-full"
+                key={index}
+              >
+                <div className="flex gap-1">
+                  <div>
+                    <img src={ele?.icon_url} className="size-6" />
+                  </div>
+                  <div>
+                    <div className="text-[14px] font-medium leading-[22px] ">
+                      {ele?.symbol}
+                    </div>
+                    <div className="text-[14px] font-medium leading-[22px] ">
+                      {date}
+                    </div>
+                  </div>
+                </div>
+                <div className="flex flex-col items-end">
+                  <div className="text-[14px] font-medium leading-[22px] ">
+                    {ele?.final_amount}
+                  </div>
+                  <div className="text-[14px] font-medium leading-[22px] ">
+                    {ele?.status}
+                  </div>
+                </div>
+              </div>
+            );
+          })}
+        </div>
       </div>
     </div>
   );

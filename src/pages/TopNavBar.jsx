@@ -29,7 +29,7 @@ import { BsMoon } from "react-icons/bs";
 
 export const TopNav = () => {
   const navigate = useNavigate();
-  const { dark, searchQuery, show, helpCenter } = useSelector(
+  const { dark, searchQuery, show, helpCenter, userProfile } = useSelector(
     (state) => state.counter
   );
 
@@ -120,7 +120,10 @@ export const TopNav = () => {
       }`}
     >
       <div className="flex xl:w-[60%] items-center text-lg gap-2 font-semibold leading-6 lg:justify-evenly">
-        <div className="text-amber-400 font-semibold text-xl">
+        <div
+          className="text-amber-400 font-semibold text-xl cursor-pointer"
+          onClick={() => navigate("/")}
+        >
           {dark ? (
             <img
               src="/bitzup_light_logo.png"
@@ -347,7 +350,9 @@ export const TopNav = () => {
                       <img src="/Avatar.png" />
                     </div>
                     <div>
-                      <div>er***@gmail.com</div>
+                      <div className="break-all font-normal text-[12px]">
+                        {userProfile?.email}
+                      </div>
                       <div className="text-[11px] p-1 bg-">Regular User</div>
                     </div>
                   </div>
@@ -389,7 +394,7 @@ export const TopNav = () => {
                     <img src="/Avatar.png" />
                   </div>
                   <div className="flex flex-col">
-                    <div>Selma Albrekht AzE3</div>
+                    <div>{userProfile?.name}</div>
                     <div className="flex">
                       <div className="p-1">
                         <CiAlarmOff />

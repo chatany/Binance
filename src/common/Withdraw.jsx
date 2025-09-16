@@ -18,6 +18,8 @@ import {
 import { useSelector } from "react-redux";
 import { FaCheck } from "react-icons/fa";
 import { IoEye } from "react-icons/io5";
+import { formatDate } from "../Constant";
+import { RiArrowRightSLine } from "react-icons/ri";
 
 const CustomConnector = styled(StepConnector, {
   shouldForwardProp: (prop) => prop !== "dark",
@@ -75,13 +77,11 @@ export default function Withdrawal() {
   const [openCoin, setOpenCoin] = useState(false);
   const [openNetwork, setOpenNetwork] = useState(false);
   const [obj, setObj] = useState({});
-  const [addressCode, setAddressCode] = useState({});
   const [showPopup, setShowPopup] = useState(false);
-
   const [isDisable, setIsDisable] = useState(false);
   const [password, setPassword] = useState(false);
   const [amount, setAmount] = useState("");
-  const dark = useSelector((state) => state.counter.dark);
+  const { dark, withdrawHistory } = useSelector((state) => state.counter);
   const [query, setQuery] = useState("");
   const filteredCoins = coinData.filter(
     (c) =>
@@ -131,36 +131,36 @@ export default function Withdrawal() {
       getNetwork(symbol?.currency_id);
     }
   };
-//   const getQrDetail = async (evm, chain) => {
-//     const jsonObj = {
-//       currency_id: icon?.currency_id,
-//       evm_compatible: evm,
-//       chain_id: chain,
-//     };
-//     try {
-//       const { data, status } = await apiRequest({
-//         method: "post",
-//         url: `https://test.bitzup.com/blockchain/wallet/get-user-walletAddress`,
-//         data: jsonObj,
-//       });
+  //   const getQrDetail = async (evm, chain) => {
+  //     const jsonObj = {
+  //       currency_id: icon?.currency_id,
+  //       evm_compatible: evm,
+  //       chain_id: chain,
+  //     };
+  //     try {
+  //       const { data, status } = await apiRequest({
+  //         method: "post",
+  //         url: `https://test.bitzup.com/blockchain/wallet/get-user-walletAddress`,
+  //         data: jsonObj,
+  //       });
 
-//       if (status === 200 && data?.status === "1") {
-//         // setNewwork(data?.data);
-//         setAddressCode(data?.data);
-//         console.log(data, "ipl");
-//       }
+  //       if (status === 200 && data?.status === "1") {
+  //         // setNewwork(data?.data);
+  //         setAddressCode(data?.data);
+  //         console.log(data, "ipl");
+  //       }
 
-//       if (data?.status != 1) {
-//         showError(data?.message);
-//       }
-//       if (status === 400 && data?.status == 3) {
-//         localStorage.removeItem("userData");
-//         window.dispatchEvent(new Event("userDataChanged"));
-//       }
-//     } catch (err) {
-//       console.error("Failed to fetch second API", err);
-//     }
-//   };
+  //       if (data?.status != 1) {
+  //         showError(data?.message);
+  //       }
+  //       if (status === 400 && data?.status == 3) {
+  //         localStorage.removeItem("userData");
+  //         window.dispatchEvent(new Event("userDataChanged"));
+  //       }
+  //     } catch (err) {
+  //       console.error("Failed to fetch second API", err);
+  //     }
+  //   };
   const handleNetwork = (symbol) => {
     if (symbol?.chain_name !== obj?.chain_name) {
       setObj(symbol);
@@ -474,7 +474,7 @@ export default function Withdrawal() {
                       dark ? "border-[#333B47]" : "border-[#EDEDED]"
                     }`}
                   ></div>
-                  <div className="flex justify-between items-center">
+                  <div className="flex max-md:flex-col justify-between md:items-center">
                     <div className="w-[50%]">
                       <div>Receive amount</div>
                       <div>
@@ -489,9 +489,9 @@ export default function Withdrawal() {
                     </div>
                     <button
                       onClick={getWithdrawRequest}
-                       className={`rounded-[12px]  w-full h-[48px]  ${
-                    isDisable ? "bg-[#e7eeec]" : "bg-[#FCD535] "
-                  } text-[#000000]  cursor-pointer`}
+                      className={`rounded-[12px]  w-full h-[48px]  ${
+                        isDisable ? "bg-[#e7eeec]" : "bg-[#FCD535] "
+                      } text-[#000000]  cursor-pointer`}
                     >
                       Withdraw
                     </button>
@@ -514,7 +514,10 @@ export default function Withdrawal() {
               <div className="flex flex-col items-center gap-10">
                 <div className="flex flex-col justify-between w-full">
                   <div className="flex justify-end w-full">
-                    <IoMdClose className="size-6" onClick={()=>setShowPopup(!showPopup)} />
+                    <IoMdClose
+                      className="size-6"
+                      onClick={() => setShowPopup(!showPopup)}
+                    />
                   </div>
                   <div
                     className="w-full text-[32px] max-md:text-[20px]
@@ -601,6 +604,120 @@ export default function Withdrawal() {
             </div>
           </div>
         )}
+        <div className="p-[40px] flex flex-col gap-10 w-full max-md:hidden">
+          <div className="flex justify-between items-center w-full">
+            <div className="text-[20px] font-semibold leading-[28px]">
+              Recent Withdrawals
+            </div>
+            <div className="text-[14px] font-medium leading-[22px] flex items-center">
+              More <RiArrowRightSLine className="size-5 font-light" />
+            </div>
+          </div>
+          <table className={`w-full`}>
+            <thead>
+              <tr
+                className={`text-[12px] ${
+                  dark
+                    ? "bg-[#2B3139] border-[#474d57]"
+                    : "bg-[#F5F5F5] border-[#eaecef]"
+                } text-[#848e9c] border-b-[1px] font-normal leading-[20px] `}
+              >
+                <th className="text-left p-[12px_16px_12px_16px]">Time</th>
+                <th className="text-left p-[12px_16px_12px_16px]">Type</th>
+                <th className="text-left p-[12px_16px_12px_16px]">
+                  Deposit wallet
+                </th>
+                <th className="text-left p-[12px_16px_12px_16px]">Asset</th>
+                <th className="text-left p-[12px_16px_12px_16px]">amount</th>
+                <th className="text-left p-[12px_16px_12px_16px]">
+                  Destination{" "}
+                </th>
+                <th className="text-left p-[12px_16px_12px_16px]">TxID</th>
+                <th className="text-left p-[12px_16px_12px_16px]">Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              {withdrawHistory?.slice(0, 3).map((ele, index) => {
+                const date = formatDate(ele?.date);
+                return (
+                  <tr
+                    key={index}
+                    className={`text-[14px]  ${
+                      dark
+                        ? "text-[#EAECEF] border-[#474d57] hover:bg-[#2B3139]"
+                        : "text-[#1e2329] border-[#eaecef] hover:bg-[#F5F5F5]"
+                    } font-normal leading-[20px] border-b-[1px] `}
+                  >
+                    <td className="text-left p-[12px_16px_12px_16px]">
+                      {date}
+                    </td>
+                    <td className="text-left p-[12px_16px_12px_16px]">
+                      {`Deposit`}
+                    </td>
+                    <td className="text-left p-[12px_16px_12px_16px]">
+                      Spot wallet
+                    </td>
+                    <td className="text-left p-[12px_16px_12px_16px]">
+                      {ele?.symbol}
+                    </td>
+                    <td className="text-left p-[12px_16px_12px_16px]">
+                      {" "}
+                      {ele?.final_amount}
+                    </td>
+                    <td className="text-left p-[12px_16px_12px_16px]">--</td>
+                    <td className="text-left p-[12px_16px_12px_16px]">
+                      {ele?.address}
+                    </td>
+                    <td className="text-left p-[12px_16px_12px_16px]">
+                      {ele?.status}
+                    </td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+        </div>
+        <div className="p-[10px] flex flex-col gap-10 w-full md:hidden">
+          <div className="flex justify-between items-center w-full">
+            <div className="text-[20px] font-semibold leading-[28px]">
+              Recent Deposits
+            </div>
+            <div className="text-[14px] font-medium leading-[22px] flex items-center">
+              More <RiArrowRightSLine className="size-5 font-light" />
+            </div>
+          </div>
+          {withdrawHistory?.slice(0, 3).map((ele, index) => {
+            const date = formatDate(ele?.date);
+            return (
+              <div
+                className="flex justify-between items-center w-full"
+                key={index}
+              >
+                <div className="flex gap-1">
+                  <div>
+                    <img src={ele?.icon_url} className="size-6" />
+                  </div>
+                  <div>
+                    <div className="text-[14px] font-medium leading-[22px] ">
+                      {ele?.symbol}
+                    </div>
+                    <div className="text-[14px] font-medium leading-[22px] ">
+                      {date}
+                    </div>
+                  </div>
+                </div>
+                <div className="flex flex-col items-end">
+                  <div className="text-[14px] font-medium leading-[22px] ">
+                    {ele?.final_amount}
+                  </div>
+                  <div className="text-[14px] font-medium leading-[22px] ">
+                    {ele?.status}
+                  </div>
+                </div>
+              </div>
+            );
+          })}
+        </div>
       </div>
     </div>
   );

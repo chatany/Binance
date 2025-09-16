@@ -55,7 +55,6 @@ export default function CoinSelect({ children, header, setOpen, open }) {
             dark ? "bg-[#0B0E11] text-[#EAECEF]" : "bg-[#FFFFFF] text-[#262030]"
           } rounded-xl  max-h-[300px] overflow-y-auto`}
         >
-          <p className="text-gray-500 text-sm mb-2">Coin List</p>
           {children}
         </div>
       )}

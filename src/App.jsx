@@ -32,6 +32,8 @@ import { ChangePassword } from "./Account/ChangePassword";
 import { ChangeEmail } from "./Account/changeEmail";
 import { AntiPhishing } from "./Account/AntiPhishing";
 import { Crypto } from "./pages/DepositeCrypto";
+import AppWrapper from "./Account/AppWraper";
+import { DepositHistory } from "./common/depositHistory";
 function App() {
   const last = JSON.parse(localStorage.getItem("lastPair")) || "BTCUSDT";
   const userData = useAuth();
@@ -122,6 +124,7 @@ function App() {
             }
           />
           <Route path="Referral" element={<Referral />} />
+          <Route path="/deposit/history" element={<DepositHistory />} />
           <Route path="Reward" element={<RewardHub />} />
           <Route
             path="Identity"

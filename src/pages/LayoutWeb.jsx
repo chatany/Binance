@@ -1,10 +1,20 @@
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { TopNav } from "./TopNavBar";
 import { Menu } from "./menu";
 import { Footer } from "./Footer";
+import { getActivity, getAuth, getAuthenticationKey, getUserProfile } from "./apiCall";
+import { useEffect } from "react";
 
 export const LayoutWeb = ({ component }) => {
   const { dark, activeItem } = useSelector((state) => state.counter);
+   const dispatch = useDispatch();
+
+  useEffect(() => {
+    getAuthenticationKey(dispatch);
+    getAuth(dispatch);
+    getActivity(dispatch);
+    getUserProfile(dispatch);
+  }, []);
   return (
     <div
       className={`
