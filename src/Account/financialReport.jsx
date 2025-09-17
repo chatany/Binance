@@ -5,7 +5,7 @@ import { NotFound } from "../icons";
 export const Report = () => {
   const dark = useSelector((state) => state.counter.dark);
   return (
-    <div>
+    <div className="mt-5">
       <div className="flex flex-col items-center h-[300px]">
         <div className="flex justify-between items-center w-full">
           <div>Financial Reports</div>

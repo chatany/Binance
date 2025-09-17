@@ -6,7 +6,7 @@ export const Identification = () => {
   return (
     <div
       className={`w-full ${
-        dark ? "bg-[#181A20] flex justify-center flex-col  text-[#EAECEF]" : "bg-[#FFFFFF] text-[#000000]"
+        dark ? "bg-[#181A20] flex justify-center flex-col  text-[#EAECEF]" : "bg-[#FFFFFF] text-[#000000] mt-5"
       }`}
     >
     <div className="md:ml-[100px] flex flex-col gap-10">

@@ -77,7 +77,7 @@ export default function MobileSidebar() {
           dark ? "bg-[#181A20] text-white" : "bg-white text-black"
         }  w-full h-full overflow-y-auto p-4`}
       >
-        <div className="flex justify-between  items-center mb-4">
+        <div className="flex justify-between  items-center mb-4 cursor-pointer" onClick={()=>navigate("/")}>
           {dark ? (
             <img src="/bitzup_light_logo.png" className="h-10 " alt="logo" />
           ) : (
@@ -116,9 +116,9 @@ export default function MobileSidebar() {
         </div>
 
         <div className=" flex flex-col gap-10 text-lg p-2 text-gray-400">
-          <div className="font-semibold hover:">Buy Crypto</div>
+          <div className="font-semibold hover:" onClick={()=>navigate("/")}>Buy Crypto</div>
 
-          <div className="font-semibold">Markets</div>
+          <div className="font-semibold" onClick={()=>navigate("/")}>Markets</div>
 
           <div>
             <div

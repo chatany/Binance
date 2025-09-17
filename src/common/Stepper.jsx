@@ -8,15 +8,14 @@ import { showError } from "../Toastify/toastServices";
 import { styled, stepConnectorClasses, StepConnector } from "@mui/material";
 import QRCode from "react-qr-code";
 import { BsSearch } from "react-icons/bs";
-import {
-  IoIosArrowDown,
-  IoIosCloseCircle,
-} from "react-icons/io";
+import { IoIosArrowDown, IoIosCloseCircle } from "react-icons/io";
 import { useSelector } from "react-redux";
 import { FaCheck } from "react-icons/fa";
 import { BiSolidCopy } from "react-icons/bi";
 import { copyToClipboard, formatDate } from "../Constant";
 import { RiArrowRightSLine } from "react-icons/ri";
+import { useNavigate } from "react-router-dom";
+import { NotFound } from "../icons";
 const CustomConnector = styled(StepConnector, {
   shouldForwardProp: (prop) => prop !== "dark",
 })(({ dark }) => ({
@@ -69,6 +68,7 @@ export default function VerticalLinearStepper() {
   const [coinData, setCoinData] = useState([]);
   const [network, setNewwork] = useState([]);
   const [icon, setIcon] = useState({});
+  const navigate = useNavigate();
   const [openCoin, setOpenCoin] = useState(false);
   const [openNetwork, setOpenNetwork] = useState(false);
   const [obj, setObj] = useState({});
@@ -381,7 +381,10 @@ export default function VerticalLinearStepper() {
             <div className="text-[20px] font-semibold leading-[28px]">
               Recent Deposits
             </div>
-            <div className="text-[14px] font-medium leading-[22px] flex items-center">
+            <div
+              className="text-[14px] font-medium leading-[22px] flex items-center cursor-pointer"
+              onClick={() => navigate("/crypto/deposit/history")}
+            >
               More <RiArrowRightSLine className="size-5 font-light" />
             </div>
           </div>
@@ -409,43 +412,58 @@ export default function VerticalLinearStepper() {
               </tr>
             </thead>
             <tbody>
-              {depositHistory?.slice(0, 3).map((ele, index) => {
-                const date = formatDate(ele?.date);
-                return (
-                  <tr
-                    key={index}
-                    className={`text-[14px]  ${
-                      dark
-                        ? "text-[#EAECEF] border-[#474d57] hover:bg-[#2B3139]"
-                        : "text-[#1e2329] border-[#eaecef] hover:bg-[#F5F5F5]"
-                    } font-normal leading-[20px] border-b-[1px] `}
-                  >
-                    <td className="text-left p-[12px_16px_12px_16px]">
-                      {date}
-                    </td>
-                    <td className="text-left p-[12px_16px_12px_16px]">
-                      {`Deposit`}
-                    </td>
-                    <td className="text-left p-[12px_16px_12px_16px]">
-                      Spot wallet
-                    </td>
-                    <td className="text-left p-[12px_16px_12px_16px]">
-                      {ele?.symbol}
-                    </td>
-                    <td className="text-left p-[12px_16px_12px_16px]">
-                      {" "}
-                      {ele?.final_amount}
-                    </td>
-                    <td className="text-left p-[12px_16px_12px_16px]">--</td>
-                    <td className="text-left p-[12px_16px_12px_16px]">
-                      {ele?.address}
-                    </td>
-                    <td className="text-left p-[12px_16px_12px_16px]">
-                      {ele?.status}
-                    </td>
-                  </tr>
-                );
-              })}
+              {Array.isArray(depositHistory) && depositHistory?.length > 0 ? (
+                depositHistory?.slice(0, 3).map((ele, index) => {
+                  const date = formatDate(ele?.date);
+                  return (
+                    <tr
+                      key={index}
+                      className={`text-[14px]  ${
+                        dark
+                          ? "text-[#EAECEF] border-[#474d57] hover:bg-[#2B3139]"
+                          : "text-[#1e2329] border-[#eaecef] hover:bg-[#F5F5F5]"
+                      } font-normal leading-[20px] border-b-[1px] `}
+                    >
+                      <td className="text-left p-[12px_16px_12px_16px]">
+                        {date}
+                      </td>
+                      <td className="text-left p-[12px_16px_12px_16px]">
+                        {`Deposit`}
+                      </td>
+                      <td className="text-left p-[12px_16px_12px_16px]">
+                        Spot wallet
+                      </td>
+                      <td className="text-left p-[12px_16px_12px_16px]">
+                        {ele?.symbol}
+                      </td>
+                      <td className="text-left p-[12px_16px_12px_16px]">
+                        {" "}
+                        {ele?.final_amount}
+                      </td>
+                      <td className="text-left p-[12px_16px_12px_16px]">--</td>
+                      <td className="text-left p-[12px_16px_12px_16px]">
+                        {ele?.address}
+                      </td>
+                      <td className="text-left p-[12px_16px_12px_16px]">
+                        {ele?.status}
+                      </td>
+                    </tr>
+                  );
+                })
+              ) : (
+                <tr>
+                  <td colSpan={8}>
+                    <div className="h-[200px] flex items-center justify-center">
+                      <div className="flex flex-col gap-0.5 items-center justify-center">
+                        <NotFound className="max-md:size-16 size-10" />
+                        <div className="text-[12px] max-md:text-[14px]">
+                          No Data Found
+                        </div>
+                      </div>
+                    </div>
+                  </td>
+                </tr>
+              )}
             </tbody>
           </table>
         </div>
@@ -454,11 +472,14 @@ export default function VerticalLinearStepper() {
             <div className="text-[20px] font-semibold leading-[28px]">
               Recent Deposits
             </div>
-            <div className="text-[14px] font-medium leading-[22px] flex items-center">
+            <div
+              className="text-[14px] font-medium leading-[22px] flex items-center cursor-pointer"
+              onClick={() => navigate("/crypto/deposit/history")}
+            >
               More <RiArrowRightSLine className="size-5 font-light" />
             </div>
           </div>
-          {depositHistory?.slice(0, 3).map((ele, index) => {
+          {Array.isArray(depositHistory)&&depositHistory?.slice(0, 3).map((ele, index) => {
             const date = formatDate(ele?.date);
             return (
               <div

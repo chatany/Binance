@@ -34,6 +34,7 @@ import { AntiPhishing } from "./Account/AntiPhishing";
 import { Crypto } from "./pages/DepositeCrypto";
 import AppWrapper from "./Account/AppWraper";
 import { DepositHistory } from "./common/depositHistory";
+import { TransactionHistory } from "./Account/TransactionHistory";
 function App() {
   const last = JSON.parse(localStorage.getItem("lastPair")) || "BTCUSDT";
   const userData = useAuth();
@@ -129,6 +130,14 @@ function App() {
           <Route
             path="Identity"
             element={<LayoutWeb component={<Identification />} />}
+          />
+          <Route
+            path="/crypto/deposit/history"
+            element={<LayoutWeb component={<TransactionHistory />} />}
+          />
+          <Route
+            path="/crypto/withdraw/history"
+            element={<LayoutWeb component={<TransactionHistory />} />}
           />
           <Route
             path="security"

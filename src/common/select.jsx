@@ -2,9 +2,8 @@ import { useEffect, useRef, useState } from "react";
 import { MdArrowDropUp } from "react-icons/md";
 import { useSelector } from "react-redux";
 
-export const SelectBox = ({ title, value, children }) => {
+export const SelectBox = ({ title, value, children,show,setShow }) => {
   const dark = useSelector((state) => state.counter.dark);
-  const [show, setShow] = useState(false);
   const popupRef = useRef(null);
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -24,13 +23,8 @@ export const SelectBox = ({ title, value, children }) => {
       //   document.body.style.overflow = "auto";
     };
   }, [show]);
-  useEffect(() => {
-    if (value != "") {
-      setShow(!show);
-    }
-  }, [value]);
   return (
-    <div className="w-[175px] flex flex-col gap-1 relative" ref={popupRef}>
+    <div className="min-w-[175px] flex flex-col gap-1 relative" ref={popupRef}>
       <div
         className={`
      flex items-center capitalize rounded-lg w-full
@@ -43,7 +37,6 @@ export const SelectBox = ({ title, value, children }) => {
          : "border-[#D8DCE1] focus:border-[#fce788]"
      }
     focus:outline-none 
-     transition-colors duration-300 delay-200
     `}
         onClick={() => setShow(!show)}
       >
@@ -54,7 +47,7 @@ export const SelectBox = ({ title, value, children }) => {
           <div
             className={`${
               dark ? "text-[#EAECEF]" : "text-[#000000]"
-            } font-medium leading-[22px]`}
+            } font-medium leading-[22px] whitespace-nowrap`}
           >
             {value}
           </div>

@@ -20,6 +20,8 @@ import { FaCheck } from "react-icons/fa";
 import { IoEye } from "react-icons/io5";
 import { formatDate } from "../Constant";
 import { RiArrowRightSLine } from "react-icons/ri";
+import { useNavigate } from "react-router-dom";
+import { NotFound } from "../icons";
 
 const CustomConnector = styled(StepConnector, {
   shouldForwardProp: (prop) => prop !== "dark",
@@ -73,6 +75,7 @@ export default function Withdrawal() {
   const [coinData, setCoinData] = useState([]);
   const [network, setNewwork] = useState([]);
   const [icon, setIcon] = useState({});
+  const navigate = useNavigate();
   const [address, setAddress] = useState("");
   const [openCoin, setOpenCoin] = useState(false);
   const [openNetwork, setOpenNetwork] = useState(false);
@@ -609,7 +612,10 @@ export default function Withdrawal() {
             <div className="text-[20px] font-semibold leading-[28px]">
               Recent Withdrawals
             </div>
-            <div className="text-[14px] font-medium leading-[22px] flex items-center">
+            <div
+              className="text-[14px] font-medium leading-[22px] flex items-center cursor-pointer"
+              onClick={() => navigate("/crypto/withdraw/history")}
+            >
               More <RiArrowRightSLine className="size-5 font-light" />
             </div>
           </div>
@@ -637,43 +643,58 @@ export default function Withdrawal() {
               </tr>
             </thead>
             <tbody>
-              {withdrawHistory?.slice(0, 3).map((ele, index) => {
-                const date = formatDate(ele?.date);
-                return (
-                  <tr
-                    key={index}
-                    className={`text-[14px]  ${
-                      dark
-                        ? "text-[#EAECEF] border-[#474d57] hover:bg-[#2B3139]"
-                        : "text-[#1e2329] border-[#eaecef] hover:bg-[#F5F5F5]"
-                    } font-normal leading-[20px] border-b-[1px] `}
-                  >
-                    <td className="text-left p-[12px_16px_12px_16px]">
-                      {date}
-                    </td>
-                    <td className="text-left p-[12px_16px_12px_16px]">
-                      {`Deposit`}
-                    </td>
-                    <td className="text-left p-[12px_16px_12px_16px]">
-                      Spot wallet
-                    </td>
-                    <td className="text-left p-[12px_16px_12px_16px]">
-                      {ele?.symbol}
-                    </td>
-                    <td className="text-left p-[12px_16px_12px_16px]">
-                      {" "}
-                      {ele?.final_amount}
-                    </td>
-                    <td className="text-left p-[12px_16px_12px_16px]">--</td>
-                    <td className="text-left p-[12px_16px_12px_16px]">
-                      {ele?.address}
-                    </td>
-                    <td className="text-left p-[12px_16px_12px_16px]">
-                      {ele?.status}
-                    </td>
-                  </tr>
-                );
-              })}
+              {Array.isArray(withdrawHistory) && withdrawHistory?.length > 0 ? (
+                withdrawHistory?.slice(0, 3).map((ele, index) => {
+                  const date = formatDate(ele?.date);
+                  return (
+                    <tr
+                      key={index}
+                      className={`text-[14px]  ${
+                        dark
+                          ? "text-[#EAECEF] border-[#474d57] hover:bg-[#2B3139]"
+                          : "text-[#1e2329] border-[#eaecef] hover:bg-[#F5F5F5]"
+                      } font-normal leading-[20px] border-b-[1px] `}
+                    >
+                      <td className="text-left p-[12px_16px_12px_16px]">
+                        {date}
+                      </td>
+                      <td className="text-left p-[12px_16px_12px_16px]">
+                        {`Deposit`}
+                      </td>
+                      <td className="text-left p-[12px_16px_12px_16px]">
+                        Spot wallet
+                      </td>
+                      <td className="text-left p-[12px_16px_12px_16px]">
+                        {ele?.symbol}
+                      </td>
+                      <td className="text-left p-[12px_16px_12px_16px]">
+                        {" "}
+                        {ele?.final_amount}
+                      </td>
+                      <td className="text-left p-[12px_16px_12px_16px]">--</td>
+                      <td className="text-left p-[12px_16px_12px_16px]">
+                        {ele?.address}
+                      </td>
+                      <td className="text-left p-[12px_16px_12px_16px]">
+                        {ele?.status}
+                      </td>
+                    </tr>
+                  );
+                })
+              ) : (
+                <tr>
+                  <td colSpan={8}>
+                    <div className="h-[200px] flex items-center justify-center">
+                      <div className="flex flex-col gap-0.5 items-center justify-center">
+                        <NotFound className="max-md:size-16 size-10" />
+                        <div className="text-[12px] max-md:text-[14px]">
+                          No Data Found
+                        </div>
+                      </div>
+                    </div>
+                  </td>
+                </tr>
+              )}
             </tbody>
           </table>
         </div>
@@ -682,41 +703,45 @@ export default function Withdrawal() {
             <div className="text-[20px] font-semibold leading-[28px]">
               Recent Deposits
             </div>
-            <div className="text-[14px] font-medium leading-[22px] flex items-center">
+            <div
+              className="text-[14px] font-medium leading-[22px] flex items-center cursor-pointer"
+              onClick={() => navigate("/crypto/withdraw/history")}
+            >
               More <RiArrowRightSLine className="size-5 font-light" />
             </div>
           </div>
-          {withdrawHistory?.slice(0, 3).map((ele, index) => {
-            const date = formatDate(ele?.date);
-            return (
-              <div
-                className="flex justify-between items-center w-full"
-                key={index}
-              >
-                <div className="flex gap-1">
-                  <div>
-                    <img src={ele?.icon_url} className="size-6" />
+          {Array.isArray(withdrawHistory) &&
+            withdrawHistory?.slice(0, 3).map((ele, index) => {
+              const date = formatDate(ele?.date);
+              return (
+                <div
+                  className="flex justify-between items-center w-full"
+                  key={index}
+                >
+                  <div className="flex gap-1">
+                    <div>
+                      <img src={ele?.icon_url} className="size-6" />
+                    </div>
+                    <div>
+                      <div className="text-[14px] font-medium leading-[22px] ">
+                        {ele?.symbol}
+                      </div>
+                      <div className="text-[14px] font-medium leading-[22px] ">
+                        {date}
+                      </div>
+                    </div>
                   </div>
-                  <div>
+                  <div className="flex flex-col items-end">
                     <div className="text-[14px] font-medium leading-[22px] ">
-                      {ele?.symbol}
+                      {ele?.final_amount}
                     </div>
                     <div className="text-[14px] font-medium leading-[22px] ">
-                      {date}
+                      {ele?.status}
                     </div>
                   </div>
                 </div>
-                <div className="flex flex-col items-end">
-                  <div className="text-[14px] font-medium leading-[22px] ">
-                    {ele?.final_amount}
-                  </div>
-                  <div className="text-[14px] font-medium leading-[22px] ">
-                    {ele?.status}
-                  </div>
-                </div>
-              </div>
-            );
-          })}
+              );
+            })}
         </div>
       </div>
     </div>

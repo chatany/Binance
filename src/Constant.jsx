@@ -1,4 +1,3 @@
-import { CgArrowsExchangeV, CgEye } from "react-icons/cg";
 import { CiLogout } from "react-icons/ci";
 import {
   FaBalanceScale,
@@ -8,7 +7,7 @@ import {
   FaQuestionCircle,
 } from "react-icons/fa";
 import { LuWallet } from "react-icons/lu";
-import { PiHouseSimple } from "react-icons/pi";
+import { PiHouseSimple, PiTicketBold } from "react-icons/pi";
 import { MdDashboardCustomize } from "react-icons/md";
 import { HiOfficeBuilding } from "react-icons/hi";
 import { FaUserLarge } from "react-icons/fa6";
@@ -23,7 +22,6 @@ import { FaYoutube } from "react-icons/fa";
 import { FaFacebook } from "react-icons/fa";
 import { FaTiktok } from "react-icons/fa";
 import { IoSettings } from "react-icons/io5";
-import { RiAccountCircle2Line } from "react-icons/ri";
 import { showError, showSuccess } from "./Toastify/toastServices";
 
 export const marks = [
@@ -119,21 +117,21 @@ export const formatToKMBWithCommas = (num) => {
   }
 };
 export const MenuItem = [
-  { icon: <MdDashboardCustomize />, name: "Dashboard", path: "/dashboard" },
-  { icon: <LuWallet />, name: "Assets", path: "/asstes" },
-  { icon: <HiOfficeBuilding />, name: "Orders", path: "/orders" },
-  { icon: <FaUserLarge />, name: "Account",path:"/Identity" },
-  { icon: <FaUserPlus />, name: "Referral", path: "/Referral" },
-  { icon: <CgEye />, name: "Rewards Hub", path: "/Reward" },
+  { icon: <MdDashboardCustomize className="size-5"/>, name: "Dashboard", path: "/dashboard" },
+  { icon: <LuWallet className="size-5"/>, name: "Assets", path: "/asstes" },
+  { icon: <HiOfficeBuilding className="size-5"/>, name: "Orders", path: "/orders" },
+  { icon: <FaUserLarge className="size-5"/>, name: "Account",path:"/Identity" },
+  { icon: <FaUserPlus className="size-5"/>, name: "Referral", path: "/Referral" },
+  { icon: <PiTicketBold className="size-5"/> , name: "Rewards Hub", path: "/Reward" },
   // { icon: <RiAccountCircle2Line />, name: "Sub Accounts" },
-  { icon: <IoSettings />, name: "Settings", path: "/settings" },
+  { icon: <IoSettings className="size-5" />, name: "Settings", path: "/settings" },
   // { icon: <CgArrowsExchangeV />, name: "Switch Account" },
-  { icon: <CiLogout />, name: "Log Out" },
+  { icon: <CiLogout className="size-5" />, name: "Log Out" },
 ];
 export const menu = [
-  { icon: <PiHouseSimple />, name: "Dashboard", path: "/dashboard" },
+  { icon: <PiHouseSimple className="size-5" />, name: "Dashboard", path: "/dashboard" },
   {
-    icon: <LuWallet />,
+    icon: <LuWallet className="size-5" />,
     name: "Assets",
     category: [
       { name: "Spot", path: "/asstes" },
@@ -143,14 +141,14 @@ export const menu = [
     path: "",
   },
   {
-    icon: <MdOutlinePendingActions />,
+    icon: <MdOutlinePendingActions className="size-5" />,
     name: "Orders",
     category: [{ name: "Spot Orders", path: "/orders" }],
   },
-  { icon: <CgEye />, name: "Rewards Hub", path: "/Reward" },
-  { icon: <FaUserPlus />, name: "Referral", path: "/Referral" },
+  { icon: <PiTicketBold className="size-5" />, name: "Rewards Hub", path: "/Reward" },
+  { icon: <FaUserPlus className="size-5" />, name: "Referral", path: "/Referral" },
   {
-    icon: <FaUserLarge />,
+    icon: <FaUserLarge className="size-[18px]" />,
     name: "Account",
     path: "",
     category: [
@@ -163,7 +161,7 @@ export const menu = [
     ],
   },
   // { icon: <RiAccountCircle2Line />, name: "Sub Accounts", path: "#" },
-  { icon: <IoSettings />, name: "Settings", path: "/settings" },
+  { icon: <IoSettings className="size-5" />, name: "Settings", path: "/settings" },
 ];
 export const formatDecimal = (value, decimalPlaces) => {
   const num = Number(value);

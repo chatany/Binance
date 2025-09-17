@@ -27,6 +27,12 @@ export const SpotOrders = () => {
   const [activeTab, setActiveTab] = useState("Open Orders");
   const [orderId, setOrderId] = useState(null);
   const [pair, setPair] = useState("");
+  const [show, setShow] = useState({
+    pair: false,
+    status: false,
+    date: false,
+    direction: false,
+  });
   const [direction, setDirectioon] = useState("");
   const [currentItem, setCurrentItem] = useState("");
   const [filteredData, setFilteredData] = useState(orderHistory);
@@ -77,6 +83,12 @@ export const SpotOrders = () => {
   const handleDispatch = () => {
     dispatch(setShowPopup(true));
   };
+  const handleShow = (key) => {
+    setShow((prev) => ({
+      ...prev,
+      [key]: !show[key],
+    }));
+  };
   useEffect(() => {
     const handleClickOutside = (event) => {
       // If click is outside the popup
@@ -94,7 +106,9 @@ export const SpotOrders = () => {
     };
   }, [showPopup]);
   useEffect(() => {
-    const currentItem = searchData?.find((item) => item?.pair_id === pairId);
+    const currentItem =
+      Array.isArray(searchData) &&
+      searchData?.find((item) => item?.pair_id === pairId);
     setCurrentItem(currentItem?.pair_symbol);
   }, [pairId]);
   useEffect(() => {
@@ -115,15 +129,15 @@ export const SpotOrders = () => {
     const endDate = new Date(range[0]?.endDate);
     if (startDate && endDate) {
       const start = new Date(startDate);
-    start.setHours(0, 0, 0, 0); // start of day
+      start.setHours(0, 0, 0, 0); // start of day
 
-    const end = new Date(endDate);
-    end.setHours(23, 59, 59, 999); // end of day
+      const end = new Date(endDate);
+      end.setHours(23, 59, 59, 999); // end of day
 
-    filtered = filtered.filter((item) => {
-      const itemDate = new Date(item.date_time.replace(" ", "T")); // fixed parse
-      return itemDate >= start && itemDate <= end;
-    });
+      filtered = filtered.filter((item) => {
+        const itemDate = new Date(item.date_time.replace(" ", "T")); // fixed parse
+        return itemDate >= start && itemDate <= end;
+      });
     }
 
     setFilteredData(filtered);
@@ -174,26 +188,40 @@ export const SpotOrders = () => {
             {" "}
             {activeTab === "Open Orders" && (
               <>
-                <div className="w-full p-0">
-                  <div className="flex gap-[16px] flex-wrap">
-                    <SelectBox value={pair} title={"Pair"}>
+                <div className="w-full p-3">
+                  <div className="flex gap-[16px] flex-wrap p-3">
+                    <SelectBox
+                      value={pair}
+                      title={"Pair"}
+                      show={show.pair}
+                      setShow={() => handleShow("pair")}
+                    >
                       <div className="h-[200px] overflow-y-auto custom-scroll ">
-                        {searchData?.map((item, index) => (
-                          <div
-                            key={index}
-                            className={`text-[14px] font-normal leading-[22px] p-[10px]   ${
-                              dark
-                                ? "hover:bg-[#2B3139] text-[#929AA5]"
-                                : "hover:bg-[#EAECEF] text-[#757575] hover:text-[#000000]"
-                            }`}
-                            onClick={() => setPair(item?.pair_symbol)}
-                          >
-                            {item?.pair_symbol}
-                          </div>
-                        ))}{" "}
+                        {Array.isArray(searchData) &&
+                          searchData?.map((item, index) => (
+                            <div
+                              key={index}
+                              className={`text-[14px] font-normal leading-[22px] p-[10px]   ${
+                                dark
+                                  ? "hover:bg-[#2B3139] text-[#929AA5]"
+                                  : "hover:bg-[#EAECEF] text-[#757575] hover:text-[#000000]"
+                              }`}
+                              onClick={() => {
+                                setPair(item?.pair_symbol);
+                                handleShow("pair");
+                              }}
+                            >
+                              {item?.pair_symbol}
+                            </div>
+                          ))}{" "}
                       </div>
                     </SelectBox>
-                    <SelectBox value={direction} title={"Direction"}>
+                    <SelectBox
+                      value={direction}
+                      title={"Direction"}
+                      show={show.status}
+                      setShow={() => handleShow("status")}
+                    >
                       <div>
                         <div
                           className={`text-[14px] font-normal leading-[22px] p-[10px]   ${
@@ -201,7 +229,10 @@ export const SpotOrders = () => {
                               ? "hover:bg-[#2B3139] text-[#929AA5]"
                               : "hover:bg-[#EAECEF] text-[#757575] hover:text-[#000000]"
                           }`}
-                          onClick={() => setDirectioon("Buy")}
+                          onClick={() => {
+                            setDirectioon("Buy");
+                            handleShow("status");
+                          }}
                         >
                           Buy
                         </div>
@@ -211,7 +242,10 @@ export const SpotOrders = () => {
                               ? "hover:bg-[#2B3139] text-[#929AA5]"
                               : "hover:bg-[#EAECEF] text-[#757575] hover:text-[#000000]"
                           }`}
-                          onClick={() => setDirectioon("Sell")}
+                          onClick={() => {
+                            setDirectioon("Sell");
+                            handleShow("status");
+                          }}
                         >
                           Sell
                         </div>
@@ -462,25 +496,39 @@ export const SpotOrders = () => {
             {activeTab === "Order History" && (
               <>
                 <div className="p-3">
-                  <div className="flex gap-[16px] flex-wrap ">
-                    <SelectBox value={pair} title={"Pair"}>
+                  <div className="flex gap-[16px] flex-wrap p-3 ">
+                    <SelectBox
+                      value={pair}
+                      title={"Pair"}
+                      show={show.date}
+                      setShow={() => handleShow("date")}
+                    >
                       <div className="h-[200px] overflow-y-auto custom-scroll ">
-                        {searchData?.map((item, index) => (
-                          <div
-                            key={index}
-                            className={`text-[14px] font-normal leading-[22px] p-[10px]   ${
-                              dark
-                                ? "hover:bg-[#2B3139] text-[#929AA5]"
-                                : "hover:bg-[#EAECEF] text-[#757575] hover:text-[#000000]"
-                            }`}
-                            onClick={() => setPair(item?.pair_symbol)}
-                          >
-                            {item?.pair_symbol}
-                          </div>
-                        ))}{" "}
+                        {Array.isArray(searchData) &&
+                          searchData?.map((item, index) => (
+                            <div
+                              key={index}
+                              className={`text-[14px] font-normal leading-[22px] p-[10px]   ${
+                                dark
+                                  ? "hover:bg-[#2B3139] text-[#929AA5]"
+                                  : "hover:bg-[#EAECEF] text-[#757575] hover:text-[#000000]"
+                              }`}
+                              onClick={() => {
+                                setPair(item?.pair_symbol);
+                                handleShow("date");
+                              }}
+                            >
+                              {item?.pair_symbol}
+                            </div>
+                          ))}{" "}
                       </div>
                     </SelectBox>
-                    <SelectBox value={direction} title={"Direction"}>
+                    <SelectBox
+                      value={direction}
+                      title={"Direction"}
+                      setShow={() => handleShow("direction")}
+                      show={show.direction}
+                    >
                       <div>
                         <div
                           className={`text-[14px] font-normal leading-[22px] p-[10px]   ${
@@ -488,7 +536,10 @@ export const SpotOrders = () => {
                               ? "hover:bg-[#2B3139] text-[#929AA5]"
                               : "hover:bg-[#EAECEF] text-[#757575] hover:text-[#000000]"
                           }`}
-                          onClick={() => setDirectioon("Buy")}
+                          onClick={() => {
+                            setDirectioon("Buy");
+                            handleShow("direction");
+                          }}
                         >
                           Buy
                         </div>
@@ -498,7 +549,10 @@ export const SpotOrders = () => {
                               ? "hover:bg-[#2B3139] text-[#929AA5]"
                               : "hover:bg-[#EAECEF] text-[#757575] hover:text-[#000000]"
                           }`}
-                          onClick={() => setDirectioon("Sell")}
+                          onClick={() => {
+                            setDirectioon("Sell");
+                            handleShow("direction");
+                          }}
                         >
                           Sell
                         </div>
@@ -538,17 +592,16 @@ export const SpotOrders = () => {
                         </tr>
                       </thead>
                       <tbody>
-                       
-                          <>
-                            {Array.isArray(filteredData) &&
-                            filteredData.length > 0 ? (
-                              filteredData.map((item, index) => {
-                                const date = formatDate(item?.date_time);
-                                const isEven = index % 2 === 0;
-                                return (
-                                  <tr
-                                    key={index}
-                                    className={`
+                        <>
+                          {Array.isArray(filteredData) &&
+                          filteredData.length > 0 ? (
+                            filteredData.map((item, index) => {
+                              const date = formatDate(item?.date_time);
+                              const isEven = index % 2 === 0;
+                              return (
+                                <tr
+                                  key={index}
+                                  className={`
                                 ${
                                   dark
                                     ? "bg-[#1e1f25]"
@@ -556,57 +609,56 @@ export const SpotOrders = () => {
                                       "bg-white "
                                   // : "bg-zinc-100"
                                 } transition-all duration-200`}
-                                  >
-                                    <td className="p-1 text-center whitespace-nowrap">
-                                      {date}
-                                    </td>
-                                    <td className="p-1 text-center uppercase whitespace-nowrap">
-                                      {item?.pair_symbol}
-                                    </td>
-                                    <td className="p-1 text-center capitalize text-blue-400 whitespace-nowrap">
-                                      {item?.order_type}
-                                    </td>
-                                    <td
-                                      className={`p-1 text-center capitalize whitespace-nowrap ${
-                                        item?.type?.toLowerCase() === "buy"
-                                          ? "text-green-400"
-                                          : "text-red-400"
-                                      }`}
-                                    >
-                                      {item?.type}
-                                    </td>
-                                    <td className="p-1 text-center  whitespace-nowrap">
-                                      {item?.order_price}
-                                    </td>
-                                    <td className="p-1 text-center whitespace-nowrap">
-                                      {item?.base_quantity}
-                                    </td>
-                                    <td
-                                      className={`p-1 text-center capitalize whitespace-nowrap ${
-                                        item?.status === "FILLED"
-                                          ? "text-green-400"
-                                          : item?.status === "pending"
-                                          ? "text-yellow-400"
-                                          : "text-red-400"
-                                      }`}
-                                    >
-                                      {item?.status}
-                                    </td>
-                                  </tr>
-                                );
-                              })
-                            ) : (
-                              <tr>
-                                <td
-                                  colSpan={8}
-                                  className="text-center py-10 text-gray-400"
                                 >
-                                  No Data Found
-                                </td>
-                              </tr>
-                            )}
-                          </>
-                      
+                                  <td className="p-1 text-center whitespace-nowrap">
+                                    {date}
+                                  </td>
+                                  <td className="p-1 text-center uppercase whitespace-nowrap">
+                                    {item?.pair_symbol}
+                                  </td>
+                                  <td className="p-1 text-center capitalize text-blue-400 whitespace-nowrap">
+                                    {item?.order_type}
+                                  </td>
+                                  <td
+                                    className={`p-1 text-center capitalize whitespace-nowrap ${
+                                      item?.type?.toLowerCase() === "buy"
+                                        ? "text-green-400"
+                                        : "text-red-400"
+                                    }`}
+                                  >
+                                    {item?.type}
+                                  </td>
+                                  <td className="p-1 text-center  whitespace-nowrap">
+                                    {item?.order_price}
+                                  </td>
+                                  <td className="p-1 text-center whitespace-nowrap">
+                                    {item?.base_quantity}
+                                  </td>
+                                  <td
+                                    className={`p-1 text-center capitalize whitespace-nowrap ${
+                                      item?.status === "FILLED"
+                                        ? "text-green-400"
+                                        : item?.status === "pending"
+                                        ? "text-yellow-400"
+                                        : "text-red-400"
+                                    }`}
+                                  >
+                                    {item?.status}
+                                  </td>
+                                </tr>
+                              );
+                            })
+                          ) : (
+                            <tr>
+                              <td
+                                colSpan={8}
+                                className="text-center py-10 text-gray-400"
+                              >
+                                No Data Found
+                              </td>
+                            </tr>
+                          )}
+                        </>
                       </tbody>
                     </table>
                   </div>
