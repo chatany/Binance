@@ -25,7 +25,7 @@ export const LayoutWeb = ({ component }) => {
         <TopNav />
       </header>
 
-      <div className="flex max-md:flex-col mt-12">
+      <div className="flex max-md:flex-col mt-20">
         <aside className="md:w-64 w-full">
           <Menu />
         </aside>
