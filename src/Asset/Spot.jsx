@@ -170,7 +170,7 @@ export const Spot = () => {
                               className={`${
                                 dark ? "text-[#F0B90B]" : " text-[#D89F00]"
                               } cursor-pointer underline hidden md:flex`}
-                              onClick={() => navigate("//crypto/withdraw")}
+                              onClick={() => navigate("/crypto/withdraw")}
                             >
                               withdraw
                             </div>

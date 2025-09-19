@@ -503,7 +503,7 @@ export const OpenOrders = () => {
                         In order
                       </th>
                       <th className="text-[12px] pl-1 pr-1 p-[4px] text-center text-[#707A8A] w-1/5 capitalize">
-                        BTC value
+                        Usdt value
                       </th>
                     </tr>
                   </thead>
