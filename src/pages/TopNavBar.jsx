@@ -332,6 +332,7 @@ export const TopNav = () => {
             onMouseEnter={() => !isMobile && setProfile(!profile)}
             onMouseLeave={() => !isMobile && setProfile(!profile)}
             onClick={() => setProfile(true)}
+            onDoubleClick={() => navigate("/dashboard")}
           >
             <CgProfile
               className=" hover:text-amber-400 h-6 w-6"
@@ -386,7 +387,14 @@ export const TopNav = () => {
               >
                 <div className="flex justify-between items-center mb-4">
                   <h2 className="text-lg font-semibold">My Account</h2>
-                  <button onClick={() => setProfile(false)}>✖</button>
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setProfile(false);
+                    }}
+                  >
+                    ✖
+                  </button>
                 </div>
                 <div className="flex gap-4">
                   <div className="h-14 w-14 rounded-full overflow-hidden">
@@ -394,14 +402,6 @@ export const TopNav = () => {
                   </div>
                   <div className="flex flex-col">
                     <div>{userProfile?.name}</div>
-                    <div className="flex">
-                      <div className="p-1">
-                        <CiAlarmOff />
-                      </div>
-                      <div className="p-1">
-                        <CiAirportSign1 />
-                      </div>
-                    </div>
                   </div>
                 </div>
                 {MenuItem.map((item, index) => (

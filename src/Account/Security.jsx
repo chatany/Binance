@@ -318,7 +318,7 @@ export const Security = () => {
               </div>
             </div>
             <div className="flex gap-4 items-center md:w-1/2 md:justify-end">
-              <div className="flex gap-5">
+              <div className="flex gap-5 max-md:w-full justify-between">
                 <button className="flex items-center gap-1">
                  {!userProfile?.withdrawal_password ? (
                   <>
