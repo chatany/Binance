@@ -26,14 +26,14 @@ export const SpotOrders = () => {
   const popupRef = useRef(null);
   const [activeTab, setActiveTab] = useState("Open Orders");
   const [orderId, setOrderId] = useState(null);
-  const [pair, setPair] = useState("");
+  const [pair, setPair] = useState("All");
   const [show, setShow] = useState({
     pair: false,
     status: false,
     date: false,
     direction: false,
   });
-  const [direction, setDirectioon] = useState("");
+  const [direction, setDirectioon] = useState("All");
   const [currentItem, setCurrentItem] = useState("");
   const [filteredData, setFilteredData] = useState(orderHistory);
   const [isPopup, setIsPopup] = useState(false);
@@ -114,13 +114,13 @@ export const SpotOrders = () => {
   useEffect(() => {
     let filtered = orderHistory;
 
-    if (pair !== "") {
+    if (pair !== "" && pair !== "All") {
       filtered = filtered?.filter(
         (item) => item?.pair_symbol.toLowerCase() === pair.toLowerCase()
       );
     }
 
-    if (direction !== "") {
+    if (direction !== "" && direction !== "All") {
       filtered = filtered?.filter(
         (item) => item?.type.toLowerCase() === direction.toLowerCase()
       );
@@ -129,10 +129,10 @@ export const SpotOrders = () => {
     const endDate = new Date(range[0]?.endDate);
     if (startDate && endDate) {
       const start = new Date(startDate);
-      start.setHours(0, 0, 0, 0); // start of day
+      start.setHours(0, 0, 0, 0); 
 
       const end = new Date(endDate);
-      end.setHours(23, 59, 59, 999); // end of day
+      end.setHours(23, 59, 59, 999); 
 
       filtered = filtered.filter((item) => {
         const itemDate = new Date(item.date_time.replace(" ", "T")); // fixed parse
@@ -197,6 +197,19 @@ export const SpotOrders = () => {
                       setShow={() => handleShow("pair")}
                     >
                       <div className="h-[200px] overflow-y-auto custom-scroll ">
+                        <div
+                          className={`text-[14px] font-normal leading-[22px] p-[10px]   ${
+                            dark
+                              ? "hover:bg-[#2B3139] text-[#929AA5]"
+                              : "hover:bg-[#EAECEF] text-[#757575] hover:text-[#000000]"
+                          }`}
+                          onClick={() => {
+                            setPair("All");
+                            handleShow("pair");
+                          }}
+                        >
+                          {"All"}
+                        </div>
                         {Array.isArray(searchData) &&
                           searchData?.map((item, index) => (
                             <div
@@ -223,6 +236,19 @@ export const SpotOrders = () => {
                       setShow={() => handleShow("status")}
                     >
                       <div>
+                        <div
+                          className={`text-[14px] font-normal leading-[22px] p-[10px]   ${
+                            dark
+                              ? "hover:bg-[#2B3139] text-[#929AA5]"
+                              : "hover:bg-[#EAECEF] text-[#757575] hover:text-[#000000]"
+                          }`}
+                          onClick={() => {
+                            setDirectioon("All");
+                            handleShow("status");
+                          }}
+                        >
+                          All
+                        </div>
                         <div
                           className={`text-[14px] font-normal leading-[22px] p-[10px]   ${
                             dark
@@ -504,6 +530,19 @@ export const SpotOrders = () => {
                       setShow={() => handleShow("date")}
                     >
                       <div className="h-[200px] overflow-y-auto custom-scroll ">
+                        <div
+                          className={`text-[14px] font-normal leading-[22px] p-[10px]   ${
+                            dark
+                              ? "hover:bg-[#2B3139] text-[#929AA5]"
+                              : "hover:bg-[#EAECEF] text-[#757575] hover:text-[#000000]"
+                          }`}
+                          onClick={() => {
+                            setPair("All");
+                            handleShow("date");
+                          }}
+                        >
+                          {"All"}
+                        </div>
                         {Array.isArray(searchData) &&
                           searchData?.map((item, index) => (
                             <div
@@ -530,6 +569,19 @@ export const SpotOrders = () => {
                       show={show.direction}
                     >
                       <div>
+                        <div
+                          className={`text-[14px] font-normal leading-[22px] p-[10px]   ${
+                            dark
+                              ? "hover:bg-[#2B3139] text-[#929AA5]"
+                              : "hover:bg-[#EAECEF] text-[#757575] hover:text-[#000000]"
+                          }`}
+                          onClick={() => {
+                            setDirectioon("All");
+                            handleShow("direction");
+                          }}
+                        >
+                          All
+                        </div>
                         <div
                           className={`text-[14px] font-normal leading-[22px] p-[10px]   ${
                             dark

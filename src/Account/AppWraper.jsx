@@ -14,12 +14,14 @@ function AppWrapper({ children }) {
     };
 
     // custom event suno
+    window.addEventListener("storage", handleUserDataChange);
     window.addEventListener("userDataChanged", handleUserDataChange);
 
     // mount par bhi check karo
     handleUserDataChange();
 
     return () => {
+      window.removeEventListener("storage", handleUserDataChange);
       window.removeEventListener("userDataChanged", handleUserDataChange);
     };
   }, [navigate]);

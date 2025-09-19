@@ -8,7 +8,7 @@ import { FaStar } from "react-icons/fa";
 import { apiRequest } from "../Helper";
 import { formatToKMB } from "../Constant";
 import { IoCloseSharp } from "react-icons/io5";
-import { showError } from "../Toastify/toastServices";
+import { showError, showSuccess } from "../Toastify/toastServices";
 import { useAuth } from "../hooks/useAuth";
 export const MarketPopup = ({ handleClose, openMarketPopup }) => {
   const { faverateData, searchData, dark } = useSelector(
@@ -18,6 +18,7 @@ export const MarketPopup = ({ handleClose, openMarketPopup }) => {
   const navigate = useNavigate();
   const token = useAuth();
   const [isVolume, setIsVolume] = useState(false);
+  const [isDisable, setIsDisable] = useState(false);
   const [searchInput, setSearchInput] = useState("");
   const filteredData =
     Array.isArray(searchData) &&
@@ -29,6 +30,7 @@ export const MarketPopup = ({ handleClose, openMarketPopup }) => {
       showError("You are not authorized");
       return;
     }
+    setIsDisable(true);
     const faverae = !fav;
     const favData = {
       pair_id: String(pairId),
@@ -40,12 +42,16 @@ export const MarketPopup = ({ handleClose, openMarketPopup }) => {
         url: `https://test.bitzup.com/onboarding/currency/add-favorite`,
         data: favData,
       });
+      if (status === 200 && data?.status === "1") {
+        showSuccess(data?.message);
+      }
       if (data?.status != 1) {
         showError(data?.message);
       }
     } catch (err) {
       console.error("Failed to fetch second API", err);
     } finally {
+      setIsDisable(false);
       getFaverateData(dispatch);
     }
   };
@@ -164,7 +170,7 @@ export const MarketPopup = ({ handleClose, openMarketPopup }) => {
                               } `}
                               onClick={(e) => {
                                 e.stopPropagation();
-                                handleChange(item?.pair_id, fav);
+                                !isDisable&&handleChange(item?.pair_id, fav);
                               }}
                             />{" "}
                             {`${item?.pair_symbol}`}

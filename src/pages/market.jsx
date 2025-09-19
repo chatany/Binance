@@ -16,12 +16,13 @@ import { FaStar } from "react-icons/fa";
 import { apiRequest } from "../Helper";
 import { formatDecimal, formatToKMBWithCommas } from "../Constant";
 import { Tooltip } from "@mui/material";
-import { showError } from "../Toastify/toastServices";
+import { showError, showSuccess } from "../Toastify/toastServices";
 import { useAuth } from "../hooks/useAuth";
 export const MarketCom = () => {
   const [activeTab, setActiveTab] = useState("Market Trade");
   const [isVolume, setIsVolume] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [isDisable,setIsDisable]=useState(false)
   const dispatch = useDispatch();
   const token = useAuth();
   const [favorite, setFavorite] = useState(false);
@@ -72,6 +73,7 @@ export const MarketCom = () => {
       showError("You are not authorized");
       return;
     }
+    setIsDisable(true)
     const faverae = !fav;
     const favData = {
       pair_id: String(pairId),
@@ -86,10 +88,13 @@ export const MarketCom = () => {
       if (status === 400 && data.status == 3) {
         showError(data?.message);
       }
+      if (status === 200 && data?.status === "1") {
+        showSuccess(data?.message);
+      }
     } catch (err) {
       console.error("Failed to fetch second API", err);
     } finally {
-      getFaverateData(dispatch);
+      getFaverateData(dispatch,setIsDisable);
     }
   };
   const formatToKMB = (num) => {
@@ -207,7 +212,7 @@ export const MarketCom = () => {
                 } `}
                 onClick={(e) => {
                   e.stopPropagation();
-                  setFavorite(!favorite);
+                  !isDisable&&setFavorite(!favorite);
                 }}
               />{" "}
               {favorite && (

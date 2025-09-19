@@ -159,12 +159,15 @@ export const Form = () => {
     if (item?.pair_id) {
       buysellBalance(item?.pair_id, dispatch);
       openOrders(item?.pair_id, userData?.user_id, dispatch);
-      if (apiId != item?.api_id) {
-        setApiId(item?.api_id);
-        dispatch(setApiIds(item?.api_id));
-      }
     }
   }, [item?.pair_id]);
+  useEffect(() => {
+    if (apiId != item?.api_id) {
+      setApiId(item?.api_id);
+      dispatch(setApiIds(item?.api_id));
+    }
+  }, [item?.pair_id]);
+
   useEffect(() => {
     dispatch(setCoinName(item?.coin_name));
     dispatch(setPriceDecimal(item?.price_decimal));
@@ -538,7 +541,6 @@ export const Form = () => {
       setStopBuyLoading(false);
     }
   };
-  console.log("jfmi");
 
   const handleStopSell = async () => {
     if (error.stopSellErr) return;

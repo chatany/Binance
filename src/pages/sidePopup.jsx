@@ -7,6 +7,7 @@ import { CiRepeat } from "react-icons/ci";
 import { FaStar } from "react-icons/fa";
 import { apiRequest } from "../Helper";
 import { formatToKMB } from "../Constant";
+import { showSuccess } from "../Toastify/toastServices";
 
 export const SidePopup = ({
   setSearchQuery,
@@ -49,6 +50,9 @@ export const SidePopup = ({
         url: `https://test.bitzup.com/onboarding/currency/add-favorite`,
         data: favData,
       });
+       if (status === 200 && data?.status === "1") {
+              showSuccess(data?.message);
+            }
     } catch (err) {
       console.error("Failed to fetch second API", err);
     } finally {

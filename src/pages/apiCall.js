@@ -11,6 +11,7 @@ import {
   setFundData,
   SetHelpCenterData,
   setLoading,
+  setLockedTime,
   setOpenOrderData,
   setOrderHistory,
   setReferralData,
@@ -255,7 +256,7 @@ export const helpCenterApi = async (dispatch) => {
   }
 };
 
-export const getFaverateData = async (dispatch) => {
+export const getFaverateData = async (dispatch, setIsDisable) => {
   try {
     const { data, status } = await apiRequest({
       method: "get",
@@ -272,6 +273,8 @@ export const getFaverateData = async (dispatch) => {
     }
   } catch (err) {
     console.error("Failed to fetch second API", err);
+  } finally {
+    setIsDisable(false);
   }
 };
 
@@ -420,7 +423,7 @@ export const getDepositHistory = async (dispatch) => {
     }
 
     if (data?.status != 1) {
-      showError(data?.message);
+      // showError(data?.message);
     }
     if (status === 400 && data?.status == 3) {
       localStorage.removeItem("userData");
@@ -443,7 +446,26 @@ export const getWithdrawHistory = async (dispatch) => {
     }
 
     if (data?.status != 1) {
-      showError(data?.message);
+      // showError(data?.message);
+    }
+    if (status === 400 && data?.status == 3) {
+      localStorage.removeItem("userData");
+      window.dispatchEvent(new Event("userDataChanged"));
+    }
+  } catch (err) {
+    console.error("Failed to fetch second API", err);
+  }
+};
+
+export const getLockedTime = async (dispatch) => {
+  try {
+    const { data, status } = await apiRequest({
+      method: "get",
+      url: `https://test.bitzup.com/blockchain/withdraw/withdrawal_lockout-time`,
+    });
+
+    if (status === 200 && data?.status === 1) {
+      dispatch(setLockedTime(data?.lockout_time));
     }
     if (status === 400 && data?.status == 3) {
       localStorage.removeItem("userData");

@@ -8,8 +8,10 @@ export const ConfirmationPopup = ({
   title,
   checkBox1,
   checkBox2,
+  bottom = true,
   check = true,
   subTitle,
+  submit,
 }) => {
   const dark = useSelector((state) => state.counter.dark);
   const [checkbox, setCheckbox] = useState({
@@ -108,18 +110,20 @@ export const ConfirmationPopup = ({
             </div>
           )}
           <div className="flex justify-between w-full gap-2">
-            <button
-              onClick={handleClose}
-              className={`${
-                dark ? "bg-[#2b3139]" : "bg-[#EAECEF]"
-              } p-[6px_12px_6px_12px] rounded-[8px] w-full cursor-pointer`}
-            >
-              cancel
-            </button>
-            <button
-              onClick={handleSubmit}
-              disabled={!isDisable && !subTitle}
-              className={`rounded-[12px] p-2 w-full text-[#000000]  bg-[#FCD535] 
+            {bottom && (
+              <>
+                <button
+                  onClick={handleClose}
+                  className={`${
+                    dark ? "bg-[#2b3139]" : "bg-[#EAECEF]"
+                  } p-[6px_12px_6px_12px] rounded-[8px] w-full cursor-pointer`}
+                >
+                  cancel
+                </button>
+                <button
+                  onClick={handleSubmit}
+                  disabled={!isDisable && !subTitle}
+                  className={`rounded-[12px] p-2 w-full text-[#000000]  bg-[#FCD535] 
               ${
                 isDisable
                   ? `cursor-pointer`
@@ -129,9 +133,12 @@ export const ConfirmationPopup = ({
                         : "opacity-30 cursor-not-allowed"
                     }`
               }`}
-            >
-              confirm
-            </button>
+                >
+                  confirm
+                </button>
+              </>
+            )}
+            {submit}
           </div>
         </div>
       </div>

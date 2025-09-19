@@ -65,8 +65,12 @@ export const counterSlice = createSlice({
     userProfile: {},
     depositHistory: [],
     withdrawHistory: [],
+    lockedTime:""
   },
   reducers: {
+    setLockedTime: (state, action) => {
+      state.lockedTime = action.payload;
+    },
     incrementByAmount: (state, action) => {
       state.tikerData = action.payload;
     },
@@ -235,6 +239,7 @@ export const counterSlice = createSlice({
 
 export const {
   increment,
+  setLockedTime,
   setActivity,
   setUserProfile,
   setAuthEnticatorKey,

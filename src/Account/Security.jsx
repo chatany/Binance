@@ -303,6 +303,48 @@ export const Security = () => {
         </div>
         <div
           className={`md:p-[24px] mb-[24px] ${
+            dark ? "md:border-[#333B47]" : "md:border-[#EDEDED]"
+          } md:border-1 flex flex-col rounded-[16px] gap-[20px]`}
+        >
+          <div className="text-[24px] font-semibold leading-[32px]">
+            Withdrawal
+          </div>
+          <div className="flex justify-between flex-col md:flex-row  gap-2">
+            <div className="flex flex-col gap-1 md:w-1/2">
+              <div className="text-[16px]">Withdrawal Password</div>
+              <div className="text-[#707A8A] text-[14px] font-normal leading-[20px]">
+                Once this function is enabled, your account will be able to
+                withdraw to addresses.
+              </div>
+            </div>
+            <div className="flex gap-4 items-center md:w-1/2 md:justify-end">
+              <div className="flex gap-5">
+                <button className="flex items-center gap-1">
+                 {!userProfile?.withdrawal_password ? (
+                  <>
+                    <RxCrossCircled /> OFF
+                  </>
+                ) : (
+                  <>
+                    <IoIosCheckmarkCircleOutline className=" text-green-400 size-[18px]" />{" "}
+                    ON
+                  </>
+                )}
+                </button>
+                <button
+                    className={`${
+                  dark ? "bg-[#2b3139]" : "bg-[#EAECEF]"
+                } p-[6px_12px_6px_12px] rounded-[8px]`}
+                  onClick={() => navigate("/security/manage-withdraw-password")}
+                >
+                  Enable
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          className={`md:p-[24px] mb-[24px] ${
             dark ? "border-[#333B47]" : "border-[#EDEDED]"
           } md:border-1 flex flex-col rounded-[16px] gap-[20px]`}
         >

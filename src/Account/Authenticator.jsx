@@ -218,7 +218,7 @@ export const Authenticator = () => {
                 </div>
               </div>
               <div className="w-[30%] flex gap-3 justify-end">
-                <RiDeleteBinLine className="size-6" onClick={handleRemove} />
+                <RiDeleteBinLine className="size-6" onClick={() => setPopup(true)} />
               </div>
             </div>
           </div>
@@ -276,7 +276,7 @@ export const Authenticator = () => {
                 >
                   <QRCode
                     className="w-[150px] h-[150px]"
-                    value={authEnticatorKey?.otpauth_url}
+                    value={authEnticatorKey?.otpauth_url??""}
                   />
                 </div>
                 <div
@@ -425,7 +425,7 @@ export const Authenticator = () => {
                   />
                 </div>
                 <div
-                  className="text-[32px] max-md:text-[20px]
+                  className="text-[26px] max-md:text-[20px]
         font-semibold
         leading-[40px]"
                 >
@@ -433,7 +433,7 @@ export const Authenticator = () => {
                   Verification?
                 </div>
                 <div
-                  className="text-[16px]
+                  className="text-[14px]
         font-normal;
         leading-[24px]"
                 >

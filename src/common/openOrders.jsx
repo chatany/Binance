@@ -83,7 +83,7 @@ export const OpenOrders = () => {
     };
   }, [showPopup]);
   useEffect(() => {
-    const currentItem = searchData?.find((item) => item?.pair_id === pairId);
+    const currentItem = Array.isArray(searchData) &&searchData?.find((item) => item?.pair_id === pairId);
     setCurrentItem(currentItem?.pair_symbol);
   }, [pairId]);
   return (

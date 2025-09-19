@@ -3,21 +3,39 @@ import { HeroSection } from "../pages/heroCard";
 import { CgSearch } from "react-icons/cg";
 import { TbArrowsExchange2 } from "react-icons/tb";
 import { GoChevronRight } from "react-icons/go";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { NotFound } from "../icons";
 
 export const Overview = () => {
   const { dark, fundData } = useSelector((state) => state.counter);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [filteredData, setFilteredData] = useState([]);
+  const [hide, setHide] = useState(false);
   const [activeTab, setActiveTab] = useState("coin");
   const handleActive = (key) => {
     setActiveTab(key);
   };
+  useEffect(() => {
+    let filtered = fundData;
+    if (hide) {
+      filtered = filtered?.filter(
+        (item) => Number(item?.balance) + Number(item?.unavailable_balance) > 1
+      );
+    }
+    if (searchQuery !== "") {
+      filtered = filtered?.filter((item) =>
+        item.symbol.toLowerCase().includes(searchQuery.toLowerCase())
+      );
+    }
+
+    setFilteredData(filtered);
+  }, [hide, fundData, searchQuery]);
   return (
     <div>
       <div className="flex flex-col gap-[20px] p-[10px]">
         <HeroSection />
         <div
-          className={` h-[480px] rounded-xl md:p-5 ${
+          className={` max-h-[480px] rounded-xl md:p-5 ${
             dark ? "border-[#333B47]" : "border-[#EDEDED]"
           } md:border-1 w-full flex flex-col gap-4`}
         >
@@ -50,9 +68,10 @@ export const Overview = () => {
               <div className="relative flex  items-center focus-within:justify-start hover:justify-start justify-center">
                 <input
                   name="Search"
+                  onChange={(e) => setSearchQuery(e.target.value)}
                   className={`border
                 hover:border-[#b89c4f] w-[2rem] hover:w-[6rem] pl-6
-                rounded-[6px]
+                rounded-[6px] ${searchQuery !== "" ? "w-[6rem]" : ""}
                 ${
                   dark
                     ? "border-[#474D57] focus:border-[#b89c4f] focus:w-[6rem]"
@@ -65,22 +84,31 @@ export const Overview = () => {
               </div>
 
               <div className="flex gap-2 items-center text-[14px]">
-                <input type="checkbox" />
+                <input
+                  type="checkbox"
+                  onChange={(e) => setHide(e.target.checked)}
+                  checked={hide}
+                />
                 {"Hide assets < 1 USD"}
               </div>
             </div>
             <div className="gap-2 flex justify-between md:hidden">
               <div className="flex gap-2 items-center  text-[14px]">
-                <input type="checkbox" />
+                <input
+                  type="checkbox"
+                  onChange={(e) => setHide(e.target.checked)}
+                  checked={hide}
+                />
                 {"Hide assets < 1 USD"}
               </div>
               <div className="flex gap-2">
                 <div className="relative flex  items-center  focus-within:justify-start  hover:justify-start justify-center focus:w-[8rem]">
                   <input
                     name="Search"
+                    onChange={(e) => setSearchQuery(e.target.value)}
                     className={`border
                 hover:border-[#b89c4f] w-[2rem] hover:w-[6rem] pl-6
-                rounded-[6px]
+                rounded-[6px] ${searchQuery !== "" ? "w-[6rem]" : ""}
                 ${
                   dark
                     ? "border-[#474D57] focus:border-[#b89c4f] focus:w-[6rem]"
@@ -99,7 +127,7 @@ export const Overview = () => {
               </div>
             </div>
           </div>
-          <div className="h-[400px] overflow-y-auto">
+          <div className="max-h-[400px] overflow-y-auto">
             <table className="w-full">
               <thead className="max-md:hidden">
                 <tr
@@ -114,8 +142,8 @@ export const Overview = () => {
                 </tr>
               </thead>
               <tbody>
-                {Array.isArray(fundData) &&
-                  fundData?.map((item, index) => (
+                {Array.isArray(filteredData) &&
+                  filteredData?.map((item, index) => (
                     <>
                       {item?.balance > 0 && (
                         <tr key={index} className="p-[20px]">

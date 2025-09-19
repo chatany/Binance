@@ -15,13 +15,15 @@ import {
   IoMdClose,
   IoMdEyeOff,
 } from "react-icons/io";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { FaCheck } from "react-icons/fa";
 import { IoEye } from "react-icons/io5";
 import { formatDate } from "../Constant";
 import { RiArrowRightSLine } from "react-icons/ri";
 import { useNavigate } from "react-router-dom";
 import { NotFound } from "../icons";
+import { getLockedTime } from "../pages/apiCall";
+import { WithdrawalCountdown } from "./lockTime";
 
 const CustomConnector = styled(StepConnector, {
   shouldForwardProp: (prop) => prop !== "dark",
@@ -72,6 +74,8 @@ function DiamondStepIcon(props) {
 
 export default function Withdrawal() {
   const [activeStep, setActiveStep] = useState();
+  const dispatch = useDispatch();
+  const [popup, setPopup] = useState(false);
   const [coinData, setCoinData] = useState([]);
   const [network, setNewwork] = useState([]);
   const [icon, setIcon] = useState({});
@@ -84,7 +88,9 @@ export default function Withdrawal() {
   const [isDisable, setIsDisable] = useState(false);
   const [password, setPassword] = useState(false);
   const [amount, setAmount] = useState("");
-  const { dark, withdrawHistory } = useSelector((state) => state.counter);
+  const { dark, withdrawHistory, lockedTime } = useSelector(
+    (state) => state.counter
+  );
   const [query, setQuery] = useState("");
   const filteredCoins = coinData.filter(
     (c) =>
@@ -237,8 +243,13 @@ export default function Withdrawal() {
   };
   useEffect(() => {
     getUserProfile();
+    getLockedTime(dispatch);
   }, []);
-
+  useEffect(() => {
+    if (lockedTime) {
+      setPopup(true);
+    }
+  }, [lockedTime]);
   return (
     <div className=" w-full  flex justify-center ">
       <div
@@ -269,7 +280,7 @@ export default function Withdrawal() {
                 header={({ open }) => (
                   <div
                     className="flex w-full items-center p-2"
-                    onClick={() => setOpenCoin(true)}
+                    onClick={() => !lockedTime && setOpenCoin(true)}
                   >
                     {" "}
                     {!query && <BsSearch />}
@@ -504,6 +515,13 @@ export default function Withdrawal() {
             )}
           </Step>
         </Stepper>
+        {popup && (
+          <WithdrawalCountdown
+            lockoutTime={lockedTime}
+            setPopup={setPopup}
+            popup={popup}
+          />
+        )}
         {showPopup && (
           <div className="w-full h-full   flex justify-center items-center fixed inset-0 z-50 bg-[#00000080] overflow-hidden">
             <div
@@ -619,84 +637,89 @@ export default function Withdrawal() {
               More <RiArrowRightSLine className="size-5 font-light" />
             </div>
           </div>
-          <table className={`w-full`}>
-            <thead>
-              <tr
-                className={`text-[12px] ${
-                  dark
-                    ? "bg-[#2B3139] border-[#474d57]"
-                    : "bg-[#F5F5F5] border-[#eaecef]"
-                } text-[#848e9c] border-b-[1px] font-normal leading-[20px] `}
-              >
-                <th className="text-left p-[12px_16px_12px_16px]">Time</th>
-                <th className="text-left p-[12px_16px_12px_16px]">Type</th>
-                <th className="text-left p-[12px_16px_12px_16px]">
-                  Deposit wallet
-                </th>
-                <th className="text-left p-[12px_16px_12px_16px]">Asset</th>
-                <th className="text-left p-[12px_16px_12px_16px]">amount</th>
-                <th className="text-left p-[12px_16px_12px_16px]">
-                  Destination{" "}
-                </th>
-                <th className="text-left p-[12px_16px_12px_16px]">TxID</th>
-                <th className="text-left p-[12px_16px_12px_16px]">Status</th>
-              </tr>
-            </thead>
-            <tbody>
-              {Array.isArray(withdrawHistory) && withdrawHistory?.length > 0 ? (
-                withdrawHistory?.slice(0, 3).map((ele, index) => {
-                  const date = formatDate(ele?.date);
-                  return (
-                    <tr
-                      key={index}
-                      className={`text-[14px]  ${
-                        dark
-                          ? "text-[#EAECEF] border-[#474d57] hover:bg-[#2B3139]"
-                          : "text-[#1e2329] border-[#eaecef] hover:bg-[#F5F5F5]"
-                      } font-normal leading-[20px] border-b-[1px] `}
-                    >
-                      <td className="text-left p-[12px_16px_12px_16px]">
-                        {date}
-                      </td>
-                      <td className="text-left p-[12px_16px_12px_16px]">
-                        {`Deposit`}
-                      </td>
-                      <td className="text-left p-[12px_16px_12px_16px]">
-                        Spot wallet
-                      </td>
-                      <td className="text-left p-[12px_16px_12px_16px]">
-                        {ele?.symbol}
-                      </td>
-                      <td className="text-left p-[12px_16px_12px_16px]">
-                        {" "}
-                        {ele?.final_amount}
-                      </td>
-                      <td className="text-left p-[12px_16px_12px_16px]">--</td>
-                      <td className="text-left p-[12px_16px_12px_16px]">
-                        {ele?.address}
-                      </td>
-                      <td className="text-left p-[12px_16px_12px_16px]">
-                        {ele?.status}
-                      </td>
-                    </tr>
-                  );
-                })
-              ) : (
-                <tr>
-                  <td colSpan={8}>
-                    <div className="h-[200px] flex items-center justify-center">
-                      <div className="flex flex-col gap-0.5 items-center justify-center">
-                        <NotFound className="max-md:size-16 size-10" />
-                        <div className="text-[12px] max-md:text-[14px]">
-                          No Data Found
+          <div className="w-full overflow-x-auto custom-scroll">
+            <table className={`w-full`}>
+              <thead>
+                <tr
+                  className={`text-[12px] ${
+                    dark
+                      ? "bg-[#2B3139] border-[#474d57]"
+                      : "bg-[#F5F5F5] border-[#eaecef]"
+                  } text-[#848e9c] border-b-[1px] font-normal leading-[20px] `}
+                >
+                  <th className="text-left p-[12px_16px_12px_16px]">Time</th>
+                  <th className="text-left p-[12px_16px_12px_16px]">Type</th>
+                  <th className="text-left p-[12px_16px_12px_16px]">
+                    Deposit wallet
+                  </th>
+                  <th className="text-left p-[12px_16px_12px_16px]">Asset</th>
+                  <th className="text-left p-[12px_16px_12px_16px]">amount</th>
+                  <th className="text-left p-[12px_16px_12px_16px]">
+                    Destination{" "}
+                  </th>
+                  <th className="text-left p-[12px_16px_12px_16px]">TxID</th>
+                  <th className="text-left p-[12px_16px_12px_16px]">Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                {Array.isArray(withdrawHistory) &&
+                withdrawHistory?.length > 0 ? (
+                  withdrawHistory?.slice(0, 3).map((ele, index) => {
+                    const date = formatDate(ele?.date);
+                    return (
+                      <tr
+                        key={index}
+                        className={`text-[14px]  ${
+                          dark
+                            ? "text-[#EAECEF] border-[#474d57] hover:bg-[#2B3139]"
+                            : "text-[#1e2329] border-[#eaecef] hover:bg-[#F5F5F5]"
+                        } font-normal leading-[20px] border-b-[1px] `}
+                      >
+                        <td className="text-left p-[12px_16px_12px_16px]">
+                          {date}
+                        </td>
+                        <td className="text-left p-[12px_16px_12px_16px]">
+                          {`Deposit`}
+                        </td>
+                        <td className="text-left p-[12px_16px_12px_16px]">
+                          Spot wallet
+                        </td>
+                        <td className="text-left p-[12px_16px_12px_16px]">
+                          {ele?.symbol}
+                        </td>
+                        <td className="text-left p-[12px_16px_12px_16px]">
+                          {" "}
+                          {ele?.final_amount}
+                        </td>
+                        <td className="text-left p-[12px_16px_12px_16px]">
+                          --
+                        </td>
+                        <td className="text-left p-[12px_16px_12px_16px]">
+                          {ele?.address}
+                        </td>
+                        <td className="text-left p-[12px_16px_12px_16px]">
+                          {ele?.status}
+                        </td>
+                      </tr>
+                    );
+                  })
+                ) : (
+                  <tr>
+                    <td colSpan={8}>
+                      <div className="h-[200px] flex items-center justify-center">
+                        <div className="flex flex-col gap-0.5 items-center justify-center">
+                          <NotFound className="max-md:size-16 size-10" />
+                          <div className="text-[12px] max-md:text-[14px]">
+                            No Data Found
+                          </div>
                         </div>
                       </div>
-                    </div>
-                  </td>
-                </tr>
-              )}
-            </tbody>
-          </table>
+                    </td>
+                  </tr>
+                )}
+              </tbody>
+            </table>
+          </div>
         </div>
         <div className="p-[10px] flex flex-col gap-10 w-full md:hidden">
           <div className="flex justify-between items-center w-full">

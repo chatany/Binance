@@ -26,6 +26,7 @@ import {
 } from "../store/webSocket";
 import { useAuth } from "../hooks/useAuth";
 import { BsMoon } from "react-icons/bs";
+import { DepositPopup } from "./depositPopup";
 
 export const TopNav = () => {
   const navigate = useNavigate();
@@ -34,6 +35,7 @@ export const TopNav = () => {
   );
 
   const [showHelpPopup, setShowHelpPopup] = useState(false);
+  const [popup, setPopup] = useState(false);
   const [profile, setProfile] = useState(false);
   const [showLogoutPopup, setShowLogoutPopup] = useState(false);
   const handleClose = () => {
@@ -204,9 +206,6 @@ export const TopNav = () => {
                                     <div
                                       key={ind}
                                       onClick={() => {
-                                        val?.title === "Spot"
-                                          ? navigate("/")
-                                          : "";
                                         navigate(val.path);
                                       }}
                                       className={`${
@@ -321,7 +320,7 @@ export const TopNav = () => {
         {userData?.token && (
           <div
             className=" text-[14px] font-medium leading-6 hover:opacity-85 items-center text-black bg-[#fcd535] rounded-sm px-2 py-1 flex"
-            onClick={() => navigate("/crypto/deposit")}
+            onClick={() => setPopup(!popup)}
           >
             <HiDownload className="h-4 w-4 md:block hidden hover:text-amber-400" />
             Deposit
@@ -332,7 +331,7 @@ export const TopNav = () => {
             className="relative flex items-center gap-4"
             onMouseEnter={() => !isMobile && setProfile(!profile)}
             onMouseLeave={() => !isMobile && setProfile(!profile)}
-            onClick={() => setProfile(!profile)}
+            onClick={() => setProfile(true)}
           >
             <CgProfile
               className=" hover:text-amber-400 h-6 w-6"
@@ -618,6 +617,7 @@ export const TopNav = () => {
           dark={dark}
         />
       )}
+      {popup && <DepositPopup popup={popup} setPopup={setPopup} />}
     </div>
   );
 };

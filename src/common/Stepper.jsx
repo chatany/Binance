@@ -388,6 +388,7 @@ export default function VerticalLinearStepper() {
               More <RiArrowRightSLine className="size-5 font-light" />
             </div>
           </div>
+          <div className="w-full overflow-x-auto custom-scroll">
           <table className={`w-full`}>
             <thead>
               <tr
@@ -466,6 +467,7 @@ export default function VerticalLinearStepper() {
               )}
             </tbody>
           </table>
+          </div>
         </div>
         <div className="p-[10px] flex flex-col gap-10 w-full md:hidden">
           <div className="flex justify-between items-center w-full">

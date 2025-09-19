@@ -217,6 +217,7 @@ export const data = [
           {
             title: "Spot",
             description: "Buy and sell on the Spot market with advanced tools",
+            path:"/spot"
           },
         ],
       },

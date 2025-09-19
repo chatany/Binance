@@ -1,9 +1,8 @@
-import { CiAirportSign1, CiAlarmOff } from "react-icons/ci";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { ScaleLoader } from "react-spinners";
 import { useNavigate } from "react-router-dom";
-import {  setSearchQuery } from "../store/webSocket";
+import { setSearchQuery } from "../store/webSocket";
 import { HeroSection } from "./heroCard";
 import { allMover, TopMoves } from "./apiCall";
 
@@ -13,8 +12,10 @@ export const Dashboard = () => {
   const [activeTab, setActiveTab] = useState(tabs[0]);
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { allMovers, movers,userProfile } = useSelector((state) => state.counter);
-  
+  const { allMovers, movers, userProfile } = useSelector(
+    (state) => state.counter
+  );
+
   const filteredData = () => {
     return activeTab !== "All" ? movers[activeTab] : allMovers;
   };
@@ -40,18 +41,22 @@ export const Dashboard = () => {
           </div>
           <div className="flex flex-col">
             <div>{userProfile?.name}</div>
-            <div className="flex">
+            <div className="flex gap-4">
+              <div>UID</div>
+              <div>{userProfile?.uid}</div>
+            </div>
+            {/* <div className="flex">
               <div className="p-1">
                 <CiAlarmOff />
               </div>
               <div className="p-1">
                 <CiAirportSign1 />
               </div>
-            </div>
+            </div> */}
           </div>
         </div>
-        <div className="border-l-1 m-3"></div>
-        <div className="w-[70%] flex justify-evenly flex-wrap">
+        {/* <div className="border-l-1 m-3"></div> */}
+        {/* <div className="w-[70%] flex justify-evenly flex-wrap">
           <div>
             <div>UID</div>
             <div>{userProfile?.uid}</div>
@@ -60,15 +65,15 @@ export const Dashboard = () => {
             <div>VIP Level</div>
             <div>Regular User</div>
           </div>
-          <div>
+           <div>
             <div>Following</div>
             <div>8</div>
           </div>
           <div>
             <div>Followers</div>
             <div>1</div>
-          </div>
-        </div>
+          </div> 
+        </div> */}
       </div>
       <HeroSection />
       <div

@@ -8,9 +8,9 @@ import { RiArrowDownSFill } from "react-icons/ri";
 import { useEffect, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useAuth } from "../hooks/useAuth";
-import { showError } from "../Toastify/toastServices";
+import { showError, showSuccess } from "../Toastify/toastServices";
 export const TopIconBar1 = () => {
-  const { tikerData, iconURL, isFav,coinName, pairId, priceDecimal,dark } =
+  const { tikerData, iconURL, isFav, coinName, pairId, priceDecimal, dark } =
     useSelector((state) => state.counter);
   const [priceColor, setPriceColor] = useState(false);
   const lastPriceRef = useRef(null);
@@ -51,7 +51,8 @@ export const TopIconBar1 = () => {
         url: `https://test.bitzup.com/onboarding/currency/add-favorite`,
         data: favData,
       });
-      if (status === 200) {
+      if (status === 200 && data?.status === "1") {
+        showSuccess(data?.message);
       }
       if (data?.status != 1) {
         showError(data?.message);
@@ -173,7 +174,7 @@ export const TopIconBar1 = () => {
   );
 };
 export const TopIconBar2 = () => {
-  const { tikerData, iconURL, isFav,coinName, pairId, priceDecimal,dark } =
+  const { tikerData, iconURL, isFav, coinName, pairId, priceDecimal, dark } =
     useSelector((state) => state.counter);
   const dispatch = useDispatch();
   const token = useAuth();
@@ -193,7 +194,8 @@ export const TopIconBar2 = () => {
         url: `https://test.bitzup.com/onboarding/currency/add-favorite`,
         data: favData,
       });
-      if (status === 200) {
+      if (status === 200 && data?.status === "1") {
+        showSuccess(data?.message);
       }
       if (data?.status != 1) {
         showError(data?.message);
@@ -346,7 +348,7 @@ export const TopIconBar2 = () => {
   );
 };
 export const TopIconBar3 = () => {
-  const { tikerData, iconURL, isFav,coinName, pairId, priceDecimal,dark } =
+  const { tikerData, iconURL, isFav, coinName, pairId, priceDecimal, dark } =
     useSelector((state) => state.counter);
   const dispatch = useDispatch();
   const { symbol } = useParams();
@@ -367,7 +369,8 @@ export const TopIconBar3 = () => {
         url: `https://test.bitzup.com/onboarding/currency/add-favorite`,
         data: favData,
       });
-      if (status === 200) {
+      if (status === 200 && data?.status === "1") {
+        showSuccess(data?.message);
       }
       if (data?.status != 1) {
         showError(data?.message);
@@ -398,10 +401,10 @@ export const TopIconBar3 = () => {
       lastPriceRef.current = currentPrice;
     }
     const num = formatToKMBWithCommas(
-            formatDecimal(tikerData?.lastPrice, priceDecimal)
-          );
+      formatDecimal(tikerData?.lastPrice, priceDecimal)
+    );
     document.title = `${num} | ${symbol} | ${coinName?.toUpperCase()} to USDT | Bitzup Spot`;
-  }, [tikerData?.lastPrice,coinName]);
+  }, [tikerData?.lastPrice, coinName]);
   return (
     <div
       className={` w-full text-xs  ${
@@ -523,8 +526,8 @@ export const TopIconBar3 = () => {
     </div>
   );
 };
-export const TopIconBar4 = ({  setOpenMarketPopup }) => {
-  const { tikerData, iconURL, priceDecimal,coinName,dark } = useSelector(
+export const TopIconBar4 = ({ setOpenMarketPopup }) => {
+  const { tikerData, iconURL, priceDecimal, coinName, dark } = useSelector(
     (state) => state.counter
   );
   const [priceColor, setPriceColor] = useState(false);

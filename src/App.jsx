@@ -35,9 +35,46 @@ import { Crypto } from "./pages/DepositeCrypto";
 import AppWrapper from "./Account/AppWraper";
 import { DepositHistory } from "./common/depositHistory";
 import { TransactionHistory } from "./Account/TransactionHistory";
+import { WithdrawPassword } from "./Account/withdrawPassword";
 function App() {
   const last = JSON.parse(localStorage.getItem("lastPair")) || "BTCUSDT";
   const userData = useAuth();
+  const protectedRoutes = [
+    { path: "settings", element: <LayoutWeb component={<Setting />} /> },
+    { path: "reports", element: <LayoutWeb component={<Report />} /> },
+    { path: "security", element: <LayoutWeb component={<Security />} /> },
+    { path: "overview", element: <LayoutWeb component={<Overview />} /> },
+    {
+      path: "/security/manage-withdraw-password",
+      element: <WithdrawPassword />,
+    },
+    {
+      path: "/crypto/withdraw/history",
+      element: <LayoutWeb component={<TransactionHistory />} />,
+    },
+    {
+      path: "/crypto/deposit/history",
+      element: <LayoutWeb component={<TransactionHistory />} />,
+    },
+    { path: "Identity", element: <LayoutWeb component={<Identification />} /> },
+    { path: "Reward", element: <RewardHub /> },
+    { path: "/deposit/history", element: <DepositHistory /> },
+    { path: "Referral", element: <Referral /> },
+    { path: "/security/manage-password", element: <ChangePassword /> },
+    { path: "/crypto/withdraw", element: <Crypto /> },
+    { path: "/crypto/deposit", element: <Crypto /> },
+    { path: "/history", element: <History /> },
+    { path: "/orders", element: <LayoutWeb component={<SpotOrders />} /> },
+    { path: "/asstes", element: <LayoutWeb component={<Spot />} /> },
+    {
+      path: "/security/manage-google-authenticator",
+      element: <Authenticator />,
+    },
+    { path: "/security/manage-email-address", element: <ChangeEmail /> },
+    { path: "/dashboard", element: <LayoutWeb component={<Dashboard />} /> },
+    { path: "/security/account-activity", element: <Activity /> },
+    { path: "/security/anti-phishing-code", element: <AntiPhishing /> },
+  ];
   return (
     <>
       <ToastProvider />
@@ -47,10 +84,10 @@ function App() {
         <Routes>
           <Route path="/" element={<Navigate to={`/spot/${last}`} replace />} />
           <Route path="/spot/:symbol" element={<Home />} />
-          <Route
+          {/* <Route
             path="/security/anti-phishing-code"
             element={<AntiPhishing />}
-          />
+          /> */}
           <Route
             path="/spot"
             element={<Navigate to={`/spot/${last}`} replace />}
@@ -59,8 +96,8 @@ function App() {
             path="/spot/:symbol"
             element={<Navigate to={`/spot/${last}`} replace />}
           />
-          <Route path="/security/account-activity" element={<Activity />} />
-          <Route
+          {/* <Route path="/security/account-activity" element={<Activity />} /> */}
+          {/* <Route
             path="/dashboard"
             element={<LayoutWeb component={<Dashboard />} />}
           />
@@ -83,7 +120,7 @@ function App() {
           <Route
             path="/security/manage-password"
             element={<ChangePassword />}
-          />
+          /> */}
           <Route
             path="/login"
             element={
@@ -124,7 +161,7 @@ function App() {
               )
             }
           />
-          <Route path="Referral" element={<Referral />} />
+          {/* <Route path="Referral" element={<Referral />} />
           <Route path="/deposit/history" element={<DepositHistory />} />
           <Route path="Reward" element={<RewardHub />} />
           <Route
@@ -138,6 +175,10 @@ function App() {
           <Route
             path="/crypto/withdraw/history"
             element={<LayoutWeb component={<TransactionHistory />} />}
+          />
+          <Route
+            path="/security/manage-withdraw-password"
+            element={<WithdrawPassword />}
           />
           <Route
             path="security"
@@ -154,7 +195,13 @@ function App() {
           <Route
             path="settings"
             element={<LayoutWeb component={<Setting />} />}
-          />
+          /> */}
+          {protectedRoutes?.map((item) => (
+            <Route
+              path={item?.path}
+              element={<AppWrapper children={item?.element} />}
+            />
+          ))}
         </Routes>
       </Router>
     </>
