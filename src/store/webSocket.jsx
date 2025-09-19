@@ -51,7 +51,7 @@ export const counterSlice = createSlice({
     quantityDecimal: 0,
     balance: {},
     searchData: [],
-    fundData: [],
+    fundData: { totalBalance: 0, totalCoinBalance: 0, data: [] },
     showPopup: false,
     coinName: "",
     dark: initialDark,
@@ -65,7 +65,7 @@ export const counterSlice = createSlice({
     userProfile: {},
     depositHistory: [],
     withdrawHistory: [],
-    lockedTime:""
+    lockedTime: "",
   },
   reducers: {
     setLockedTime: (state, action) => {
