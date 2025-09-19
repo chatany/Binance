@@ -53,7 +53,7 @@ export const Menu = () => {
   return (
     <div
       className={` ${
-        dark ? "bg-[#0B0E11] text-[#EAECEF]" : "bg-[#FFFFFF] text-[#262030]"
+        dark ? "bg-[#181A20] text-[#EAECEF]" : "bg-[#FFFFFF] text-[#262030]"
       }
        ${active ? "max-md:min-h-screen" : ""} w-full`}
     >

@@ -52,7 +52,7 @@ export default function CoinSelect({ children, header, setOpen, open }) {
       {open && (
         <div
           className={`absolute z-10 mt-2 w-full shadow-xl  ${
-            dark ? "bg-[#0B0E11] text-[#EAECEF]" : "bg-[#FFFFFF] text-[#262030]"
+            dark ? "bg-[#181A20] text-[#EAECEF]" : "bg-[#FFFFFF] text-[#262030]"
           } rounded-xl  max-h-[300px] overflow-y-auto`}
         >
           {children}

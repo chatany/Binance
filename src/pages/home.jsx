@@ -88,7 +88,7 @@ export const Home = () => {
   return (
     <div
       className={`
-        ${dark ? "bg-[#0B0E11] text-[#EAECEF]" : "bg-[#F5F5F5] text-[#262030]"}
+        ${dark ? "bg-[#181A20] text-[#EAECEF]" : "bg-[#F5F5F5] text-[#262030]"}
        h-full flex flex-col gap-0  `}
     >
       {/* Top Navbar */}

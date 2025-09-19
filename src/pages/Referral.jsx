@@ -536,21 +536,21 @@ export const Referral = () => {
             <div className="grid grid-cols-2 w-full gap-[16px]">
               <div
                 className={`w-full ${
-                  dark ? "bg-[#0B0E11]" : "bg-[#FAFAFA]"
+                  dark ? "bg-[#181A20]" : "bg-[#FAFAFA]"
                 } w-full font-medium p-5 `}
               >
                 Total Referral
               </div>
               <div
                 className={`w-full ${
-                  dark ? "bg-[#0B0E11]" : "bg-[#FAFAFA]"
+                  dark ? "bg-[#181A20]" : "bg-[#FAFAFA]"
                 } font-medium p-5`}
               >
                 Task Completed Referrals
               </div>
               <div
                 className={`w-full  ${
-                  dark ? "bg-[#0B0E11]" : "bg-[#FAFAFA]"
+                  dark ? "bg-[#181A20]" : "bg-[#FAFAFA]"
                 } p-5`}
               >
                 <div>Total Trading Fee Rebate Voucher (USD)</div>
@@ -559,7 +559,7 @@ export const Referral = () => {
               </div>
               <div
                 className={`w-full ${
-                  dark ? "bg-[#0B0E11]" : "bg-[#FAFAFA]"
+                  dark ? "bg-[#181A20]" : "bg-[#FAFAFA]"
                 } p-5`}
               >
                 <div>Total Token Voucher (USD)</div>

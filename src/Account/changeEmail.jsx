@@ -89,7 +89,7 @@ export const ChangeEmail = () => {
   return (
     <div
       className={`
-        ${dark ? "bg-[#0B0E11] text-[#EAECEF]" : "bg-[#FFFFFF] text-[#262030]"}
+        ${dark ? "bg-[#181A20] text-[#EAECEF]" : "bg-[#FFFFFF] text-[#262030]"}
        h-full min-h-screen flex flex-col gap-0  p-5`}
     >
       <div className="fixed inset-0 z-50 h-fit">

@@ -87,7 +87,7 @@ export const AntiPhishing = () => {
     <div
       className={`
           ${
-            dark ? "bg-[#0B0E11] text-[#EAECEF]" : "bg-[#FFFFFF] text-[#000000]"
+            dark ? "bg-[#181A20] text-[#EAECEF]" : "bg-[#FFFFFF] text-[#000000]"
           }
          h-full min-h-screen flex flex-col gap-0  p-5`}
     >
