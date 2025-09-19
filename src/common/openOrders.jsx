@@ -510,10 +510,10 @@ export const OpenOrders = () => {
                   <tbody>
                     {!loading ? (
                       <>
-                        {Array.isArray(fundData) && fundData?.length > 0 ? (
+                        {Array.isArray(fundData?.data) && fundData?.data?.length > 0 ? (
                           <>
-                            {Array.isArray(fundData) &&
-                              fundData?.map((item, index) => (
+                            {Array.isArray(fundData?.data) &&
+                              fundData?.data?.map((item, index) => (
                                 <>
                                   {item?.balance > 0 && (
                                     <tr key={index}>

@@ -287,7 +287,13 @@ export const getFundsData = async (dispatch) => {
     });
 
     if (status === 200 && data?.status == 1) {
-      dispatch(setFundData(data.data));
+      dispatch(
+        setFundData({
+          totalBalance: data?.totalBalance,
+          totalCoinBalance: data?.totalCoinBalance,
+          data: data?.data,
+        })
+      );
     }
     if (status === 400 && data?.status == 3) {
       // window.location.href = "/login";

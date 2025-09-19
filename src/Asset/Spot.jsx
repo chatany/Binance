@@ -16,12 +16,12 @@ export const Spot = () => {
   const [hide, setHide] = useState(false);
 
   useEffect(() => {
-    if (fundData?.length <= 0) {
+    if (fundData?.data?.length <= 0) {
       getFundsData(dispatch);
     }
   }, [fundData]);
   useEffect(() => {
-    let filtered = fundData;
+    let filtered = fundData?.data;
     if (hide) {
       filtered = filtered?.filter(
         (item) => Number(item?.balance) + Number(item?.unavailable_balance) > 1

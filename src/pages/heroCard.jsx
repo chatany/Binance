@@ -2,7 +2,8 @@ import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
 export const HeroSection = () => {
-  const dark = useSelector((state) => state.counter.dark);
+  const {fundData,dark} = useSelector((state) => state.counter);
+  
   const navigate = useNavigate();
   return (
     <div
@@ -13,10 +14,11 @@ export const HeroSection = () => {
       <div className={`${dark ? "text-[#EAECEF]" : "text-[#1E2329]"}`}>
         <div className="text-[20px]">Estimated Balance</div>
         <div className="text-[32px] flex items-end">
-          0.05761486<div className="text-[14px]">BTC</div>
+          {fundData?.totalCoinBalance}
+          {/* <div className="text-[14px]">BTC</div> */}
         </div>
-        <div className="text-[14px]">$6488.93</div>
-        <div className="text-[14px]">Today`s PnL + $37.76(0.58%)</div>
+        <div className="text-[14px]">${fundData?.totalBalance}</div>
+        {/* <div className="text-[14px]">Today`s PnL + $37.76(0.58%)</div> */}
       </div>
       <div>
         <div className="flex gap-5 w-full justify-between">

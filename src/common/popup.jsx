@@ -20,6 +20,7 @@ export const ModifyPopup = ({ orderId }) => {
     apiId,
     showPopup,
     balance,
+    dark,
   } = useSelector((state) => state.counter);
   const item = openOrder.find((item) => item?.order_id === orderId);
   const dispatch = useDispatch();
@@ -77,7 +78,6 @@ export const ModifyPopup = ({ orderId }) => {
       item?.type === "BUY"
         ? `https://test.bitzup.com/order/user/place-buy-order`
         : `https://test.bitzup.com/order/user/place-sell-order`;
-    dispatch(setShowPopup(false));
     const orderData = {
       order_id: item?.order_id,
       pair_id: item?.pair_id,
@@ -108,6 +108,7 @@ export const ModifyPopup = ({ orderId }) => {
         buysellBalance(item?.pair_id, dispatch);
         openOrders(item?.pair_id, userData?.user_id, dispatch);
         OrderHistory(dispatch);
+        dispatch(setShowPopup(false));
       }
     };
     const deletePopup = async () => {
@@ -155,7 +156,6 @@ export const ModifyPopup = ({ orderId }) => {
       item?.type === "BUY"
         ? `https://test.bitzup.com/order/user/place-buy-stop-limit`
         : `https://test.bitzup.com/order/user/place-sell-stop-limit`;
-    dispatch(setShowPopup(false));
     const handleChange = async () => {
       try {
         const { data, status } = await apiRequest({
@@ -169,6 +169,7 @@ export const ModifyPopup = ({ orderId }) => {
         buysellBalance(item?.pair_id, dispatch);
         openOrders(item?.pair_id, userData?.user_id, dispatch);
         OrderHistory(dispatch);
+        dispatch(setShowPopup(false));
       }
     };
     const deletePopup = async () => {
@@ -242,12 +243,16 @@ export const ModifyPopup = ({ orderId }) => {
   if (!showPopup) return null;
   return (
     <div
-      className="md:w-[20rem] w-full bg-white max-md:absolute max-md:bottom-0 z-30 max-md:slide-inTop  text-black border-gray-200 p-5 flex flex-col gap-4 md:rounded-xl rounded-[12px_12px_0px_0px]"
+      className={`md:w-[20rem] w-full  ${
+        dark ? "border-[#333B47]" : "border-[#EDEDED]"
+      } md:border-1 max-md:absolute max-md:bottom-0 z-30 max-md:slide-inTop  ${
+        dark ? "bg-[#181A20] text-[#EAECEF] " : "bg-white text-[#202630] "
+      } p-5 flex flex-col gap-4 md:rounded-xl rounded-[12px_12px_0px_0px]`}
       style={{ boxShadow: "0px 0px 40px 0px rgb(0,0,0,0.10)" }}
       ref={popupRef}
     >
       <div className=" flex flex-col gap-4 mb-8 pb-5">
-        <div className="text-[16px] text-black flex justify-between w-full items-center p-2">
+        <div className="text-[16px]  flex justify-between w-full items-center p-2">
           Modify Order
           <IoCloseSharp
             className="h-6 w-6 cursor-pointer"

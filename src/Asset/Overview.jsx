@@ -16,7 +16,7 @@ export const Overview = () => {
     setActiveTab(key);
   };
   useEffect(() => {
-    let filtered = fundData;
+    let filtered = fundData?.data;
     if (hide) {
       filtered = filtered?.filter(
         (item) => Number(item?.balance) + Number(item?.unavailable_balance) > 1

@@ -63,7 +63,7 @@ export const TopNav = () => {
   useEffect(() => {
     if (!token) {
       dispatch(setBalance({}));
-      dispatch(setFundData([]));
+      dispatch(setFundData({}));
     }
   }, [token]);
   const handleLogout = () => {
@@ -72,7 +72,7 @@ export const TopNav = () => {
     setUserData({});
     setShowLogoutPopup(false);
     dispatch(setBalance({}));
-    dispatch(setFundData([]));
+    dispatch(setFundData({}));
   };
   useEffect(() => {
     const handleStorageChange = () => {

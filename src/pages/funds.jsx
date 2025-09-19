@@ -126,9 +126,9 @@ export const Funds = () => {
                   : "border-[#EAECEF] bg-white"
               }`}
             >
-              {Array.isArray(fundData) && fundData?.length > 0 ? (
+              {Array.isArray(fundData?.data) && fundData?.data?.length > 0 ? (
                 <>
-                  {fundData?.map((item, index) => (
+                  {fundData?.data?.map((item, index) => (
                     <>
                       {item?.balance > 0 && (
                         <div
