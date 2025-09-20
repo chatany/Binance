@@ -92,7 +92,7 @@ export const CommonOrder = () => {
 export const Auth = () => {
   return (
     <svg
-      class="bn-svg h-[120px] w-[120px] mb-4"
+      className="bn-svg h-[120px] w-[120px] mb-4"
       viewBox="0 0 96 96"
       xmlns="http://www.w3.org/2000/svg"
     >
@@ -120,7 +120,7 @@ export const Auth = () => {
 export const AuthIcon = () => {
   return (
     <svg
-      class="bn-svg h-5 w-5"
+      className="bn-svg h-5 w-5"
       viewBox="0 0 24 24"
       xmlns="http://www.w3.org/2000/svg"
     >

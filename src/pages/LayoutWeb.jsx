@@ -6,15 +6,17 @@ import { getActivity, getAuth, getAuthenticationKey, getFundsData, getUserProfil
 import { useEffect } from "react";
 
 export const LayoutWeb = ({ component }) => {
-  const { dark, activeItem } = useSelector((state) => state.counter);
+  const { dark, activeItem,userProfile } = useSelector((state) => state.counter);
    const dispatch = useDispatch();
 
   useEffect(() => {
+    if (Object.keys(userProfile).length === 0) {
     getAuthenticationKey(dispatch);
     getAuth(dispatch);
     getActivity(dispatch);
     getUserProfile(dispatch);
     getFundsData(dispatch);
+    }
   }, []);
   return (
     <div
