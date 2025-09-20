@@ -40,7 +40,9 @@ export const Home = () => {
   const [activeItem, setActiveItem] = useState("Buy");
   const [openMarketPopup, setOpenMarketPopup] = useState(false);
   useEffect(() => {
-    getUserProfile(dispatch);
+    if(userData?.token){
+      getUserProfile(dispatch);
+    }
   }, []);
   useEffect(() => {
     if (symbol) {
