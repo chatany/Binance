@@ -129,13 +129,13 @@ export const TopNav = () => {
           {dark ? (
             <img
               src="/bitzup_light_logo.png"
-              className="h-10 w-full"
+              className="h-10 w-full max-w-[120px]"
               alt="logo"
             />
           ) : (
             <img
               src="/bitzup_dark_logo.png"
-              className="h-10 w-full"
+              className="h-10 w-full max-w-[120px]"
               alt="logo"
             />
           )}

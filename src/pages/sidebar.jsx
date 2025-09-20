@@ -79,9 +79,9 @@ export default function MobileSidebar() {
       >
         <div className="flex justify-between  items-center mb-4 cursor-pointer" onClick={()=>navigate("/")}>
           {dark ? (
-            <img src="/bitzup_light_logo.png" className="h-10 " alt="logo" />
+            <img src="/bitzup_light_logo.png" className="h-10 max-w-[120px]" alt="logo" />
           ) : (
-            <img src="/bitzup_dark_logo.png" className="h-10 " alt="logo" />
+            <img src="/bitzup_dark_logo.png" className="h-10 max-w-[120px] " alt="logo" />
           )}
           <IoMdClose
             className="text-[2rem] cursor-pointer"
