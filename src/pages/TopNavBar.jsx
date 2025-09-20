@@ -319,7 +319,7 @@ export const TopNav = () => {
         </Tooltip>
         {userData?.token && (
           <div
-            className=" text-[14px] font-medium leading-6 hover:opacity-85 items-center text-black bg-[#fcd535] rounded-sm px-2 py-1 flex"
+            className=" text-[14px] font-medium leading-6 hover:opacity-85 items-center text-black bg-[#2EDBAD] rounded-sm px-2 py-1 flex"
             onClick={() => setPopup(!popup)}
           >
             <HiDownload className="h-4 w-4 md:block hidden hover:text-amber-400" />
@@ -445,7 +445,7 @@ export const TopNav = () => {
               Log In
             </div>
             <div
-              className=" text-[14px] font-medium leading-6 hover:opacity-85 text-black bg-[#fcd535] rounded-sm px-2 py-1"
+              className=" text-[14px] font-medium leading-6 hover:opacity-85 text-black bg-[#2EDBAD] rounded-sm px-2 py-1"
               onClick={() => navigate("/register")}
             >
               Sign Up

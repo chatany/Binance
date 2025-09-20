@@ -40,7 +40,7 @@ export const WithdrawalCountdown = ({ lockoutTime, setPopup, popup }) => {
       submit={
         <button
           onClick={handleSubmit}
-          className={`rounded-[12px] p-2 w-full text-[#000000]  bg-[#FCD535] `}
+          className={`rounded-[12px] p-2 w-full text-[#000000]  bg-[#2EDBAD] `}
         >
           {" "}
           I understand

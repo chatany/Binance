@@ -245,7 +245,7 @@ export const ChangePassword = () => {
             onClick={handleSubmit}
             disabled={isDisable}
             className={`rounded-[12px] h-[48px] w-full ${
-              !isDisable ? "bg-[#FCD535]" : "bg-[#EAECEF]"
+              !isDisable ? "bg-[#2EDBAD]" : "bg-[#EAECEF]"
             } text-[#000000] cursor-pointer capitalize`}
           >
             confirm
@@ -332,7 +332,7 @@ export const ChangePassword = () => {
                   disabled={isDisable}
                   name="verify"
                   className={`rounded-[12px] h-[48px] w-full ${
-                    !isDisable ? "bg-[#FCD535]" : "bg-[#EAECEF]"
+                    !isDisable ? "bg-[#2EDBAD]" : "bg-[#EAECEF]"
                   } text-[#000000] cursor-pointer capitalize`}
                 >
                   Verify Email

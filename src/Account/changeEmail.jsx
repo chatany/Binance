@@ -186,7 +186,7 @@ export const ChangeEmail = () => {
                   onClick={handleEmailOtp}
                   disabled={isDisable}
                   className={`rounded-[12px]  w-full h-[48px] ${
-                    isDisable ? "bg-[#e7eeec]" : "bg-[#FCD535] "
+                    isDisable ? "bg-[#e7eeec]" : "bg-[#2EDBAD] "
                   } text-[#000000] cursor-pointer`}
                 >
                   Next
@@ -299,7 +299,7 @@ export const ChangeEmail = () => {
                     disabled={isDisable}
                     name="verify"
                     className={`rounded-[12px]  w-full h-[48px] ${
-                      isDisable ? "bg-[#e7eeec]" : "bg-[#FCD535] "
+                      isDisable ? "bg-[#e7eeec]" : "bg-[#2EDBAD] "
                     } text-[#000000] cursor-pointer`}
                   >
                     {/* {!isDisable ? ( */}

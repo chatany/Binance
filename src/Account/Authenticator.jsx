@@ -181,7 +181,7 @@ export const Authenticator = () => {
               </div>
               <button
                 onClick={() => setShowQr(true)}
-                className="rounded-[12px] p-2 w-full bg-[#FCD535] text-[#000000] cursor-pointer"
+                className="rounded-[12px] p-2 w-full bg-[#2EDBAD] text-[#000000] cursor-pointer"
               >
                 Enable Authenticator App
               </button>
@@ -303,7 +303,7 @@ export const Authenticator = () => {
                     setOtp(true);
                     handleSubmit();
                   }}
-                  className="rounded-[12px] p-2 w-full bg-[#FCD535] text-[#000000] cursor-pointer"
+                  className="rounded-[12px] p-2 w-full bg-[#2EDBAD] text-[#000000] cursor-pointer"
                 >
                   Next
                 </button>
@@ -390,7 +390,7 @@ export const Authenticator = () => {
                     disabled={isDisable}
                     name="verify"
                     className={`rounded-[12px]  w-full ${
-                      isDisable ? "bg-[#e7eeec]" : "bg-[#FCD535] p-2"
+                      isDisable ? "bg-[#e7eeec]" : "bg-[#2EDBAD] p-2"
                     } text-[#000000] cursor-pointer`}
                   >
                     {!isDisable ? (
@@ -467,7 +467,7 @@ export const Authenticator = () => {
                     onClick={RemoveAuth}
                     disabled={isDisable}
                     className={`rounded-[12px] p-2 w-full ${
-                      !isDisable ? "bg-[#FCD535]" : "bg-[#EAECEF]"
+                      !isDisable ? "bg-[#2EDBAD]" : "bg-[#EAECEF]"
                     } text-[#000000] cursor-pointer`}
                   >
                     confirm

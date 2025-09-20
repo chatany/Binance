@@ -125,7 +125,7 @@ export const AntiPhishing = () => {
               </div>
               <button
                 className={`rounded-[12px]  w-full h-[48px] ${
-                  false ? "bg-[#e7eeec]" : "bg-[#FCD535] "
+                  false ? "bg-[#e7eeec]" : "bg-[#2EDBAD] "
                 } text-[#000000] cursor-pointer text-[16px] font-medium leading-[24px] capitalize`}
                 onClick={toggle}
               >
@@ -151,7 +151,7 @@ export const AntiPhishing = () => {
               </div>
               <button
                 className={`rounded-[12px]  w-full h-[48px] ${
-                  false ? "bg-[#e7eeec]" : "bg-[#FCD535] "
+                  false ? "bg-[#e7eeec]" : "bg-[#2EDBAD] "
                 } text-[#000000] cursor-pointer text-[16px] font-medium leading-[24px] capitalize`}
                 onClick={toggle}
               >
@@ -330,7 +330,7 @@ export const AntiPhishing = () => {
                       ? "opacity-30 cursor-not-allowed"
                       : "cursor-pointer"
                   } ${
-                    isDisable ? "bg-[#e7eeec]" : "bg-[#FCD535] "
+                    isDisable ? "bg-[#e7eeec]" : "bg-[#2EDBAD] "
                   } text-[#000000]  cursor-pointer`}
                 >
                   Next
@@ -373,7 +373,7 @@ export const AntiPhishing = () => {
                   onClick={handleSubmit}
                   disabled={isDisable}
                   className={`rounded-[12px]  w-full h-[48px]  ${
-                    isDisable ? "bg-[#e7eeec]" : "bg-[#FCD535] "
+                    isDisable ? "bg-[#e7eeec]" : "bg-[#2EDBAD] "
                   } text-[#000000]  cursor-pointer`}
                 >
                   Submit

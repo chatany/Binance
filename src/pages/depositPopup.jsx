@@ -72,7 +72,11 @@ export const DepositPopup = ({ popup, setPopup }) => {
               <div></div>
               <div>
                 <div className="text-[14px] font-medium leading-[22px] text-[#202630]">
-                  Buy With USDT
+                  Buy With USDT{" "}
+                  <button className="bg-[#2EDBAD] p-[4px] rounded-[4px] text-[11px] ml-3">
+                    {" "}
+                    Coming Soon
+                  </button>
                 </div>
                 <div
                   className={`text-[12px] font-normal leading-[18px] ${
@@ -92,6 +96,10 @@ export const DepositPopup = ({ popup, setPopup }) => {
               <div>
                 <div className="text-[14px] font-medium leading-[22px] text-[#202630]">
                   P2P Trading
+                  <button className="bg-[#2EDBAD] p-[4px] rounded-[4px] text-[11px] ml-3">
+                    {" "}
+                    Coming Soon
+                  </button>
                 </div>
                 <div
                   className={`text-[12px] font-normal leading-[18px] ${
@@ -111,6 +119,10 @@ export const DepositPopup = ({ popup, setPopup }) => {
               <div>
                 <div className="text-[14px] font-medium leading-[22px] text-[#202630]">
                   Credit/Debit Card
+                  <button className="bg-[#2EDBAD] p-[4px] rounded-[4px] text-[11px] ml-3">
+                    {" "}
+                    Coming Soon
+                  </button>
                 </div>
                 <div
                   className={`text-[12px] font-normal leading-[18px] ${
@@ -131,6 +143,10 @@ export const DepositPopup = ({ popup, setPopup }) => {
               <div>
                 <div className="text-[14px] font-medium leading-[22px] text-[#202630]">
                   Third-party payment
+                  <button className="bg-[#2EDBAD] p-[4px] rounded-[4px] text-[11px] ml-3">
+                    {" "}
+                    Coming Soon
+                  </button>
                 </div>
                 <div
                   className={`text-[12px] font-normal leading-[18px] ${

@@ -31,7 +31,7 @@ export const Identification = () => {
         } border-1`}
       >
         <div>Complete Identity Verification</div>
-        <button className="text-[16px] bg-[#FCD535]  min-w-[20px] p-1 font-medium rounded-[10px] text-[#202630]">Get Verified</button>
+        <button className="text-[16px] bg-[#2EDBAD]  min-w-[20px] p-1 font-medium rounded-[10px] text-[#202630]">Get Verified</button>
         <div className="flex gap-3">
           <div className="flex gap-1.5 items-center">
             <PiHeadsetFill />

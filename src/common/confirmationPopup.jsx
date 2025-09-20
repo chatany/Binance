@@ -123,7 +123,7 @@ export const ConfirmationPopup = ({
                 <button
                   onClick={handleSubmit}
                   disabled={!isDisable && !subTitle}
-                  className={`rounded-[12px] p-2 w-full text-[#000000]  bg-[#FCD535] 
+                  className={`rounded-[12px] p-2 w-full text-[#000000]  bg-[#2EDBAD] 
               ${
                 isDisable
                   ? `cursor-pointer`
