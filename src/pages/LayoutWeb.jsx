@@ -2,7 +2,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { TopNav } from "./TopNavBar";
 import { Menu } from "./menu";
 import { Footer } from "./Footer";
-import { getActivity, getAuth, getAuthenticationKey, getUserProfile } from "./apiCall";
+import { getActivity, getAuth, getAuthenticationKey, getFundsData, getUserProfile } from "./apiCall";
 import { useEffect } from "react";
 
 export const LayoutWeb = ({ component }) => {
@@ -14,6 +14,7 @@ export const LayoutWeb = ({ component }) => {
     getAuth(dispatch);
     getActivity(dispatch);
     getUserProfile(dispatch);
+    getFundsData(dispatch);
   }, []);
   return (
     <div

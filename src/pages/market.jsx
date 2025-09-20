@@ -22,7 +22,6 @@ export const MarketCom = () => {
   const [activeTab, setActiveTab] = useState("Market Trade");
   const [isVolume, setIsVolume] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [isDisable,setIsDisable]=useState(false)
   const dispatch = useDispatch();
   const token = useAuth();
   const [favorite, setFavorite] = useState(false);
@@ -73,7 +72,6 @@ export const MarketCom = () => {
       showError("You are not authorized");
       return;
     }
-    setIsDisable(true)
     const faverae = !fav;
     const favData = {
       pair_id: String(pairId),
@@ -94,7 +92,7 @@ export const MarketCom = () => {
     } catch (err) {
       console.error("Failed to fetch second API", err);
     } finally {
-      getFaverateData(dispatch,setIsDisable);
+      getFaverateData(dispatch);
     }
   };
   const formatToKMB = (num) => {
@@ -208,15 +206,15 @@ export const MarketCom = () => {
             >
               <FaStar
                 className={`h-[14px] w-[14px] cursor-pointer ml-2 ${
-                  favorite ? "text-yellow-400" : " text-[#707A8A]"
+                  favorite ? "text-[#2EDBAD]" : " text-[#707A8A]"
                 } `}
                 onClick={(e) => {
                   e.stopPropagation();
-                  !isDisable&&setFavorite(!favorite);
+                  setFavorite(!favorite);
                 }}
               />{" "}
               {favorite && (
-                <div className="border-b-4 border-amber-400 w-[150%] rounded-full "></div>
+                <div className="border-b-4 border-[#2EDBAD] w-[150%] rounded-full "></div>
               )}
             </Tooltip>
           </div>
@@ -228,7 +226,7 @@ export const MarketCom = () => {
           >
             USDT{" "}
             {!favorite && (
-              <div className="border-b-4 border-amber-400 w-[35px] rounded-full"></div>
+              <div className="border-b-4 border-[#2EDBAD] w-[35px] rounded-full"></div>
             )}
             {/* <ScrollableTabsBar dark={dark} /> */}
           </div>
@@ -294,7 +292,7 @@ export const MarketCom = () => {
                             <div className="flex gap-2 items-center">
                               <FaStar
                                 className={`h-[14px] w-[14px] ${
-                                  fav ? "text-yellow-400" : " text-[#707A8A]"
+                                  fav ? "text-[#2EDBAD]" : " text-[#707A8A]"
                                 } `}
                                 onClick={(e) => {
                                   e.stopPropagation();
@@ -355,7 +353,7 @@ export const MarketCom = () => {
           >
             Markets Trade{" "}
             {activeTab === "Market Trade" && (
-              <div className="border-[0.1rem] border-amber-400 w-[40%] h-[2px] "></div>
+              <div className="border-[0.1rem] border-[#2EDBAD] w-[40%] h-[2px] "></div>
             )}
           </div>
           <div
@@ -364,7 +362,7 @@ export const MarketCom = () => {
           >
             My Trade
             {activeTab === "My Trade" && (
-              <div className="border-[0.1rem] border-amber-400 w-[50%] h-[2px] "></div>
+              <div className="border-[0.1rem] border-[#2EDBAD] w-[50%] h-[2px] "></div>
             )}
           </div>
           <div className="relative">

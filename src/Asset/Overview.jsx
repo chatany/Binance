@@ -51,7 +51,7 @@ export const Overview = () => {
                 Coin View{" "}
                 {activeTab === "coin" && (
                   <div className="flex justify-center w-full">
-                    <div className="w-[30%] border-b-2 border-amber-300"></div>
+                    <div className="w-[30%] border-b-2 border-[#2EDBAD]"></div>
                   </div>
                 )}
               </div>
@@ -59,7 +59,7 @@ export const Overview = () => {
                 Account View{" "}
                 {activeTab === "account" && (
                   <div className="flex justify-center w-full">
-                    <div className="w-[30%] border-b-2 border-amber-300"></div>
+                    <div className="w-[30%] border-b-2 border-[#2EDBAD]"></div>
                   </div>
                 )}
               </div>
@@ -171,7 +171,7 @@ export const Overview = () => {
                             <div className="flex gap-2 justify-end items-center p-[8px_16px_8px_0px]">
                               <div
                                 className={`${
-                                  dark ? "text-[#F0B90B]" : " text-[#D89F00]"
+                                  dark ? "text-[#2EDBAD]" : " text-[#2EDBAD]"
                                 } cursor-pointer underline hidden md:flex`}
                               >
                                 cash In

@@ -71,7 +71,7 @@ export const RewardHub = () => {
               <div className="flex flex-col gap-0.5 items-center justify-center">
                 <NotFound className="max-md:size-16 size-20"/>
                 <div className="text-[14px]">No Ongoing Tasks</div>
-                <div className="text-[#F0B90B] text-[14px]">View Past Tasks</div>
+                <div className="text-[#2EDBAD] text-[14px]">View Past Tasks</div>
               </div>
             </div>
           </div>
@@ -105,7 +105,7 @@ export const RewardHub = () => {
                   key={i}
                   className="h-[4px] w-[20px] inline-block rounded-[2px] cursor-pointer"
                   style={{
-                    backgroundColor: current === i ? "#ffcc00" : "#aaa",
+                    backgroundColor: current === i ? "#2EDBAD" : "#aaa",
                   }}
                   onClick={() => handleDotClick(i)}
                 ></span>

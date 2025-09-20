@@ -98,7 +98,7 @@ export const Dashboard = () => {
                 {tab}
                 {activeTab === tab && (
                   <div className="flex justify-center w-full">
-                    <div className="w-[60%] border-b-4 border-amber-300"></div>
+                    <div className="w-[60%] border-b-4 border-[#2EDBAD]"></div>
                   </div>
                 )}
               </button>
@@ -172,7 +172,7 @@ export const Dashboard = () => {
                         </td>
                         <td
                           className={`text-right ${
-                            dark ? "text-[#F0B90B]" : " text-[#D89F00]"
+                            dark ? "text-[#2EDBAD]" : " text-[#2EDBAD]"
                           } underline`}
                         >
                           Trade

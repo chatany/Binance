@@ -256,7 +256,7 @@ export const helpCenterApi = async (dispatch) => {
   }
 };
 
-export const getFaverateData = async (dispatch, setIsDisable) => {
+export const getFaverateData = async (dispatch) => {
   try {
     const { data, status } = await apiRequest({
       method: "get",
@@ -273,9 +273,7 @@ export const getFaverateData = async (dispatch, setIsDisable) => {
     }
   } catch (err) {
     console.error("Failed to fetch second API", err);
-  } finally {
-    setIsDisable(false);
-  }
+  } 
 };
 
 export const getFundsData = async (dispatch) => {

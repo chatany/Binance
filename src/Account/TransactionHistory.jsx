@@ -145,7 +145,7 @@ export const TransactionHistory = () => {
           deposit{" "}
           {location.pathname.includes(`deposit`) && (
             <div className="flex justify-center w-full">
-              <div className="w-[16px] border-b-4 border-amber-300"></div>
+              <div className="w-[16px] border-b-4 border-[#2EDBAD]"></div>
             </div>
           )}
         </div>
@@ -156,7 +156,7 @@ export const TransactionHistory = () => {
           withdraw{" "}
           {location.pathname.includes(`withdraw`) && (
             <div className="flex justify-center w-full">
-              <div className="w-[16px] border-b-4 border-amber-300"></div>
+              <div className="w-[16px] border-b-4 border-[#2EDBAD]"></div>
             </div>
           )}
         </div>

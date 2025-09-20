@@ -3,7 +3,7 @@ import { formatDate, spotTab, tabs } from "../Constant";
 import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { deleteOpenOrder, OrderHistory, SearchData } from "../pages/apiCall";
-import { setIsSuccess, setShowPopup } from "../store/webSocket";
+import { setIsSuccess, setLoading, setShowPopup } from "../store/webSocket";
 import { ScaleLoader } from "react-spinners";
 import { FaRegEdit } from "react-icons/fa";
 import { useDeviceInfo } from "../hooks/useDeviceInfo";
@@ -33,9 +33,10 @@ export const SpotOrders = () => {
     date: false,
     direction: false,
   });
-  const [direction, setDirectioon] = useState("All");
+  const [direction, setDirection] = useState("All");
   const [currentItem, setCurrentItem] = useState("");
   const [filteredData, setFilteredData] = useState(orderHistory);
+  const [filteredData1, setFilteredData1] = useState(openOrder);
   const [isPopup, setIsPopup] = useState(false);
   const dispatch = useDispatch();
   const deviceInfo = useDeviceInfo();
@@ -44,11 +45,11 @@ export const SpotOrders = () => {
   const navigate = useNavigate();
   useEffect(() => {
     OrderHistory(dispatch);
-    SearchData({ dispatch, setIsLoading: setIsPopup });
+    SearchData({ dispatch, setIsLoading: setLoading });
   }, []);
   const [range, setRange] = useState([
     {
-      startDate: new Date(2019, 0, 1),
+      startDate: new Date(new Date().setMonth(new Date().getMonth() - 3)),
       endDate: new Date(),
       key: "selection",
     },
@@ -129,10 +130,10 @@ export const SpotOrders = () => {
     const endDate = new Date(range[0]?.endDate);
     if (startDate && endDate) {
       const start = new Date(startDate);
-      start.setHours(0, 0, 0, 0); 
+      start.setHours(0, 0, 0, 0);
 
       const end = new Date(endDate);
-      end.setHours(23, 59, 59, 999); 
+      end.setHours(23, 59, 59, 999);
 
       filtered = filtered.filter((item) => {
         const itemDate = new Date(item.date_time.replace(" ", "T")); // fixed parse
@@ -142,7 +143,49 @@ export const SpotOrders = () => {
 
     setFilteredData(filtered);
   }, [pair, direction, orderHistory, range]);
+  useEffect(() => {
+    let filtered = openOrder;
 
+    // if (pair !== "" && pair !== "All") {
+    //   filtered = filtered?.filter(
+    //     (item) => item?.pair_symbol.toLowerCase() === pair.toLowerCase()
+    //   );
+    // }
+
+    if (direction !== "" && direction !== "All") {
+      filtered = filtered?.filter(
+        (item) => item?.type.toLowerCase() === direction.toLowerCase()
+      );
+    }
+    const startDate = new Date(range[0]?.startDate);
+    const endDate = new Date(range[0]?.endDate);
+    if (startDate && endDate) {
+      const start = new Date(startDate);
+      start.setHours(0, 0, 0, 0);
+
+      const end = new Date(endDate);
+      end.setHours(23, 59, 59, 999);
+
+      filtered = filtered.filter((item) => {
+        const itemDate = new Date(item?.created_at?.replace(" ", "T"));
+        return itemDate >= start && itemDate <= end;
+      });
+    }
+    console.log(openOrder, "oo");
+
+    setFilteredData1(filtered);
+  }, [pair, direction, openOrder, range]);
+  const orderReset = () => {
+    setPair("All");
+    setDirection("All");
+    setRange([
+      {
+        startDate: new Date(new Date().setMonth(new Date().getMonth() - 3)),
+        endDate: new Date(),
+        key: "selection",
+      },
+    ]);
+  };
   return (
     <div
       className={`h-fit relative mb-5 w-full ${
@@ -161,8 +204,8 @@ export const SpotOrders = () => {
                 onClick={() => setActiveTab(tab)}
                 className={`flex-1 text-center py-2 font-medium transition-colors min-w-max cursor-pointer duration-300 ${
                   activeTab === tab
-                    ? "text-yellow-500"
-                    : "text-gray-600 hover:text-yellow-500"
+                    ? "text-[#2EDBAD]"
+                    : "text-gray-600 hover:text-[#2EDBAD]"
                 }`}
                 name="items"
               >
@@ -175,7 +218,7 @@ export const SpotOrders = () => {
               </button>
               {activeTab === tab && (
                 <div className="flex justify-center w-full">
-                  <div className="w-[30%] border-b-2 border-amber-300"></div>
+                  <div className="w-[30%] border-b-2 border-[#2EDBAD]"></div>
                 </div>
               )}
             </div>
@@ -189,7 +232,7 @@ export const SpotOrders = () => {
             {activeTab === "Open Orders" && (
               <>
                 <div className="w-full p-3">
-                  <div className="flex gap-[16px] flex-wrap p-3">
+                  <div className="w-full grid lg:grid-cols-4 md:grid-cols-2 grid-cols-1  gap-5 p-3">
                     <SelectBox
                       value={pair}
                       title={"Pair"}
@@ -243,7 +286,7 @@ export const SpotOrders = () => {
                               : "hover:bg-[#EAECEF] text-[#757575] hover:text-[#000000]"
                           }`}
                           onClick={() => {
-                            setDirectioon("All");
+                            setDirection("All");
                             handleShow("status");
                           }}
                         >
@@ -256,7 +299,7 @@ export const SpotOrders = () => {
                               : "hover:bg-[#EAECEF] text-[#757575] hover:text-[#000000]"
                           }`}
                           onClick={() => {
-                            setDirectioon("Buy");
+                            setDirection("Buy");
                             handleShow("status");
                           }}
                         >
@@ -269,7 +312,7 @@ export const SpotOrders = () => {
                               : "hover:bg-[#EAECEF] text-[#757575] hover:text-[#000000]"
                           }`}
                           onClick={() => {
-                            setDirectioon("Sell");
+                            setDirection("Sell");
                             handleShow("status");
                           }}
                         >
@@ -281,6 +324,15 @@ export const SpotOrders = () => {
                       onChange={(e) => setRange(e)}
                       value={range}
                     />
+                    <button
+                      className={`text-[16px] w-[40%] font-semibold
+        leading-[24px] ${
+          dark ? "bg-[#333B47]" : "bg-[#EDEDED]"
+        } p-2 rounded-[8px]`}
+                      onClick={orderReset}
+                    >
+                      Reset
+                    </button>
                   </div>
                   <table className="w-full">
                     <thead className="h-[3rem]">
@@ -383,10 +435,11 @@ export const SpotOrders = () => {
                     <tbody>
                       {!loading ? (
                         <>
-                          {Array.isArray(openOrder) && openOrder?.length > 0 ? (
+                          {Array.isArray(filteredData1) &&
+                          filteredData1?.length > 0 ? (
                             <>
-                              {Array.isArray(openOrder) &&
-                                openOrder?.map((item, index) => {
+                              {Array.isArray(filteredData1) &&
+                                filteredData1?.map((item, index) => {
                                   const date = formatDate(item?.created_at);
                                   const percentage =
                                     (item?.executed_base_quantity /
@@ -522,7 +575,7 @@ export const SpotOrders = () => {
             {activeTab === "Order History" && (
               <>
                 <div className="p-3">
-                  <div className="flex gap-[16px] flex-wrap p-3 ">
+                  <div className="w-full grid lg:grid-cols-4 md:grid-cols-2 grid-cols-1  gap-5 p-3">
                     <SelectBox
                       value={pair}
                       title={"Pair"}
@@ -576,7 +629,7 @@ export const SpotOrders = () => {
                               : "hover:bg-[#EAECEF] text-[#757575] hover:text-[#000000]"
                           }`}
                           onClick={() => {
-                            setDirectioon("All");
+                            setDirection("All");
                             handleShow("direction");
                           }}
                         >
@@ -589,7 +642,7 @@ export const SpotOrders = () => {
                               : "hover:bg-[#EAECEF] text-[#757575] hover:text-[#000000]"
                           }`}
                           onClick={() => {
-                            setDirectioon("Buy");
+                            setDirection("Buy");
                             handleShow("direction");
                           }}
                         >
@@ -602,7 +655,7 @@ export const SpotOrders = () => {
                               : "hover:bg-[#EAECEF] text-[#757575] hover:text-[#000000]"
                           }`}
                           onClick={() => {
-                            setDirectioon("Sell");
+                            setDirection("Sell");
                             handleShow("direction");
                           }}
                         >
@@ -614,6 +667,15 @@ export const SpotOrders = () => {
                       onChange={(e) => setRange(e)}
                       value={range}
                     />
+                    <button
+                      className={`text-[16px] w-[40%] font-semibold
+        leading-[24px] ${
+          dark ? "bg-[#333B47]" : "bg-[#EDEDED]"
+        } p-2 rounded-[8px]`}
+                      onClick={orderReset}
+                    >
+                      Reset
+                    </button>
                   </div>
                   <div className="w-full">
                     <table className="min-w-[700px] w-full text-[12px] border-separate border-spacing-0">
@@ -725,14 +787,14 @@ export const SpotOrders = () => {
               name="login_singup"
             >
               <pre
-                className="text-yellow-500"
+                className="text-[#2EDBAD]"
                 onClick={() => navigate("/login")}
               >
                 Log In{" "}
               </pre>
               or
               <pre
-                className="text-yellow-500"
+                className="text-[#2EDBAD]"
                 onClick={() => navigate("/register")}
               >
                 {" "}

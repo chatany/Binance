@@ -72,7 +72,7 @@ export const TopIconBar1 = () => {
       <div className="flex gap-1">
         <FaStar
           className={`h-6 cursor-pointer w-6 ${
-            isFav ? "text-yellow-400" : "text-[#707A8A]"
+            isFav ? "text-[#2EDBAD]" : "text-[#707A8A]"
           }`}
           onClick={handleChange}
         />
@@ -162,7 +162,7 @@ export const TopIconBar1 = () => {
         <div className="text-gray-400 md:text-[12px] text-[12px] leading-4 min-w-max">
           Token Tags
         </div>
-        <div className="flex gap-1 md:text-[12px] text-amber-400 text-[10px] leading-4 min-w-max">
+        <div className="flex gap-1 md:text-[12px] text-[#2EDBAD] text-[10px] leading-4 min-w-max">
           <span>Pow</span>
           <span>|</span>
           <span>Payments</span>
@@ -236,7 +236,7 @@ export const TopIconBar2 = () => {
         <div className="flex gap-1">
           <FaStar
             className={`h-6 cursor-pointer w-6 ${
-              isFav ? "text-yellow-400" : "text-[#707A8A]"
+              isFav ? "text-[#2EDBAD]" : "text-[#707A8A]"
             }`}
             onClick={handleChange}
           />
@@ -332,7 +332,7 @@ export const TopIconBar2 = () => {
                 <div className="text-gray-400 md:text-[12px] text-[10px]">
                   Token Tags
                 </div>
-                <div className="flex gap-1 md:text-[12px] text-[10px] text-amber-400 ">
+                <div className="flex gap-1 md:text-[12px] text-[10px] text-[#2EDBAD] ">
                   <span>Pow</span>
                   <span>|</span>
                   <span>Payments</span>
@@ -415,7 +415,7 @@ export const TopIconBar3 = () => {
         <div className="flex gap-1">
           <FaStar
             className={`h-6 cursor-pointer w-6 ${
-              isFav ? "text-yellow-400" : "text-[#707A8A]"
+              isFav ? "text-[#2EDBAD]" : "text-[#707A8A]"
             }`}
             onClick={handleChange}
           />
@@ -511,7 +511,7 @@ export const TopIconBar3 = () => {
                 <div className="text-gray-400 md:text-[12px] text-[10px]">
                   Token Tags
                 </div>
-                <div className="flex gap-1 md:text-[12px] text-[10px] text-amber-400 ">
+                <div className="flex gap-1 md:text-[12px] text-[10px] text-[#2EDBAD] ">
                   <span>Pow</span>
                   <span>|</span>
                   <span>Payments</span>
@@ -597,7 +597,7 @@ export const TopIconBar4 = ({ setOpenMarketPopup }) => {
           </div>
         </div>
 
-        <div className="flex  gap-[6px] text-[12px]  text-amber-400  overflow-x-auto scrollbar-hide  w-[80%]">
+        <div className="flex  gap-[6px] text-[12px]  text-[#2EDBAD]  overflow-x-auto scrollbar-hide  w-[80%]">
           <span className="min-w-max">Pow |</span>
           <span className="min-w-max">Payments |</span>
           <span className="min-w-max">Price Protection</span>

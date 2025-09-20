@@ -50,7 +50,7 @@ export const Spot = () => {
               className={`relative flex  items-center focus-within:justify-start hover:justify-start ${
                 searchQuery !== "" &&
                 `justify-start ${
-                  dark ? "border-[#b89c4f]" : "border-[#fce788]"
+                  dark ? "border-[#2EDBAD]" : "border-[#2EDBAD]"
                 }`
               }  justify-center`}
             >
@@ -160,7 +160,7 @@ export const Spot = () => {
                           <div className="flex gap-2 justify-end items-center">
                             <div
                               className={`${
-                                dark ? "text-[#F0B90B]" : " text-[#D89F00]"
+                                dark ? "text-[#2EDBAD]" : " text-[#2EDBAD]"
                               } cursor-pointer underline hidden md:flex`}
                               onClick={() => navigate("/crypto/deposit")}
                             >
@@ -168,7 +168,7 @@ export const Spot = () => {
                             </div>
                             <div
                               className={`${
-                                dark ? "text-[#F0B90B]" : " text-[#D89F00]"
+                                dark ? "text-[#2EDBAD]" : " text-[#2EDBAD]"
                               } cursor-pointer underline hidden md:flex`}
                               onClick={() => navigate("/crypto/withdraw")}
                             >

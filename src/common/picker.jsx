@@ -10,7 +10,7 @@ const BinanceDatePicker = ({
   onChange,
   value = [
     {
-      startDate: new Date(2019, 0, 1),
+      startDate: new Date(new Date().setMonth(new Date().getMonth() - 3)),
       endDate: new Date(),
       key: "selection",
     },
