@@ -40,6 +40,10 @@ export const WithdrawPassword = () => {
     return () => clearInterval(interval);
   }, [timer]);
   const handleSubmit = async () => {
+    if (userData?.password === "") {
+      showError("Please Enter Password!");
+      return;
+    }
     setIsDisable(true);
     const obj = {
       password: userData?.password,
