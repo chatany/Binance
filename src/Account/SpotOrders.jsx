@@ -472,7 +472,7 @@ export const SpotOrders = () => {
                                         </div>
                                         {orderId && showPopup && (
                                           <div
-                                            className="absolute -top-[150px]  z-50"
+                                            className="absolute bottom-0  z-50"
                                             ref={popupRef}
                                           >
                                             <ModifyPopup

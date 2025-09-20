@@ -65,8 +65,8 @@ export const MobileChartBar = () => {
                 onClick={() => setActiveTab(tab)}
                 className={`flex-1 text-center py-2 font-medium transition-colors min-w-max cursor-pointer duration-300 ${
                   activeTab === tab
-                    ? "text-yellow-500"
-                    : "text-gray-600 hover:text-yellow-500"
+                    ? "text-[#2EDBAD]"
+                    : "text-gray-600 hover:text-[#2EDBAD]"
                 }`}
                 name="items"
               >
@@ -74,7 +74,7 @@ export const MobileChartBar = () => {
               </button>
               {activeTab === tab && (
                 <div className="flex justify-center w-full">
-                  <div className="w-[30%] border-b-2 border-amber-300"></div>
+                  <div className="w-[30%] border-b-2 border-[#2EDBAD]"></div>
                 </div>
               )}
             </div>

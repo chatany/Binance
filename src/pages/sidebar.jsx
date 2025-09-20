@@ -102,7 +102,7 @@ export default function MobileSidebar() {
                 Log In
               </button>
               <button
-                className="bg-yellow-400 px-4 py-2 rounded font-semibold w-full text-black"
+                className="bg-[#2EDBAD] px-4 py-2 rounded font-semibold w-full text-black"
                 onClick={() => {
                   handleClose();
                   navigate("/register");
