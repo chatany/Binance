@@ -192,7 +192,7 @@ export const Authenticator = () => {
                 <button
                   className="        text-[14px]
         font-medium
-        leading-[22px] text-[#D89F00]"
+        leading-[22px] text-[#2EDBAD]"
                 >
                   Download Authenticator App
                 </button>
@@ -339,7 +339,7 @@ export const Authenticator = () => {
                           focus:outline-none 
                           ${
                             dark
-                              ? "border-[#474D57] focus:border-[#b89c4f]  border-1"
+                              ? "border-[#474D57] focus:border-[#2EDBAD]  border-1"
                               : "text-[#757575] bg-[#D9D9D940]"
                           }
                            transition-colors duration-300 delay-200`}
@@ -356,7 +356,7 @@ export const Authenticator = () => {
                           focus:outline-none 
                           ${
                             dark
-                              ? "border-[#474D57] focus:border-[#b89c4f]  border-1"
+                              ? "border-[#474D57] focus:border-[#2EDBAD]  border-1"
                               : "text-[#757575] bg-[#D9D9D940]"
                           }
                            transition-colors duration-300 delay-200`}
@@ -445,7 +445,7 @@ export const Authenticator = () => {
                           h-[3rem] p-4 text-[12px] 
                           ${
                             dark
-                              ? "border-[#474D57] focus:border-[#b89c4f]  border-1"
+                              ? "border-[#474D57] focus:border-[#2EDBAD]  border-1"
                               : "text-[#757575] bg-[#D9D9D940]"
                           }
                           focus:outline-none 

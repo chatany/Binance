@@ -167,11 +167,11 @@ export const MarketCom = () => {
     w-full capitalize rounded-lg
     h-[1.5rem] p-4 text-[1rem] text-gray-400
     border
-    hover:border-[#b89c4f]
+    hover:border-[#2EDBAD]
      ${
        dark
-         ? "border-[#474D57] focus:border-[#b89c4f]"
-         : "border-[#D8DCE1] focus:border-[#fce788]"
+         ? "border-[#474D57] focus:border-[#2EDBAD]"
+         : "border-[#D8DCE1] focus:border-[#2EDBAD]"
      }
     focus:outline-none 
      transition-colors duration-300 delay-200

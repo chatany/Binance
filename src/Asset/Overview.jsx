@@ -70,12 +70,12 @@ export const Overview = () => {
                   name="Search"
                   onChange={(e) => setSearchQuery(e.target.value)}
                   className={`border
-                hover:border-[#b89c4f] w-[2rem] hover:w-[6rem] pl-6
+                hover:border-[#2EDBAD] w-[2rem] hover:w-[6rem] pl-6
                 rounded-[6px] ${searchQuery !== "" ? "w-[6rem]" : ""}
                 ${
                   dark
-                    ? "border-[#474D57] focus:border-[#b89c4f] focus:w-[6rem]"
-                    : "border-[#D8DCE1] focus:border-[#fce788] focus:w-[6rem]"
+                    ? "border-[#474D57] focus:border-[#2EDBAD] focus:w-[6rem]"
+                    : "border-[#D8DCE1] focus:border-[#2EDBAD] focus:w-[6rem]"
                 }
                 focus:outline-none 
                  transition-colors duration-300 delay-200`}
@@ -107,12 +107,12 @@ export const Overview = () => {
                     name="Search"
                     onChange={(e) => setSearchQuery(e.target.value)}
                     className={`border
-                hover:border-[#b89c4f] w-[2rem] hover:w-[6rem] pl-6
+                hover:border-[#2EDBAD] w-[2rem] hover:w-[6rem] pl-6
                 rounded-[6px] ${searchQuery !== "" ? "w-[6rem]" : ""}
                 ${
                   dark
-                    ? "border-[#474D57] focus:border-[#b89c4f] focus:w-[6rem]"
-                    : "border-[#D8DCE1] focus:border-[#fce788] focus:w-[6rem]"
+                    ? "border-[#474D57] focus:border-[#2EDBAD] focus:w-[6rem]"
+                    : "border-[#D8DCE1] focus:border-[#2EDBAD] focus:w-[6rem]"
                 }
                 focus:outline-none 
                  transition-colors duration-300 delay-200`}

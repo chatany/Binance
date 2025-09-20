@@ -123,7 +123,7 @@ export const TopNav = () => {
     >
       <div className="flex xl:w-[60%] items-center text-lg gap-2 font-semibold leading-6 lg:justify-evenly">
         <div
-          className="text-amber-400 font-semibold text-xl cursor-pointer"
+          className="text-[#2EDBAD] font-semibold text-xl cursor-pointer"
           onClick={() => navigate("/")}
         >
           {dark ? (
@@ -144,7 +144,7 @@ export const TopNav = () => {
           (item, i) => (
             <div
               key={i}
-              className="hover:text-amber-400 text-[14px] lg:flex hidden items-center gap-1 cursor-pointer relative  "
+              className="hover:text-[#2EDBAD] text-[14px] lg:flex hidden items-center gap-1 cursor-pointer relative  "
               onMouseEnter={(e) => {
                 const rect = e.currentTarget.getBoundingClientRect();
                 setHoveredItemIndex(i);
@@ -313,7 +313,7 @@ export const TopNav = () => {
           }}
         >
           <CiSearch
-            className="hover:text-amber-400  h-6 w-6 md:block hidden"
+            className="hover:text-[#2EDBAD]  h-6 w-6 md:block hidden"
             onClick={() => setShowSideBar(true)}
           />
         </Tooltip>
@@ -322,7 +322,7 @@ export const TopNav = () => {
             className=" text-[14px] font-medium leading-6 hover:opacity-85 items-center text-black bg-[#2EDBAD] rounded-sm px-2 py-1 flex"
             onClick={() => setPopup(!popup)}
           >
-            <HiDownload className="h-4 w-4 md:block hidden hover:text-amber-400" />
+            <HiDownload className="h-4 w-4 md:block hidden hover:text-[#2EDBAD]" />
             Deposit
           </div>
         )}
@@ -335,7 +335,7 @@ export const TopNav = () => {
             onDoubleClick={() => navigate("/dashboard")}
           >
             <CgProfile
-              className=" hover:text-amber-400 h-6 w-6"
+              className=" hover:text-[#2EDBAD] h-6 w-6"
               // onClick={() => setProfile(!profile)}
             />
             {profile && !isMobile && (
@@ -454,7 +454,7 @@ export const TopNav = () => {
         )}
         <div className="relative">
           <IoDownloadOutline
-            className="hover:text-amber-400 h-6 w-6 md:flex hidden"
+            className="hover:text-[#2EDBAD] h-6 w-6 md:flex hidden"
             onMouseEnter={() => setShowPopup(true)}
             onMouseLeave={() => setShowPopup(false)}
           />
@@ -492,7 +492,7 @@ export const TopNav = () => {
             }}
           >
             <RxHamburgerMenu
-              className="hover:text-amber-400 h-6 w-6 md:hidden flex"
+              className="hover:text-[#2EDBAD] h-6 w-6 md:hidden flex"
               // onClick={handleClose}
             />
           </Tooltip>
@@ -517,7 +517,7 @@ export const TopNav = () => {
             }}
           >
             <FaQuestion
-              className="hover:text-amber-400  h-6 w-6 md:flex hidden"
+              className="hover:text-[#2EDBAD]  h-6 w-6 md:flex hidden"
               onClick={() => setShowHelpPopup(true)}
             />
           </Tooltip>
@@ -552,7 +552,7 @@ export const TopNav = () => {
             }}
           >
             <RiLogoutBoxRLine
-              className="hover:text-amber-400  h-6 w-6"
+              className="hover:text-[#2EDBAD]  h-6 w-6"
               onClick={() => {
                 setShowLogoutPopup(true);
               }}
@@ -579,7 +579,7 @@ export const TopNav = () => {
             }}
           >
             <IoSunnyOutline
-              className="hover:text-amber-400 sm:flex hidden  h-6 w-6"
+              className="hover:text-[#2EDBAD] sm:flex hidden  h-6 w-6"
               onClick={handleTheme}
             />
           </Tooltip>
@@ -603,7 +603,7 @@ export const TopNav = () => {
             }}
           >
             <BsMoon
-              className="hover:text-amber-400 sm:flex hidden h-6 w-6 md:h-6 md:w-6"
+              className="hover:text-[#2EDBAD] sm:flex hidden h-6 w-6 md:h-6 md:w-6"
               onClick={handleTheme}
             />
           </Tooltip>

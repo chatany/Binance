@@ -30,14 +30,14 @@ export default function CoinSelect({ children, header, setOpen, open }) {
      flex items-center capitalize rounded-lg w-full
     h-[48px]  text-[1rem] text-gray-400
     border
-    hover:border-[#b89c4f]
+    hover:border-[#2EDBAD]
      ${
        dark
-         ? `border-[#474D57] focus:border-[#b89c4f] ${
-             open && "border-[#b89c4f]"
+         ? `border-[#474D57] focus:border-[#2EDBAD] ${
+             open && "border-[#2EDBAD]"
            } `
-         : `border-[#D8DCE1] focus:border-[#fce788] ${
-             open && "border-[#fce788]"
+         : `border-[#D8DCE1] focus:border-[#2EDBAD] ${
+             open && "border-[#2EDBAD]"
            } `
      }
     focus:outline-none 

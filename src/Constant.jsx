@@ -54,27 +54,27 @@ export const formatDate = (isoDate) => {
 };
 export const supportOptions = [
   {
-    icon: <FaComments className="text-yellow-500" />,
+    icon: <FaComments className="text-[#2EDBAD]" />,
     title: "Submit Live Chat",
     desc: "Chat with Customer Support",
   },
   {
-    icon: <FaQuestionCircle className="text-yellow-500" />,
+    icon: <FaQuestionCircle className="text-[#2EDBAD]" />,
     title: "Support Centre",
     desc: "Access Support FAQ articles",
   },
   {
-    icon: <FaMoneyBill className="text-yellow-500" />,
+    icon: <FaMoneyBill className="text-[#2EDBAD]" />,
     title: "Trading Fees",
     desc: "View the trading fees",
   },
   {
-    icon: <FaBalanceScale className="text-yellow-500" />,
+    icon: <FaBalanceScale className="text-[#2EDBAD]" />,
     title: "Trading Rule",
     desc: "View the trading rules and limits",
   },
   {
-    icon: <FaGlobe className="text-yellow-500" />,
+    icon: <FaGlobe className="text-[#2EDBAD]" />,
     title: "Travel Rule",
     desc: "Enhance transparency and combat financial crimes",
   },

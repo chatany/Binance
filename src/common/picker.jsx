@@ -58,11 +58,11 @@ const popupRef = useRef(null);
      flex items-center capitalize rounded-lg w-full
     h-[40px] p-2 text-[1rem] text-gray-400
     border
-    hover:border-[#b89c4f]
+    hover:border-[#2EDBAD]
      ${
        dark
-         ? "border-[#474D57] focus:border-[#b89c4f]"
-         : "border-[#D8DCE1] focus:border-[#fce788]"
+         ? "border-[#474D57] focus:border-[#2EDBAD]"
+         : "border-[#D8DCE1] focus:border-[#2EDBAD]"
      }
     focus:outline-none 
      transition-colors duration-300 delay-200
@@ -77,8 +77,8 @@ const popupRef = useRef(null);
         <div
           className={`absolute border-[1px] top-10 rounded-2xl   ${
             dark
-              ? "border-[#474D57] focus:border-[#b89c4f]"
-              : "border-[#D8DCE1] focus:border-[#fce788]"
+              ? "border-[#474D57] focus:border-[#2EDBAD]"
+              : "border-[#D8DCE1] focus:border-[#2EDBAD]"
           }`}
         >
           <div className="relative justify-between flex">

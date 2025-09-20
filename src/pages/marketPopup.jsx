@@ -104,7 +104,7 @@ export const MarketPopup = ({ handleClose, openMarketPopup }) => {
                     w-[100%] capitalize rounded-lg
                     h-[1.5rem] p-4 text-[1rem] text-gray-400
                     border
-                    hover:border-[#b89c4f]
+                    hover:border-[#2EDBAD]
                      border-[${dark ? `#474D57` : `#D8DCE1`}]
                     focus:border-[${dark ? `#b89c4f` : `#fce788`}] 
                     focus:outline-none 
@@ -120,7 +120,7 @@ export const MarketPopup = ({ handleClose, openMarketPopup }) => {
           }`}
         >
           USDT{" "}
-          <div className="border-b-4 border-amber-400 w-[35px] rounded-full"></div>
+          <div className="border-b-4 border-[#2EDBAD] w-[35px] rounded-full"></div>
           {/* <ScrollableTabsBar dark={dark} /> */}
         </div>
         <div className="h-[80%] overflow-x-auto overflow-y-auto p-2">
@@ -166,7 +166,7 @@ export const MarketPopup = ({ handleClose, openMarketPopup }) => {
                           <div className="flex gap-2 items-center">
                             <FaStar
                               className={`h-[14px] w-[14px] ${
-                                fav ? "text-yellow-400" : ""
+                                fav ? "text-[#2EDBAD]" : ""
                               } `}
                               onClick={(e) => {
                                 e.stopPropagation();

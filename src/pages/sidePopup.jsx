@@ -105,16 +105,16 @@ export const SidePopup = ({
             w-[80%] capitalize rounded-lg
             h-[1.5rem] p-4 text-[1rem] text-gray-400
             border
-            hover:border-[#b89c4f]
+            hover:border-[#2EDBAD]
              border-[${dark ? `#474D57` : `#D8DCE1`}]
-            focus:border-[${dark ? `#b89c4f` : `#fce788`}] 
+            focus:border-[${dark ? `#2EDBAD` : `#2EDBAD`}] 
             focus:outline-none 
              transition-colors duration-300 delay-200
             `}
             placeholder="search"
             onChange={(e) => setSearchInput(e.target.value)}
           />
-          <div className="text-[16px] text-[#fce788]" onClick={handleClose}>
+          <div className="text-[16px] text-[#2EDBAD]" onClick={handleClose}>
             cancel
           </div>
         </div>

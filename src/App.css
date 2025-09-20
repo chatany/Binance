@@ -15,10 +15,10 @@
   transition: border 0.5s ease 0.1s;
 }
 .input-wrapper:focus-within {
-  border: 1px solid #b89c4f;
+  border: 1px solid #2EDBAD;
 }
 .input-wrapper:hover {
-  border: 1px solid #b89c4f;
+  border: 1px solid #2EDBAD;
 }
 .dark .input-wrapper:hover {
   border: 1px solid #352d18;
@@ -38,7 +38,7 @@
 .input-field:focus {
   outline: none;
   border: none;
-  box-shadow: 0 0 0 1px #f2b300;
+  box-shadow: 0 0 0 1px #2EDBAD;
 }
 
 .right-section {
@@ -139,7 +139,7 @@
 .react-datepicker__day--selected,
 .react-datepicker__day--in-range,
 .react-datepicker__day--keyboard-selected {
-  background-color: #fcd34d !important; /* yellow highlight */
+  background-color: #2EDBAD !important; /* yellow highlight */
   color: #000 !important;
   border-radius: 6px !important;
 }
@@ -158,7 +158,7 @@
 }
 
 .quick-select button {
-  background: #fcd34d;
+  background: #2EDBAD;
   border: none;
   padding: 6px 12px;
   border-radius: 6px;
@@ -166,7 +166,7 @@
   cursor: pointer;
 }
 .quick-select button:hover {
-  background: #fbbf24;
+  background: #2EDBAD;
 }
 
 .date-display {

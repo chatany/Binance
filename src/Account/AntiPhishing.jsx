@@ -194,8 +194,8 @@ export const AntiPhishing = () => {
                                                 h-[3rem] p-4 text-[12px] 
                                                 ${
                                                   dark
-                                                    ? "border-[#474D57] focus:border-[#b89c4f] "
-                                                    : "border-[#D8DCE1] focus:border-[#fce788]"
+                                                    ? "border-[#474D57] focus:border-[#2EDBAD] "
+                                                    : "border-[#D8DCE1] focus:border-[#2EDBAD]"
                                                 }
                                                 focus:outline-none   border-1
                                                  transition-colors duration-300 delay-200`}
@@ -359,8 +359,8 @@ export const AntiPhishing = () => {
                                                 h-[3rem] p-4 text-[12px] 
                                                 ${
                                                   dark
-                                                    ? "border-[#474D57] focus:border-[#b89c4f] "
-                                                    : "border-[#D8DCE1] focus:border-[#fce788]"
+                                                    ? "border-[#474D57] focus:border-[#2EDBAD] "
+                                                    : "border-[#D8DCE1] focus:border-[#2EDBAD]"
                                                 }
                                                 focus:outline-none   border-1
                                                  transition-colors duration-300 delay-200`}
