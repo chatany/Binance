@@ -1,5 +1,6 @@
+@import url("https://fonts.googleapis.com/css2?family=Cabin:ital,wght@0,400..700;1,400..700&display=swap");
 :root {
-  font-family: BinanceNova, Arial, sans-serif !important;
+  font-family: "Cabin", sans-serif !important;
   line-height: 1.5;
   font-weight: 400;
   background-color: #f1f1f1;
