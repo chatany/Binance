@@ -320,7 +320,7 @@ export const MobileChartBar = () => {
                             }}
                           >
                             <td colSpan={3} className="p-0">
-                              <div className="w-full flex relative h-full text-[.6rem] lg:text-[12px]">
+                              <div className="w-full flex relative h-full text-[12px]">
                                 {/* Red background part */}
                                 <div
                                   className={`absolute top-0 right-0 h-full bg-[#F6465D] ${
@@ -334,10 +334,10 @@ export const MobileChartBar = () => {
                                   <span className="text-[#F6465D] w-1/3 text-left">
                                     {formatToKMBWithCommas(price)}
                                   </span>
-                                  <span className="w-1/3 text-center">
+                                  <span className="w-1/3 text-center text-[12px]">
                                     {amount}
                                   </span>
-                                  <span className="w-1/3 text-right">
+                                  <span className="w-1/3 text-right text-[12px]">
                                     {rounding
                                       ? totalAmount
                                       : parseFloat(total).toFixed(4)}
@@ -409,7 +409,7 @@ export const MobileChartBar = () => {
                               }}
                             >
                               <td colSpan={3} className="p-0">
-                                <div className="w-full flex relative h-full text-[.6rem] lg:text-[12px]">
+                                <div className="w-full flex relative h-full text-[12px]">
                                   {/* Red background part */}
                                   <div
                                     className={`absolute top-0 right-0 h-full bg-[#2EBD85]  z-0 ${
@@ -420,13 +420,13 @@ export const MobileChartBar = () => {
 
                                   {/* Actual content */}
                                   <div className="flex w-full justify-between items-center px-[2px] relative z-10">
-                                    <span className="text-[#2EBD85] w-1/3 text-left">
+                                    <span className="text-[#2EBD85] w-1/3 text-left text-[12px]">
                                       {formatToKMBWithCommas(price)}
                                     </span>
-                                    <span className="w-1/3 text-center">
+                                    <span className="w-1/3 text-center text-[12px]">
                                       {amount}
                                     </span>
-                                    <span className="w-1/3 text-right">
+                                    <span className="w-1/3 text-right text-[12px]">
                                       {rounding
                                         ? totalAmount
                                         : parseFloat(total).toFixed(4)}
@@ -484,7 +484,7 @@ export const MobileChartBar = () => {
                                 }}
                               >
                                 <td colSpan={2} className="p-0">
-                                  <div className="w-full flex relative h-full text-[.6rem] lg:text-[12px]">
+                                  <div className="w-full flex relative h-full text-[12px]">
                                     {/* Red background part */}
                                     <div
                                       className={`absolute top-0 right-0 h-full bg-[#2EBD85]  z-0 ${
@@ -495,10 +495,10 @@ export const MobileChartBar = () => {
 
                                     {/* Actual content */}
                                     <div className="flex w-full justify-between items-center px-[2px] relative z-10">
-                                      <span className="text-[#2EBD85] w-1/3 text-left">
+                                      <span className="text-[#2EBD85] w-1/3 text-left text-[12px]">
                                         {formatToKMBWithCommas(price)}
                                       </span>
-                                      <span className="w-1/3 text-center">
+                                      <span className="w-1/3 text-center text-[12px]">
                                         {amount}
                                       </span>
                                     </div>
@@ -551,7 +551,7 @@ export const MobileChartBar = () => {
                                 }}
                               >
                                 <td colSpan={2} className="p-0">
-                                  <div className="w-full flex relative h-full text-[.6rem] lg:text-[12px]">
+                                  <div className="w-full flex relative h-full text-[12px]">
                                     {/* Red background part */}
                                     <div
                                       className={`absolute top-0 right-0 h-full bg-[#F6465D] ${
@@ -562,10 +562,10 @@ export const MobileChartBar = () => {
 
                                     {/* Actual content */}
                                     <div className="flex w-full justify-between items-center px-[2px] relative z-10">
-                                      <span className="text-[#F6465D] w-1/3 text-left">
+                                      <span className="text-[#F6465D] w-1/3 text-left text-[12px]">
                                         {formatToKMBWithCommas(price)}
                                       </span>
-                                      <span className="w-1/3 text-center">
+                                      <span className="w-1/3 text-center text-[12px]">
                                         {amount}
                                       </span>
                                     </div>
