@@ -40,7 +40,7 @@ export const Home = () => {
   const [activeItem, setActiveItem] = useState("Buy");
   const [openMarketPopup, setOpenMarketPopup] = useState(false);
   useEffect(() => {
-    if(userData?.token){
+    if (userData?.token) {
       getUserProfile(dispatch);
     }
   }, []);
@@ -96,7 +96,7 @@ export const Home = () => {
       {/* Top Navbar */}
       <TopNav />
       {/* Main Content */}
-      <div className="w-full flex flex-col items-center gap-1 justify-between md:p-[4px_4px_4px_4px]">
+      {/* <div className="w-full flex flex-col items-center gap-1 justify-between md:p-[4px_4px_4px_4px]">
         <div className="max-w-[1528px] overflow-hidden w-full lg:flex hidden gap-1.5">
           <div className=" flex flex-col w-full items-center gap-1.5 ">
             <TopIconBar1 />
@@ -110,7 +110,7 @@ export const Home = () => {
               >
                 <Order />
               </div>
-              <div className="flex flex-col  w-full gap-1">
+              <div className="flex flex-col  xl:w-[600px] w-[500px] gap-1">
                 <div
                   className={`${
                     dark ? "bg-[#181A20] " : "bg-white "
@@ -120,7 +120,7 @@ export const Home = () => {
                     <ChartEmbed />
                   </div>
                 </div>
-                <div className="w-full">
+                <div className="w-[650px]">
                   <Form />
                 </div>
               </div>
@@ -145,11 +145,62 @@ export const Home = () => {
         >
           <OpenOrders />
         </div>
+      </div> */}
+      <div className=" flex justify-center w-full max-lg:hidden">
+        <div className="grid grid-cols-4  md:p-[4px_6px_6px_6px] w-full  max-w-[1528px] gap-1">
+          <div className="col-span-3 flex flex-col gap-1">
+            {" "}
+            <TopIconBar1 />
+            <TopIconBar2 />
+            <div className="grid grid-cols-6 w-full gap-1">
+              <div
+                className={`col-span-2 w-full lg:block  transition-all duration-500 delay-100  hidden ${
+                  isOpen ? "h-[60.1rem]" : "h-[56.8rem]"
+                }`}
+              >
+                <Order />
+              </div>
+              <div className="flex flex-col col-span-4   gap-1">
+                <div
+                  className={`${
+                    dark ? "bg-[#181A20] " : "bg-white "
+                  } max-h-[800px]   text-xs w-full`}
+                >
+                  <div className="h-[500px] w-full rounded-lg">
+                    <ChartEmbed />
+                  </div>
+                </div>
+                <div>
+                  <Form />
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="col-span-1 flex flex-col gap-1">
+            <MarketCom />
+            <div
+              className={` rounded-lg  ${
+                dark ? "bg-[#181A20] text-white" : "bg-white text-black"
+              }  `}
+            >
+              <TopMovers />
+            </div>
+          </div>
+          <div
+            className={`lg:block hidden col-span-4 rounded-2xl h-full w-full ${
+              dark ? " bg-[#181A20]" : " bg-white "
+            } `}
+          >
+            <OpenOrders />
+          </div>
+        </div>
       </div>
-      <div className="lg:hidden flex flex-col w-full p-[0px_4px_4px_4px] ">
-        <TopIconBar3 />
-        <div className="w-full md:flex hidden pb-2 gap-1">
-          <div className="w-[67%] flex flex-col gap-2 p-1">
+      <div className="lg:hidden grid grid-col-3 w-full gap-1 p-[0px_5px_5px_5px] ">
+        <div className="col-span-3 w-full md:mt-1">
+          <TopIconBar3 />
+        </div>
+        <div className="col-span-3 md:grid hidden  grid-cols-6 gap-[5px]">
+          <div className=" flex flex-col  col-span-4 gap-1">
             <div className="h-[400px]  text-xs w-full bg-gray-800  rounded-md ">
               <ChartEmbed />
             </div>
@@ -161,7 +212,7 @@ export const Home = () => {
           <div
             className={`${
               dark ? "bg-[#181A20]" : "bg-white"
-            } w-[33%] space-y-6 P-3 rounded-lg`}
+            } col-span-2 space-y-6 rounded-lg`}
           >
             <ToggleButSell
               activeItem={activeItem}
@@ -173,8 +224,8 @@ export const Home = () => {
             />
           </div>
         </div>
-        <div className={`md:hidden w-full`}>
-          <div className=" text-xs w-full   rounded-md flex flex-col gap-1.5">
+        <div className={`md:hidden col-span-3 w-full`}>
+          <div className=" text-xs w-full   rounded-md flex flex-col gap-1">
             <div className={` w-full ${dark ? "bg-[#181A20] " : "bg-white"} `}>
               <TopIconBar4 setOpenMarketPopup={setOpenMarketPopup} />
             </div>

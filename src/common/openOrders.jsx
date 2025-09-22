@@ -88,14 +88,14 @@ export const OpenOrders = () => {
   }, [pairId]);
   return (
     <div
-      className={`h-fit relative mb-5 w-full ${
+      className={`h-fit relative rounded-[8px] w-full ${
         dark ? " bg-[#181A20]" : " bg-white "
       } `}
     >
       <div
         className={`${
           dark ? " bg-[#181A20] border-[#333B47]" : "border-[#EDEDED] bg-white"
-        } border-b-[1px]`}
+        } border-b-[1px] rounded-[8px_8px_0px_0px]`}
       >
         <div className="flex   gap-5 items-center text-[14px] leading-4  w-full font-medium p-1 pb-0 ">
           {tabs.map((tab) => (

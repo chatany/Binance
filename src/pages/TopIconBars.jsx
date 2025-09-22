@@ -409,119 +409,121 @@ export const TopIconBar3 = () => {
     <div
       className={` w-full text-xs  ${
         dark ? "bg-[#181A20]  " : "bg-white  "
-      } p-2 md:flex hidden mb-2 rounded-lg `}
+      } p-2 md:flex hidden  rounded-lg `}
     >
-      <div className="w-full flex items-center gap-2">
-        <div className="flex gap-1">
-          <FaStar
-            className={`h-6 cursor-pointer w-6 ${
-              isFav ? "text-[#2EDBAD]" : "text-[#707A8A]"
-            }`}
-            onClick={handleChange}
+      <div className="grid grid-cols-3">
+        <div className="col-span-1 flex items-center gap-2">
+          <div className="flex gap-1">
+            <FaStar
+              className={`h-6 cursor-pointer w-6 ${
+                isFav ? "text-[#2EDBAD]" : "text-[#707A8A]"
+              }`}
+              onClick={handleChange}
+            />
+            {iconURL && <img src={iconURL} className="h-6 w-6" alt="coin" />}
+          </div>
+          <div className="flex flex-col">
+            <div className="md:text-[14px] text-[10px]">
+              {tikerData?.symbol?.split("USDT")[0] + "/USDT"}
+            </div>
+            <div className="md:text-[14px] text-[10px] text-gray-400 min-w-max">
+              {coinName} Price
+            </div>
+          </div>
+          <div className="flex flex-col">
+            <div
+              className={`${
+                priceColor ? "text-[#2EBD85] " : "text-[#F6465D] "
+              } md:text-[12px] text-[10px]`}
+            >
+              {formatToKMBWithCommas(
+                formatDecimal(tikerData?.lastPrice, priceDecimal)
+              )}
+            </div>
+            <div className="md:text-[12px] text-[10px]">
+              $
+              {formatToKMBWithCommas(
+                formatDecimal(tikerData?.lastPrice, priceDecimal)
+              )}
+            </div>
+          </div>
+        </div>
+        <div className="col-span-2 flex flex-wrap">
+          <ScrollStatsBar
+            dark={dark}
+            items={
+              <>
+                <div className="flex flex-col">
+                  <div className="text-gray-400 md:text-[12px] text-[10px]">
+                    24h Change
+                  </div>
+                  <div className="text-green-500 md:text-[12px] text-[10px]">
+                    {tikerData?.priceChange
+                      ? parseFloat(tikerData?.priceChange).toString()
+                      : 0}{" "}
+                    +{" "}
+                    {tikerData?.priceChangePercent
+                      ? parseFloat(tikerData?.priceChangePercent).toString()
+                      : 0}{" "}
+                    %
+                  </div>
+                </div>
+                <div className="flex flex-col">
+                  <div className="text-gray-400 md:text-[12px] text-[10px]">
+                    24h High
+                  </div>
+                  <div className="md:text-[12px] text-[10px]">
+                    {tikerData?.highPrice
+                      ? parseFloat(tikerData?.highPrice).toString()
+                      : 0}
+                  </div>
+                </div>
+                <div className="flex flex-col">
+                  <div className="text-gray-400md:text-[12px] text-[10px]]">
+                    24h Low
+                  </div>
+                  <div className="md:text-[12px] text-[10px]">
+                    {tikerData?.lowPrice
+                      ? parseFloat(tikerData?.lowPrice).toString()
+                      : 0}
+                  </div>
+                </div>
+                <div className="flex flex-col">
+                  <div className="text-gray-400 md:text-[12px] text-[10px]">
+                    24h Volume (BTC)
+                  </div>
+                  <div className="md:text-[12px] text-[10px]">
+                    {tikerData?.volume
+                      ? parseFloat(tikerData?.volume).toString()
+                      : 0}
+                  </div>
+                </div>
+                <div className="flex flex-col">
+                  <div className="text-gray-400 md:text-[12px] text-[10px] min-w-max">
+                    24h Volume (USDT)
+                  </div>
+                  <div className="md:text-[11px] text-[12px]">
+                    {tikerData?.quoteVolume
+                      ? parseFloat(tikerData?.quoteVolume).toString()
+                      : 0}
+                  </div>
+                </div>
+                <div className="flex flex-col">
+                  <div className="text-gray-400 md:text-[12px] text-[10px]">
+                    Token Tags
+                  </div>
+                  <div className="flex gap-1 md:text-[12px] text-[10px] text-[#2EDBAD] ">
+                    <span>Pow</span>
+                    <span>|</span>
+                    <span>Payments</span>
+                    <span>|</span>
+                    <span>Price Protection</span>
+                  </div>
+                </div>
+              </>
+            }
           />
-          {iconURL && <img src={iconURL} className="h-6 w-6" alt="coin" />}
         </div>
-        <div className="flex flex-col">
-          <div className="md:text-[14px] text-[10px]">
-            {tikerData?.symbol?.split("USDT")[0] + "/USDT"}
-          </div>
-          <div className="md:text-[14px] text-[10px] text-gray-400 min-w-max">
-            {coinName} Price
-          </div>
-        </div>
-        <div className="flex flex-col">
-          <div
-            className={`${
-              priceColor ? "text-[#2EBD85] " : "text-[#F6465D] "
-            } md:text-[12px] text-[10px]`}
-          >
-            {formatToKMBWithCommas(
-              formatDecimal(tikerData?.lastPrice, priceDecimal)
-            )}
-          </div>
-          <div className="md:text-[12px] text-[10px]">
-            $
-            {formatToKMBWithCommas(
-              formatDecimal(tikerData?.lastPrice, priceDecimal)
-            )}
-          </div>
-        </div>
-      </div>
-      <div className="w-[70%] flex flex-wrap">
-        <ScrollStatsBar
-          dark={dark}
-          items={
-            <>
-              <div className="flex flex-col">
-                <div className="text-gray-400 md:text-[12px] text-[10px]">
-                  24h Change
-                </div>
-                <div className="text-green-500 md:text-[12px] text-[10px]">
-                  {tikerData?.priceChange
-                    ? parseFloat(tikerData?.priceChange).toString()
-                    : 0}{" "}
-                  +{" "}
-                  {tikerData?.priceChangePercent
-                    ? parseFloat(tikerData?.priceChangePercent).toString()
-                    : 0}{" "}
-                  %
-                </div>
-              </div>
-              <div className="flex flex-col">
-                <div className="text-gray-400 md:text-[12px] text-[10px]">
-                  24h High
-                </div>
-                <div className="md:text-[12px] text-[10px]">
-                  {tikerData?.highPrice
-                    ? parseFloat(tikerData?.highPrice).toString()
-                    : 0}
-                </div>
-              </div>
-              <div className="flex flex-col">
-                <div className="text-gray-400md:text-[12px] text-[10px]]">
-                  24h Low
-                </div>
-                <div className="md:text-[12px] text-[10px]">
-                  {tikerData?.lowPrice
-                    ? parseFloat(tikerData?.lowPrice).toString()
-                    : 0}
-                </div>
-              </div>
-              <div className="flex flex-col">
-                <div className="text-gray-400 md:text-[12px] text-[10px]">
-                  24h Volume (BTC)
-                </div>
-                <div className="md:text-[12px] text-[10px]">
-                  {tikerData?.volume
-                    ? parseFloat(tikerData?.volume).toString()
-                    : 0}
-                </div>
-              </div>
-              <div className="flex flex-col">
-                <div className="text-gray-400 md:text-[12px] text-[10px] min-w-max">
-                  24h Volume (USDT)
-                </div>
-                <div className="md:text-[11px] text-[12px]">
-                  {tikerData?.quoteVolume
-                    ? parseFloat(tikerData?.quoteVolume).toString()
-                    : 0}
-                </div>
-              </div>
-              <div className="flex flex-col">
-                <div className="text-gray-400 md:text-[12px] text-[10px]">
-                  Token Tags
-                </div>
-                <div className="flex gap-1 md:text-[12px] text-[10px] text-[#2EDBAD] ">
-                  <span>Pow</span>
-                  <span>|</span>
-                  <span>Payments</span>
-                  <span>|</span>
-                  <span>Price Protection</span>
-                </div>
-              </div>
-            </>
-          }
-        />
       </div>
     </div>
   );

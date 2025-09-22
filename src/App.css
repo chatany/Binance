@@ -75,7 +75,7 @@
   outline: 0;
   box-shadow: 0 0 0 0rem rgba(0, 123, 255, 0.25);
 }
-@media (max-width: 2000px) {
+@media (max-width: 2500px) {
   .trade-label {
     font-size: 12px;
   }

@@ -7,6 +7,7 @@ export const ChartEmbed = () => {
     apiId === "binance" ? "v1" : "v2"
   }/${query}?theme=${dark ? "dark" : "light"}
   `;
+console.log(url,"oo");
 
   return (
     <div className="max-w-full h-full rounded-lg">

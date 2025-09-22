@@ -35,7 +35,7 @@ const TopMovers = () => {
     <div
       className={`${
         open ? "h-[17.5rem]" : "h-[13.9rem]"
-      } transition-all duration-500 delay-100 max-w-[320px]   rounded-lg w-full   overflow-hidden`}
+      } transition-all duration-500 delay-100   rounded-lg w-full   overflow-hidden`}
     >
       <div
         className={`flex  ${
