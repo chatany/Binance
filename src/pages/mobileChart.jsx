@@ -83,7 +83,7 @@ export const MobileChartBar = () => {
       </div>
       <div className="h-full">
         {activeTab === tab[0] && (
-          <div className="h-full w-full">
+          <div className="h-[400px] w-full">
             <ChartEmbed searchQuery={searchQuery} dark={dark} />
           </div>
         )}
