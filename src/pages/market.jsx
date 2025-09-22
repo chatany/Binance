@@ -287,7 +287,7 @@ export const MarketCom = () => {
                           }}
                           className="cursor-pointer"
                         >
-                          <td className="text-[13px]   w-1/3 text-center ">
+                          <td className="text-[12px]   w-1/3 text-center ">
                             <div className="flex gap-2 items-center">
                               <FaStar
                                 className={`h-[14px] w-[14px] ${
@@ -301,7 +301,7 @@ export const MarketCom = () => {
                               {`${item?.pair_symbol}`}
                             </div>
                           </td>
-                          <td className="text-[13px]   p-[2px] text-right w-1/3">
+                          <td className="text-[12px]   p-[2px] text-right w-1/3">
                             {item?.current_price}
                           </td>
                           <td
@@ -309,7 +309,7 @@ export const MarketCom = () => {
                               item?.change_in_price > 0
                                 ? `${!isVolume && "text-[#2EBD85]"}`
                                 : `${!isVolume && "text-[#F6465D]"}`
-                            } text-[13px]  p-[2px] min-w-max text-right w-1/3`}
+                            } text-[12px]  p-[2px] min-w-max text-right w-1/3`}
                           >
                             {!isVolume && item?.change_in_price > 0
                               ? "+"
