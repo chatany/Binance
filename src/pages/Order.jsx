@@ -8,8 +8,11 @@ import { ScaleLoader } from "react-spinners";
 import { Tooltip } from "@mui/material";
 import { BuyOrder, CommonOrder, SellOrder } from "../icons";
 export const Order = () => {
-  const { orderData, tikerData, rounding, priceDecimal,dark } =
-    useSelector((state) => state.counter);
+  const orderData = useSelector((state) => state.counter.orderData);
+  const tikerData = useSelector((state) => state.counter.tikerData);
+  const rounding = useSelector((state) => state.counter.rounding);
+  const priceDecimal = useSelector((state) => state.counter.priceDecimal);
+  const dark = useSelector((state) => state.counter.dark);
 
   const dispatch = useDispatch();
   const [toggle, setToggle] = useState(false);
@@ -185,7 +188,7 @@ export const Order = () => {
                   },
                 }}
               >
-                <CommonOrder/>
+                <CommonOrder />
               </Tooltip>
             </div>
             <div
@@ -214,7 +217,7 @@ export const Order = () => {
                   },
                 }}
               >
-              <BuyOrder/>
+                <BuyOrder />
               </Tooltip>
             </div>
             <div
@@ -243,7 +246,7 @@ export const Order = () => {
                   },
                 }}
               >
-                <SellOrder/>
+                <SellOrder />
               </Tooltip>
             </div>
           </div>
@@ -357,7 +360,9 @@ export const Order = () => {
                       }   w-1/3    gap-1`}
                     >
                       <div className="flex items-center gap-1">
-                        {formatToKMBWithCommas(formatDecimal(tikerData?.lastPrice, priceDecimal))}
+                        {formatToKMBWithCommas(
+                          formatDecimal(tikerData?.lastPrice, priceDecimal)
+                        )}
                         {priceColor ? (
                           <FaArrowUp className="text-[18px] text-[#2EBD85]" />
                         ) : (
@@ -366,7 +371,10 @@ export const Order = () => {
                       </div>
                     </th>
                     <th className="text-[14px]  text-gray-400 p-2 text-left w-1/3">
-                      ${formatToKMBWithCommas(formatDecimal(tikerData?.lastPrice, priceDecimal))}
+                      $
+                      {formatToKMBWithCommas(
+                        formatDecimal(tikerData?.lastPrice, priceDecimal)
+                      )}
                     </th>
                     <th className="w-1/3">
                       <div className="flex  items-center justify-end w-full">
@@ -410,7 +418,7 @@ export const Order = () => {
                             {/* Actual content */}
                             <div className="flex w-full justify-between items-center px-[2px] relative z-10">
                               <span className="text-[#2EBD85] w-1/3 text-left">
-                                {formatToKMBWithCommas(price) }
+                                {formatToKMBWithCommas(price)}
                               </span>
                               <span className="w-1/3 text-center">
                                 {amount}
@@ -444,9 +452,7 @@ export const Order = () => {
               : "bg-white  text-black border-gray-200 "
           }  h-[85%]   `}
         >
-          <div
-            className={`overflow-hidden p-2 h-full space-y-4`}
-          >
+          <div className={`overflow-hidden p-2 h-full space-y-4`}>
             <table className="w-full p-2  space-y-4 h-full">
               <thead>
                 <tr>
@@ -534,7 +540,9 @@ export const Order = () => {
                     priceColor ? "text-[#2EBD85] " : "text-[#F6465D] "
                   }  p-1 flex items-center h-full   gap-1`}
                 >
-                  {formatToKMBWithCommas(formatDecimal(tikerData?.lastPrice, priceDecimal))}
+                  {formatToKMBWithCommas(
+                    formatDecimal(tikerData?.lastPrice, priceDecimal)
+                  )}
                   {priceColor ? (
                     <FaArrowUp className="text-[18px] text-[#2EBD85]" />
                   ) : (
@@ -542,7 +550,10 @@ export const Order = () => {
                   )}
                 </th>
                 <th className="text-[14px]  text-gray-400 p-2 text-center w-1/3">
-                  ${formatToKMBWithCommas(formatDecimal(tikerData?.lastPrice, priceDecimal))}
+                  $
+                  {formatToKMBWithCommas(
+                    formatDecimal(tikerData?.lastPrice, priceDecimal)
+                  )}
                 </th>
                 <th className="flex  items-center justify-end w-full">
                   <FaAngleRight className=" text-[14px]" />

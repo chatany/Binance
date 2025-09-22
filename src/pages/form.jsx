@@ -19,8 +19,13 @@ import { useDeviceInfo } from "../hooks/useDeviceInfo";
 import { showError, showSuccess } from "../Toastify/toastServices";
 import { useAuth } from "../hooks/useAuth";
 export const Form = () => {
-  const { searchData, currentPrice, balance, dark, searchQuery, open } =
-    useSelector((state) => state.counter);
+  const searchData = useSelector((state) => state.counter.searchData);
+  const currentPrice = useSelector((state) => state.counter.currentPrice);
+  const balance = useSelector((state) => state.counter.balance);
+  const dark = useSelector((state) => state.counter.dark);
+  const searchQuery = useSelector((state) => state.counter.searchQuery);
+  const open = useSelector((state) => state.counter.open);
+
   const [activeTab, setActiveTab] = useState("Limit");
   const [buySliderValue, setBuySliderValue] = useState(0);
   const [sellSliderValue, setSellSliderValue] = useState(0);
@@ -226,7 +231,6 @@ export const Form = () => {
       });
       if (status === 200 && data?.status == 1) {
         showSuccess(data?.message);
-        buysellBalance(item?.pair_id, dispatch);
         openOrders(item?.pair_id, userData?.user_id, dispatch);
         OrderHistory(dispatch);
         setBuySliderValue(0);
@@ -252,6 +256,7 @@ export const Form = () => {
       console.error("Failed to fetch second API", err);
     } finally {
       setLimitBuyLoading(false);
+      buysellBalance(item?.pair_id, dispatch);
     }
   };
   const handleSell = async () => {
@@ -265,7 +270,6 @@ export const Form = () => {
       });
       if (status === 200 && data?.status == 1) {
         showSuccess(data?.message);
-        buysellBalance(item?.pair_id, dispatch);
         openOrders(item?.pair_id, userData?.user_id, dispatch);
         OrderHistory(dispatch);
         setSellSliderValue(0);
@@ -291,6 +295,7 @@ export const Form = () => {
       console.error("Failed to fetch second API", err);
     } finally {
       setLimitSellLoading(false);
+      buysellBalance(item?.pair_id, dispatch);
     }
   };
   const marketObj = {
@@ -320,7 +325,6 @@ export const Form = () => {
         //   ...prev,
         //   marketBuy: data?.message,
         // }));
-        buysellBalance(item?.pair_id, dispatch);
         openOrders(item?.pair_id, userData?.user_id, dispatch);
         OrderHistory(dispatch);
 
@@ -346,6 +350,8 @@ export const Form = () => {
       showError(err);
       console.error("Failed to fetch second API", err);
     } finally {
+      buysellBalance(item?.pair_id, dispatch);
+
       setMarketBuyLoading(false);
     }
   };
@@ -374,7 +380,6 @@ export const Form = () => {
         //   ...prev,
         //   marketSell: data?.message,
         // }));
-        buysellBalance(item?.pair_id, dispatch);
         openOrders(item?.pair_id, userData?.user_id, dispatch);
         OrderHistory(dispatch);
 
@@ -401,6 +406,7 @@ export const Form = () => {
       console.error("Failed to fetch second API", err);
     } finally {
       setMarketSellLoading(false);
+      buysellBalance(item?.pair_id, dispatch);
     }
   };
   const validateBuyAmount = (val, price, key) => {

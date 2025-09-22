@@ -2,13 +2,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { formatDate, tabs } from "../Constant";
 import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import {
-  deleteOpenOrder,
-} from "../pages/apiCall";
-import {
-  setIsSuccess,
-  setShowPopup,
-} from "../store/webSocket";
+import { deleteOpenOrder } from "../pages/apiCall";
+import { setIsSuccess, setShowPopup } from "../store/webSocket";
 import { ScaleLoader } from "react-spinners";
 import { ModifyPopup } from "./popup";
 import { FaRegEdit } from "react-icons/fa";
@@ -16,16 +11,14 @@ import { ConfirmationBox } from "./deletePopup";
 import { useDeviceInfo } from "../hooks/useDeviceInfo";
 
 export const OpenOrders = () => {
-  const {
-    openOrder,
-    orderHistory,
-    loading,
-    fundData,
-    showPopup,
-    searchData,
-    pairId,
-    dark,
-  } = useSelector((state) => state.counter);
+  const openOrder = useSelector((state) => state.counter.openOrder);
+  const orderHistory = useSelector((state) => state.counter.orderHistory);
+  const loading = useSelector((state) => state.counter.loading);
+  const fundData = useSelector((state) => state.counter.fundData);
+  const showPopup = useSelector((state) => state.counter.showPopup);
+  const searchData = useSelector((state) => state.counter.searchData);
+  const pairId = useSelector((state) => state.counter.pairId);
+  const dark = useSelector((state) => state.counter.dark);
   const popupRef = useRef(null);
   const [activeTab, setActiveTab] = useState("Open Orders");
   const [orderId, setOrderId] = useState(null);
@@ -62,7 +55,6 @@ export const OpenOrders = () => {
     }
   };
 
-  
   const handleDispatch = () => {
     dispatch(setShowPopup(true));
   };
@@ -83,7 +75,9 @@ export const OpenOrders = () => {
     };
   }, [showPopup]);
   useEffect(() => {
-    const currentItem = Array.isArray(searchData) &&searchData?.find((item) => item?.pair_id === pairId);
+    const currentItem =
+      Array.isArray(searchData) &&
+      searchData?.find((item) => item?.pair_id === pairId);
     setCurrentItem(currentItem?.pair_symbol);
   }, [pairId]);
   return (
@@ -510,7 +504,8 @@ export const OpenOrders = () => {
                   <tbody>
                     {!loading ? (
                       <>
-                        {Array.isArray(fundData?.data) && fundData?.data?.length > 0 ? (
+                        {Array.isArray(fundData?.data) &&
+                        fundData?.data?.length > 0 ? (
                           <>
                             {Array.isArray(fundData?.data) &&
                               fundData?.data?.map((item, index) => (

@@ -13,7 +13,8 @@ import { TopNav } from "../pages/TopNavBar";
 import { ConfirmationPopup } from "../common/confirmationPopup";
 
 export const ChangeEmail = () => {
-  const { userProfile, dark } = useSelector((state) => state.counter);
+  const userProfile = useSelector((state) => state.counter.userProfile);
+  const dark = useSelector((state) => state.counter.dark);
   const [showPopup, setShowPopup] = useState(false);
   const [popup, setPopup] = useState(false);
   const navigate = useNavigate();

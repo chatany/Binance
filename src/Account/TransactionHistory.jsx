@@ -10,9 +10,9 @@ import { getDepositHistory, getWithdrawHistory } from "../pages/apiCall";
 export const TransactionHistory = () => {
   const location = useLocation();
   const [show, setShow] = useState({ pair: false, status: false, date: false });
-  const { dark, withdrawHistory, depositHistory } = useSelector(
-    (state) => state.counter
-  );
+  const dark = useSelector((state) => state.counter.dark);
+  const withdrawHistory = useSelector((state) => state.counter.withdrawHistory);
+  const depositHistory = useSelector((state) => state.counter.depositHistory);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [depositPair, setDepositPair] = useState("All");

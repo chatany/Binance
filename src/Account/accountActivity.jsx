@@ -5,7 +5,8 @@ import { useNavigate } from "react-router-dom";
 import { TopNav } from "../pages/TopNavBar";
 
 export const Activity = () => {
-  const { activity, dark } = useSelector((state) => state.counter);
+  const activity = useSelector((state) => state.counter.activity);
+  const dark = useSelector((state) => state.counter.dark);
   const navigate = useNavigate();
   return (
     <div
@@ -13,7 +14,7 @@ export const Activity = () => {
         dark ? "bg-[#181A20] text-[#EAECEF]" : "bg-[#FFFFFF] text-[#282828]"
       }`}
     >
-     <div className="fixed inset-0 z-50 h-fit">
+      <div className="fixed inset-0 z-50 h-fit">
         <TopNav />
       </div>
       <div

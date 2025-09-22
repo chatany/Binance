@@ -32,16 +32,15 @@ export const MarketCom = () => {
     SearchData({ setIsLoading, dispatch });
   }, []);
 
-  const {
-    tikerData,
-    rounding,
-    tradeData,
-    faverateData,
-    priceDecimal,
-    searchData,
-    dark,
-    searchQuery,
-  } = useSelector((state) => state.counter);
+  const tikerData = useSelector((state) => state.counter.tikerData);
+  const rounding = useSelector((state) => state.counter.rounding);
+  const tradeData = useSelector((state) => state.counter.tradeData);
+  const faverateData = useSelector((state) => state.counter.faverateData);
+  const priceDecimal = useSelector((state) => state.counter.priceDecimal);
+  const searchData = useSelector((state) => state.counter.searchData);
+  const dark = useSelector((state) => state.counter.dark);
+  const searchQuery = useSelector((state) => state.counter.searchQuery);
+  
   useEffect(() => {
     // Step 1: Start with full searchData
     let data = Array.isArray(searchData) ? [...searchData] : [];

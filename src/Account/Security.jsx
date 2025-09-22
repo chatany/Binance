@@ -3,17 +3,18 @@ import { CiMail } from "react-icons/ci";
 import { MdOutlineDevices } from "react-icons/md";
 import { RxCrossCircled } from "react-icons/rx";
 import { TbBrandAuth0, TbUserCog } from "react-icons/tb";
-import {  useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { IoIosCheckmarkCircleOutline } from "react-icons/io";
 import { formatDate } from "../Constant";
 export const Security = () => {
-  const { dark, auth, activity, userProfile } = useSelector(
-    (state) => state.counter
-  );
+  const dark = useSelector((state) => state.counter.dark);
+  const auth = useSelector((state) => state.counter.auth);
+  const activity = useSelector((state) => state.counter.activity);
+  const userProfile = useSelector((state) => state.counter.userProfile);
 
   const navigate = useNavigate();
- 
+
   return (
     <div
       className={`${
@@ -320,21 +321,21 @@ export const Security = () => {
             <div className="flex gap-4 items-center md:w-1/2 md:justify-end">
               <div className="flex gap-5 max-md:w-full justify-between">
                 <button className="flex items-center gap-1">
-                 {!userProfile?.withdrawal_password ? (
-                  <>
-                    <RxCrossCircled /> OFF
-                  </>
-                ) : (
-                  <>
-                    <IoIosCheckmarkCircleOutline className=" text-green-400 size-[18px]" />{" "}
-                    ON
-                  </>
-                )}
+                  {!userProfile?.withdrawal_password ? (
+                    <>
+                      <RxCrossCircled /> OFF
+                    </>
+                  ) : (
+                    <>
+                      <IoIosCheckmarkCircleOutline className=" text-green-400 size-[18px]" />{" "}
+                      ON
+                    </>
+                  )}
                 </button>
                 <button
-                    className={`${
-                  dark ? "bg-[#2b3139]" : "bg-[#EAECEF]"
-                } p-[6px_12px_6px_12px] rounded-[8px]`}
+                  className={`${
+                    dark ? "bg-[#2b3139]" : "bg-[#EAECEF]"
+                  } p-[6px_12px_6px_12px] rounded-[8px]`}
                   onClick={() => navigate("/security/manage-withdraw-password")}
                 >
                   Enable

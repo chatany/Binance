@@ -9,7 +9,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { setDark, setShow } from "../store/webSocket";
 
 export default function MobileSidebar() {
-  const { dark, show } = useSelector((state) => state.counter);
+  const dark = useSelector((state) => state.counter.dark);
+  const show = useSelector((state) => state.counter.show);
   const [openMenus, setOpenMenus] = useState({ trade: false, earn: false });
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -77,11 +78,22 @@ export default function MobileSidebar() {
           dark ? "bg-[#181A20] text-white" : "bg-white text-black"
         }  w-full h-full overflow-y-auto p-4`}
       >
-        <div className="flex justify-between  items-center mb-4 cursor-pointer" onClick={()=>navigate("/")}>
+        <div
+          className="flex justify-between  items-center mb-4 cursor-pointer"
+          onClick={() => navigate("/")}
+        >
           {dark ? (
-            <img src="/bitzup_light_logo.png" className="h-10 max-w-[120px]" alt="logo" />
+            <img
+              src="/bitzup_light_logo.png"
+              className="h-10 max-w-[120px]"
+              alt="logo"
+            />
           ) : (
-            <img src="/bitzup_dark_logo.png" className="h-10 max-w-[120px] " alt="logo" />
+            <img
+              src="/bitzup_dark_logo.png"
+              className="h-10 max-w-[120px] "
+              alt="logo"
+            />
           )}
           <IoMdClose
             className="text-[2rem] cursor-pointer"
@@ -116,9 +128,13 @@ export default function MobileSidebar() {
         </div>
 
         <div className=" flex flex-col gap-10 text-lg p-2 text-gray-400">
-          <div className="font-semibold hover:" onClick={()=>navigate("/")}>Buy Crypto</div>
+          <div className="font-semibold hover:" onClick={() => navigate("/")}>
+            Buy Crypto
+          </div>
 
-          <div className="font-semibold" onClick={()=>navigate("/")}>Markets</div>
+          <div className="font-semibold" onClick={() => navigate("/")}>
+            Markets
+          </div>
 
           <div>
             <div

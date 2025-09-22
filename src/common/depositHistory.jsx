@@ -5,7 +5,8 @@ import { TopNav } from "../pages/TopNavBar";
 import { formatDate } from "../Constant";
 
 export const DepositHistory = () => {
-  const { dark, depositHistory } = useSelector((state) => state.counter);
+  const dark = useSelector((state) => state.counter.dark);
+  const depositHistory = useSelector((state) => state.counter.depositHistory);
 
   const dispatch = useDispatch();
   useEffect(() => {

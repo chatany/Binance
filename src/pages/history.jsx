@@ -8,7 +8,8 @@ import { ScaleLoader } from "react-spinners";
 import { useAuth } from "../hooks/useAuth";
 
 export const History = () => {
-  const { orderHistory, loading } = useSelector((state) => state.counter);
+  const orderHistory = useSelector((state) => state.counter.orderHistory);
+  const loading = useSelector((state) => state.counter.loading);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const token = useAuth();
@@ -28,7 +29,10 @@ export const History = () => {
           dark ? "bg-[#181A20]" : "bg-white"
         }  p-5 fixed top-0 z-30`}
       >
-        <div onClick={() => navigate(-1)} className="cursor-pointer text-[20px] w-[40%]">
+        <div
+          onClick={() => navigate(-1)}
+          className="cursor-pointer text-[20px] w-[40%]"
+        >
           <FaArrowLeft />
         </div>
         <div className="flex text-[16px] w-[60%]"> OrderHistory</div>
@@ -36,7 +40,7 @@ export const History = () => {
       <div className="p-4 h-full mt-10  overflow-y-scroll no-scrollbar ">
         {!loading ? (
           <>
-            {Array.isArray(orderHistory) &&orderHistory?.length > 0 ? (
+            {Array.isArray(orderHistory) && orderHistory?.length > 0 ? (
               <>
                 {Array.isArray(orderHistory) &&
                   orderHistory?.map((item, index) => {
@@ -84,7 +88,7 @@ export const History = () => {
                   })}
               </>
             ) : (
-               <div className="h-full w-full flex justify-center items-center">
+              <div className="h-full w-full flex justify-center items-center">
                 No Data Found
               </div>
             )}

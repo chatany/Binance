@@ -88,9 +88,9 @@ export default function Withdrawal() {
   const [isDisable, setIsDisable] = useState(false);
   const [password, setPassword] = useState(false);
   const [amount, setAmount] = useState("");
-  const { dark, withdrawHistory, lockedTime } = useSelector(
-    (state) => state.counter
-  );
+  const dark = useSelector((state) => state.counter.dark);
+  const withdrawHistory = useSelector((state) => state.counter.withdrawHistory);
+  const lockedTime = useSelector((state) => state.counter.lockedTime);
   const [query, setQuery] = useState("");
   const filteredCoins = coinData.filter(
     (c) =>

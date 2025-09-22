@@ -8,7 +8,8 @@ import { useEffect, useRef, useState } from "react";
 import { getReferralData } from "./apiCall";
 import { showError, showSuccess } from "../Toastify/toastServices";
 export const Referral = () => {
-  const { dark, referralCode } = useSelector((state) => state.counter);
+  const dark = useSelector((state) => state.counter.dark);
+  const referralCode = useSelector((state) => state.counter.referralCode);
   const [current, setCurrent] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
   const intervalRef = useRef(null);

@@ -7,7 +7,8 @@ import { useEffect, useState } from "react";
 import { NotFound } from "../icons";
 
 export const Overview = () => {
-  const { dark, fundData } = useSelector((state) => state.counter);
+  const dark = useSelector((state) => state.counter.dark);
+  const fundData = useSelector((state) => state.counter.fundData);
   const [searchQuery, setSearchQuery] = useState("");
   const [filteredData, setFilteredData] = useState([]);
   const [hide, setHide] = useState(false);

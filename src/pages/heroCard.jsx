@@ -2,8 +2,9 @@ import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
 export const HeroSection = () => {
-  const {fundData,dark} = useSelector((state) => state.counter);
-  
+  const fundData = useSelector((state) => state.counter.fundData);
+  const dark = useSelector((state) => state.counter.dark);
+
   const navigate = useNavigate();
   return (
     <div

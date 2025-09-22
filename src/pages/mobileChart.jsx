@@ -9,15 +9,13 @@ import { BuyOrder, CommonOrder, SellOrder } from "../icons";
 
 export const MobileChartBar = () => {
   const tab = ["Chart", "Order Book", "Trades"];
-  const {
-    tikerData,
-    tradeData,
-    priceDecimal,
-    orderData,
-    rounding,
-    dark,
-    searchQuery,
-  } = useSelector((state) => state.counter);
+  const tikerData = useSelector((state) => state.counter.tikerData);
+  const tradeData = useSelector((state) => state.counter.tradeData);
+  const priceDecimal = useSelector((state) => state.counter.priceDecimal);
+  const orderData = useSelector((state) => state.counter.orderData);
+  const rounding = useSelector((state) => state.counter.rounding);
+  const dark = useSelector((state) => state.counter.dark);
+  const searchQuery = useSelector((state) => state.counter.searchQuery);
   const [activeTab, setActiveTab] = useState(tab[0]);
   const [maxAmount, setMaxAmount] = useState(0);
   const dispatch = useDispatch();
@@ -521,63 +519,63 @@ export const MobileChartBar = () => {
                 <div className="h-full w-full no-scrollbar overflow-x-auto overflow-y-auto p-[0px_8px_8px_8px]">
                   {orderData?.asks?.length > 0 ? (
                     <div className="overflow-y-auto h-[79%]">
-                    <table className="w-full">
-                      <thead>
-                        <tr>
-                          <th
-                            className={`text-[12px] ${
-                              dark ? "bg-[#181A20]" : "bg-white"
-                            } text-gray-400 text-left p-[6px_6px_6px_0px]  w-1/3 sticky top-0 z-30`}
-                          >
-                            Price(USDT)
-                          </th>
-                          <th
-                            className={`text-[12px] text-gray-400  ${
-                              dark ? "bg-[#181A20]" : "bg-white"
-                            } text-center w-1/3 pl-2  sticky top-0 z-30`}
-                          >
-                            Amount ({tikerData?.symbol?.split("USDT")[0]})
-                          </th>
-                        </tr>
-                      </thead>
-                      <tbody className="p-3">
-                        {orderData?.asks?.map((item, index) => {
-                          const price = parseFloat(item[0]).toFixed(2);
-                          const amount = parseFloat(item[1]).toString();
-                          const percentage = (amount / maxAmount) * 100;
-                          return (
-                            <tr
-                              key={index}
-                              onClick={() => {
-                                dispatch(setCurrentPrice(price));
-                              }}
+                      <table className="w-full">
+                        <thead>
+                          <tr>
+                            <th
+                              className={`text-[12px] ${
+                                dark ? "bg-[#181A20]" : "bg-white"
+                              } text-gray-400 text-left p-[6px_6px_6px_0px]  w-1/3 sticky top-0 z-30`}
                             >
-                              <td colSpan={2} className="p-0">
-                                <div className="w-full flex relative h-full text-[.6rem] lg:text-[12px]">
-                                  {/* Red background part */}
-                                  <div
-                                    className={`absolute top-0 right-0 h-full bg-[#F6465D] ${
-                                      dark ? "opacity-25" : "opacity-10"
-                                    }  z-0`}
-                                    style={{ width: `${percentage}%` }}
-                                  ></div>
+                              Price(USDT)
+                            </th>
+                            <th
+                              className={`text-[12px] text-gray-400  ${
+                                dark ? "bg-[#181A20]" : "bg-white"
+                              } text-center w-1/3 pl-2  sticky top-0 z-30`}
+                            >
+                              Amount ({tikerData?.symbol?.split("USDT")[0]})
+                            </th>
+                          </tr>
+                        </thead>
+                        <tbody className="p-3">
+                          {orderData?.asks?.map((item, index) => {
+                            const price = parseFloat(item[0]).toFixed(2);
+                            const amount = parseFloat(item[1]).toString();
+                            const percentage = (amount / maxAmount) * 100;
+                            return (
+                              <tr
+                                key={index}
+                                onClick={() => {
+                                  dispatch(setCurrentPrice(price));
+                                }}
+                              >
+                                <td colSpan={2} className="p-0">
+                                  <div className="w-full flex relative h-full text-[.6rem] lg:text-[12px]">
+                                    {/* Red background part */}
+                                    <div
+                                      className={`absolute top-0 right-0 h-full bg-[#F6465D] ${
+                                        dark ? "opacity-25" : "opacity-10"
+                                      }  z-0`}
+                                      style={{ width: `${percentage}%` }}
+                                    ></div>
 
-                                  {/* Actual content */}
-                                  <div className="flex w-full justify-between items-center px-[2px] relative z-10">
-                                    <span className="text-[#F6465D] w-1/3 text-left">
-                                      {formatToKMBWithCommas(price)}
-                                    </span>
-                                    <span className="w-1/3 text-center">
-                                      {amount}
-                                    </span>
+                                    {/* Actual content */}
+                                    <div className="flex w-full justify-between items-center px-[2px] relative z-10">
+                                      <span className="text-[#F6465D] w-1/3 text-left">
+                                        {formatToKMBWithCommas(price)}
+                                      </span>
+                                      <span className="w-1/3 text-center">
+                                        {amount}
+                                      </span>
+                                    </div>
                                   </div>
-                                </div>
-                              </td>
-                            </tr>
-                          );
-                        })}
-                      </tbody>
-                    </table>
+                                </td>
+                              </tr>
+                            );
+                          })}
+                        </tbody>
+                      </table>
                     </div>
                   ) : (
                     <div className="h-full w-full flex justify-center items-center">

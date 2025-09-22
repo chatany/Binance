@@ -10,7 +10,7 @@ import CircularIndeterminate from "../common/LoderComponent";
 export const Login = () => {
   const [showPassword, setShowPassword] = useState(true);
   const navigate = useNavigate();
-  const { loading } = useSelector((state) => state.counter);
+  const  loading  = useSelector((state) => state.counter.loading);
   const [timer, setTimer] = useState(0);
   const [showAuth, setShowAuth] = useState(false);
   const [error, setError] = useState("");

@@ -13,15 +13,13 @@ import { IoCloseSharp } from "react-icons/io5";
 import { useParams } from "react-router-dom";
 
 export const ModifyPopup = ({ orderId }) => {
-  const {
-    openOrder,
-    priceDecimal,
-    quantityDecimal,
-    apiId,
-    showPopup,
-    balance,
-    dark,
-  } = useSelector((state) => state.counter);
+  const openOrder = useSelector((state) => state.counter.openOrder);
+  const priceDecimal = useSelector((state) => state.counter.priceDecimal);
+  const quantityDecimal = useSelector((state) => state.counter.quantityDecimal);
+  const apiId = useSelector((state) => state.counter.apiId);
+  const showPopup = useSelector((state) => state.counter.showPopup);
+  const balance = useSelector((state) => state.counter.balance);
+  const dark = useSelector((state) => state.counter.dark);
   const item = openOrder.find((item) => item?.order_id === orderId);
   const dispatch = useDispatch();
   const popupRef = useRef(null);

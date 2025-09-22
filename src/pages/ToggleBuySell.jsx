@@ -20,9 +20,12 @@ export const ToggleButSell = ({
   handleClose,
 }) => {
   const isOpen = useSelector((state) => state.counter.open);
-  const { allMovers, currentPrice, apiId, balance,dark,searchQuery } = useSelector(
-    (state) => state.counter
-  );
+  const allMovers = useSelector((state) => state.counter.allMovers);
+  const currentPrice = useSelector((state) => state.counter.currentPrice);
+  const apiId = useSelector((state) => state.counter.apiId);
+  const balance = useSelector((state) => state.counter.balance);
+  const dark = useSelector((state) => state.counter.dark);
+  const searchQuery = useSelector((state) => state.counter.searchQuery);
   const [activeTab, setActiveTab] = useState("Limit");
   const [buySliderValue, setBuySliderValue] = useState(0);
   const [sellSliderValue, setSellSliderValue] = useState(0);
@@ -186,7 +189,6 @@ export const ToggleButSell = ({
     api_id: apiId,
   };
   const handleBuy = async () => {
-    
     if (error.limitBuyErr) return;
     setLimitBuyLoading(true);
     try {
@@ -230,13 +232,12 @@ export const ToggleButSell = ({
       console.error("Failed to fetch second API", err);
     } finally {
       setLimitBuyLoading(false);
-      
     }
   };
   const handleSell = async () => {
     if (error.limitSellErr) return;
     setLimitSellLoading(true);
-    
+
     try {
       const { data, status } = await apiRequest({
         method: "post",
@@ -270,7 +271,6 @@ export const ToggleButSell = ({
       showError(err);
       console.error("Failed to fetch second API", err);
     } finally {
-      
       setLimitSellLoading(false);
     }
   };
@@ -293,7 +293,7 @@ export const ToggleButSell = ({
         url: `https://test.bitzup.com/order/user/place-buy-order`,
         data: marketObj,
       });
-      
+
       if (status === 200 && data?.status == 1) {
         showSuccess(data?.message);
         buysellBalance(item?.pair_id, dispatch);
@@ -321,7 +321,6 @@ export const ToggleButSell = ({
       showError(err);
       console.error("Failed to fetch second API", err);
     } finally {
-      
       setMarketBuyLoading(false);
     }
   };
@@ -337,7 +336,7 @@ export const ToggleButSell = ({
   };
   const handleMarketSell = async () => {
     if (error.marketSellErr) return;
-    
+
     setMarketSellLoading(true);
     try {
       const { data, status } = await apiRequest({
@@ -374,7 +373,6 @@ export const ToggleButSell = ({
       showError(err);
       console.error("Failed to fetch second API", err);
     } finally {
-      
       setMarketSellLoading(false);
     }
   };
@@ -472,14 +470,14 @@ export const ToggleButSell = ({
   };
   const handleStopBuy = async () => {
     if (error.stopBuyErr) return;
-    if(formValues.stopBuyStop<=0){
+    if (formValues.stopBuyStop <= 0) {
       setError((prev) => ({
-          ...prev,
-          stopBuyErr: "Stop Limit is requried",
-        }));
-        return;
+        ...prev,
+        stopBuyErr: "Stop Limit is requried",
+      }));
+      return;
     }
-    
+
     setStopBuyLoading(true);
 
     try {
@@ -488,7 +486,7 @@ export const ToggleButSell = ({
         url: `https://test.bitzup.com/order/user/place-buy-stop-limit`,
         data: StopBuyObj,
       });
-      
+
       if (status === 200 && data?.status == 1) {
         showSuccess(data?.message);
 
@@ -518,20 +516,19 @@ export const ToggleButSell = ({
       showError(err);
       console.error("Failed to fetch second API", err);
     } finally {
-      
       setStopBuyLoading(false);
     }
   };
   const handleStopSell = async () => {
     if (error.stopSellErr) return;
-    if(formValues.stopSellStop<=0){
+    if (formValues.stopSellStop <= 0) {
       setError((prev) => ({
-          ...prev,
-          stopSellErr: "Stop Limit is requried",
-        }));
-        return;
+        ...prev,
+        stopSellErr: "Stop Limit is requried",
+      }));
+      return;
     }
-    
+
     setStopSellLoading(true);
     try {
       const { data, status } = await apiRequest({
@@ -539,7 +536,7 @@ export const ToggleButSell = ({
         url: `https://test.bitzup.com/order/user/place-sell-stop-limit`,
         data: StopSellObj,
       });
-      
+
       if (status === 200 && data?.status == 1) {
         showSuccess(data?.message);
         buysellBalance(item?.pair_id, dispatch);
@@ -568,7 +565,6 @@ export const ToggleButSell = ({
       showError(err);
       console.error("Failed to fetch second API", err);
     } finally {
-      
       setStopSellLoading(false);
     }
   };
@@ -765,8 +761,7 @@ export const ToggleButSell = ({
                   name="limit-buy"
                   disabled={limitBuyLoading}
                   onClick={() => {
-                   userData?.token ? handleBuy():
-                    handleNavigate();
+                    userData?.token ? handleBuy() : handleNavigate();
                   }}
                   className="w-[100%]  bg-[#2EBD85] hover:bg-[#0e9e67]  m-2 py-2 rounded-md h-[3rem] text-[16px] font-semibold cursor-pointer"
                 >
@@ -890,8 +885,7 @@ export const ToggleButSell = ({
               <div className="w-full flex justify-center">
                 <button
                   onClick={() => {
-                   userData?.token ? handleSell():
-                    handleNavigate();
+                    userData?.token ? handleSell() : handleNavigate();
                   }}
                   name="limit-sell"
                   disabled={limitSellLoading}
@@ -1012,8 +1006,7 @@ export const ToggleButSell = ({
               <div className="w-full flex justify-center">
                 <button
                   onClick={() => {
-                  userData?.token ?  handleMarket():
-                    handleNavigate();
+                    userData?.token ? handleMarket() : handleNavigate();
                   }}
                   name="market-buy"
                   disabled={marketBuyLoading}
@@ -1125,8 +1118,7 @@ export const ToggleButSell = ({
               <div className="w-full flex justify-center">
                 <button
                   onClick={() => {
-                   userData?.token ? handleMarketSell():
-                    handleNavigate();
+                    userData?.token ? handleMarketSell() : handleNavigate();
                   }}
                   name="market-sell"
                   disabled={marketSellLoading}
@@ -1271,8 +1263,7 @@ export const ToggleButSell = ({
                 <button
                   name="stop-buy"
                   onClick={() => {
-                    userData?.token ?handleStopBuy():
-                    handleNavigate();
+                    userData?.token ? handleStopBuy() : handleNavigate();
                   }}
                   disabled={stopBuyLoading}
                   className="w-[100%]  bg-[#2EBD85] hover:bg-[#0e9e67]  m-2 py-2 rounded-md h-[3rem] text-[16px] font-semibold cursor-pointer"
@@ -1412,8 +1403,7 @@ export const ToggleButSell = ({
                   name="stop-sell"
                   disabled={stopSellLoading}
                   onClick={() => {
-                    userData?.token ?handleNavigate():
-                    handleStopSell();
+                    userData?.token ? handleNavigate() : handleStopSell();
                   }}
                   className="w-[100%] bg-[#F6465D] hover:bg-[#c74052] cursor-pointer  h-[3rem]  py-2 m-2 rounded-md text-[16px] font-semibold"
                 >

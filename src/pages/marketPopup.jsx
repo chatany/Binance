@@ -11,9 +11,9 @@ import { IoCloseSharp } from "react-icons/io5";
 import { showError, showSuccess } from "../Toastify/toastServices";
 import { useAuth } from "../hooks/useAuth";
 export const MarketPopup = ({ handleClose, openMarketPopup }) => {
-  const { faverateData, searchData, dark } = useSelector(
-    (state) => state.counter
-  );
+  const faverateData = useSelector((state) => state.counter.faverateData);
+  const searchData = useSelector((state) => state.counter.searchData);
+  const dark = useSelector((state) => state.counter.dark);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const token = useAuth();
@@ -170,7 +170,7 @@ export const MarketPopup = ({ handleClose, openMarketPopup }) => {
                               } `}
                               onClick={(e) => {
                                 e.stopPropagation();
-                                !isDisable&&handleChange(item?.pair_id, fav);
+                                !isDisable && handleChange(item?.pair_id, fav);
                               }}
                             />{" "}
                             {`${item?.pair_symbol}`}

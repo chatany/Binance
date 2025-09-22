@@ -37,9 +37,11 @@ export const Authenticator = () => {
   const device = useDeviceInfo();
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { authEnticatorKey, dark, auth } = useSelector(
-    (state) => state.counter
+  const authEnticatorKey = useSelector(
+    (state) => state.counter.authEnticatorKey
   );
+  const dark = useSelector((state) => state.counter.dark);
+  const auth = useSelector((state) => state.counter.auth);
 
   useEffect(() => {
     if (showQr) {
@@ -97,7 +99,7 @@ export const Authenticator = () => {
         showError(data?.message);
       }
     } catch (err) {
-      console.log(err);
+      // console.log(err);
     } finally {
       setIsDisable(false);
     }
@@ -218,7 +220,10 @@ export const Authenticator = () => {
                 </div>
               </div>
               <div className="w-[30%] flex gap-3 justify-end">
-                <RiDeleteBinLine className="size-6" onClick={() => setPopup(true)} />
+                <RiDeleteBinLine
+                  className="size-6"
+                  onClick={() => setPopup(true)}
+                />
               </div>
             </div>
           </div>
@@ -276,7 +281,7 @@ export const Authenticator = () => {
                 >
                   <QRCode
                     className="w-[150px] h-[150px]"
-                    value={authEnticatorKey?.otpauth_url??""}
+                    value={authEnticatorKey?.otpauth_url ?? ""}
                   />
                 </div>
                 <div

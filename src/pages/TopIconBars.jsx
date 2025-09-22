@@ -10,8 +10,13 @@ import { useParams } from "react-router-dom";
 import { useAuth } from "../hooks/useAuth";
 import { showError, showSuccess } from "../Toastify/toastServices";
 export const TopIconBar1 = () => {
-  const { tikerData, iconURL, isFav, coinName, pairId, priceDecimal, dark } =
-    useSelector((state) => state.counter);
+  const tikerData = useSelector((state) => state.counter.tikerData);
+  const iconURL = useSelector((state) => state.counter.iconURL);
+  const isFav = useSelector((state) => state.counter.isFav);
+  const coinName = useSelector((state) => state.counter.coinName);
+  const pairId = useSelector((state) => state.counter.pairId);
+  const priceDecimal = useSelector((state) => state.counter.priceDecimal);
+  const dark = useSelector((state) => state.counter.dark);
   const [priceColor, setPriceColor] = useState(false);
   const lastPriceRef = useRef(null);
   const token = useAuth();
@@ -174,8 +179,13 @@ export const TopIconBar1 = () => {
   );
 };
 export const TopIconBar2 = () => {
-  const { tikerData, iconURL, isFav, coinName, pairId, priceDecimal, dark } =
-    useSelector((state) => state.counter);
+  const tikerData = useSelector((state) => state.counter.tikerData);
+  const iconURL = useSelector((state) => state.counter.iconURL);
+  const isFav = useSelector((state) => state.counter.isFav);
+  const coinName = useSelector((state) => state.counter.coinName);
+  const pairId = useSelector((state) => state.counter.pairId);
+  const priceDecimal = useSelector((state) => state.counter.priceDecimal);
+  const dark = useSelector((state) => state.counter.dark);
   const dispatch = useDispatch();
   const token = useAuth();
   const handleChange = async () => {
@@ -348,8 +358,13 @@ export const TopIconBar2 = () => {
   );
 };
 export const TopIconBar3 = () => {
-  const { tikerData, iconURL, isFav, coinName, pairId, priceDecimal, dark } =
-    useSelector((state) => state.counter);
+  const tikerData = useSelector((state) => state.counter.tikerData);
+  const iconURL = useSelector((state) => state.counter.iconURL);
+  const isFav = useSelector((state) => state.counter.isFav);
+  const coinName = useSelector((state) => state.counter.coinName);
+  const pairId = useSelector((state) => state.counter.pairId);
+  const priceDecimal = useSelector((state) => state.counter.priceDecimal);
+  const dark = useSelector((state) => state.counter.dark);
   const dispatch = useDispatch();
   const { symbol } = useParams();
   const token = useAuth();
@@ -529,9 +544,11 @@ export const TopIconBar3 = () => {
   );
 };
 export const TopIconBar4 = ({ setOpenMarketPopup }) => {
-  const { tikerData, iconURL, priceDecimal, coinName, dark } = useSelector(
-    (state) => state.counter
-  );
+  const tikerData = useSelector((state) => state.counter.tikerData);
+  const iconURL = useSelector((state) => state.counter.iconURL);
+  const coinName = useSelector((state) => state.counter.coinName);
+  const priceDecimal = useSelector((state) => state.counter.priceDecimal);
+  const dark = useSelector((state) => state.counter.dark);
   const [priceColor, setPriceColor] = useState(false);
   const lastPriceRef = useRef(null);
 

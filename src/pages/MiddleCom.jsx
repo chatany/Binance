@@ -14,9 +14,10 @@ import { formatToKMBWithCommas } from "../Constant";
 import { BuyOrder, CommonOrder, SellOrder } from "../icons";
 
 export const Middle = () => {
-  const { tradeData, tikerData, orderData,dark } = useSelector(
-    (state) => state.counter
-  );
+  const tradeData = useSelector((state) => state.counter.tradeData);
+  const tikerData = useSelector((state) => state.counter.tikerData);
+  const orderData = useSelector((state) => state.counter.orderData);
+  const dark = useSelector((state) => state.counter.dark);
   const dispatch = useDispatch();
   const [orderBuySell, setOrderBuySell] = useState("");
 
@@ -151,7 +152,7 @@ export const Middle = () => {
                       },
                     }}
                   >
-                    <CommonOrder/>
+                    <CommonOrder />
                   </Tooltip>
                 </div>
                 <div
@@ -180,7 +181,7 @@ export const Middle = () => {
                       },
                     }}
                   >
-                    <BuyOrder/>
+                    <BuyOrder />
                   </Tooltip>
                 </div>
                 <div
@@ -209,7 +210,7 @@ export const Middle = () => {
                       },
                     }}
                   >
-                    <SellOrder/>
+                    <SellOrder />
                   </Tooltip>
                 </div>
               </div>
@@ -286,7 +287,7 @@ export const Middle = () => {
             </div>
           )}
           {orderBuySell === "" && (
-            <div className="h-[50%] p-2">
+            <div className="h-[45%] p-2">
               {orderData?.asks?.length > 0 ? (
                 <div className="overflow-x-auto overflow-y-auto h-[95%] no-scrollbar ">
                   <table className="w-full pb-2 ">
@@ -302,7 +303,9 @@ export const Middle = () => {
                           }  w-1/3 sticky top-0 z-30 gap-2 p-[6px_6px_6px_0px]`}
                         >
                           <div className="flex items-center">
-                            {formatToKMBWithCommas(parseFloat(tikerData?.lastPrice).toFixed(2))}
+                            {formatToKMBWithCommas(
+                              parseFloat(tikerData?.lastPrice).toFixed(2)
+                            )}
                             {!tradeData[0]?.m ? (
                               <FaArrowUp className="text-[20px] text-[#2EBD85]  p-[4px] sticky top-0 z-30" />
                             ) : (
@@ -315,7 +318,10 @@ export const Middle = () => {
                             dark ? "bg-[#181A20]" : "bg-white"
                           }   p-1 w-1/3`}
                         >
-                          ${formatToKMBWithCommas(parseFloat(tikerData?.lastPrice))}
+                          $
+                          {formatToKMBWithCommas(
+                            parseFloat(tikerData?.lastPrice)
+                          )}
                         </th>
                         <th
                           className={` sticky top-0 z-30 justify-center ${
@@ -371,7 +377,7 @@ export const Middle = () => {
             </div>
           )}
           {orderBuySell === "Sell" && (
-            <div className="h-[90%] no-scrollbar overflow-x-auto overflow-y-auto p-[0px_8px_8px_8px]">
+            <div className="h-[86%] no-scrollbar overflow-x-auto overflow-y-auto p-[0px_8px_8px_8px]">
               {orderData?.bids?.length > 0 ? (
                 <table className="w-full">
                   <thead>
@@ -443,7 +449,7 @@ export const Middle = () => {
           {orderBuySell === "Buy" && (
             <div className="h-full">
               {orderData?.asks?.length > 0 ? (
-                <div className=" overflow-y-auto h-[90%] p-[0px_8px_8px_8px]">
+                <div className=" overflow-y-auto h-[86%] p-[0px_8px_8px_8px]">
                   <table className="w-full pb-2 ">
                     <thead className="w-full ">
                       <tr>
@@ -480,7 +486,9 @@ export const Middle = () => {
                           }  w-1/3 sticky top-[34px]  z-30 gap-2 `}
                         >
                           <div className="flex items-center">
-                            {formatToKMBWithCommas(parseFloat(tikerData?.lastPrice).toFixed(2))}
+                            {formatToKMBWithCommas(
+                              parseFloat(tikerData?.lastPrice).toFixed(2)
+                            )}
                             {!tradeData[0]?.m ? (
                               <FaArrowUp className="text-[20px] text-[#2EBD85]  sticky top-[34px] z-30" />
                             ) : (
@@ -493,7 +501,10 @@ export const Middle = () => {
                             dark ? "bg-[#181A20]" : "bg-white"
                           }   p-1 w-1/3`}
                         >
-                          ${formatToKMBWithCommas(parseFloat(tikerData?.lastPrice))}
+                          $
+                          {formatToKMBWithCommas(
+                            parseFloat(tikerData?.lastPrice)
+                          )}
                         </th>
                         <th
                           className={` sticky top-[34px] z-30 ${

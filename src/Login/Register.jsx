@@ -11,7 +11,7 @@ import { showError, showSuccess } from "../Toastify/toastServices";
 import { useNavigate } from "react-router-dom";
 export const Register = () => {
   const [showPassword, setShowPassword] = useState(true);
-  const { countryData } = useSelector((state) => state.counter);
+  const  countryData  = useSelector((state) => state.counter.countryData);
   const navigate = useNavigate();
   const [isOpenPopup, setIsOpenPopup] = useState(false);
   const [disable, setDisable] = useState(false);

@@ -12,9 +12,9 @@ export const Dashboard = () => {
   const [activeTab, setActiveTab] = useState(tabs[0]);
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { allMovers, movers, userProfile } = useSelector(
-    (state) => state.counter
-  );
+  const allMovers = useSelector((state) => state.counter.allMovers);
+  const movers = useSelector((state) => state.counter.movers);
+  const userProfile = useSelector((state) => state.counter.userProfile);
 
   const filteredData = () => {
     return activeTab !== "All" ? movers[activeTab] : allMovers;

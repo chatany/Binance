@@ -30,9 +30,10 @@ import { DepositPopup } from "./depositPopup";
 
 export const TopNav = () => {
   const navigate = useNavigate();
-  const { dark, searchQuery, show, helpCenter, userProfile } = useSelector(
-    (state) => state.counter
-  );
+  const dark = useSelector((state) => state.counter.dark);
+  const searchQuery = useSelector((state) => state.counter.searchQuery);
+  const helpCenter = useSelector((state) => state.counter.helpCenter);
+  const userProfile = useSelector((state) => state.counter.userProfile);
 
   const [showHelpPopup, setShowHelpPopup] = useState(false);
   const [popup, setPopup] = useState(false);

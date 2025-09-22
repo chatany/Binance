@@ -73,7 +73,8 @@ export default function VerticalLinearStepper() {
   const [openNetwork, setOpenNetwork] = useState(false);
   const [obj, setObj] = useState({});
   const [addressCode, setAddressCode] = useState({});
-  const { dark, depositHistory } = useSelector((state) => state.counter);
+  const dark = useSelector((state) => state.counter.dark);
+  const depositHistory = useSelector((state) => state.counter.depositHistory);
   const [query, setQuery] = useState("");
   const filteredCoins = coinData.filter(
     (c) =>
@@ -389,84 +390,86 @@ export default function VerticalLinearStepper() {
             </div>
           </div>
           <div className="w-full overflow-x-auto custom-scroll">
-          <table className={`w-full`}>
-            <thead>
-              <tr
-                className={`text-[12px] ${
-                  dark
-                    ? "bg-[#2B3139] border-[#474d57]"
-                    : "bg-[#F5F5F5] border-[#eaecef]"
-                } text-[#848e9c] border-b-[1px] font-normal leading-[20px] w-full `}
-              >
-                <th className="text-left p-[12px_16px_12px_16px]">Time</th>
-                <th className="text-left p-[12px_16px_12px_16px]">Type</th>
-                <th className="text-left p-[12px_16px_12px_16px]">
-                  Deposit wallet
-                </th>
-                <th className="text-left p-[12px_16px_12px_16px]">Asset</th>
-                <th className="text-left p-[12px_16px_12px_16px]">amount</th>
-                <th className="text-left p-[12px_16px_12px_16px]">
-                  Destination{" "}
-                </th>
-                <th className="text-left p-[12px_16px_12px_16px]">TxID</th>
-                <th className="text-left p-[12px_16px_12px_16px]">Status</th>
-              </tr>
-            </thead>
-            <tbody>
-              {Array.isArray(depositHistory) && depositHistory?.length > 0 ? (
-                depositHistory?.slice(0, 3).map((ele, index) => {
-                  const date = formatDate(ele?.date);
-                  return (
-                    <tr
-                      key={index}
-                      className={`text-[14px]  ${
-                        dark
-                          ? "text-[#EAECEF] border-[#474d57] hover:bg-[#2B3139]"
-                          : "text-[#1e2329] border-[#eaecef] hover:bg-[#F5F5F5]"
-                      } font-normal leading-[20px] border-b-[1px] `}
-                    >
-                      <td className="text-left p-[12px_16px_12px_16px]">
-                        {date}
-                      </td>
-                      <td className="text-left p-[12px_16px_12px_16px]">
-                        {`Deposit`}
-                      </td>
-                      <td className="text-left p-[12px_16px_12px_16px]">
-                        Spot wallet
-                      </td>
-                      <td className="text-left p-[12px_16px_12px_16px]">
-                        {ele?.symbol}
-                      </td>
-                      <td className="text-left p-[12px_16px_12px_16px]">
-                        {" "}
-                        {ele?.final_amount}
-                      </td>
-                      <td className="text-left p-[12px_16px_12px_16px]">--</td>
-                      <td className="text-left p-[12px_16px_12px_16px]">
-                        {ele?.address}
-                      </td>
-                      <td className="text-left p-[12px_16px_12px_16px]">
-                        {ele?.status}
-                      </td>
-                    </tr>
-                  );
-                })
-              ) : (
-                <tr>
-                  <td colSpan={8}>
-                    <div className="h-[200px] flex items-center justify-center">
-                      <div className="flex flex-col gap-0.5 items-center justify-center">
-                        <NotFound className="max-md:size-16 size-10" />
-                        <div className="text-[12px] max-md:text-[14px]">
-                          No Data Found
+            <table className={`w-full`}>
+              <thead>
+                <tr
+                  className={`text-[12px] ${
+                    dark
+                      ? "bg-[#2B3139] border-[#474d57]"
+                      : "bg-[#F5F5F5] border-[#eaecef]"
+                  } text-[#848e9c] border-b-[1px] font-normal leading-[20px] w-full `}
+                >
+                  <th className="text-left p-[12px_16px_12px_16px]">Time</th>
+                  <th className="text-left p-[12px_16px_12px_16px]">Type</th>
+                  <th className="text-left p-[12px_16px_12px_16px]">
+                    Deposit wallet
+                  </th>
+                  <th className="text-left p-[12px_16px_12px_16px]">Asset</th>
+                  <th className="text-left p-[12px_16px_12px_16px]">amount</th>
+                  <th className="text-left p-[12px_16px_12px_16px]">
+                    Destination{" "}
+                  </th>
+                  <th className="text-left p-[12px_16px_12px_16px]">TxID</th>
+                  <th className="text-left p-[12px_16px_12px_16px]">Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                {Array.isArray(depositHistory) && depositHistory?.length > 0 ? (
+                  depositHistory?.slice(0, 3).map((ele, index) => {
+                    const date = formatDate(ele?.date);
+                    return (
+                      <tr
+                        key={index}
+                        className={`text-[14px]  ${
+                          dark
+                            ? "text-[#EAECEF] border-[#474d57] hover:bg-[#2B3139]"
+                            : "text-[#1e2329] border-[#eaecef] hover:bg-[#F5F5F5]"
+                        } font-normal leading-[20px] border-b-[1px] `}
+                      >
+                        <td className="text-left p-[12px_16px_12px_16px]">
+                          {date}
+                        </td>
+                        <td className="text-left p-[12px_16px_12px_16px]">
+                          {`Deposit`}
+                        </td>
+                        <td className="text-left p-[12px_16px_12px_16px]">
+                          Spot wallet
+                        </td>
+                        <td className="text-left p-[12px_16px_12px_16px]">
+                          {ele?.symbol}
+                        </td>
+                        <td className="text-left p-[12px_16px_12px_16px]">
+                          {" "}
+                          {ele?.final_amount}
+                        </td>
+                        <td className="text-left p-[12px_16px_12px_16px]">
+                          --
+                        </td>
+                        <td className="text-left p-[12px_16px_12px_16px]">
+                          {ele?.address}
+                        </td>
+                        <td className="text-left p-[12px_16px_12px_16px]">
+                          {ele?.status}
+                        </td>
+                      </tr>
+                    );
+                  })
+                ) : (
+                  <tr>
+                    <td colSpan={8}>
+                      <div className="h-[200px] flex items-center justify-center">
+                        <div className="flex flex-col gap-0.5 items-center justify-center">
+                          <NotFound className="max-md:size-16 size-10" />
+                          <div className="text-[12px] max-md:text-[14px]">
+                            No Data Found
+                          </div>
                         </div>
                       </div>
-                    </div>
-                  </td>
-                </tr>
-              )}
-            </tbody>
-          </table>
+                    </td>
+                  </tr>
+                )}
+              </tbody>
+            </table>
           </div>
         </div>
         <div className="p-[10px] flex flex-col gap-10 w-full md:hidden">
@@ -481,37 +484,38 @@ export default function VerticalLinearStepper() {
               More <RiArrowRightSLine className="size-5 font-light" />
             </div>
           </div>
-          {Array.isArray(depositHistory)&&depositHistory?.slice(0, 3).map((ele, index) => {
-            const date = formatDate(ele?.date);
-            return (
-              <div
-                className="flex justify-between items-center w-full"
-                key={index}
-              >
-                <div className="flex gap-1">
-                  <div>
-                    <img src={ele?.icon_url} className="size-6" />
+          {Array.isArray(depositHistory) &&
+            depositHistory?.slice(0, 3).map((ele, index) => {
+              const date = formatDate(ele?.date);
+              return (
+                <div
+                  className="flex justify-between items-center w-full"
+                  key={index}
+                >
+                  <div className="flex gap-1">
+                    <div>
+                      <img src={ele?.icon_url} className="size-6" />
+                    </div>
+                    <div>
+                      <div className="text-[14px] font-medium leading-[22px] ">
+                        {ele?.symbol}
+                      </div>
+                      <div className="text-[14px] font-medium leading-[22px] ">
+                        {date}
+                      </div>
+                    </div>
                   </div>
-                  <div>
+                  <div className="flex flex-col items-end">
                     <div className="text-[14px] font-medium leading-[22px] ">
-                      {ele?.symbol}
+                      {ele?.final_amount}
                     </div>
                     <div className="text-[14px] font-medium leading-[22px] ">
-                      {date}
+                      {ele?.status}
                     </div>
                   </div>
                 </div>
-                <div className="flex flex-col items-end">
-                  <div className="text-[14px] font-medium leading-[22px] ">
-                    {ele?.final_amount}
-                  </div>
-                  <div className="text-[14px] font-medium leading-[22px] ">
-                    {ele?.status}
-                  </div>
-                </div>
-              </div>
-            );
-          })}
+              );
+            })}
         </div>
       </div>
     </div>

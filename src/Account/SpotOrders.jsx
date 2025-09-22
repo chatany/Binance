@@ -13,16 +13,13 @@ import BinanceDatePicker from "../common/picker";
 import { SelectBox } from "../common/select";
 
 export const SpotOrders = () => {
-  const {
-    openOrder,
-    orderHistory,
-    loading,
-    fundData,
-    showPopup,
-    searchData,
-    pairId,
-    dark,
-  } = useSelector((state) => state.counter);
+  const openOrder = useSelector((state) => state.counter.openOrder);
+  const orderHistory = useSelector((state) => state.counter.orderHistory);
+  const loading = useSelector((state) => state.counter.loading);
+  const showPopup = useSelector((state) => state.counter.showPopup);
+  const searchData = useSelector((state) => state.counter.searchData);
+  const pairId = useSelector((state) => state.counter.pairId);
+  const dark = useSelector((state) => state.counter.dark);
   const popupRef = useRef(null);
   const [activeTab, setActiveTab] = useState("Open Orders");
   const [orderId, setOrderId] = useState(null);
@@ -171,7 +168,6 @@ export const SpotOrders = () => {
         return itemDate >= start && itemDate <= end;
       });
     }
-    console.log(openOrder, "oo");
 
     setFilteredData1(filtered);
   }, [pair, direction, openOrder, range]);

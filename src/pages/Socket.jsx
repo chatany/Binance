@@ -36,9 +36,12 @@ export const Socket = () => {
   const fallbackIntervalRef2 = useRef(null);
   const userid = token?.user_id;
   const tradesDataRef = useRef([]);
-  const { tradeData, apiId, openOrder, pairId,searchQuery } = useSelector(
-    (state) => state.counter
-  );
+  const tradeData = useSelector((state) => state.counter.tradeData);
+  const apiId = useSelector((state) => state.counter.apiId);
+  const openOrder = useSelector((state) => state.counter.openOrder);
+  const pairId = useSelector((state) => state.counter.pairId);
+  const searchQuery = useSelector((state) => state.counter.searchQuery);
+
   useEffect(() => {
     tradesDataRef.current = tradeData; //
   }, [tradeData]);

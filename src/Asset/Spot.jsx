@@ -7,7 +7,8 @@ import { getFundsData } from "../pages/apiCall";
 import { useNavigate } from "react-router-dom";
 
 export const Spot = () => {
-  const { fundData, dark } = useSelector((state) => state.counter);
+  const fundData = useSelector((state) => state.counter.fundData);
+  const dark = useSelector((state) => state.counter.dark);
   // const [showIndex, setShowIndex] = useState(null);
   const dispatch = useDispatch();
   const [searchQuery, setSearchQuery] = useState("");

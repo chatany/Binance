@@ -6,7 +6,7 @@ import { MdOutlineKeyboardArrowRight } from "react-icons/md";
 import { IoClose } from "react-icons/io5";
 
 export const HelpCenter = ({ dark, setShowHelpPopup, showHelpPopup }) => {
-  const { helpCenter } = useSelector((state) => state.counter);
+  const helpCenter  = useSelector((state) => state.counter.helpCenter);
   const dispatch = useDispatch();
   useEffect(() => {
     helpCenterApi(dispatch);

@@ -11,7 +11,8 @@ import { showError } from "../Toastify/toastServices";
 import { getUserProfile } from "../pages/apiCall";
 
 export const AntiPhishing = () => {
-  const { dark, userProfile } = useSelector((state) => state.counter);
+  const dark = useSelector((state) => state.counter.dark);
+  const userProfile = useSelector((state) => state.counter.userProfile);
   const [showPopup, setShowPopup] = useState(false);
   const [isDisable, setIsDisable] = useState(false);
   const [step, setStep] = useState(1);

@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { Order } from "./Order";
 import { MarketCom } from "./market";
 import { Form } from "./form";
@@ -22,55 +22,43 @@ import { Funds } from "./funds";
 import { MobileChartBar } from "./mobileChart";
 import { getUserProfile } from "./apiCall";
 export const Home = () => {
-  const { dark, show } = useSelector((state) => state.counter);
-
-  useEffect(() => {
-    localStorage.setItem("theme", JSON.stringify(dark));
-  }, [dark]);
-
+  const dark = useSelector((state) => state.counter.dark);
+  const show = useSelector((state) => state.counter.show);
   const isOpen = useSelector((state) => state.counter.open);
   const [isLogin, setIsLogin] = useState(false);
   const [active, setActive] = useState("Spot");
+  const [activeItem, setActiveItem] = useState("Buy");
+  const [openMarketPopup, setOpenMarketPopup] = useState(false);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { symbol } = useParams();
   const popupRef = useRef(null);
 
-  const userData = JSON.parse(localStorage.getItem("userData"));
-  const [activeItem, setActiveItem] = useState("Buy");
-  const [openMarketPopup, setOpenMarketPopup] = useState(false);
+  const userData = useMemo(() => {
+    return JSON.parse(localStorage.getItem("userData"));
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem("theme", JSON.stringify(dark));
+  }, [dark]);
+
   useEffect(() => {
     if (userData?.token) {
       getUserProfile(dispatch);
     }
-  }, []);
+  }, [userData?.token, dispatch]);
+
   useEffect(() => {
     if (symbol) {
-      const pair = `${symbol}`; // e.g., spot/DOGEUSDT
-      localStorage.setItem("lastPair", JSON.stringify(pair));
-    }
-  }, [symbol]);
-  useEffect(() => {
-    if (!symbol) {
+      localStorage.setItem("lastPair", JSON.stringify(symbol));
+    } else {
       const last = JSON.parse(localStorage.getItem("lastPair"));
-      navigate(`/spot/${last}`, { replace: true });
+      if (last) navigate(`/spot/${last}`, { replace: true });
     }
   }, [symbol, navigate]);
 
   useEffect(() => {
-    if (show) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "auto";
-    }
-
-    return () => {
-      document.body.style.overflow = "auto";
-    };
-  }, [show]);
-  useEffect(() => {
     const handleClickOutside = (event) => {
-      // If click is outside the popup
       if (popupRef.current && !popupRef.current.contains(event.target)) {
         setIsLogin(false);
       }
@@ -78,14 +66,14 @@ export const Home = () => {
 
     if (isLogin) {
       document.addEventListener("mousedown", handleClickOutside);
-      document.body.style.overflow = "hidden";
     }
-
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-      document.body.style.overflow = "auto";
-    };
+    return () => document.removeEventListener("mousedown", handleClickOutside);
   }, [isLogin]);
+
+  // Merge overflow control
+  useEffect(() => {
+    document.body.style.overflow = show || isLogin ? "hidden" : "auto";
+  }, [show, isLogin]);
 
   return (
     <div
@@ -204,7 +192,7 @@ export const Home = () => {
             <div className="h-[400px]  text-xs w-full bg-gray-800  rounded-md ">
               <ChartEmbed />
             </div>
-            <div className="lg:h-[25rem] h-[40rem]">
+            <div className=" h-[25rem]">
               <Middle />
             </div>
             <OpenOrders />

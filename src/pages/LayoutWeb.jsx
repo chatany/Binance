@@ -2,20 +2,28 @@ import { useDispatch, useSelector } from "react-redux";
 import { TopNav } from "./TopNavBar";
 import { Menu } from "./menu";
 import { Footer } from "./Footer";
-import { getActivity, getAuth, getAuthenticationKey, getFundsData, getUserProfile } from "./apiCall";
+import {
+  getActivity,
+  getAuth,
+  getAuthenticationKey,
+  getFundsData,
+  getUserProfile,
+} from "./apiCall";
 import { useEffect } from "react";
 
 export const LayoutWeb = ({ component }) => {
-  const { dark, activeItem,userProfile } = useSelector((state) => state.counter);
-   const dispatch = useDispatch();
+  const dark = useSelector((state) => state.counter.dark);
+  const activeItem = useSelector((state) => state.counter.activeItem);
+  const userProfile = useSelector((state) => state.counter.userProfile);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     if (Object.keys(userProfile).length === 0) {
-    getAuthenticationKey(dispatch);
-    getAuth(dispatch);
-    getActivity(dispatch);
-    getUserProfile(dispatch);
-    getFundsData(dispatch);
+      getAuthenticationKey(dispatch);
+      getAuth(dispatch);
+      getActivity(dispatch);
+      getUserProfile(dispatch);
+      getFundsData(dispatch);
     }
   }, []);
   return (
@@ -33,7 +41,9 @@ export const LayoutWeb = ({ component }) => {
           <Menu />
         </aside>
         {!activeItem && (
-          <main className="flex-1 md:p-6 p-2 overflow-y-auto ">{component}</main>
+          <main className="flex-1 md:p-6 p-2 overflow-y-auto ">
+            {component}
+          </main>
         )}
       </div>
       {!activeItem && (

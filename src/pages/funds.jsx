@@ -11,9 +11,10 @@ import { ModifyPopup } from "../common/popup";
 import { ConfirmationBox } from "../common/deletePopup";
 
 export const Funds = () => {
-  const { fundData, openOrder, showPopup,dark } = useSelector(
-    (state) => state.counter
-  );
+  const fundData = useSelector((state) => state.counter.fundData);
+  const openOrder = useSelector((state) => state.counter.openOrder);
+  const showPopup = useSelector((state) => state.counter.showPopup);
+  const dark = useSelector((state) => state.counter.dark);
   const [activeTab, SetActiveTab] = useState("open orders");
   const [orderId, setOrderId] = useState(null);
   const popupRef = useRef(null);

@@ -16,7 +16,8 @@ export const SidePopup = ({
   handleClose,
   showSideBar,
 }) => {
-  const { faverateData, searchData } = useSelector((state) => state.counter);
+  const faverateData = useSelector((state) => state.counter.faverateData);
+  const searchData = useSelector((state) => state.counter.searchData);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [isVolume, setIsVolume] = useState(false);
@@ -50,9 +51,9 @@ export const SidePopup = ({
         url: `https://test.bitzup.com/onboarding/currency/add-favorite`,
         data: favData,
       });
-       if (status === 200 && data?.status === "1") {
-              showSuccess(data?.message);
-            }
+      if (status === 200 && data?.status === "1") {
+        showSuccess(data?.message);
+      }
     } catch (err) {
       console.error("Failed to fetch second API", err);
     } finally {

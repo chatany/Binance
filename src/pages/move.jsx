@@ -1,4 +1,4 @@
-import  { useState, useRef } from "react";
+import { useState, useRef } from "react";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import { RiArrowUpDoubleLine } from "react-icons/ri";
 import { useDispatch, useSelector } from "react-redux";
@@ -9,7 +9,9 @@ import { ScaleLoader } from "react-spinners";
 const TopMovers = () => {
   const tabs = ["All", "Hot", "Losers", "24h Vol", "Gainers"];
   const open = useSelector((state) => state.counter.open);
-  const { allMovers, movers,dark } = useSelector((state) => state.counter);
+  const allMovers = useSelector((state) => state.counter.allMovers);
+  const movers = useSelector((state) => state.counter.movers);
+  const dark = useSelector((state) => state.counter.dark);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState("All");
@@ -39,7 +41,7 @@ const TopMovers = () => {
     >
       <div
         className={`flex  ${
-         dark ? "border-[#333B47]" : "border-[#EDEDED]"
+          dark ? "border-[#333B47]" : "border-[#EDEDED]"
         } border-b-1 w-full justify-between items-center mb-3 p-2`}
       >
         <div className="flex justify-between items-center gap-3">
@@ -69,7 +71,7 @@ const TopMovers = () => {
         >
           {tabs.map((tab) => (
             <button
-            name="item1"
+              name="item1"
               key={tab}
               onClick={() => setActiveTab(tab)}
               className={`py-1 px-3 rounded-md text-xs whitespace-nowrap cursor-pointer
@@ -84,7 +86,7 @@ const TopMovers = () => {
           ))}
         </div>
         <button
-        name="right"
+          name="right"
           onClick={() => scrollTabs(100)}
           className=" rounded-full cursor-pointer   ml-2"
         >
@@ -110,7 +112,11 @@ const TopMovers = () => {
               >
                 <div className="flex gap-3 items-center justify-between">
                   <div>
-                    <img src={mover?.coin_icon} className="h-6 w-6" alt="coin_image"/>
+                    <img
+                      src={mover?.coin_icon}
+                      className="h-6 w-6"
+                      alt="coin_image"
+                    />
                   </div>
                   <div>
                     <div className="font-medium text-xs">
