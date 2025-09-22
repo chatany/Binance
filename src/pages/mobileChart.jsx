@@ -272,7 +272,7 @@ export const MobileChartBar = () => {
               </div>
             </div>
             {orderBuySell === "Sell" && (
-              <div className="h-[380px] no-scrollbar overflow-x-auto overflow-y-auto p-[0px_8px_8px_8px]">
+              <div className="h-[79%] no-scrollbar overflow-x-auto overflow-y-auto p-[0px_8px_8px_8px]">
                 {orderData?.asks?.length > 0 ? (
                   <table className="w-full">
                     <thead>
