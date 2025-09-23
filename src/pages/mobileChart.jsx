@@ -147,16 +147,16 @@ export const MobileChartBar = () => {
                         return (
                           <tr key={inde}>
                             <td
-                              className={`lg:text-[12px] ${
+                              className={`text-[12px] ${
                                 !item?.m ? "text-[#2EBD85]" : "text-[#F6465D]"
-                              } text-[.6rem]  pl-[8px] text-left w-1/3 `}
+                              }  pl-[8px] text-left w-1/3 `}
                             >
                               {formatToKMBWithCommas(price)}
                             </td>
-                            <td className="lg:text-[12px] text-[.6rem] p-[2px]  text-center w-1/3">
+                            <td className="text-[12px] p-[2px]  text-center w-1/3">
                               {amounts}
                             </td>
-                            <td className="lg:text-[12px] text-[.6rem] text-center p-[2px] w-1/3">
+                            <td className="text-[12px] text-center p-[2px] w-1/3">
                               {time}
                             </td>
                           </tr>
