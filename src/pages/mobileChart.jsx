@@ -532,7 +532,7 @@ export const MobileChartBar = () => {
                             <th
                               className={`text-[12px] text-gray-400  ${
                                 dark ? "bg-[#181A20]" : "bg-white"
-                              } text-center w-1/3 pl-2  sticky top-0 z-30`}
+                              } text-center w-1/3 pl-2  sticky top-0 z-30 whitespace-nowrap`}
                             >
                               Amount ({tikerData?.symbol?.split("USDT")[0]})
                             </th>
