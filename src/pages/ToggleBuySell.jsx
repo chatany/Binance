@@ -913,8 +913,8 @@ export const ToggleButSell = ({
               <div className="p-[5px]">
                 <div
                   className={`w-full ${
-                    dark ? "bg-[#2B3139]" : "bg-white"
-                  }  h-[45px] rounded-[8px] text-[#848E9C] mt-2 mb-2`}
+                  dark ? "bg-[#333B47]" : "bg-[#EDEDED]"
+                }  h-[45px] rounded-[8px] text-[#848E9C] mt-2 mb-2`}
                 >
                   {" "}
                   <div className="w-full h-full flex justify-between items-center p-3">
@@ -1025,8 +1025,8 @@ export const ToggleButSell = ({
               <div style={{ padding: "5px", maxWidth: "100%" }}>
                 <div
                   className={`w-full ${
-                    dark ? "bg-[#2B3139]" : "bg-white"
-                  }  h-[45px] rounded-[8px] text-[#848E9C] mt-2 mb-2`}
+                  dark ? "bg-[#333B47]" : "bg-[#EDEDED]"
+                }  h-[45px] rounded-[8px] text-[#848E9C] mt-2 mb-2`}
                 >
                   {" "}
                   <div className="w-full h-full flex justify-between items-center p-3">
