@@ -9,6 +9,7 @@ import { useEffect, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useAuth } from "../hooks/useAuth";
 import { showError, showSuccess } from "../Toastify/toastServices";
+import { Loder } from "../common/Loder";
 export const TopIconBar1 = () => {
   const tikerData = useSelector((state) => state.counter.tikerData);
   const iconURL = useSelector((state) => state.counter.iconURL);
@@ -18,6 +19,7 @@ export const TopIconBar1 = () => {
   const priceDecimal = useSelector((state) => state.counter.priceDecimal);
   const dark = useSelector((state) => state.counter.dark);
   const [priceColor, setPriceColor] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const lastPriceRef = useRef(null);
   const token = useAuth();
 
@@ -50,6 +52,7 @@ export const TopIconBar1 = () => {
       pair_id: String(pairId),
       type: faverae ? String(faverae) : "false",
     };
+    setIsLoading(true)
     try {
       const { data, status } = await apiRequest({
         method: "post",
@@ -66,6 +69,7 @@ export const TopIconBar1 = () => {
       console.error("Failed to fetch second API", err);
     } finally {
       getFaverateData(dispatch);
+      setIsLoading(false)
     }
   };
   return (
@@ -175,6 +179,7 @@ export const TopIconBar1 = () => {
           <span>Price Protection</span>
         </div>
       </div>
+      {isLoading && <Loder className="bg-[#00000080]" />}
     </div>
   );
 };
@@ -186,6 +191,7 @@ export const TopIconBar2 = () => {
   const pairId = useSelector((state) => state.counter.pairId);
   const priceDecimal = useSelector((state) => state.counter.priceDecimal);
   const dark = useSelector((state) => state.counter.dark);
+  const [isLoading, setIsLoading] = useState(false);
   const dispatch = useDispatch();
   const token = useAuth();
   const handleChange = async () => {
@@ -198,6 +204,7 @@ export const TopIconBar2 = () => {
       pair_id: String(pairId),
       type: faverae ? String(faverae) : "false",
     };
+    setIsLoading(true)
     try {
       const { data, status } = await apiRequest({
         method: "post",
@@ -214,6 +221,7 @@ export const TopIconBar2 = () => {
       console.error("Failed to fetch second API", err);
     } finally {
       getFaverateData(dispatch);
+      setIsLoading(false)
     }
   };
   const [priceColor, setPriceColor] = useState(false);
@@ -354,6 +362,7 @@ export const TopIconBar2 = () => {
           }
         />
       </div>
+      {isLoading && <Loder className="bg-[#00000080]" />}
     </div>
   );
 };
@@ -365,6 +374,7 @@ export const TopIconBar3 = () => {
   const pairId = useSelector((state) => state.counter.pairId);
   const priceDecimal = useSelector((state) => state.counter.priceDecimal);
   const dark = useSelector((state) => state.counter.dark);
+  const [isLoading, setIsLoading] = useState(false);
   const dispatch = useDispatch();
   const { symbol } = useParams();
   const token = useAuth();
@@ -378,6 +388,7 @@ export const TopIconBar3 = () => {
       pair_id: String(pairId),
       type: faverae ? String(faverae) : "false",
     };
+    setIsLoading(true)
     try {
       const { data, status } = await apiRequest({
         method: "post",
@@ -394,6 +405,7 @@ export const TopIconBar3 = () => {
       console.error("Failed to fetch second API", err);
     } finally {
       getFaverateData(dispatch);
+      setIsLoading(false)
     }
   };
   const [priceColor, setPriceColor] = useState(false);
@@ -540,6 +552,7 @@ export const TopIconBar3 = () => {
           />
         </div>
       </div>
+      {isLoading && <Loder className="bg-[#00000080]" />}
     </div>
   );
 };

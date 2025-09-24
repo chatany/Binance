@@ -9,9 +9,10 @@ import { IoIosCloseCircle } from "react-icons/io";
 import { apiRequest } from "../Helper";
 import { showError, showSuccess } from "../Toastify/toastServices";
 import { useNavigate } from "react-router-dom";
+import { Loder } from "../common/Loder";
 export const Register = () => {
   const [showPassword, setShowPassword] = useState(true);
-  const  countryData  = useSelector((state) => state.counter.countryData);
+  const countryData = useSelector((state) => state.counter.countryData);
   const navigate = useNavigate();
   const [isOpenPopup, setIsOpenPopup] = useState(false);
   const [disable, setDisable] = useState(false);
@@ -37,6 +38,7 @@ export const Register = () => {
     password: "",
     otp: "",
     user_id: "",
+    referral_id: "",
   });
   const filteredData = countryData?.filter((item) =>
     item.name?.toLowerCase().includes(searchQuery.toLowerCase())
@@ -52,9 +54,18 @@ export const Register = () => {
     device_type: "systemName",
     device_info: "windows",
     source: "App",
-    referral_id: "referral_code",
+    referral_id: userData?.referral_id,
   };
   const handleSubmit = async () => {
+    if (
+      userData?.password === "" ||
+      userData?.email === "" ||
+      userData?.name === "" ||
+      userData?.phone === ""
+    ) {
+      showError("Please Provide All Field!");
+      return;
+    }
     try {
       setDisable(true);
       const { data, status } = await apiRequest({
@@ -352,6 +363,7 @@ export const Register = () => {
             h-[3rem] p-4 text-[1rem] text-[#757575]
             focus:outline-none 
              transition-colors duration-300 delay-200"
+                onChange={(e) => handle("referral_id", e)}
               />
             )}
           </div>
@@ -461,6 +473,7 @@ export const Register = () => {
           </div>
         </div>
       )}
+      {disable && <Loder className="bg-[#00000080]" />}
     </div>
   );
 };

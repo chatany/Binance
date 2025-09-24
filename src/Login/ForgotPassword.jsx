@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { showError } from "../Toastify/toastServices";
 import { apiRequest } from "../Helper";
-import { IoIosCloseCircle } from "react-icons/io";
 import { useNavigate } from "react-router-dom";
+import { Loder } from "../common/Loder";
 
 export const Forgotpass = () => {
   const [timer, setTimer] = useState(0);
@@ -64,6 +64,10 @@ export const Forgotpass = () => {
     source: "App",
   };
   const handleSubmit = async () => {
+    if (userData?.email === "") {
+      showError("Please Provide All Field!");
+      return;
+    }
     try {
       setDisable(true)
       const { data, status } = await apiRequest({
@@ -117,6 +121,7 @@ export const Forgotpass = () => {
           </div>
         </div>
       </div>
+      {disable && <Loder className="bg-[#00000080]" />}
     </div>
   );
 };

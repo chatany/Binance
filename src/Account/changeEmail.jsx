@@ -11,6 +11,7 @@ import { apiRequest } from "../Helper";
 import { useNavigate } from "react-router-dom";
 import { TopNav } from "../pages/TopNavBar";
 import { ConfirmationPopup } from "../common/confirmationPopup";
+import { Loder } from "../common/Loder";
 
 export const ChangeEmail = () => {
   const userProfile = useSelector((state) => state.counter.userProfile);
@@ -44,6 +45,10 @@ export const ChangeEmail = () => {
     return () => clearInterval(interval);
   }, [timer]);
   const handleEmailOtp = async () => {
+    if (userData?.newEmail==="") {
+      showError("Please Provide All Field!");
+      return;
+    }
     setIsDisable(true);
     const user = {
       new_email: userData?.newEmail,
@@ -315,6 +320,7 @@ export const ChangeEmail = () => {
           </div>
         </div>
       )}
+      {isDisable && <Loder className="bg-[#00000080]" />}
     </div>
   );
 };

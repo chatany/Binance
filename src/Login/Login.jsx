@@ -5,12 +5,12 @@ import { useNavigate } from "react-router-dom";
 import { apiRequest } from "../Helper";
 import { showError, showSuccess } from "../Toastify/toastServices";
 import { useDispatch, useSelector } from "react-redux";
-import { setLoading } from "../store/webSocket";
 import CircularIndeterminate from "../common/LoderComponent";
+import { Loder } from "../common/Loder";
 export const Login = () => {
   const [showPassword, setShowPassword] = useState(true);
   const navigate = useNavigate();
-  const  loading  = useSelector((state) => state.counter.loading);
+  const loading = useSelector((state) => state.counter.loading);
   const [timer, setTimer] = useState(0);
   const [showAuth, setShowAuth] = useState(false);
   const [error, setError] = useState("");
@@ -117,8 +117,12 @@ export const Login = () => {
     }
   };
   const handleSubmit = async () => {
+    if (userData?.password === "" || userData?.email === "") {
+      showError("Please Provide All Field!");
+      return;
+    }
     try {
-      setDisable(true)
+      setDisable(true);
       const { data, status } = await apiRequest({
         method: "post",
         url: `https://test.bitzup.com/onboarding/user/login`,
@@ -126,7 +130,7 @@ export const Login = () => {
       });
       if (data?.showAuth) {
         setShowAuth(true);
-      }else{
+      } else {
         setShowAuth(false);
       }
       if (status === 200 && data?.status == 1) {
@@ -143,7 +147,7 @@ export const Login = () => {
       }
     } catch (err) {
     } finally {
-      setDisable(false)
+      setDisable(false);
     }
   };
   const verify = async () => {
@@ -153,7 +157,7 @@ export const Login = () => {
       return;
     }
     try {
-      setDisable(true)
+      setDisable(true);
       const { data, status } = await apiRequest({
         method: "post",
         url: `https://test.bitzup.com/onboarding/user/login`,
@@ -178,7 +182,7 @@ export const Login = () => {
       }
     } catch (err) {
     } finally {
-      setDisable(false)
+      setDisable(false);
     }
   };
   useEffect(() => {
@@ -253,7 +257,9 @@ export const Login = () => {
               onClick={handleSubmit}
               disabled={disable}
               name="login"
-              className={`${!disable?"bg-[#2EDBAD] hover:bg-[#2EDBAD]":"bg-[#e7eeec]"}  rounded-xl w-[60%]  h-[2.2rem]  text-black cursor-pointer capitalize`}
+              className={`${
+                !disable ? "bg-[#2EDBAD] hover:bg-[#2EDBAD]" : "bg-[#e7eeec]"
+              }  rounded-xl w-[60%]  h-[2.2rem]  text-black cursor-pointer capitalize`}
             >
               Log in
             </button>
@@ -339,7 +345,11 @@ export const Login = () => {
                   onClick={verify}
                   disabled={disable}
                   name="verify"
-                  className={`${!disable?"bg-[#2EDBAD] hover:bg-[#2EDBAD]":"bg-[#e7eeec]"}  rounded-xl w-[60%]  h-[2.2rem]  text-black cursor-pointer capitalize`}
+                  className={`${
+                    !disable
+                      ? "bg-[#2EDBAD] hover:bg-[#2EDBAD]"
+                      : "bg-[#e7eeec]"
+                  }  rounded-xl w-[60%]  h-[2.2rem]  text-black cursor-pointer capitalize`}
                 >
                   Verify Email
                 </button>
@@ -353,6 +363,7 @@ export const Login = () => {
           <CircularIndeterminate />
         </div>
       )}
+      {disable && <Loder className="bg-[#00000080]" />}
     </div>
   );
 };

@@ -7,10 +7,12 @@ import { Footer } from "./Footer";
 import { useEffect, useRef, useState } from "react";
 import { getReferralData } from "./apiCall";
 import { showError, showSuccess } from "../Toastify/toastServices";
+import { Loder } from "../common/Loder";
 export const Referral = () => {
   const dark = useSelector((state) => state.counter.dark);
   const referralCode = useSelector((state) => state.counter.referralCode);
   const [current, setCurrent] = useState(0);
+  const [isLoading, setIsLoading] = useState(true);
   const [isPaused, setIsPaused] = useState(false);
   const intervalRef = useRef(null);
   const dispatch = useDispatch();
@@ -53,6 +55,9 @@ export const Referral = () => {
   ];
   useEffect(() => {
     getReferralData(dispatch);
+     setTimeout(() => {
+      setIsLoading(false);
+    }, 1000);
   }, []);
   return (
     <div
@@ -574,6 +579,7 @@ export const Referral = () => {
       <div className="p-10">
         <Footer />
       </div>
+      {isLoading && <Loder className="bg-[#00000080]" />}
     </div>
   );
 };

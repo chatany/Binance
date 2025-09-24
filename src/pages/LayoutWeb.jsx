@@ -9,22 +9,29 @@ import {
   getFundsData,
   getUserProfile,
 } from "./apiCall";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import { Loder } from "../common/Loder";
 
 export const LayoutWeb = ({ component }) => {
   const dark = useSelector((state) => state.counter.dark);
   const activeItem = useSelector((state) => state.counter.activeItem);
-  const userProfile = useSelector((state) => state.counter.userProfile);
+  const authEnticatorKey = useSelector(
+    (state) => state.counter.authEnticatorKey
+  );
+  const [isLoading, setIsLoading] = useState(true);
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if (Object.keys(userProfile).length === 0) {
+    if (Object.keys(authEnticatorKey).length === 0) {
       getAuthenticationKey(dispatch);
       getAuth(dispatch);
       getActivity(dispatch);
       getUserProfile(dispatch);
       getFundsData(dispatch);
     }
+    setTimeout(() => {
+      setIsLoading(false);
+    }, 1000);
   }, []);
   return (
     <div
@@ -51,6 +58,7 @@ export const LayoutWeb = ({ component }) => {
           <Footer />
         </footer>
       )}
+      {isLoading && <Loder className="bg-[#00000080]" />}
     </div>
   );
 };

@@ -9,6 +9,7 @@ import { BsDot } from "react-icons/bs";
 import { apiRequest } from "../Helper";
 import { showError } from "../Toastify/toastServices";
 import { getUserProfile } from "../pages/apiCall";
+import { Loder } from "../common/Loder";
 
 export const AntiPhishing = () => {
   const dark = useSelector((state) => state.counter.dark);
@@ -56,6 +57,10 @@ export const AntiPhishing = () => {
 
   const isValid = typeCount >= 3;
   const handleSubmit = async () => {
+    if (userData?.authenticatorCode === "") {
+      showError("Please Provide Authenticator Code !");
+      return;
+    }
     setIsDisable(true);
     const user = {
       anti_phishing_code: userData?.antiCode,
@@ -384,6 +389,7 @@ export const AntiPhishing = () => {
           </div>
         </div>
       )}
+      {isDisable && <Loder className="bg-[#00000080]" />}
     </div>
   );
 };

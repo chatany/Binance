@@ -11,6 +11,7 @@ import { useEffect, useRef, useState } from "react";
 import { apiRequest } from "../Helper";
 import { IoCloseSharp } from "react-icons/io5";
 import { useParams } from "react-router-dom";
+import { Loder } from "./Loder";
 
 export const ModifyPopup = ({ orderId }) => {
   const openOrder = useSelector((state) => state.counter.openOrder);
@@ -26,6 +27,7 @@ export const ModifyPopup = ({ orderId }) => {
   const [price, setPrice] = useState(item?.order_price);
   const [stopPrice, setStopPrice] = useState(item?.stop_limit_price);
   const [amount, setAmount] = useState(item?.base_quantity);
+  const [isLoading, setIsLoading] = useState(false);
   const { symbol } = useParams();
   const userData = JSON.parse(localStorage.getItem("userData"));
   const [error, setError] = useState({
@@ -107,10 +109,12 @@ export const ModifyPopup = ({ orderId }) => {
         openOrders(item?.pair_id, userData?.user_id, dispatch);
         OrderHistory(dispatch);
         dispatch(setShowPopup(false));
+        setIsLoading(false);
       }
     };
     const deletePopup = async () => {
       try {
+        setIsLoading(true);
         const { data, status } = await apiRequest({
           method: "post",
           url: `https://test.bitzup.com/order/user/cancel-order`,
@@ -168,10 +172,12 @@ export const ModifyPopup = ({ orderId }) => {
         openOrders(item?.pair_id, userData?.user_id, dispatch);
         OrderHistory(dispatch);
         dispatch(setShowPopup(false));
+        setIsLoading(false);
       }
     };
     const deletePopup = async () => {
       try {
+        setIsLoading(true);
         const { data, status } = await apiRequest({
           method: "post",
           url: `https://test.bitzup.com/order/user/cancel-order`,
@@ -393,6 +399,7 @@ export const ModifyPopup = ({ orderId }) => {
           </div>
         )}
       </div>
+      {isLoading && <Loder className="bg-[#00000080]" />}
     </div>
   );
 };

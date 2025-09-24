@@ -136,7 +136,7 @@ export const Security = () => {
               </div>
             </div>
             <div className="flex max-md:w-full justify-between gap-5">
-              <button className="flex items-center gap-1">
+              <button className="flex items-center gap-1 truncate ">
                 {userProfile?.email}
               </button>
               <button

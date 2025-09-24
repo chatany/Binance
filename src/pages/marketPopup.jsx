@@ -10,6 +10,7 @@ import { formatToKMB } from "../Constant";
 import { IoCloseSharp } from "react-icons/io5";
 import { showError, showSuccess } from "../Toastify/toastServices";
 import { useAuth } from "../hooks/useAuth";
+import { Loder } from "../common/Loder";
 export const MarketPopup = ({ handleClose, openMarketPopup }) => {
   const faverateData = useSelector((state) => state.counter.faverateData);
   const searchData = useSelector((state) => state.counter.searchData);
@@ -20,6 +21,7 @@ export const MarketPopup = ({ handleClose, openMarketPopup }) => {
   const [isVolume, setIsVolume] = useState(false);
   const [isDisable, setIsDisable] = useState(false);
   const [searchInput, setSearchInput] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
   const filteredData =
     Array.isArray(searchData) &&
     searchData?.filter((item) =>
@@ -36,6 +38,7 @@ export const MarketPopup = ({ handleClose, openMarketPopup }) => {
       pair_id: String(pairId),
       type: faverae ? String(faverae) : "false",
     };
+    setIsLoading(true);
     try {
       const { data, status } = await apiRequest({
         method: "post",
@@ -53,6 +56,7 @@ export const MarketPopup = ({ handleClose, openMarketPopup }) => {
     } finally {
       setIsDisable(false);
       getFaverateData(dispatch);
+      setIsLoading(false);
     }
   };
   const handleToggle = () => {
@@ -204,6 +208,7 @@ export const MarketPopup = ({ handleClose, openMarketPopup }) => {
           )}
         </div>
       </div>
+       {isLoading && <Loder className="bg-[#00000080]" />}
     </div>
   );
 };

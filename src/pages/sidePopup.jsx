@@ -8,6 +8,7 @@ import { FaStar } from "react-icons/fa";
 import { apiRequest } from "../Helper";
 import { formatToKMB } from "../Constant";
 import { showSuccess } from "../Toastify/toastServices";
+import { Loder } from "../common/Loder";
 
 export const SidePopup = ({
   setSearchQuery,
@@ -22,6 +23,7 @@ export const SidePopup = ({
   const navigate = useNavigate();
   const [isVolume, setIsVolume] = useState(false);
   const [searchInput, setSearchInput] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
   useEffect(() => {
     const icon = searchData.find((item) =>
       item.pair_symbol?.toLowerCase().includes(searchQuery.toLowerCase())
@@ -45,6 +47,7 @@ export const SidePopup = ({
       pair_id: String(pairId),
       type: faverae ? String(faverae) : "false",
     };
+    setIsLoading(true);
     try {
       const { data, status } = await apiRequest({
         method: "post",
@@ -58,6 +61,7 @@ export const SidePopup = ({
       console.error("Failed to fetch second API", err);
     } finally {
       getFaverateData(dispatch);
+      setIsLoading(false);
     }
   };
   const handleToggle = () => {
@@ -96,7 +100,7 @@ export const SidePopup = ({
         id="popup"
         className={`${
           dark ? "bg-[#181A20] text-white " : "bg-white text-black "
-        } lg:w-[25%] md:w-[35%]  p-5   h-full ${
+        } w-[375px]  p-5   h-full ${
           showSideBar ? "open" : "  close"
         }    absolute right-0    rounded- `}
       >
@@ -125,7 +129,7 @@ export const SidePopup = ({
           }`}
         >
           USDT{" "}
-          <div className="border-b-4 border-amber-400 w-[35px] rounded-full"></div>
+          <div className="border-b-4 border-[#2EDBAD] w-[35px] rounded-full"></div>
           {/* <ScrollableTabsBar dark={dark} /> */}
         </div>
         <div className="h-[90%] overflow-x-auto overflow-y-auto p-2">
@@ -165,11 +169,11 @@ export const SidePopup = ({
                         }}
                         className="cursor-pointer"
                       >
-                        <td className="xl:text-[14px] text-[.6rem]  p-[3px] w-1/3 ">
+                        <td className="text-[14px] p-[3px] w-1/3 ">
                           <div className="flex gap-2 items-center">
                             <FaStar
                               className={`h-[14px] w-[14px] ${
-                                fav ? "text-yellow-400" : ""
+                                fav ? "text-[#2EDBAD]" : ""
                               } `}
                               onClick={(e) => {
                                 e.stopPropagation();
@@ -179,7 +183,7 @@ export const SidePopup = ({
                             {`${item?.pair_symbol}`}
                           </div>
                         </td>
-                        <td className="xl:text-[14px] text-[.6rem]  p-[2px] text-end w-1/3">
+                        <td className="text-[14px]  p-[2px] text-end w-1/3">
                           {item?.current_price}
                         </td>
                         <td
@@ -187,7 +191,7 @@ export const SidePopup = ({
                             item?.change_in_price > 0
                               ? `${!isVolume && "text-[#2EBD85]"}`
                               : `${!isVolume && "text-[#F6465D]"}`
-                          } xl:text-[14px] text-[.6rem]  p-[2px] min-w-max text-center w-1/3`}
+                          } text-[14px]  p-[2px] min-w-max text-center w-1/3`}
                         >
                           {!isVolume && item?.change_in_price > 0 ? "+" : "   "}
                           {!isVolume
@@ -207,6 +211,7 @@ export const SidePopup = ({
           )}
         </div>
       </div>
+      {isLoading && <Loder className="bg-[#00000080]" />}
     </div>
   );
 };

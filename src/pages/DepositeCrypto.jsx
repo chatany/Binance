@@ -7,12 +7,14 @@ import { PiDownloadSimpleBold, PiUploadSimpleBold } from "react-icons/pi";
 import { useEffect, useState } from "react";
 import { FaChevronDown } from "react-icons/fa";
 import { getDepositHistory, getWithdrawHistory } from "./apiCall";
+import { Loder } from "../common/Loder";
 
 export const Crypto = ({}) => {
   const dark = useSelector((state) => state.counter.dark);
   const location = useLocation();
   const [active, setActive] = useState(false);
   const navigate = useNavigate();
+  const [isLoading, setIsLoading] = useState(true);
   const dispatch = useDispatch();
   const data = ["deposit", "withdraw"];
   const activeName = () => {
@@ -25,6 +27,9 @@ export const Crypto = ({}) => {
   useEffect(() => {
     getDepositHistory(dispatch);
     getWithdrawHistory(dispatch);
+    setTimeout(() => {
+      setIsLoading(false);
+    }, 1000);
   }, []);
   return (
     <div
@@ -135,6 +140,7 @@ export const Crypto = ({}) => {
           </div>
         )}
       </div>
+      {isLoading && <Loder   className="bg-[#00000080]" />}
     </div>
   );
 };

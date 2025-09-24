@@ -16,6 +16,7 @@ import { PiCopyLight } from "react-icons/pi";
 import { copyToClipboard } from "../Constant";
 import { TopNav } from "../pages/TopNavBar";
 import { ConfirmationPopup } from "../common/confirmationPopup";
+import { Loder } from "../common/Loder";
 export const Authenticator = () => {
   const [showQr, setShowQr] = useState(false);
   const [opt, setOtp] = useState(false);
@@ -80,6 +81,10 @@ export const Authenticator = () => {
     } catch (err) {}
   };
   const handleAuth = async () => {
+    if (userData?.otp === "" || userData?.authCode === "") {
+      showError("Please Provide All Field!");
+      return;
+    }
     setIsDisable(true);
     const user = {
       otp: userData?.otp,
@@ -114,6 +119,10 @@ export const Authenticator = () => {
     return () => clearInterval(interval);
   }, [timer]);
   const RemoveAuth = async () => {
+     if (userData?.password === "") {
+      showError("Please Provide All Field!");
+      return
+    }
     setIsDisable(true);
     try {
       const { data, status } = await apiRequest({
@@ -415,7 +424,7 @@ export const Authenticator = () => {
           <div
             className={`border-1 ${
               dark ? "bg-[#1E2329] text-white" : "bg-white text-black"
-            }   h-[580px] max-md:h-full  ${
+            }   max-h-[580px] max-md:h-full  ${
               dark ? "border-[#2B3139]" : "border-[#EAECEF]"
             }  p-5 w-[425px] max-md:w-full md:rounded-[20px]`}
           >
@@ -483,6 +492,7 @@ export const Authenticator = () => {
           </div>
         </div>
       )}
+      {isDisable && <Loder className="bg-[#00000080]" />}
     </div>
   );
 };

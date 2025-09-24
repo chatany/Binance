@@ -21,11 +21,13 @@ import { MarketPopup } from "./marketPopup";
 import { Funds } from "./funds";
 import { MobileChartBar } from "./mobileChart";
 import { getUserProfile } from "./apiCall";
+import { Loder } from "../common/Loder";
 export const Home = () => {
   const dark = useSelector((state) => state.counter.dark);
   const show = useSelector((state) => state.counter.show);
   const isOpen = useSelector((state) => state.counter.open);
   const [isLogin, setIsLogin] = useState(false);
+  const [reload, setReload] = useState(true);
   const [active, setActive] = useState("Spot");
   const [activeItem, setActiveItem] = useState("Buy");
   const [openMarketPopup, setOpenMarketPopup] = useState(false);
@@ -37,7 +39,11 @@ export const Home = () => {
   const userData = useMemo(() => {
     return JSON.parse(localStorage.getItem("userData"));
   }, []);
-
+  useEffect(() => {
+    setTimeout(() => {
+      setReload(false);
+    }, 2000);
+  }, []);
   useEffect(() => {
     localStorage.setItem("theme", JSON.stringify(dark));
   }, [dark]);
@@ -281,6 +287,7 @@ export const Home = () => {
           />
         </div>
       )}
+      {reload && <Loder className="bg-white" />}
     </div>
   );
 };

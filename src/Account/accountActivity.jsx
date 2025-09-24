@@ -3,16 +3,24 @@ import { formatDate } from "../Constant";
 import { RiArrowLeftSLine } from "react-icons/ri";
 import { useNavigate } from "react-router-dom";
 import { TopNav } from "../pages/TopNavBar";
+import { useEffect, useState } from "react";
+import { Loder } from "../common/Loder";
 
 export const Activity = () => {
   const activity = useSelector((state) => state.counter.activity);
   const dark = useSelector((state) => state.counter.dark);
   const navigate = useNavigate();
+  const [isLoading, setIsLoading] = useState(true);
+  useEffect(() => {
+    setTimeout(() => {
+      setIsLoading(false);
+    }, 1000);
+  }, [activity]);
   return (
     <div
       className={`${
         dark ? "bg-[#181A20] text-[#EAECEF]" : "bg-[#FFFFFF] text-[#282828]"
-      }`}
+      } h-screen overflow-hidden`}
     >
       <div className="fixed inset-0 z-50 h-fit">
         <TopNav />
@@ -84,6 +92,7 @@ export const Activity = () => {
           </table>
         </div>
       </div>
+      {isLoading && <Loder className="bg-[#00000080]" />}
     </div>
   );
 };

@@ -18,6 +18,7 @@ import {
 import { useDeviceInfo } from "../hooks/useDeviceInfo";
 import { showError, showSuccess } from "../Toastify/toastServices";
 import { useAuth } from "../hooks/useAuth";
+import { Loder } from "../common/Loder";
 export const Form = () => {
   const searchData = useSelector((state) => state.counter.searchData);
   const currentPrice = useSelector((state) => state.counter.currentPrice);
@@ -600,6 +601,13 @@ export const Form = () => {
       navigate("/login");
     }
   };
+  const isLoading =
+    limitBuyLoading ||
+    limitSellLoading ||
+    marketBuyLoading ||
+    marketSellLoading ||
+    stopBuyLoading ||
+    stopSellLoading;
 
   return (
     <div
@@ -1427,6 +1435,7 @@ export const Form = () => {
           </div>
         </div>
       )}
+      {isLoading && <Loder className="bg-[#00000010]" />}
     </div>
   );
 };

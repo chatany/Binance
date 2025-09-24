@@ -80,7 +80,7 @@ export const Funds = () => {
               </div>
               <div className="flex justify-center w-full h-[2px]">
                 {activeTab === "open orders" && (
-                  <div className="w-[30%] border-b-2 border-amber-300"></div>
+                  <div className="w-[30%] border-b-2 border-[#2EDBAD]"></div>
                 )}
               </div>
             </div>
@@ -106,7 +106,7 @@ export const Funds = () => {
               </div>
               <div className="flex justify-center w-full h-[2px]">
                 {activeTab === "Funds" && (
-                  <div className="w-[50%] border-b-2 border-amber-300"></div>
+                  <div className="w-[50%] border-b-2 border-[#2EDBAD]"></div>
                 )}
               </div>
             </div>

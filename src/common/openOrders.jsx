@@ -9,11 +9,13 @@ import { ModifyPopup } from "./popup";
 import { FaRegEdit } from "react-icons/fa";
 import { ConfirmationBox } from "./deletePopup";
 import { useDeviceInfo } from "../hooks/useDeviceInfo";
+import { Loder } from "./Loder";
 
 export const OpenOrders = () => {
   const openOrder = useSelector((state) => state.counter.openOrder);
   const orderHistory = useSelector((state) => state.counter.orderHistory);
   const loading = useSelector((state) => state.counter.loading);
+  const isSuccess=useSelector((state) => state.counter.isSuccess);
   const fundData = useSelector((state) => state.counter.fundData);
   const showPopup = useSelector((state) => state.counter.showPopup);
   const searchData = useSelector((state) => state.counter.searchData);
@@ -31,7 +33,7 @@ export const OpenOrders = () => {
   const navigate = useNavigate();
 
   const deleteOrder = async (order_id, pair_id) => {
-    setPendingOrderId(order_id); // disable button for this order
+    setPendingOrderId(order_id);
 
     const orderData = {
       order_id: order_id,
@@ -360,6 +362,7 @@ export const OpenOrders = () => {
                       )}
                     </tbody>
                   </table>
+                 {isSuccess && <Loder className="bg-[#00000010]" />}
                 </div>
               </>
             )}

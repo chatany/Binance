@@ -10,6 +10,7 @@ import { showError, showSuccess } from "../Toastify/toastServices";
 import { formatTime } from "../Constant";
 import { ConfirmationPopup } from "../common/confirmationPopup";
 import CoinSelect from "../common/CoinSelect";
+import { Loder } from "../common/Loder";
 
 export const ChangePassword = () => {
   const dark = useSelector((state) => state.counter.dark);
@@ -53,6 +54,14 @@ export const ChangePassword = () => {
     return () => clearInterval(interval);
   }, [timer]);
   const handleSubmit = async () => {
+    if (
+      userData?.confirmPassword === "" ||
+      userData?.newPassword === "" ||
+      userData?.oldPassword === ""
+    ) {
+      showError("Please Provide All Field!");
+      return;
+    }
     if (userData?.confirmPassword !== userData?.newPassword) {
       showError("New Password and Confirm New Password are not same");
       return;
@@ -352,6 +361,7 @@ export const ChangePassword = () => {
           title="Account Restrictions"
         />
       )}
+      {isDisable && <Loder className="bg-[#00000080]" />}
     </div>
   );
 };

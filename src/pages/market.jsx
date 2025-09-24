@@ -18,6 +18,7 @@ import { formatDecimal, formatToKMBWithCommas } from "../Constant";
 import { Tooltip } from "@mui/material";
 import { showError, showSuccess } from "../Toastify/toastServices";
 import { useAuth } from "../hooks/useAuth";
+import { Loder } from "../common/Loder";
 export const MarketCom = () => {
   const [activeTab, setActiveTab] = useState("Market Trade");
   const [isVolume, setIsVolume] = useState(false);
@@ -28,6 +29,7 @@ export const MarketCom = () => {
   const [filteredData, setFilteredData] = useState([]);
   const [searchInput, setSearchInput] = useState("");
   const [showPopup, setShowPopup] = useState(false);
+  const [loading, setLoading] = useState(false);
   useEffect(() => {
     SearchData({ setIsLoading, dispatch });
   }, []);
@@ -40,7 +42,7 @@ export const MarketCom = () => {
   const searchData = useSelector((state) => state.counter.searchData);
   const dark = useSelector((state) => state.counter.dark);
   const searchQuery = useSelector((state) => state.counter.searchQuery);
-  
+
   useEffect(() => {
     // Step 1: Start with full searchData
     let data = Array.isArray(searchData) ? [...searchData] : [];
@@ -77,6 +79,7 @@ export const MarketCom = () => {
       type: faverae ? String(faverae) : "false",
     };
     try {
+      setLoading(true);
       const { data, status } = await apiRequest({
         method: "post",
         url: `https://test.bitzup.com/onboarding/currency/add-favorite`,
@@ -92,6 +95,7 @@ export const MarketCom = () => {
       console.error("Failed to fetch second API", err);
     } finally {
       getFaverateData(dispatch);
+      setLoading(false)
     }
   };
   const formatToKMB = (num) => {
@@ -496,6 +500,7 @@ export const MarketCom = () => {
           </div>
         )} */}
       </div>
+      {loading && <Loder className="bg-[#00000080]" />}
     </div>
   );
 };

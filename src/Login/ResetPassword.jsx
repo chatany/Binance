@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { showError, showSuccess } from "../Toastify/toastServices";
 import { apiRequest } from "../Helper";
 import { useNavigate, useParams } from "react-router-dom";
+import { Loder } from "../common/Loder";
 
 export const ResetPassword = () => {
   const { userId } = useParams();
@@ -38,6 +39,18 @@ export const ResetPassword = () => {
     source: "App",
   };
   const handleSubmit = async () => {
+    if (
+      userData?.newPassword === "" ||
+      userData?.confirmPassword === "" ||
+      userData?.otp === ""
+    ) {
+      showError("Please Provide All Field!");
+      return;
+    }
+    if (userData?.confirmPassword !== userData?.newPassword) {
+      showError("New Password and Confirm New Password are not same");
+      return;
+    }
     try {
       setDisable(true);
       const { data, status } = await apiRequest({
@@ -165,6 +178,7 @@ export const ResetPassword = () => {
           </div>
         </div>
       </div>
+      {disable && <Loder   className="bg-[#00000080]" />}
     </div>
   );
 };

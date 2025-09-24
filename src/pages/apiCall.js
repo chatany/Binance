@@ -20,7 +20,7 @@ import {
   setUserProfile,
   setWithdrawHistory,
 } from "../store/webSocket";
-import { showError } from "../Toastify/toastServices";
+import { showError, showSuccess } from "../Toastify/toastServices";
 
 export const fetchData = async () => {
   try {
@@ -217,7 +217,7 @@ export const deleteOpenOrder = async (
       data: orderData,
     });
     if (status === 200 && data?.status == 1) {
-      dispatch(setIsSuccess(false));
+      showSuccess(data?.message);
     } else {
       showError(data?.message);
       if (status === 400 && data?.status == 3) {
@@ -238,6 +238,7 @@ export const deleteOpenOrder = async (
     openOrders(pair_id, user_id, dispatch);
     buysellBalance(pair_id, dispatch);
     OrderHistory(dispatch);
+    dispatch(setIsSuccess(false));
   }
 };
 
@@ -273,7 +274,7 @@ export const getFaverateData = async (dispatch) => {
     }
   } catch (err) {
     console.error("Failed to fetch second API", err);
-  } 
+  }
 };
 
 export const getFundsData = async (dispatch) => {
@@ -477,5 +478,30 @@ export const getLockedTime = async (dispatch) => {
     }
   } catch (err) {
     console.error("Failed to fetch second API", err);
+  }
+};
+export const getBonus = async (setBonusData, setLoading) => {
+  try {
+    setLoading(true);
+    const { data, status } = await apiRequest({
+      method: "get",
+      url: `https://test.bitzup.com/onboarding/user/get-user-bonus-details`,
+    });
+
+    if (status === 200 && data?.status === "1") {
+      setBonusData({
+        bonusAmount: data?.data?.bonus_amount,
+        validTill: data?.data?.valid_till,
+        bonusHistory: data?.data?.bonusHistory,
+      });
+    }
+    if (status === 400 && data?.status == 3) {
+      localStorage.removeItem("userData");
+      window.dispatchEvent(new Event("userDataChanged"));
+    }
+  } catch (err) {
+    console.error("Failed to fetch second API", err);
+  } finally {
+    setLoading(false);
   }
 };

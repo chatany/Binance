@@ -183,3 +183,79 @@
 .rdrDefinedRangesWrapper{
 display: none !important;
 }
+.preloader {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.preloader.preloader2 {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1000;
+  background-color: #000000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.loading-container,
+.loading {
+  height: 140px;
+  position: relative;
+  width: 140px;
+  border-radius: 100%;
+}
+.loading-container {
+  margin: 40px auto;
+}
+.loading {
+  border: 1px solid transparent;
+  border-color: transparent #5A65F5 transparent #5A65F5;
+  animation: rotate-loading 1.5s linear 0s infinite normal;
+  transform-origin: 50% 50%;
+}
+.loading.loading2 {
+  border: 1px solid transparent;
+  border-color: transparent #C0FF3A transparent #C0FF3A !important;
+  animation: rotate-loading 1.5s linear 0s infinite normal;
+  transform-origin: 50% 50%;
+}
+.loading.loading3 {
+  border: 1px solid transparent;
+  border-color: transparent #EE64FE transparent #EE64FE;
+  animation: rotate-loading 1.5s linear 0s infinite normal;
+  transform-origin: 50% 50%;
+}
+.loading.loading4 {
+  border: 1px solid transparent;
+  border-color: transparent #F69434 transparent #F69434;
+  animation: rotate-loading 1.5s linear 0s infinite normal;
+  transform-origin: 50% 50%;
+}
+.loading-container:hover .loading,
+.loading-container .loading {
+  transition: all 0.5s ease-in-out;
+}
+#loading-icon {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 90px;
+  transform: translate(-50%, -50%);
+}
+@keyframes rotate-loading {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}

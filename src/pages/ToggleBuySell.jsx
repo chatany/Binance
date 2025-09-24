@@ -12,6 +12,7 @@ import { BuySellToggle } from "../common/ToggleButton";
 import { IoCloseSharp } from "react-icons/io5";
 import { useNavigate } from "react-router-dom";
 import { showError, showSuccess } from "../Toastify/toastServices";
+import { Loder } from "../common/Loder";
 
 export const ToggleButSell = ({
   activeItem,
@@ -573,6 +574,13 @@ export const ToggleButSell = ({
       navigate("/login");
     }
   };
+ const isLoading =
+    limitBuyLoading ||
+    limitSellLoading ||
+    marketBuyLoading ||
+    marketSellLoading ||
+    stopBuyLoading ||
+    stopSellLoading;
 
   return (
     <div
@@ -1403,7 +1411,7 @@ export const ToggleButSell = ({
                   name="stop-sell"
                   disabled={stopSellLoading}
                   onClick={() => {
-                    userData?.token ? handleNavigate() : handleStopSell();
+                    !userData?.token ? handleNavigate() : handleStopSell();
                   }}
                   className="w-[100%] bg-[#F6465D] hover:bg-[#c74052] cursor-pointer  h-[3rem]  py-2 m-2 rounded-md text-[16px] font-semibold"
                 >
@@ -1414,6 +1422,7 @@ export const ToggleButSell = ({
           )}
         </div>
       )}
+      {isLoading && <Loder className="bg-[#00000010]" />}
     </div>
   );
 };
