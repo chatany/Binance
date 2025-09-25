@@ -42,7 +42,7 @@ export const Home = () => {
   useEffect(() => {
     setTimeout(() => {
       setReload(false);
-    }, 2000);
+    }, 1000);
   }, []);
   useEffect(() => {
     localStorage.setItem("theme", JSON.stringify(dark));

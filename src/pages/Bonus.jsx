@@ -45,8 +45,12 @@ export const Bonus = () => {
             </div>
           </div>
         </div>
-        <div className="w-full overflow-x-auto custom-scroll h-[700px] overflow-y-auto ">
-          <table className={`w-full`}>
+        <div className="max-w-[800px] overflow-x-auto custom-scroll h-[600px] overflow-y-auto ">
+          <table className={`w-full border-1 ${
+            dark
+              ? " border-[#474d57]"
+              : "border-[#eaecef]"
+          }`}>
             <thead>
               <tr
                 className={`text-[12px] ${

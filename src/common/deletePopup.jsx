@@ -7,7 +7,7 @@ export const ConfirmationBox = ({
   dark,
 }) => {
   return (
-    <div className="w-full h-full flex justify-center items-center fixed inset-0 z-40 bg-[#00000080] overflow-hidden">
+    <div className="w-full h-full flex justify-center items-center fixed inset-0 z-40 bg-[#00000020] overflow-hidden">
       <div
         className={`flex flex-col max-w-[30rem] absolute ${
           dark ? "bg-[#1E2329] " : "bg-white"

@@ -1,10 +1,13 @@
+import { useState } from "react";
 import { useSelector } from "react-redux";
+import { Loder } from "../common/Loder";
 
 export const ChartEmbed = () => {
   const searchQuery = useSelector((state) => state.counter.searchQuery);
   const dark = useSelector((state) => state.counter.dark);
   const apiId = useSelector((state) => state.counter.apiId);
-  const query = searchQuery || "BTCUSDT";
+   const [loading, setLoading] = useState(true);
+  const query = searchQuery.toUpperCase() || "BTCUSDT";
   const url = `https://chart.bitzup.com/${
     apiId === "binance" ? "v1" : "v2"
   }/${query}?theme=${dark ? "dark" : "light"}
@@ -13,13 +16,15 @@ export const ChartEmbed = () => {
   return (
     <div className="max-w-full h-full rounded-lg">
       <iframe
-        src={query && url}
+        src={url}
         title="BTCUSDT Chart"
         width={"100%"}
         height={"100%"}
         style={{ border: "none" }}
         allowFullScreen={true}
+        onLoad={() => setLoading(false)}
       />
+      {loading && <Loder className="bg-white" />}
     </div>
   );
 };

@@ -36,6 +36,9 @@ import AppWrapper from "./Account/AppWraper";
 import { DepositHistory } from "./common/depositHistory";
 import { TransactionHistory } from "./Account/TransactionHistory";
 import { WithdrawPassword } from "./Account/withdrawPassword";
+import { Bonus } from "./pages/Bonus";
+import { Subscription } from "./pages/Suscription";
+import { SubscriptionHistory } from "./pages/SubscriptionHistory";
 function App() {
   const last = JSON.parse(localStorage.getItem("lastPair")) || "BTCUSDT";
   const userData = useAuth();
@@ -74,6 +77,13 @@ function App() {
     { path: "/dashboard", element: <LayoutWeb component={<Dashboard />} /> },
     { path: "/security/account-activity", element: <Activity /> },
     { path: "/security/anti-phishing-code", element: <AntiPhishing /> },
+    { path: "/subscription", element: <Subscription /> },
+    { path: "/subscription/running/history", element: <SubscriptionHistory /> },
+    {
+      path: "/subscription/completed/history",
+      element: <SubscriptionHistory />,
+    },
+    { path: "/bonus", element: <Bonus /> },
   ];
   return (
     <>

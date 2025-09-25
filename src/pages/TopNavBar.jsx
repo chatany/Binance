@@ -11,7 +11,6 @@ import { useEffect, useRef, useState } from "react";
 import { HelpCenter } from "./helpCenter";
 import { CgProfile } from "react-icons/cg";
 import { useDispatch, useSelector } from "react-redux";
-import { helpCenterApi } from "./apiCall";
 import { HiDownload } from "react-icons/hi";
 import { SidePopup } from "./sidePopup";
 import { RiLogoutBoxRLine } from "react-icons/ri";
@@ -34,7 +33,7 @@ export const TopNav = () => {
   const searchQuery = useSelector((state) => state.counter.searchQuery);
   const helpCenter = useSelector((state) => state.counter.helpCenter);
   const userProfile = useSelector((state) => state.counter.userProfile);
-
+  const last = JSON.parse(localStorage.getItem("lastPair"));
   const [showHelpPopup, setShowHelpPopup] = useState(false);
   const [popup, setPopup] = useState(false);
   const [profile, setProfile] = useState(false);
@@ -56,11 +55,6 @@ export const TopNav = () => {
   const [hoverPosition, setHoverPosition] = useState({ x: 0, y: 0, width: 0 });
   const popupRef = useRef(null);
   const dispatch = useDispatch();
-  useEffect(() => {
-    if (helpCenter?.topics?.length <= 0) {
-      helpCenterApi(dispatch);
-    }
-  }, []);
   useEffect(() => {
     if (!token) {
       dispatch(setBalance({}));
@@ -157,7 +151,7 @@ export const TopNav = () => {
                 });
               }}
               onClick={() => {
-                i == 0 || i == 1 ? navigate("/") : "";
+                i == 0 || i == 1 ? navigate("/spot") : "";
               }}
               // onMouseLeave={() => setHoveredItemIndex(null)}
             >

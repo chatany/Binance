@@ -242,7 +242,8 @@ export const deleteOpenOrder = async (
   }
 };
 
-export const helpCenterApi = async (dispatch) => {
+export const helpCenterApi = async (dispatch, setLoading) => {
+  setLoading(true);
   try {
     const { data, status } = await apiRequest({
       method: "get",
@@ -254,6 +255,8 @@ export const helpCenterApi = async (dispatch) => {
     }
   } catch (err) {
     console.error("Failed to fetch second API", err);
+  } finally {
+    setLoading(false);
   }
 };
 
@@ -499,6 +502,48 @@ export const getBonus = async (setBonusData, setLoading) => {
       localStorage.removeItem("userData");
       window.dispatchEvent(new Event("userDataChanged"));
     }
+  } catch (err) {
+    console.error("Failed to fetch second API", err);
+  } finally {
+    setLoading(false);
+  }
+};
+export const getStakingCoin = async (setStakingData, setLoading) => {
+  try {
+    setLoading(true);
+    const { data, status } = await apiRequest({
+      method: "get",
+      url: `https://test.bitzup.com/onboarding/currency/get-staking-coins`,
+    });
+
+    if (status === 200 && data?.status === "1") {
+      setStakingData(data?.data);
+    }
+    if (status === 400 && data?.status == 3) {
+      localStorage.removeItem("userData");
+      window.dispatchEvent(new Event("userDataChanged"));
+    }
+  } catch (err) {
+    console.error("Failed to fetch second API", err);
+  } finally {
+    setLoading(false);
+  }
+};
+export const getRunningSubscription = async (setStakingData, setLoading) => {
+  try {
+    setLoading(true);
+    const { data, status } = await apiRequest({
+      method: "get",
+      url: `https://test.bitzup.com/onboarding/currency/get-user-staking`,
+    });
+
+    if (status === 200 && data?.status === "1") {
+      setStakingData(data?.data);
+    }
+    // if (status === 400 && data?.status == 3) {
+    //   localStorage.removeItem("userData");
+    //   window.dispatchEvent(new Event("userDataChanged"));
+    // }
   } catch (err) {
     console.error("Failed to fetch second API", err);
   } finally {
