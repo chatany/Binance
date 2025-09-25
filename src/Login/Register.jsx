@@ -221,11 +221,11 @@ export const Register = () => {
             Create Account
           </div>
           <div>
-            <label htmlFor="Email" className="capitalize text-[#757575]">
+            <label htmlFor="name" className="capitalize text-[#757575]">
               Name
             </label>
             <input
-              name="Email"
+              name="name"
               className=" w-full  rounded-lg bg-[#D9D9D940]
             h-[3rem] p-4 text-[1rem] text-[#757575]
             focus:outline-none 
@@ -247,7 +247,7 @@ export const Register = () => {
             />
           </div>
           <div className="relative">
-            <label htmlFor="Email" className="capitalize text-[#757575]">
+            <label htmlFor="phone number" className="capitalize text-[#757575]">
               Personal Phone Number
             </label>
             <div
@@ -347,7 +347,7 @@ export const Register = () => {
           </div>
           <div>
             <label
-              htmlFor="Email"
+              htmlFor="Refferal"
               className={` text-[#757575] ${
                 isRefferal && "items-center"
               } flex cursor-pointer `}

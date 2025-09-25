@@ -42,12 +42,11 @@ export const DepositPopup = ({ popup, setPopup }) => {
             <div
               className={`flex ${
                 dark ? "border-[#333B47]" : "border-[#EDEDED]"
-              } md:border-1 p-[16px] items-center rounded-[16px] `}
+              } md:border-1 p-[16px] items-center rounded-[16px] cursor-pointer`}
               onClick={handleClose}
             >
-              <MdFileDownload className="size-10" />
               <div>
-                <div className="text-[14px] font-medium leading-[22px] text-[#202630]">
+                <div className="text-[14px] font-medium leading-[22px]">
                   Deposit Crypto
                 </div>
                 <div
@@ -67,13 +66,13 @@ export const DepositPopup = ({ popup, setPopup }) => {
             <div
               className={`flex ${
                 dark ? "border-[#333B47]" : "border-[#EDEDED]"
-              } md:border-1 p-[16px] items-center rounded-[16px]`}
+              } md:border-1 p-[16px] items-center rounded-[16px] cursor-not-allowed`}
             >
               <div></div>
               <div>
-                <div className="text-[14px] font-medium leading-[22px] text-[#202630]">
+                <div className="text-[14px] font-medium leading-[22px] ">
                   Buy With USDT{" "}
-                  <button className="bg-[#2EDBAD] p-[4px] rounded-[4px] text-[11px] ml-3">
+                  <button className="bg-[#2EDBAD] p-[4px] rounded-[4px] text-[11px] ml-6 text-[#202630]">
                     {" "}
                     Coming Soon
                   </button>
@@ -90,13 +89,12 @@ export const DepositPopup = ({ popup, setPopup }) => {
             <div
               className={`flex ${
                 dark ? "border-[#333B47]" : "border-[#EDEDED]"
-              } md:border-1 p-[16px] items-center rounded-[16px]`}
+              } md:border-1 p-[16px] items-center rounded-[16px] cursor-not-allowed`}
             >
-              <RiP2pFill className="size-10" />
               <div>
-                <div className="text-[14px] font-medium leading-[22px] text-[#202630]">
+                <div className="text-[14px] font-medium leading-[22px] ">
                   P2P Trading
-                  <button className="bg-[#2EDBAD] p-[4px] rounded-[4px] text-[11px] ml-3">
+                  <button className="bg-[#2EDBAD] p-[4px] rounded-[4px] text-[11px] ml-14 text-[#202630]">
                     {" "}
                     Coming Soon
                   </button>
@@ -113,13 +111,12 @@ export const DepositPopup = ({ popup, setPopup }) => {
             <div
               className={`flex ${
                 dark ? "border-[#333B47]" : "border-[#EDEDED]"
-              } md:border-1 p-[16px] items-center rounded-[16px]`}
+              } md:border-1 p-[16px] items-center rounded-[16px] cursor-not-allowed`}
             >
-              <IoCardOutline className="size-10" />
               <div>
-                <div className="text-[14px] font-medium leading-[22px] text-[#202630]">
+                <div className="text-[14px] font-medium leading-[22px] ">
                   Credit/Debit Card
-                  <button className="bg-[#2EDBAD] p-[4px] rounded-[4px] text-[11px] ml-3">
+                  <button className="bg-[#2EDBAD] p-[4px] rounded-[4px] text-[11px] ml-6 text-[#202630]">
                     {" "}
                     Coming Soon
                   </button>
@@ -137,13 +134,12 @@ export const DepositPopup = ({ popup, setPopup }) => {
             <div
               className={`flex ${
                 dark ? "border-[#333B47]" : "border-[#EDEDED]"
-              } md:border-1 p-[16px] items-center rounded-[16px]`}
+              } md:border-1 p-[16px] items-center rounded-[16px] cursor-not-allowed`}
             >
-              <FaPeopleLine className="size-10" />
               <div>
-                <div className="text-[14px] font-medium leading-[22px] text-[#202630]">
+                <div className="text-[14px] font-medium leading-[22px] ">
                   Third-party payment
-                  <button className="bg-[#2EDBAD] p-[4px] rounded-[4px] text-[11px] ml-3">
+                  <button className="bg-[#2EDBAD] p-[4px] rounded-[4px] text-[11px] ml-3 text-[#202630]">
                     {" "}
                     Coming Soon
                   </button>

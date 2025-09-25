@@ -15,7 +15,7 @@ export const OpenOrders = () => {
   const openOrder = useSelector((state) => state.counter.openOrder);
   const orderHistory = useSelector((state) => state.counter.orderHistory);
   const loading = useSelector((state) => state.counter.loading);
-  const isSuccess=useSelector((state) => state.counter.isSuccess);
+  const isSuccess = useSelector((state) => state.counter.isSuccess);
   const fundData = useSelector((state) => state.counter.fundData);
   const showPopup = useSelector((state) => state.counter.showPopup);
   const searchData = useSelector((state) => state.counter.searchData);
@@ -362,7 +362,7 @@ export const OpenOrders = () => {
                       )}
                     </tbody>
                   </table>
-                 {isSuccess && <Loder className="bg-[#00000010]" />}
+                  {isSuccess && <Loder className="bg-[#00000010]" />}
                 </div>
               </>
             )}
@@ -400,16 +400,13 @@ export const OpenOrders = () => {
                       <tbody>
                         {Array.isArray(orderHistory) &&
                         orderHistory.length > 0 ? (
-                          <>
-                            {Array.isArray(orderHistory) &&
-                            orderHistory.length > 0 ? (
-                              orderHistory.map((item, index) => {
-                                const date = formatDate(item?.date_time);
-                                const isEven = index % 2 === 0;
-                                return (
-                                  <tr
-                                    key={index}
-                                    className={`
+                          orderHistory.map((item, index) => {
+                            const date = formatDate(item?.date_time);
+                            const isEven = index % 2 === 0;
+                            return (
+                              <tr
+                                key={index}
+                                className={`
                                 ${
                                   dark
                                     ? "bg-[#1e1f25]"
@@ -417,62 +414,52 @@ export const OpenOrders = () => {
                                       "bg-white "
                                   // : "bg-zinc-100"
                                 } transition-all duration-200`}
-                                  >
-                                    <td className="p-1 text-center whitespace-nowrap">
-                                      {date}
-                                    </td>
-                                    <td className="p-1 text-center uppercase whitespace-nowrap">
-                                      {item?.pair_symbol}
-                                    </td>
-                                    <td className="p-1 text-center capitalize text-blue-400 whitespace-nowrap">
-                                      {item?.order_type}
-                                    </td>
-                                    <td
-                                      className={`p-1 text-center capitalize whitespace-nowrap ${
-                                        item?.type?.toLowerCase() === "buy"
-                                          ? "text-green-400"
-                                          : "text-red-400"
-                                      }`}
-                                    >
-                                      {item?.type}
-                                    </td>
-                                    <td className="p-1 text-center  whitespace-nowrap">
-                                      {item?.order_price}
-                                    </td>
-                                    <td className="p-1 text-center whitespace-nowrap">
-                                      {item?.base_quantity}
-                                    </td>
-                                    <td
-                                      className={`p-1 text-center capitalize whitespace-nowrap ${
-                                        item?.status === "FILLED"
-                                          ? "text-green-400"
-                                          : item?.status === "pending"
-                                          ? "text-yellow-400"
-                                          : "text-red-400"
-                                      }`}
-                                    >
-                                      {item?.status}
-                                    </td>
-                                  </tr>
-                                );
-                              })
-                            ) : (
-                              <tr>
+                              >
+                                <td className="p-1 text-center whitespace-nowrap">
+                                  {date}
+                                </td>
+                                <td className="p-1 text-center uppercase whitespace-nowrap">
+                                  {item?.pair_symbol}
+                                </td>
+                                <td className="p-1 text-center capitalize text-blue-400 whitespace-nowrap">
+                                  {item?.order_type}
+                                </td>
                                 <td
-                                  colSpan={8}
-                                  className="text-center py-10 text-gray-400"
+                                  className={`p-1 text-center capitalize whitespace-nowrap ${
+                                    item?.type?.toLowerCase() === "buy"
+                                      ? "text-green-400"
+                                      : "text-red-400"
+                                  }`}
                                 >
-                                  No Data Found
+                                  {item?.type}
+                                </td>
+                                <td className="p-1 text-center  whitespace-nowrap">
+                                  {item?.order_price}
+                                </td>
+                                <td className="p-1 text-center whitespace-nowrap">
+                                  {item?.base_quantity}
+                                </td>
+                                <td
+                                  className={`p-1 text-center capitalize whitespace-nowrap ${
+                                    item?.status === "FILLED"
+                                      ? "text-green-400"
+                                      : item?.status === "pending"
+                                      ? "text-yellow-400"
+                                      : "text-red-400"
+                                  }`}
+                                >
+                                  {item?.status}
                                 </td>
                               </tr>
-                            )}
-                          </>
+                            );
+                          })
                         ) : (
                           <tr>
-                            <td colSpan={8}>
-                              <div className="h-[10rem] w-full flex justify-center items-center">
-                                <ScaleLoader color="#FCD535" />
-                              </div>
+                            <td
+                              colSpan={8}
+                              className="text-center py-10 text-gray-400"
+                            >
+                              No Data Found
                             </td>
                           </tr>
                         )}

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Auth, AuthIcon } from "../icons";
-import { getAuth } from "../pages/apiCall";
+import { getAuth, getUserProfile } from "../pages/apiCall";
 import { useDispatch, useSelector } from "react-redux";
 import QRCode from "react-qr-code";
 import { IoMdClose } from "react-icons/io";
@@ -107,6 +107,8 @@ export const Authenticator = () => {
       // console.log(err);
     } finally {
       setIsDisable(false);
+      getAuth(dispatch);
+      getUserProfile(dispatch);
     }
   };
   useEffect(() => {
@@ -119,9 +121,9 @@ export const Authenticator = () => {
     return () => clearInterval(interval);
   }, [timer]);
   const RemoveAuth = async () => {
-     if (userData?.password === "") {
+    if (userData?.password === "") {
       showError("Please Provide All Field!");
-      return
+      return;
     }
     setIsDisable(true);
     try {
@@ -149,6 +151,8 @@ export const Authenticator = () => {
       console.error("Failed to fetch second API", err);
     } finally {
       setIsDisable(false);
+      getAuth(dispatch);
+      getUserProfile(dispatch);
     }
   };
   const handleRemove = () => {
@@ -254,7 +258,7 @@ export const Authenticator = () => {
           <div
             className={`border-1 ${
               dark ? "bg-[#1E2329] text-white" : "bg-white text-black"
-            }   h-[580px] max-md:h-full  ${
+            }   md:max-h-[580px] max-md:h-full  ${
               dark ? "border-[#2B3139]" : "border-[#EAECEF]"
             }  p-5 w-[425px] max-md:w-full md:rounded-[20px]`}
           >

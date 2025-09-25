@@ -7,14 +7,14 @@ export const ChartEmbed = () => {
   const dark = useSelector((state) => state.counter.dark);
   const apiId = useSelector((state) => state.counter.apiId);
   const [loading, setLoading] = useState(true);
-  const query = searchQuery.toUpperCase() || "BTCUSDT";
+  const query = searchQuery.toUpperCase();
   const url = `https://chart.bitzup.com/${
     apiId === "binance" ? "v1" : "v2"
   }/${query}?theme=${dark ? "dark" : "light"}
   `;
   useEffect(() => {
     setLoading(true);
-  }, [searchQuery]);
+  }, [searchQuery,dark]);
   const handleLoading = () => {
     setTimeout(() => {
       setLoading(false);
