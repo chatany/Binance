@@ -44,7 +44,7 @@ export const counterSlice = createSlice({
     helpCenter: [],
     faverateData: [],
     isFav: false,
-    apiId: "binance",
+    apiId: "",
     priceDecimal: 0,
     quantityDecimal: 0,
     balance: {},
