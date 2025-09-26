@@ -52,7 +52,7 @@ export const SubscriptionHistory = () => {
       console.error("Failed to fetch second API", err);
     } finally {
       setPopup(!popup);
-      getRunningSubscription(setRunningData, setIsLoading);
+      getRunningSubscription(setStakingData, setIsLoading);
     }
   };
   useEffect(() => {
