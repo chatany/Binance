@@ -8,13 +8,14 @@ export const ChartEmbed = () => {
   const apiId = useSelector((state) => state.counter.apiId);
   const [loading, setLoading] = useState(true);
   const query = searchQuery.toUpperCase();
-  const url = `https://chart.bitzup.com/${
-    apiId === "binance" ? "v1" : "v2"
-  }/${query}?theme=${dark ? "dark" : "light"}
-  `;
+  const url = apiId
+    ? `https://chart.bitzup.com/${
+        apiId === "binance" ? "v1" : "v2"
+      }/${query}?theme=${dark ? "dark" : "light"}`
+    : null;
   useEffect(() => {
     setLoading(true);
-  }, [searchQuery,dark]);
+  }, [searchQuery, dark]);
   const handleLoading = () => {
     setTimeout(() => {
       setLoading(false);
@@ -22,15 +23,20 @@ export const ChartEmbed = () => {
   };
   return (
     <div className="max-w-full h-full rounded-lg">
-      <iframe
-        src={url}
-        title="BTCUSDT Chart"
-        width={"100%"}
-        height={"100%"}
-        style={{ border: "none" }}
-        allowFullScreen={true}
-        onLoad={handleLoading}
-      />
+      {url ? (
+        <iframe
+          key={url}
+          src={url}
+          title={`${query} Chart`}
+          width="100%"
+          height="100%"
+          style={{ border: "none" }}
+          allowFullScreen={true}
+          onLoad={handleLoading}
+        />
+      ) : (
+        <Loder className="bg-[#00000040]" />
+      )}
       {loading && <Loder className="bg-[#00000040]" />}
     </div>
   );

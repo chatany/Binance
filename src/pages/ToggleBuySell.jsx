@@ -190,6 +190,13 @@ export const ToggleButSell = ({
     api_id: apiId,
   };
   const handleBuy = async () => {
+     if (formValues.limitAmount === "" || formValues.limitPrice === "") {
+      setError((prev) => ({
+        ...prev,
+        limitBuyErr: "Please Enter Amount!",
+      }));
+      return;
+    }
     if (error.limitBuyErr) return;
     setLimitBuyLoading(true);
     try {
@@ -215,11 +222,11 @@ export const ToggleButSell = ({
           stopSellAmount: "",
           stopSellStop: "",
         }));
-        setError((prev) => ({
-          ...prev,
-          limitBuyErr:
-            "Amount must be greater than 10 and less than or equal to 9000000",
-        }));
+        // setError((prev) => ({
+        //   ...prev,
+        //   limitBuyErr:
+        //     "Amount must be greater than 10 and less than or equal to 9000000",
+        // }));
       }
       if (data?.status != 1) {
         setError((prev) => ({
@@ -236,6 +243,13 @@ export const ToggleButSell = ({
     }
   };
   const handleSell = async () => {
+     if (formValues.sellAmount === "" || formValues.sellPrice === "") {
+      setError((prev) => ({
+        ...prev,
+        limitSellErr: "Please Enter Amount!",
+      }));
+      return;
+    }
     if (error.limitSellErr) return;
     setLimitSellLoading(true);
 
@@ -255,11 +269,11 @@ export const ToggleButSell = ({
           ...prev,
           sellAmount: "",
         }));
-        setError((prev) => ({
-          ...prev,
-          limitSellErr:
-            "Amount must be greater than 10 and less than or equal to 9000000",
-        }));
+        // setError((prev) => ({
+        //   ...prev,
+        //   limitSellErr:
+        //     "Amount must be greater than 10 and less than or equal to 9000000",
+        // }));
       }
       if (data?.status != 1) {
         setError((prev) => ({
@@ -286,6 +300,13 @@ export const ToggleButSell = ({
     device_info: "systems",
   };
   const handleMarket = async () => {
+     if (formValues.MarketBuy === "") {
+      setError((prev) => ({
+        ...prev,
+        marketBuyErr: "Please Enter Amount!",
+      }));
+      return;
+    }
     if (error.marketBuyErr) return;
     setMarketBuyLoading(true);
     try {
@@ -305,11 +326,11 @@ export const ToggleButSell = ({
           ...prev,
           MarketBuy: "",
         }));
-        setError((prev) => ({
-          ...prev,
-          marketBuyErr:
-            "Amount must be greater than 10 and less than or equal to 9000000",
-        }));
+        // setError((prev) => ({
+        //   ...prev,
+        //   marketBuyErr:
+        //     "Amount must be greater than 10 and less than or equal to 9000000",
+        // }));
       }
       if (data?.status != 1) {
         setError((prev) => ({
@@ -336,6 +357,13 @@ export const ToggleButSell = ({
     device_info: "systems",
   };
   const handleMarketSell = async () => {
+     if (formValues.MarketSell === "") {
+      setError((prev) => ({
+        ...prev,
+        marketSellErr: "Please Enter Amount!",
+      }));
+      return;
+    }
     if (error.marketSellErr) return;
 
     setMarketSellLoading(true);
@@ -357,11 +385,11 @@ export const ToggleButSell = ({
 
           MarketSell: "",
         }));
-        setError((prev) => ({
-          ...prev,
-          marketSellErr:
-            "Amount must be greater than 10 and less than or equal to 9000000",
-        }));
+        // setError((prev) => ({
+        //   ...prev,
+        //   marketSellErr:
+        //     "Amount must be greater than 10 and less than or equal to 9000000",
+        // }));
       }
       if (data?.status != 1) {
         setError((prev) => ({
@@ -470,6 +498,20 @@ export const ToggleButSell = ({
     device_info: "systems",
   };
   const handleStopBuy = async () => {
+    if (formValues.stopBuyStop === "") {
+      setError((prev) => ({
+        ...prev,
+        stopBuyErr: "Please Enter Stop Limit!",
+      }));
+      return;
+    }
+    if (formValues.stopBuyAmount === "" || formValues.stopBuyLimit === "") {
+      setError((prev) => ({
+        ...prev,
+        stopBuyErr: "Please Enter Amount!",
+      }));
+      return;
+    }
     if (error.stopBuyErr) return;
     if (formValues.stopBuyStop <= 0) {
       setError((prev) => ({
@@ -500,11 +542,11 @@ export const ToggleButSell = ({
           stopBuyAmount: "",
           stopBuyStop: "",
         }));
-        setError((prev) => ({
-          ...prev,
-          stopBuyErr:
-            "Amount must be greater than 10 and less than or equal to 9000000",
-        }));
+        // setError((prev) => ({
+        //   ...prev,
+        //   stopBuyErr:
+        //     "Amount must be greater than 10 and less than or equal to 9000000",
+        // }));
       }
       if (data?.status != 1) {
         setError((prev) => ({
@@ -521,6 +563,20 @@ export const ToggleButSell = ({
     }
   };
   const handleStopSell = async () => {
+    if (formValues.stopSellStop === "") {
+      setError((prev) => ({
+        ...prev,
+        stopSellErr: "Please Enter Stop Limit!",
+      }));
+      return;
+    }
+    if (formValues.stopSellAmount === "" || formValues.stopSellLimit === "") {
+      setError((prev) => ({
+        ...prev,
+        stopSellErr: "Please Enter Amount!",
+      }));
+      return;
+    }
     if (error.stopSellErr) return;
     if (formValues.stopSellStop <= 0) {
       setError((prev) => ({
@@ -549,11 +605,11 @@ export const ToggleButSell = ({
           stopSellAmount: "",
           stopSellStop: "",
         }));
-        setError((prev) => ({
-          ...prev,
-          stopSellErr:
-            "Amount must be greater than 10 and less than or equal to 9000000",
-        }));
+        // setError((prev) => ({
+        //   ...prev,
+        //   stopSellErr:
+        //     "Amount must be greater than 10 and less than or equal to 9000000",
+        // }));
       }
       if (data?.status != 1) {
         showError(data?.message);
@@ -735,7 +791,7 @@ export const ToggleButSell = ({
                   />
                 </Box>
               </Box>
-              <div className="h-[3rem]">
+              <div className="h-fit">
                 {error.limitBuyErr && (
                   <div className="text-red-500 text-[13px] p-2 h-full">
                     {error.limitBuyErr}
@@ -858,7 +914,7 @@ export const ToggleButSell = ({
                   />
                 </Box>
               </Box>
-              <div className="h-[3rem]">
+              <div className="h-fit">
                 {error.limitSellErr && (
                   <div className="text-red-500 text-[13px] p-2 h-full">
                     {error.limitSellErr}
@@ -981,7 +1037,7 @@ export const ToggleButSell = ({
                   />
                 </Box>
               </Box>
-              <div className="h-[3rem]">
+              <div className="h-fit">
                 {error.marketBuyErr && (
                   <div className="text-red-500 text-[13px] p-2 h-full">
                     {error.marketBuyErr}
@@ -1096,7 +1152,7 @@ export const ToggleButSell = ({
                   />
                 </Box>
               </Box>
-              <div className="h-[3rem]">
+              <div className="h-fit">
                 {error.marketSellErr && (
                   <div className="text-red-500 text-[13px] p-2 h-full">
                     {error.marketBuyErr}
@@ -1201,7 +1257,7 @@ export const ToggleButSell = ({
                   }}
                 />
               </div>
-              <div className="h-[3rem]">
+              <div className="h-fit">
                 {error.stopBuyErr && (
                   <div className="text-red-500 text-[13px] p-2 h-full">
                     {error.stopBuyErr}
@@ -1338,7 +1394,7 @@ export const ToggleButSell = ({
                   }}
                 />
               </div>
-              <div className="h-[3rem]">
+              <div className="h-fit">
                 {error.stopSellErr && (
                   <div className="text-red-500 text-[13px] p-2 h-full">
                     {error.stopSellErr}
