@@ -22,6 +22,7 @@ import { Funds } from "./funds";
 import { MobileChartBar } from "./mobileChart";
 import { getUserProfile } from "./apiCall";
 import { Loder } from "../common/Loder";
+import { setSearchQuery } from "../store/webSocket";
 export const Home = () => {
   const dark = useSelector((state) => state.counter.dark);
   const show = useSelector((state) => state.counter.show);
@@ -56,6 +57,7 @@ export const Home = () => {
 
   useEffect(() => {
     if (symbol) {
+      dispatch(setSearchQuery(symbol))
       localStorage.setItem("lastPair", JSON.stringify(symbol));
     } else {
       const last = JSON.parse(localStorage.getItem("lastPair"));

@@ -13,8 +13,6 @@ const updateMoversSection = (existing, incoming) => {
 };
 const storedTheme = localStorage.getItem("theme");
 const initialDark = storedTheme ? JSON.parse(storedTheme) : true;
-const last = JSON.parse(localStorage.getItem("lastPair"));
-
 export const counterSlice = createSlice({
   name: "counter",
   initialState: {
@@ -55,7 +53,7 @@ export const counterSlice = createSlice({
     showPopup: false,
     coinName: "",
     dark: initialDark,
-    searchQuery: last ,
+    searchQuery: "" ,
     show: false,
     activeItem: false,
     referralCode: {},
