@@ -282,7 +282,7 @@ export const SubscriptionHistory = () => {
                               : "bg-[#F5F5F5] border-[#eaecef]"
                           }`}
                         >
-                          Days_left
+                          Days Left
                         </th>
                         <th
                           className={`text-left p-[12px_16px_12px_16px] sticky  top-0 z-30 ${
@@ -455,7 +455,7 @@ export const SubscriptionHistory = () => {
                               : "bg-[#F5F5F5] border-[#eaecef]"
                           }`}
                         >
-                          Days_left
+                          Days Left
                         </th>
                         <th
                           className={`text-left p-[12px_16px_12px_16px] sticky  top-0 z-30 ${
@@ -481,7 +481,7 @@ export const SubscriptionHistory = () => {
                       {Array.isArray(completedData) &&
                       completedData?.length > 0 ? (
                         completedData?.map((ele, index) => {
-                          const date = formatDate(ele?.timestamp);
+                          const date = formatDate(ele?.staking_timeout);
                           return (
                             <tr
                               key={index}
@@ -504,10 +504,10 @@ export const SubscriptionHistory = () => {
                                 {ele?.amount + "  " + ele?.symbol}
                               </td>
                               <td className="text-left p-[12px_16px_12px_16px]">
-                                {ele?.earnings + "  " + ele?.symbol}
+                                {ele?.duration}
                               </td>
                               <td className="text-left p-[12px_16px_12px_16px]">
-                                {ele?.duration}
+                                {ele?.earnings + "  " + ele?.symbol}
                               </td>
                               <td className="text-left p-[12px_16px_12px_16px]">
                                 {ele?.days_left}

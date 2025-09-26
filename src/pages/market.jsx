@@ -445,7 +445,7 @@ export const MarketCom = () => {
                           `${date.getSeconds().toString().padStart(2, "0")}`
                         );
                       };
-                      const time = formatTime(item?.T);
+                      const time = formatTime(Number(item?.T));
                       const price = formatDecimal(item?.p, priceDecimal);
                       const amount = parseFloat(item?.q).toString();
                       const formatToKMB = (num) => {

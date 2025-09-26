@@ -51,27 +51,46 @@ export const Socket = () => {
   //   getFundsData(dispatch);
   // }, []);
   useEffect(() => {
-    if (!searchQuery) return;
+    if (!searchQuery || !apiId) return;
     const fetchRestData = async () => {
+      const url =
+        apiId === "binance"
+          ? `https://server-yo1d.onrender.com/binance-ticker?url=${searchQuery.toUpperCase()}`
+          : `https://server-yo1d.onrender.com/bitget-ticker?url=${searchQuery.toUpperCase()}`;
       try {
         const { data, status } = await apiRequest({
           method: "get",
-          url: `https://server-yo1d.onrender.com/binance-ticker?url=${searchQuery.toUpperCase()}`,
+          url: url,
         });
         dispatch(setCurrentPrice(data?.lastPrice));
         if (status === 200) {
-          dispatch(
-            incrementByAmount({
-              symbol: data?.symbol,
-              lastPrice: data?.lastPrice,
-              highPrice: data?.highPrice,
-              lowPrice: data?.lowPrice,
-              priceChange: data?.priceChange,
-              priceChangePercent: data?.priceChangePercent,
-              quoteVolume: data?.quoteVolume,
-              volume: data?.volume,
-            })
-          );
+          if (apiId === "binance") {
+            dispatch(
+              incrementByAmount({
+                symbol: data?.symbol,
+                lastPrice: data?.lastPrice,
+                highPrice: data?.highPrice,
+                lowPrice: data?.lowPrice,
+                priceChange: data?.priceChange,
+                priceChangePercent: data?.priceChangePercent,
+                quoteVolume: data?.quoteVolume,
+                volume: data?.volume,
+              })
+            );
+          } else {
+            dispatch(
+              incrementByAmount({
+                symbol: data?.data[0]?.symbol,
+                lastPrice: data?.data[0]?.lastPr,
+                highPrice: data?.data[0].high24h,
+                lowPrice: data?.data[0].low24h,
+                priceChange: data?.data[0].changeUtc24h,
+                priceChangePercent: data?.data[0].change24h,
+                quoteVolume: data?.data[0].quoteVolume,
+                volume: data?.data[0].baseVolume,
+              })
+            );
+          }
         }
       } catch (err) {
         console.error("❌ REST fetch error", err);
@@ -161,21 +180,29 @@ export const Socket = () => {
       if (fallbackIntervalRef.current)
         clearInterval(fallbackIntervalRef.current);
     };
-  }, [searchQuery]);
+  }, [searchQuery, apiId]);
   useEffect(() => {
-    if (!searchQuery) return;
+    if (!searchQuery || !apiId) return;
     const fetchRestData = async () => {
+      const url =
+        apiId === "binance"
+          ? `https://server-yo1d.onrender.com/binance-order?url=${searchQuery.toUpperCase()}`
+          : `https://server-yo1d.onrender.com/bitget-order?url=${searchQuery.toUpperCase()}`;
       try {
         const { data, status } = await apiRequest({
           method: "get",
-          url: `https://server-yo1d.onrender.com/binance-order?url=${searchQuery.toUpperCase()}`,
+          url: url,
         });
         if (status === 200) {
-          dispatch(setOrderData(data));
+          if (apiId === "binance") {
+            dispatch(setOrderData(data));
+          } else {
+            dispatch(setOrderData(data?.data));
+          }
         }
-      } catch (err) {}
+      } catch (err) {
+      }
     };
-
     const startWebSocket = () => {
       const url =
         apiId === "bitget"
@@ -237,19 +264,41 @@ export const Socket = () => {
       if (fallbackIntervalRef1.current)
         clearInterval(fallbackIntervalRef1.current);
     };
-  }, [searchQuery]);
+  }, [searchQuery, apiId]);
   useEffect(() => {
-    if (!searchQuery) return;
+    if (!searchQuery || apiId) return;
     const fetchRestData = async () => {
+      const url =
+        apiId === "binance"
+          ? `https://server-yo1d.onrender.com/binance-Trades?url=${searchQuery.toUpperCase()}`
+          : `https://server-yo1d.onrender.com/bitget-Trades?url=${searchQuery.toUpperCase()}`;
       try {
         const { data, status } = await apiRequest({
           method: "get",
-          url: `https://server-yo1d.onrender.com/binance-Trades?url=${searchQuery.toUpperCase()}`,
+          url: url,
         });
         if (status === 200) {
-          dispatch(setTradeData(data));
+          if (apiId === "binance") {
+            const formattedData = data.map((item) => ({
+              T: item?.T,
+              p: item?.p,
+              q: item?.q,
+              m: item?.m,
+            }));
+            dispatch(setTradeData(formattedData));
+          } else {
+            const formattedData = data.data.map((item) => ({
+              T: item?.ts,
+              p: item?.price,
+              q: item?.size,
+              m: item?.side === "Sell" ? false : true,
+            }));
+            dispatch(setTradeData(formattedData));
+          }
         }
-      } catch (err) {}
+      } catch (err) {
+        startWebSocket();
+      }
     };
 
     const startWebSocket = () => {
@@ -333,7 +382,7 @@ export const Socket = () => {
       if (reconnectTimerRef2.current)
         clearInterval(fallbackIntervalRef2.current);
     };
-  }, [searchQuery]);
+  }, [searchQuery, apiId]);
   useEffect(() => {
     // Step 1: Call API first
     const fetchInitialData = async () => {
