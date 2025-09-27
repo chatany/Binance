@@ -36,15 +36,17 @@ export const ChartEmbed = () => {
           onLoad={handleLoading}
         />
       ) : (
-        <iframe
-          src={url2}
-          title={`${query} Chart`}
-          width="100%"
-          height="100%"
-          style={{ border: "none" }}
-          allowFullScreen={true}
-          onLoad={handleLoading}
-        />
+        apiId === "bitget" && (
+          <iframe
+            src={url2}
+            title={`${query} Chart`}
+            width="100%"
+            height="100%"
+            style={{ border: "none" }}
+            allowFullScreen={true}
+            onLoad={handleLoading}
+          />
+        )
       )}
       {loading && <Loder className="bg-[#00000040]" />}
     </div>
