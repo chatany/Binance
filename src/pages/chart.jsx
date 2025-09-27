@@ -8,11 +8,12 @@ export const ChartEmbed = () => {
   const apiId = useSelector((state) => state.counter.apiId);
   const [loading, setLoading] = useState(true);
   const query = searchQuery.toUpperCase();
-  const url = apiId
-    ? `https://chart.bitzup.com/${
-        String(apiId) === "binance" ? "v1" : "v2"
-      }/${query}?theme=${dark ? "dark" : "light"}`
-    : null;
+  const url1 = `https://chart.bitzup.com/v1/${query}?theme=${
+    dark ? "dark" : "light"
+  }`;
+  const url2 = `https://chart.bitzup.com/v2/${query}?theme=${
+    dark ? "dark" : "light"
+  }`;
   useEffect(() => {
     setLoading(true);
   }, [searchQuery, dark]);
@@ -21,11 +22,12 @@ export const ChartEmbed = () => {
       setLoading(false);
     }, 1000);
   };
+
   return (
     <div className="max-w-full h-full rounded-lg">
-      {url ? (
+      {apiId === "binance" ? (
         <iframe
-          src={url}
+          src={url1}
           title={`${query} Chart`}
           width="100%"
           height="100%"
@@ -34,7 +36,15 @@ export const ChartEmbed = () => {
           onLoad={handleLoading}
         />
       ) : (
-        <Loder className="bg-[#00000040]" />
+        <iframe
+          src={url2}
+          title={`${query} Chart`}
+          width="100%"
+          height="100%"
+          style={{ border: "none" }}
+          allowFullScreen={true}
+          onLoad={handleLoading}
+        />
       )}
       {loading && <Loder className="bg-[#00000040]" />}
     </div>
