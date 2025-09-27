@@ -78,10 +78,10 @@ function App() {
     { path: "/security/account-activity", element: <Activity /> },
     { path: "/security/anti-phishing-code", element: <AntiPhishing /> },
     { path: "/subscription", element: <LayoutWeb component={<Subscription />}/> },
-    { path: "/subscription/running/history", element: <SubscriptionHistory /> },
+    { path: "/subscription/running/history", element:<LayoutWeb component={<SubscriptionHistory />}/> },
     {
       path: "/subscription/completed/history",
-      element: <SubscriptionHistory />,
+      element:<LayoutWeb component={<SubscriptionHistory />}/>,
     },
     { path: "/bonus", element: <LayoutWeb component={<Bonus />}/> },
   ];

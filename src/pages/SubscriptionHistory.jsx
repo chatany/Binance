@@ -67,10 +67,7 @@ export const SubscriptionHistory = () => {
         ${dark ? "bg-[#181A20] text-[#EAECEF]" : "bg-[#FFFFFF] text-[#262030]"}
        h-full min-h-screen flex flex-col gap-0 items-center  md:p-5`}
     >
-      <div className="fixed inset-0 z-50 h-fit">
-        <TopNav />
-      </div>
-      <div className="w-full flex-col mt-14">
+      <div className="w-full flex-col">
         <div className="flex gap-4 items-center p-3">
           <div
             onClick={() => handleActive("running")}
