@@ -19,6 +19,7 @@ import { Tooltip } from "@mui/material";
 import { showError, showSuccess } from "../Toastify/toastServices";
 import { useAuth } from "../hooks/useAuth";
 import { Loder } from "../common/Loder";
+import { IoIosCloseCircle } from "react-icons/io";
 export const MarketCom = () => {
   const [activeTab, setActiveTab] = useState("Market Trade");
   const [isVolume, setIsVolume] = useState(false);
@@ -64,7 +65,9 @@ export const MarketCom = () => {
     // Step 4: Set final filtered result
     setFilteredData(data);
   }, [searchData, searchInput, favorite, faverateData]);
-
+  useEffect(() => {
+    setSearchInput("")
+  }, [favorite]);
   const handleToggle = () => {
     setIsVolume(!isVolume);
   };
@@ -95,7 +98,7 @@ export const MarketCom = () => {
       console.error("Failed to fetch second API", err);
     } finally {
       getFaverateData(dispatch);
-      setLoading(false)
+      setLoading(false);
     }
   };
   const formatToKMB = (num) => {
@@ -164,7 +167,7 @@ export const MarketCom = () => {
           dark ? "bg-[#181A20] text-white " : "bg-white text-black "
         } w-full   rounded-lg `}
       >
-        <div className="pt-5 pr-3 pl-3 pb-0">
+        <div className="pt-5 pr-3 pl-3 pb-0 relative">
           <input
             className={`
     w-full capitalize rounded-lg
@@ -180,8 +183,10 @@ export const MarketCom = () => {
      transition-colors duration-300 delay-200
     `}
             placeholder="search"
+            value={searchInput}
             onChange={(e) => setSearchInput(e.target.value)}
           />
+          {searchInput&&<IoIosCloseCircle className="absolute top-7 right-5 cursor-pointer" onClick={() => setSearchInput("")} />}
         </div>
         <div
           className={`flex gap-[30%] h-[1.5rem]  border-b-1 ${

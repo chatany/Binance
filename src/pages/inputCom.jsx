@@ -37,7 +37,7 @@ export const MarketInput = ({
       <div
         className={`${
           dark ? " bg-[#1e2329] text-white" : " bg-white text-black"
-        } text-black input-wrapper`}
+        } text-black input-wrapper p-2`}
       >
         <label className="trade-label p-2 text-[#848E9C]">{label}</label>
         <input
@@ -56,13 +56,13 @@ export const MarketInput = ({
           <span className={`${dark ? "text-white" : "text-black"} unit`}>
             {unit}
           </span>
-          <div
+          {/* <div
             className={`btn-group border-l-1 ${
               dark ? "border-[#474D57]" : "border-[#474D57]"
             }`}
           >
             <button className="down-btn" name="down">▼</button>
-          </div>
+          </div> */}
         </div>
         {/* {show && (
           <div

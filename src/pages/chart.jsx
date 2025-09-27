@@ -32,7 +32,7 @@ export const ChartEmbed = () => {
           height="100%"
           style={{ border: "none" }}
           allowFullScreen={true}
-          onLoad={handleLoading}
+          // onLoad={handleLoading}
         />
       ) : (
         apiId === "bitget" && (
@@ -43,7 +43,7 @@ export const ChartEmbed = () => {
             height="100%"
             style={{ border: "none" }}
             allowFullScreen={true}
-            onLoad={handleLoading}
+            // onLoad={handleLoading}
           />
         )
       )}
