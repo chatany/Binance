@@ -52,7 +52,15 @@ export const Security = () => {
               <div>Anti-Phishing Code</div>
             </div>
             <div className="flex gap-3 items-center">
-              <RxCrossCircled />
+              {!userProfile?.withdrawal_password ? (
+                    <>
+                      <RxCrossCircled />
+                    </>
+                  ) : (
+                    <>
+                      <IoIosCheckmarkCircleOutline className=" text-green-400 size-[18px]" />{" "}
+                    </>
+                  )}
               <div>Withdrawal Whitelist</div>
             </div>
           </div>

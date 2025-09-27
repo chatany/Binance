@@ -364,7 +364,7 @@ export const MarketCom = () => {
               <div className="border-[0.1rem] border-[#2EDBAD] w-[40%] h-[2px] "></div>
             )}
           </div>
-          <div
+          {/* <div
             className="flex flex-col items-center text-[14px] cursor-pointer gap-[2px]"
             onClick={() => setActiveTab("My Trade")}
           >
@@ -372,7 +372,7 @@ export const MarketCom = () => {
             {activeTab === "My Trade" && (
               <div className="border-[0.1rem] border-[#2EDBAD] w-[50%] h-[2px] "></div>
             )}
-          </div>
+          </div> */}
           <div className="relative">
             <HiDotsHorizontal
               onClick={() => setShowPopup(!showPopup)}

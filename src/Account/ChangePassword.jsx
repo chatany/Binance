@@ -134,7 +134,7 @@ export const ChangePassword = () => {
     <div
       className={`${
         dark ? "bg-[#181A20] text-[#EAECEF]" : "bg-[#FFFFFF] text-[#282828]"
-      } min-h-screen`}
+      } h-screen overflow-hidden`}
     >
       <div className="fixed inset-0 z-50 h-fit">
         <TopNav />
