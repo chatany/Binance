@@ -100,9 +100,8 @@ export const Subscription = () => {
       } min-h-screen h-full overflow-hidden`}
     >
       {" "}
-      <TopNav />
       <div className="flex flex-col justify-center w-full items-center h-full">
-        <div className="w-full flex justify-end p-[12px_80px_0px_12px]">
+        <div className="w-full flex justify-end p-[12px_40px_0px_12px]">
           <button
             onClick={() => navigate("/subscription/running/history")}
             className={`${
@@ -112,7 +111,7 @@ export const Subscription = () => {
             Subscriptions
           </button>
         </div>
-        <div className="max-w-[1000px] mt-10 w-full overflow-x-auto custom-scroll h-[700px] overflow-y-auto ">
+        <div className=" mt-10 w-full overflow-x-auto custom-scroll h-[700px] overflow-y-auto ">
           <table
             className={`w-full border-1 ${
               dark ? " border-[#474d57]" : "border-[#eaecef]"

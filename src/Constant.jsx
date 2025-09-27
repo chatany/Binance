@@ -136,7 +136,7 @@ export const menu = [
     category: [
       { name: "Spot", path: "/asstes" },
       { name: "Overview", path: "/overview" },
-      // { name: "Margin", path: "" },
+      { name: "Bonus", path: "/bonus" },
     ],
     path: "",
   },
@@ -239,6 +239,11 @@ export const data = [
   {
     category: "Earn",
     item: [
+       {
+        title: "Staking",
+        description: "Earn passive income on 300+ crypto assets with Staking",
+        path:"/subscription"
+      },
       {
         title: "Overview",
         description: "One-stop portal for all Earn products",

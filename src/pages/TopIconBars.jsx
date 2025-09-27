@@ -105,7 +105,7 @@ export const TopIconBar1 = () => {
             formatDecimal(tikerData?.lastPrice, priceDecimal)
           )}
         </div>
-        <div className="lg:text-[12px]  text-[8px] leading-4 min-w-max ">
+        <div className="text-[12px]  text-[8px] leading-4 min-w-max ">
           $
           {formatToKMBWithCommas(
             formatDecimal(tikerData?.lastPrice, priceDecimal)
@@ -113,13 +113,13 @@ export const TopIconBar1 = () => {
         </div>
       </div>
       <div className="flex flex-col">
-        <div className="text-gray-400 lg:text-[12px] text-[8px] min-w-max">
+        <div className="text-gray-400 text-[12px] text-[8px] min-w-max">
           24h Change
         </div>
         <div
           className={`${
             tikerData?.priceChange > 0 ? "text-[#2EBD85]" : "text-[#F6465D]"
-          } lg:text-[12px] text-[8px] min-w-max`}
+          } text-[12px] text-[8px] min-w-max`}
         >
           {tikerData?.priceChange
             ? parseFloat(tikerData?.priceChange).toString()
@@ -132,20 +132,20 @@ export const TopIconBar1 = () => {
         </div>
       </div>
       <div className="flex flex-col">
-        <div className="text-gray-400 lg:text-[12px] text-[10px] min-w-max">
+        <div className="text-gray-400 text-[12px] text-[10px] min-w-max">
           24h High
         </div>
-        <div className="lg:text-[12px] text-[10px] min-w-max">
+        <div className="text-[12px] text-[10px] min-w-max">
           {tikerData?.highPrice
             ? parseFloat(tikerData?.highPrice).toString()
             : 0}
         </div>
       </div>
       <div className="flex flex-col">
-        <div className="text-gray-400 lg:text-[12px] text-[10px] leading-4 min-w-max">
+        <div className="text-gray-400 text-[12px] text-[10px] leading-4 min-w-max">
           24h Low
         </div>
-        <div className="lg:text-[12px] text-[10px] leading-4 min-w-max">
+        <div className="text-[12px] text-[10px] leading-4 min-w-max">
           {tikerData?.lowPrice ? parseFloat(tikerData?.lowPrice).toString() : 0}
         </div>
       </div>

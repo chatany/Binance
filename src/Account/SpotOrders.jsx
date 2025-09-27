@@ -415,19 +415,19 @@ export const SpotOrders = () => {
                                     100;
                                   return (
                                     <tr key={index}>
-                                      <td className="lg:text-[12px] text-[.6rem] pl-1 pr-1 p-[4px] text-center capitalize ">
+                                      <td className="text-[12px]  pl-1 pr-1 p-[4px] text-center capitalize ">
                                         {date}
                                       </td>
-                                      <td className="lg:text-[12px] text-[.6rem] pl-1 pr-1 p-[4px] text-center uppercase">
+                                      <td className="text-[12px]  pl-1 pr-1 p-[4px] text-center uppercase">
                                         {currentItem}
                                       </td>
-                                      <td className="lg:text-[12px] text-[.6rem] pl-1 pr-1 p-[4px] text-center capitalize">
+                                      <td className="text-[12px]  pl-1 pr-1 p-[4px] text-center capitalize">
                                         {item?.order_type}
                                       </td>
-                                      <td className="lg:text-[12px] text-[.6rem] pl-1 pr-1 p-[4px] text-center capitalize">
+                                      <td className="text-[12px]  pl-1 pr-1 p-[4px] text-center capitalize">
                                         {item?.type}
                                       </td>
-                                      <td className="lg:text-[12px] text-[.6rem] pl-1 pr-1 p-[4px] text-center capitalize">
+                                      <td className="text-[12px]  pl-1 pr-1 p-[4px] text-center capitalize">
                                         <div className="flex gap-2 items-center  justify-center cursor-pointer">
                                           {item?.order_price}
                                           <FaRegEdit
@@ -450,7 +450,7 @@ export const SpotOrders = () => {
                                           </div>
                                         )}
                                       </td>
-                                      <td className="lg:text-[12px] text-[.6rem] pl-1 pr-1 p-[4px] text-center capitalize">
+                                      <td className="text-[12px]  pl-1 pr-1 p-[4px] text-center capitalize">
                                         <div className="flex gap-2 items-center justify-center cursor-pointer">
                                           {item?.base_quantity}
                                           <FaRegEdit
@@ -461,14 +461,14 @@ export const SpotOrders = () => {
                                           />
                                         </div>
                                       </td>
-                                      <td className="lg:text-[12px] text-[.6rem] pl-1 pr-1 p-[4px] text-center capitalize">
+                                      <td className="text-[12px]  pl-1 pr-1 p-[4px] text-center capitalize">
                                         {percentage}%
                                       </td>
-                                      <td className="lg:text-[12px] text-[.6rem] pl-1 pr-1 p-[4px] text-center capitalize">
+                                      <td className="text-[12px]  pl-1 pr-1 p-[4px] text-center capitalize">
                                         {item?.status}
                                       </td>
                                       <td
-                                        className="lg:text-[12px] text-[.6rem] pl-1 pr-1 p-[4px] text-center capitalize cursor-pointer"
+                                        className="text-[12px]  pl-1 pr-1 p-[4px] text-center capitalize cursor-pointer"
                                         onClick={() => {
                                           if (item?.order_id === pendingOrderId)
                                             return;

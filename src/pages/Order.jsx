@@ -307,7 +307,7 @@ export const Order = () => {
                             className="cursor-pointer"
                           >
                             <td colSpan={3} className="p-0">
-                              <div className="w-full flex relative h-full text-[.6rem] lg:text-[12px]">
+                              <div className="w-full flex relative h-full  text-[12px]">
                                 {/* Red background part */}
                                 <div
                                   className={`absolute top-0 right-0 h-full bg-[#F6465D] ${
@@ -406,7 +406,7 @@ export const Order = () => {
                         className="cursor-pointer p-0"
                       >
                         <td colSpan={3} className="p-0">
-                          <div className="w-full flex relative h-full text-[.6rem] lg:text-[12px]">
+                          <div className="w-full flex relative h-full  text-[12px]">
                             {/* Red background part */}
                             <div
                               className={`absolute top-0 right-0 h-full bg-[#2EBD85]  z-0 ${
@@ -490,7 +490,7 @@ export const Order = () => {
                       className="cursor-pointer"
                     >
                       <td colSpan={3} className="p-0">
-                        <div className="w-full flex relative h-full text-[.6rem] lg:text-[12px]">
+                        <div className="w-full flex relative h-full  text-[12px]">
                           {/* Red background part */}
                           <div
                             className={`absolute top-0 right-0 h-full bg-[#F6465D] ${
@@ -583,7 +583,7 @@ export const Order = () => {
                     className="cursor-pointer p-0"
                   >
                     <td colSpan={3} className="p-0">
-                      <div className="w-full flex relative h-full text-[.6rem] lg:text-[12px]">
+                      <div className="w-full flex relative h-full  text-[12px]">
                         {/* Red background part */}
                         <div
                           className={`absolute top-0 right-0 h-full bg-[#2EBD85]  z-0 ${
@@ -628,7 +628,7 @@ export const Order = () => {
                 </div>
               </div>
               <div className="pt-2 pl-14 pr-14">
-                <div className="w-full relative h-[4px] text-[.6rem] lg:text-[12px]">
+                <div className="w-full relative h-[4px]  text-[12px]">
                   <div
                     className="absolute top-0 right-0 h-full bg-[#F6465D] z-0"
                     style={{

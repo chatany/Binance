@@ -89,7 +89,7 @@ export const Security = () => {
               </button>
             </div>
           </div> */}
-          <div className="flex max-md:flex-col justify-between items-center">
+          <div className="flex justify-between flex-col md:flex-row  gap-2">
             <div className="flex gap-5 ">
               <TbBrandAuth0 className="size-6" />
               <div className="flex flex-col gap-0.5 md:w-[60%] w-fit">
@@ -100,7 +100,7 @@ export const Security = () => {
                 </div>
               </div>
             </div>
-            <div className="flex gap-5 max-md:w-full justify-between">
+            <div className="flex gap-5 max-md:w-full justify-between items-center">
               <button className="flex items-center gap-1">
                 {!auth ? (
                   <>
@@ -115,7 +115,7 @@ export const Security = () => {
               </button>
               <button
                 className={`${
-                  dark ? "bg-[#2b3139]" : "bg-[#EAECEF]"
+                  dark ? "bg-[#2b3139]" : "bg-[#EAECEF] h-fit"
                 } p-[6px_12px_6px_12px] rounded-[8px] cursor-pointer`}
                 onClick={() =>
                   navigate("/security/manage-google-authenticator")
@@ -125,7 +125,7 @@ export const Security = () => {
               </button>
             </div>
           </div>
-          <div className="flex max-md:flex-col justify-between items-center">
+          <div className="flex justify-between flex-col md:flex-row  gap-2">
             <div className="flex gap-5">
               <CiMail className="size-6" />
               <div className="flex flex-col gap-0.5 md:w-[60%] w-fit">
@@ -135,14 +135,14 @@ export const Security = () => {
                 </div>
               </div>
             </div>
-            <div className="flex max-md:w-full justify-between gap-5">
-              <button className="flex items-center gap-1 truncate ">
+            <div className="flex max-md:w-full justify-between gap-5 items-center">
+              <button className="flex items-center gap-1 break-all ">
                 {userProfile?.email}
               </button>
               <button
                 className={`${
                   dark ? "bg-[#2b3139]" : "bg-[#EAECEF]"
-                } p-[6px_12px_6px_12px] rounded-[8px]`}
+                } p-[6px_12px_6px_12px] rounded-[8px] h-fit`}
                 onClick={() => navigate("/security/manage-email-address")}
               >
                 Manage
@@ -173,7 +173,7 @@ export const Security = () => {
               </button>
             </div>
           </div> */}
-          <div className="flex max-md:flex-col justify-between items-center">
+          <div className="flex justify-between flex-col md:flex-row  gap-2">
             <div className="flex gap-5 ">
               <CgPassword className="size-6" />
               <div className="flex flex-col gap-0.5 md:w-[60%] w-fit">
@@ -183,7 +183,7 @@ export const Security = () => {
                 </div>
               </div>
             </div>
-            <div className="flex justify-end w-full">
+            <div className="flex justify-end h-fit">
               <button
                 className={`${
                   dark ? "bg-[#2b3139]" : "bg-[#EAECEF]"
@@ -311,11 +311,14 @@ export const Security = () => {
             Withdrawal
           </div>
           <div className="flex justify-between flex-col md:flex-row  gap-2">
-            <div className="flex flex-col gap-1 md:w-1/2">
-              <div className="text-[16px]">Withdrawal Password</div>
-              <div className="text-[#707A8A] text-[14px] font-normal leading-[20px]">
-                Once this function is enabled, your account will be able to
-                withdraw to addresses.
+            <div className="flex gap-5">
+               <CgPassword className="size-6" />
+              <div className="flex flex-col gap-1 md:w-1/2">
+                <div className="text-[16px] whitespace-nowrap">Withdrawal Password</div>
+                <div className="text-[#707A8A] text-[14px] font-normal leading-[20px]">
+                  Once this function is enabled, your account will be able to
+                  withdraw to addresses.
+                </div>
               </div>
             </div>
             <div className="flex gap-4 items-center md:w-1/2 md:justify-end">
@@ -373,7 +376,7 @@ export const Security = () => {
               </button>
             </div>
           </div> */}
-          <div className="flex max-md:flex-col justify-between items-center">
+          <div className="flex justify-between flex-col md:flex-row  gap-2">
             <div className="flex gap-5 ">
               <TbUserCog className="size-6" />
               <div className="flex flex-col gap-0.5 md:w-[60%] w-fit">
@@ -389,7 +392,7 @@ export const Security = () => {
               <button
                 className={`${
                   dark ? "bg-[#2b3139]" : "bg-[#EAECEF]"
-                } p-[6px_12px_6px_12px] rounded-[8px] cursor-pointer`}
+                } p-[6px_12px_6px_12px] rounded-[8px] cursor-pointer h-fit`}
                 onClick={() => navigate("/security/account-activity")}
               >
                 More

@@ -92,17 +92,17 @@ export const Spot = () => {
               {"Hide assets < 1 USD"}
             </div>
             <div className="flex gap-2">
-              <div className="relative flex  items-center  focus-within:justify-start  hover:justify-start justify-center focus:w-[8rem]">
+              <div className="relative flex  items-center  focus-within:justify-start  hover:justify-start justify-center focus:min-w-[8rem]">
                 <input
                   name="Search"
                   onChange={(e) => setSearchQuery(e.target.value)}
                   className={`border
-    hover:border-[#2EDBAD] w-[2rem] hover:w-[6rem] pl-6
-    rounded-[6px] ${searchQuery !== "" ? "w-[6rem]" : ""}
+    hover:border-[#2EDBAD] w-[2rem] hover:min-w-[6rem] pl-6
+    rounded-[6px] ${searchQuery !== "" ? "min-w-[6rem]" : ""}
     ${
       dark
-        ? "border-[#474D57] focus:border-[#2EDBAD] focus:w-[6rem]"
-        : "border-[#D8DCE1] focus:border-[#2EDBAD] focus:w-[6rem]"
+        ? "border-[#474D57] focus:border-[#2EDBAD] focus:min-w-[6rem]"
+        : "border-[#D8DCE1] focus:border-[#2EDBAD] focus:min-w-[6rem]"
     }
     focus:outline-none 
      transition-colors duration-300 delay-200`}
@@ -126,8 +126,9 @@ export const Spot = () => {
                 } text-[12px]`}
               >
                 <th className="text-left  p-[20px]">Coin</th>
-                <th className="text-right p-[20px]">Amount</th>
+                <th className="text-right p-[20px]"> Total Amount</th>
                 <th className="text-right p-[20px]">Availble</th>
+                <th className="text-right  p-[20px]">Unavailable</th>
                 <th className="text-right p-[20px]">Action</th>
               </tr>
             </thead>
@@ -137,7 +138,7 @@ export const Spot = () => {
                   <>
                     {item?.balance > 0 && (
                       <tr key={index} className="p-[20px]">
-                        <td className="lg:text-[12px] text-[.6rem] p-[20px] text-left capitalize ">
+                        <td className="text-[12px]  p-[20px] text-left capitalize ">
                           <div className="flex gap-3 items-center w-full ">
                             <div>
                               <div className="font-medium text-xs">
@@ -149,14 +150,17 @@ export const Spot = () => {
                             </div>
                           </div>
                         </td>
-                        <td className="lg:text-[12px] text-[.6rem] text-right uppercase p-[20px]">
+                        <td className="text-[12px]  text-right uppercase p-[20px]">
                           {Number(item?.balance) +
                             Number(item?.unavailable_balance)}
                         </td>
-                        <td className="lg:text-[12px] text-[.6rem]  text-right capitalize p-[20px]  max-md:hidden">
+                        <td className="text-[12px]   text-right capitalize p-[20px]  max-md:hidden">
                           {item?.balance}
                         </td>
-                        <td className="lg:text-[12px] text-[.6rem]  text-right   capitalize">
+                        <td className="text-[12px]  text-right capitalize p-[20px]  max-md:hidden">
+                          {item?.unavailable_balance}
+                        </td>
+                        <td className="text-[12px]   text-right   capitalize">
                           {/* {item?.usdtprice} */}
                           <div className="flex gap-2 justify-end items-center">
                             <div

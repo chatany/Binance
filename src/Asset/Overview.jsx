@@ -148,7 +148,7 @@ export const Overview = () => {
                     <>
                       {item?.balance > 0 && (
                         <tr key={index} className="p-[20px]">
-                          <td className="lg:text-[12px] text-[.6rem] p-[20px] text-left capitalize ">
+                          <td className="text-[12px]  p-[20px] text-left capitalize ">
                             <div className="flex gap-3 items-center w-full ">
                               <div>
                                 <div className="font-medium text-xs">
@@ -160,14 +160,14 @@ export const Overview = () => {
                               </div>
                             </div>
                           </td>
-                          <td className="lg:text-[12px] text-[.6rem] text-right uppercase p-[20px]">
+                          <td className="text-[12px]  text-right uppercase p-[20px]">
                             {Number(item?.balance) +
                               Number(item?.unavailable_balance)}
                           </td>
-                          <td className="lg:text-[12px] text-[.6rem]  text-right capitalize p-[20px]  max-md:hidden">
+                          <td className="text-[12px]   text-right capitalize p-[20px]  max-md:hidden">
                             {item?.balance}
                           </td>
-                          <td className="lg:text-[12px] text-[.6rem]  text-right   capitalize">
+                          <td className="text-[12px]   text-right   capitalize">
                             {/* {item?.usdtprice} */}
                             <div className="flex gap-2 justify-end items-center p-[8px_16px_8px_0px]">
                               <div

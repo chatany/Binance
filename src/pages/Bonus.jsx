@@ -4,7 +4,6 @@ import { useEffect, useState } from "react";
 import { getBonus } from "./apiCall";
 import { formatDate } from "../Constant";
 import { Loder } from "../common/Loder";
-import { TopNav } from "./TopNavBar";
 
 export const Bonus = () => {
   const dark = useSelector((state) => state.counter.dark);
@@ -22,13 +21,12 @@ export const Bonus = () => {
     <div
       className={`w-full ${
         dark ? "bg-[#181A20] text-[#EAECEF]" : "bg-[#FFFFFF] text-[#282828]"
-      } h-screen`}
+      } h-screen  flex flex-col items-center  md:p-5`}
     >
       {" "}
-      <TopNav/>
-      <div className="max-md:hidden">
+      <div className="max-md:hidden w-full">
         <div
-          className={`text-[16px]  font-normal leading-[20px] w-full flex gap-100`}
+          className={`text-[16px]  font-normal leading-[20px] w-full flex justify-between`}
         >
           <div>
             <div className="text-left p-[12px_16px_12px_16px]">
@@ -45,7 +43,7 @@ export const Bonus = () => {
             </div>
           </div>
         </div>
-        <div className="max-w-[800px] overflow-x-auto custom-scroll h-[600px] overflow-y-auto ">
+        <div className="w-full overflow-x-auto custom-scroll h-[600px] overflow-y-auto ">
           <table className={`w-full border-1 ${
             dark
               ? " border-[#474d57]"
@@ -150,7 +148,7 @@ export const Bonus = () => {
           </table>
         </div>
       </div>
-      <div className=" md:hidden">
+      <div className=" md:hidden w-full">
         <div
           className={`text-[16px]  font-normal leading-[20px] w-full flex justify-between`}
         >

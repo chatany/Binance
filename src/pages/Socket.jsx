@@ -41,6 +41,7 @@ export const Socket = () => {
   const openOrder = useSelector((state) => state.counter.openOrder);
   const pairId = useSelector((state) => state.counter.pairId);
   const searchQuery = useSelector((state) => state.counter.searchQuery);
+  const hasInitialPrice = useRef(false);
 
   useEffect(() => {
     tradesDataRef.current = tradeData; //
@@ -62,7 +63,14 @@ export const Socket = () => {
           method: "get",
           url: url,
         });
-        dispatch(setCurrentPrice(data?.lastPrice));
+        if (status === 200 && !hasInitialPrice.current) {
+          if (apiId === "bitget") {
+              dispatch(setCurrentPrice(data?.data[0]?.lastPr));
+            } else {
+              dispatch(setCurrentPrice(data?.lastPrice));
+            }
+          hasInitialPrice.current = true;
+        }
         if (status === 200) {
           if (apiId === "binance") {
             dispatch(
@@ -125,6 +133,15 @@ export const Socket = () => {
       wsRef.current.onmessage = (event) => {
         const data = JSON.parse(event.data);
         if (data) {
+          if (!hasInitialPrice.current) {
+            if (apiId === "bitget") {
+              dispatch(setCurrentPrice(data?.data[0]?.lastPr));
+            } else {
+              dispatch(setCurrentPrice(data?.c));
+            }
+
+            hasInitialPrice.current = true;
+          }
           if (apiId === "bitget") {
             dispatch(
               incrementByAmount({
@@ -172,6 +189,7 @@ export const Socket = () => {
     startWebSocket();
 
     return () => {
+      hasInitialPrice.current = false;
       if (wsRef.current) {
         wsRef.current.onclose = null;
         wsRef.current.close();
@@ -200,8 +218,7 @@ export const Socket = () => {
             dispatch(setOrderData(data?.data));
           }
         }
-      } catch (err) {
-      }
+      } catch (err) {}
     };
     const startWebSocket = () => {
       const url =
