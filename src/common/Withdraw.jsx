@@ -24,6 +24,7 @@ import { useNavigate } from "react-router-dom";
 import { NotFound } from "../icons";
 import { getLockedTime } from "../pages/apiCall";
 import { WithdrawalCountdown } from "./lockTime";
+import { Loder } from "./Loder";
 
 const CustomConnector = styled(StepConnector, {
   shouldForwardProp: (prop) => prop !== "dark",
@@ -97,6 +98,8 @@ export default function Withdrawal() {
       c.coin.toLowerCase().includes(query.toLowerCase()) ||
       c.symbol.toLowerCase().includes(query.toLowerCase())
   );
+  console.log(amount, icon, "w");
+
   const [userData, setUserData] = useState({
     authenticatorCode: "",
     otp: "",
@@ -135,6 +138,8 @@ export default function Withdrawal() {
     if (symbol?.symbol != icon?.symbol) {
       setIcon(symbol);
       setObj({});
+      setAddress("");
+      setAmount("");
       setActiveStep(1);
       setQuery(symbol.symbol);
       getNetwork(symbol?.currency_id);
@@ -174,6 +179,8 @@ export default function Withdrawal() {
     if (symbol?.chain_name !== obj?.chain_name) {
       setObj(symbol);
       setActiveStep(2);
+      setAddress("");
+      setAmount("");
     }
   };
   const getUserProfile = async () => {
@@ -200,6 +207,21 @@ export default function Withdrawal() {
     }
   };
   const getWithdrawRequest = async () => {
+    if (amount > Number(icon?.main_balance)) {
+      showError("Insufficient balance!");
+      return;
+    }
+    if (address === "") {
+      showError("Please Enter Address!");
+      return;
+    }
+    if (
+      amount < Number(obj?.min_deposit) ||
+      amount > Number(icon?.main_balance)
+    ) {
+      showError(`Amount must be grater then ${Number(obj?.min_deposit)}`);
+      return;
+    }
     let jsonObj = {
       currency_id: icon?.currency_id,
       password: userData?.password,
@@ -220,6 +242,7 @@ export default function Withdrawal() {
       });
 
       if (status === 200 && data?.status === "1") {
+        showError(data?.message);
         if (data?.verify === "no") {
           setShowPopup(true);
         }
@@ -280,7 +303,7 @@ export default function Withdrawal() {
                 header={({ open }) => (
                   <div
                     className="flex w-full items-center p-2"
-                    onClick={() => !lockedTime && setOpenCoin(true)}
+                    onClick={() => setOpenCoin(true)}
                   >
                     {" "}
                     {!query && <BsSearch />}
@@ -296,7 +319,7 @@ export default function Withdrawal() {
                             <div>{`${icon.symbol} ${icon.coin}`}</div>
                           </div>
                         ) : (
-                          "search"
+                          <div className="p-[6px_12px_6px_12px] ">search</div>
                         )}{" "}
                         <IoIosArrowDown />
                       </div>
@@ -470,6 +493,7 @@ export default function Withdrawal() {
                           <div>{icon?.symbol}</div>
                           <button
                             onClick={() => setAmount(icon?.main_balance ?? "")}
+                            className="text-[#2EDBAD]"
                           >
                             MAX
                           </button>
@@ -489,21 +513,21 @@ export default function Withdrawal() {
                     }`}
                   ></div>
                   <div className="flex max-md:flex-col justify-between md:items-center">
-                    <div className="w-[50%]">
-                      <div>Receive amount</div>
-                      <div>
-                        {amount?.main_balance > 0
-                          ? amount?.main_balance - amount?.network_fee
-                          : 0}{" "}
+                    <div className="w-[50%] ">
+                      <div className="p-[6px_12px_6px_2px] ">
+                        Receive amount
+                      </div>
+                      <div className="p-[6px_12px_6px_2px] ">
+                        {amount > 0 ? amount - obj?.network_fee : 0}{" "}
                         {icon?.symbol}
                       </div>
-                      <div>
-                        Network fee:{obj?.network_fee} {icon?.symbol}
+                      <div className="p-[6px_12px_6px_2px] ">
+                        Network fee: {obj?.network_fee} {icon?.symbol}
                       </div>
                     </div>
                     <button
                       onClick={getWithdrawRequest}
-                      className={`rounded-[12px]  w-full h-[48px]  ${
+                      className={`rounded-[12px] p-[6px_12px_6px_12px]  h-[48px]  ${
                         isDisable ? "bg-[#e7eeec]" : "bg-[#2EDBAD] "
                       } text-[#000000]  cursor-pointer`}
                     >
@@ -767,6 +791,7 @@ export default function Withdrawal() {
             })}
         </div>
       </div>
+      {isDisable && <Loder className="bg-[#00000080]" />}
     </div>
   );
 }

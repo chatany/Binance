@@ -380,37 +380,9 @@ export const SpotOrders = () => {
                         <th
                           className={`text-[12px] pl-1 pr-1 p-[4px] text-center ${
                             dark ? "bg-[#181A20]" : " bg-white"
-                          } z-10 sticky top-0 text-[#707A8A]  capitalize min-w-[8rem]`}
-                        >
-                          amount per Iceberg Order
-                        </th>
-                        <th
-                          className={`text-[12px] pl-1 pr-1 p-[4px] text-center ${
-                            dark ? "bg-[#181A20]" : " bg-white"
                           } z-10 sticky top-0 text-[#707A8A] min-w-[8rem] capitalize`}
                         >
                           Filled
-                        </th>
-                        <th
-                          className={`text-[12px] pl-1 pr-1 p-[4px] ${
-                            dark ? "bg-[#181A20]" : " bg-white"
-                          } z-10 sticky top-0 text-center text-[#707A8A] min-w-[8rem] capitalize`}
-                        >
-                          Total
-                        </th>
-                        <th
-                          className={`text-[12px] pl-1 pr-1 p-[4px] text-center text-[#707A8A]  capitalize ${
-                            dark ? "bg-[#181A20]" : " bg-white"
-                          } z-10 sticky top-0 min-w-[8rem]`}
-                        >
-                          Tgiger Conditions
-                        </th>
-                        <th
-                          className={`text-[12px] pl-1 ${
-                            dark ? "bg-[#181A20]" : " bg-white"
-                          } z-10 sticky top-0 pr-1 p-[4px] text-center text-[#707A8A] min-w-[8rem] capitalize`}
-                        >
-                          SOR
                         </th>
                         <th
                           className={`text-[12px] pl-1 pr-1 p-[4px] ${
@@ -490,19 +462,7 @@ export const SpotOrders = () => {
                                         </div>
                                       </td>
                                       <td className="lg:text-[12px] text-[.6rem] pl-1 pr-1 p-[4px] text-center capitalize">
-                                        --
-                                      </td>
-                                      <td className="lg:text-[12px] text-[.6rem] pl-1 pr-1 p-[4px] text-center capitalize">
                                         {percentage}%
-                                      </td>
-                                      <td className="lg:text-[12px] text-[.6rem] pl-1 pr-1 p-[4px] text-center capitalize">
-                                        --
-                                      </td>
-                                      <td className="lg:text-[12px] text-[.6rem] pl-1 pr-1 p-[4px] text-center capitalize">
-                                        --
-                                      </td>
-                                      <td className="lg:text-[12px] text-[.6rem] pl-1 pr-1 p-[4px] text-center capitalize">
-                                        --
                                       </td>
                                       <td className="lg:text-[12px] text-[.6rem] pl-1 pr-1 p-[4px] text-center capitalize">
                                         {item?.status}

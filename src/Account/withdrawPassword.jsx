@@ -1,4 +1,4 @@
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { TopNav } from "../pages/TopNavBar";
 import { RiArrowLeftSLine } from "react-icons/ri";
 import { useNavigate } from "react-router-dom";
@@ -9,14 +9,18 @@ import { apiRequest } from "../Helper";
 import { showError, showSuccess } from "../Toastify/toastServices";
 import { formatTime } from "../Constant";
 import { ConfirmationPopup } from "../common/confirmationPopup";
+import { Loder } from "../common/Loder";
+import { getUserProfile } from "../pages/apiCall";
 
 export const WithdrawPassword = () => {
   const dark = useSelector((state) => state.counter.dark);
+  const userProfile = useSelector((state) => state.counter.userProfile);
   const [popup, setPopup] = useState(false);
   const [showAuth, setShowAuth] = useState(false);
   const [verifyPopup, setVerifyPopup] = useState(false);
   const [timer, setTimer] = useState(0);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [isDisable, setIsDisable] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [userData, setUserData] = useState({
@@ -69,6 +73,8 @@ export const WithdrawPassword = () => {
           setVerifyPopup(true);
         } else {
           setVerifyPopup(false);
+          navigate(-1);
+          getUserProfile(dispatch);
         }
         setTimer(120);
       }
@@ -125,7 +131,9 @@ export const WithdrawPassword = () => {
           className={`text-[32px] font-semibold flex w-full 
         leading-[40px] ${dark ? "text-[#EAECEF]" : "text-[#000000]"}`}
         >
-          Change Withdraw Password
+          {!userProfile?.withdrawal_password
+            ? "Change Withdraw Password"
+            : "Set  Withdraw Password"}
         </div>
         <div className="flex flex-col gap-6 sm:w-[425px] w-full">
           <div className="relative">
@@ -264,12 +272,15 @@ export const WithdrawPassword = () => {
         <ConfirmationPopup
           handleSubmit={() => setPopup(false)}
           handleClose={() => navigate(-1)}
-          subTitle="In order to protect your account, withdrawals, P2P selling and payment services
-           might be disabled for 24 hours after you change your password."
+          subTitle={`In order to protect your account, withdrawals, P2P selling and payment services
+           might be disabled for ${
+             userProfile?.withdrawal_password ? "24" : "2"
+           } hours after you change your password.`}
           check={false}
           title="Account Restrictions"
         />
       )}
+      {isDisable && <Loder className="bg-[#00000080]" />}
     </div>
   );
 };

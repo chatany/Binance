@@ -266,7 +266,7 @@ export const Socket = () => {
     };
   }, [searchQuery, apiId]);
   useEffect(() => {
-    if (!searchQuery || apiId) return;
+    if (!searchQuery || !apiId) return;
     const fetchRestData = async () => {
       const url =
         apiId === "binance"
@@ -288,7 +288,7 @@ export const Socket = () => {
             dispatch(setTradeData(formattedData));
           } else {
             const formattedData = data.data.map((item) => ({
-              T: item?.ts,
+              T: Number(item?.ts),
               p: item?.price,
               q: item?.size,
               m: item?.side === "Sell" ? false : true,

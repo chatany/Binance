@@ -76,6 +76,7 @@ export const AntiPhishing = () => {
       if (status === 200 && data?.status == 1) {
         setShowPopup(false);
         navigate(-1);
+        getUserProfile(dispatch);
       } else if (status === 200 && data?.status == 0) {
         showError(data?.message);
       }

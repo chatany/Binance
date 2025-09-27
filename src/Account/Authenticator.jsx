@@ -100,6 +100,8 @@ export const Authenticator = () => {
       if (status === 200 && data?.status === "1") {
         setShowQr(false);
         navigate(-1);
+        getAuth(dispatch);
+        getUserProfile(dispatch);
       } else if (status === 200 && data?.status !== "1") {
         showError(data?.message);
       }
@@ -107,8 +109,6 @@ export const Authenticator = () => {
       // console.log(err);
     } finally {
       setIsDisable(false);
-      getAuth(dispatch);
-      getUserProfile(dispatch);
     }
   };
   useEffect(() => {

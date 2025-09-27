@@ -219,7 +219,7 @@ export default function VerticalLinearStepper() {
                             <div>{`${icon.symbol} ${icon.coin}`}</div>
                           </div>
                         ) : (
-                          "search"
+                         <div className="p-[6px_12px_6px_12px] ">search</div>
                         )}{" "}
                         <IoIosArrowDown />
                       </div>
