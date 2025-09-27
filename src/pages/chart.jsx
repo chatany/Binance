@@ -1,12 +1,11 @@
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { Loder } from "../common/Loder";
 
 export const ChartEmbed = () => {
   const searchQuery = useSelector((state) => state.counter.searchQuery);
   const dark = useSelector((state) => state.counter.dark);
   const apiId = useSelector((state) => state.counter.apiId);
-  const [loading, setLoading] = useState(true);
+  // const [loading, setLoading] = useState(true);
   const query = searchQuery.toUpperCase();
   const url1 = `https://chart.bitzup.com/v1/${query}?theme=${
     dark ? "dark" : "light"
@@ -14,14 +13,14 @@ export const ChartEmbed = () => {
   const url2 = `https://chart.bitzup.com/v2/${query}?theme=${
     dark ? "dark" : "light"
   }`;
-  useEffect(() => {
-    setLoading(true);
-  }, [searchQuery, dark]);
-  const handleLoading = () => {
-    setTimeout(() => {
-      setLoading(false);
-    }, 1000);
-  };
+  // useEffect(() => {
+  //   setLoading(true);
+  // }, [searchQuery, dark]);
+  // const handleLoading = () => {
+  //   setTimeout(() => {
+  //     setLoading(false);
+  //   }, 1000);
+  // };
 
   return (
     <div className="max-w-full h-full rounded-lg">
@@ -48,7 +47,6 @@ export const ChartEmbed = () => {
           />
         )
       )}
-      {loading && <Loder className="bg-[#00000040]" />}
     </div>
   );
 };
