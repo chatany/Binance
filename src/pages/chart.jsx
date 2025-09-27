@@ -1,12 +1,14 @@
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
+import { useParams } from "react-router-dom";
 
 export const ChartEmbed = () => {
   const searchQuery = useSelector((state) => state.counter.searchQuery);
   const dark = useSelector((state) => state.counter.dark);
   const apiId = useSelector((state) => state.counter.apiId);
   // const [loading, setLoading] = useState(true);
-  const query = searchQuery.toUpperCase();
+  const { symbol } = useParams();
+  const query = searchQuery || symbol;
   const url1 = `https://chart.bitzup.com/v1/${query}?theme=${
     dark ? "dark" : "light"
   }`;
