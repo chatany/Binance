@@ -440,13 +440,13 @@ export default function VerticalLinearStepper() {
                         </td>
                         <td className="text-left p-[12px_16px_12px_16px]">
                           {" "}
-                          {ele?.final_amount}
+                          {ele?.amount}
                         </td>
                         <td className="text-left p-[12px_16px_12px_16px]">
                           --
                         </td>
                         <td className="text-left p-[12px_16px_12px_16px]">
-                          {ele?.address}
+                          {ele?.transaction_id}
                         </td>
                         <td className="text-left p-[12px_16px_12px_16px]">
                           {ele?.status}
