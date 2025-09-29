@@ -50,8 +50,12 @@ export const MarketCom = () => {
 
     // Step 2: Apply search filter first
     if (searchInput) {
-      data = data.filter((item) =>
-        item.pair_symbol?.toLowerCase().includes(searchInput.toLowerCase())
+      data = data.filter(
+        (item) =>
+          item.pair_symbol?.toLowerCase().includes(searchInput.toLowerCase()) ||
+          item.coin_name
+            ?.toLowerCase()
+            .includes(searchInput.toLocaleLowerCase())
       );
     }
 
@@ -66,7 +70,7 @@ export const MarketCom = () => {
     setFilteredData(data);
   }, [searchData, searchInput, favorite, faverateData]);
   useEffect(() => {
-    setSearchInput("")
+    setSearchInput("");
   }, [favorite]);
   const handleToggle = () => {
     setIsVolume(!isVolume);
@@ -186,7 +190,12 @@ export const MarketCom = () => {
             value={searchInput}
             onChange={(e) => setSearchInput(e.target.value)}
           />
-          {searchInput&&<IoIosCloseCircle className="absolute top-7 right-5 cursor-pointer" onClick={() => setSearchInput("")} />}
+          {searchInput && (
+            <IoIosCloseCircle
+              className="absolute top-7 right-5 cursor-pointer"
+              onClick={() => setSearchInput("")}
+            />
+          )}
         </div>
         <div
           className={`flex gap-[30%] h-[1.5rem]  border-b-1 ${

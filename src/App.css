@@ -4,6 +4,11 @@
   display: flex;
   font-size: 16px;
 }
+.form-control:focus {
+  outline: none !important;
+  box-shadow: none !important;
+}
+
 
 .input-wrapper {
   border: 1px solid #474d57;
@@ -25,12 +30,13 @@
 }
 
 .input-field {
+  flex: 1 1 auto;
+  min-width: 0;         /* 🔥 Firefox specific fix */
+  width: 100%;          /* Ensure proper fill */
   background-color: transparent;
   border: none;
   font-weight: bold;
   padding: 0 6px;
-  width: min-content;
-  flex: 1;
   height: 100%;
   font-size: 20px;
 }
@@ -72,18 +78,42 @@
 .form-control:focus {
   background-color: transparent;
   border-color: yellowgreen;
-  outline: 0;
-  box-shadow: 0 0 0 0rem rgba(0, 123, 255, 0.25);
+  outline: none !important;
+  box-shadow: none !important;
+  /* outline: 0;
+  box-shadow: 0 0 0 0rem rgba(0, 123, 255, 0.25); */
 }
+.input-wrapper:focus-within {
+  border-color: #2EDBAD !important;
+}
+
+.input-field:focus {
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+input, button {
+  min-width: 0;
+  -moz-appearance: none;
+}
+
 @media (max-width: 4500px) {
   .trade-label {
     font-size: 12px;
   }
 
   .input-field {
-    font-size: 18px;
-    padding: 0 4px;
-  }
+  flex: 1 1 auto;
+  min-width: 0;         /* 🔥 Firefox specific fix */
+  width: 100%;          /* Ensure proper fill */
+  background-color: transparent;
+  border: none;
+  font-weight: bold;
+  padding: 0 6px;
+  height: 100%;
+  font-size: 20px;
+}
+
 
   .input-wrapper {
     height: 40px;

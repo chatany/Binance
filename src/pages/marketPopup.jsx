@@ -24,8 +24,10 @@ export const MarketPopup = ({ handleClose, openMarketPopup }) => {
   const [isLoading, setIsLoading] = useState(false);
   const filteredData =
     Array.isArray(searchData) &&
-    searchData?.filter((item) =>
-      item.pair_symbol?.toLowerCase().includes(searchInput.toLowerCase())
+    searchData?.filter(
+      (item) =>
+        item.pair_symbol?.toLowerCase().includes(searchInput.toLowerCase()) ||
+        item.coin_name?.toLowerCase().includes(searchInput.toLocaleLowerCase())
     );
   const handleChange = async (pairId, fav) => {
     if (!token) {
@@ -208,7 +210,7 @@ export const MarketPopup = ({ handleClose, openMarketPopup }) => {
           )}
         </div>
       </div>
-       {isLoading && <Loder className="bg-[#00000080]" />}
+      {isLoading && <Loder className="bg-[#00000080]" />}
     </div>
   );
 };

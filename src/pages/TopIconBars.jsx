@@ -151,7 +151,7 @@ export const TopIconBar1 = () => {
       </div>
       <div className="flex flex-col">
         <div className="text-gray-400 md:text-[12px] text-[10px] leading-4 min-w-max">
-          24h Volume (BTC)
+          24h Volume ({tikerData?.symbol?.split("USDT")[0]})
         </div>
         <div className="md:text-[12px] text-[10px] leading-4 min-w-max">
           {tikerData?.volume ? parseFloat(tikerData?.volume).toString() : 0}
@@ -167,7 +167,7 @@ export const TopIconBar1 = () => {
             : 0}
         </div>
       </div>
-      <div className="flex flex-col min-w-max">
+      {/* <div className="flex flex-col min-w-max">
         <div className="text-gray-400 md:text-[12px] text-[12px] leading-4 min-w-max">
           Token Tags
         </div>
@@ -178,7 +178,7 @@ export const TopIconBar1 = () => {
           <span>|</span>
           <span>Price Protection</span>
         </div>
-      </div>
+      </div> */}
       {isLoading && <Loder className="bg-[#00000080]" />}
     </div>
   );
@@ -328,7 +328,7 @@ export const TopIconBar2 = () => {
               </div>
               <div className="flex flex-col">
                 <div className="text-gray-400 md:text-[12px] text-[10px]">
-                  24h Volume (BTC)
+                  24h Volume ({tikerData?.symbol?.split("USDT")[0]})
                 </div>
                 <div className="md:text-[12px] text-[10px]">
                   {tikerData?.volume
@@ -346,7 +346,7 @@ export const TopIconBar2 = () => {
                     : 0}
                 </div>
               </div>
-              <div className="flex flex-col">
+              {/* <div className="flex flex-col">
                 <div className="text-gray-400 md:text-[12px] text-[10px]">
                   Token Tags
                 </div>
@@ -357,7 +357,7 @@ export const TopIconBar2 = () => {
                   <span>|</span>
                   <span>Price Protection</span>
                 </div>
-              </div>
+              </div> */}
             </>
           }
         />
@@ -517,7 +517,7 @@ export const TopIconBar3 = () => {
                 </div>
                 <div className="flex flex-col">
                   <div className="text-gray-400 md:text-[12px] text-[10px]">
-                    24h Volume (BTC)
+                    24h Volume ({tikerData?.symbol?.split("USDT")[0]})
                   </div>
                   <div className="md:text-[12px] text-[10px]">
                     {tikerData?.volume
@@ -535,7 +535,7 @@ export const TopIconBar3 = () => {
                       : 0}
                   </div>
                 </div>
-                <div className="flex flex-col">
+                {/* <div className="flex flex-col">
                   <div className="text-gray-400 md:text-[12px] text-[10px]">
                     Token Tags
                   </div>
@@ -546,7 +546,7 @@ export const TopIconBar3 = () => {
                     <span>|</span>
                     <span>Price Protection</span>
                   </div>
-                </div>
+                </div> */}
               </>
             }
           />
@@ -629,11 +629,11 @@ export const TopIconBar4 = ({ setOpenMarketPopup }) => {
           </div>
         </div>
 
-        <div className="flex  gap-[6px] text-[12px]  text-[#2EDBAD]  overflow-x-auto scrollbar-hide  w-[80%]">
+        {/* <div className="flex  gap-[6px] text-[12px]  text-[#2EDBAD]  overflow-x-auto scrollbar-hide  w-[80%]">
           <span className="min-w-max">Pow |</span>
           <span className="min-w-max">Payments |</span>
           <span className="min-w-max">Price Protection</span>
-        </div>
+        </div> */}
       </div>
       <div className="grid grid-cols-2 pr-10">
         <div className="flex flex-col">
@@ -646,7 +646,7 @@ export const TopIconBar4 = ({ setOpenMarketPopup }) => {
         </div>
         <div className="flex flex-col">
           <div className="text-gray-400 text-[10px] min-w-max">
-            24h Volume (BTC)
+            24h Volume ({tikerData?.symbol?.split("USDT")[0]})
           </div>
           <div className=" text-[12px]">
             {tikerData?.volume

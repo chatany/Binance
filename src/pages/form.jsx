@@ -796,7 +796,7 @@ export const Form = () => {
                 />
               </Box>
             </Box>
-            <div className="h-fit">
+            <div className="h-[2rem]">
               {error.limitBuyErr && (
                 <div className="text-red-500 text-[13px] p-2 h-full">
                   {error.limitBuyErr}
@@ -925,7 +925,7 @@ export const Form = () => {
                 />
               </Box>
             </Box>
-            <div className="h-fit">
+            <div className="h-[2rem]">
               {error.limitSellErr && (
                 <div className="text-red-500 text-[13px] p-2 h-full">
                   {error.limitSellErr}
@@ -1054,7 +1054,7 @@ export const Form = () => {
                 />
               </Box>
             </Box>
-            <div className="h-fit">
+            <div className="h-[2rem]">
               {error.marketBuyErr && (
                 <div className="text-red-500 text-[13px] p-2 h-full">
                   {error.marketBuyErr}
@@ -1169,7 +1169,7 @@ export const Form = () => {
                 />
               </Box>
             </Box>
-            <div className="h-fit">
+            <div className="h-[2rem]">
               {error.marketSellErr && (
                 <div className="text-red-500 text-[13px] p-2 h-full">
                   {error.marketSellErr}
@@ -1271,7 +1271,7 @@ export const Form = () => {
                 }}
               />
             </div>
-            <div className="h-fit">
+            <div className="h-[2rem]">
               {error.stopBuyErr && (
                 <div className="text-red-500 text-[13px] p-2 h-full">
                   {error.stopBuyErr}
@@ -1406,7 +1406,7 @@ export const Form = () => {
                 }}
               />
             </div>
-            <div className="h-fit">
+            <div className="h-[2rem]">
               {error.stopSellErr && (
                 <div className="text-red-500 text-[13px] p-2 h-full">
                   {error.stopSellErr}

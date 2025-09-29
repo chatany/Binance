@@ -250,7 +250,7 @@ export const Subscription = () => {
                     onChange={(e) => setAmount(e.target.value)}
                   />
                   <div className="flex gap-3 items-center">
-                    <div>{"USDT"}</div>
+                    <div className="whitespace-nowrap">{subscribeObj?.coin_name}</div>
                     <button
                       className="text-[#2EDBAD] font-semibold"
                       onClick={() => setAmount(balance ?? "")}

@@ -19,6 +19,7 @@ export const Register = () => {
   const [disable, setDisable] = useState(false);
   const [verifyPopup, setVerifyPopup] = useState(false);
   const [isRefferal, setIsRefferal] = useState(false);
+  const [flag, setFlag] = useState("");
   const [timer, setTimer] = useState(0);
   const [searchQuery, SetSearchQuery] = useState("");
   const handlePopupOpen = () => {
@@ -203,6 +204,9 @@ export const Register = () => {
     }
   }, [verifyPopup]);
   useEffect(() => {
+    setFlag(countryData[0]?.flag);
+  }, [countryData]);
+  useEffect(() => {
     if (verifyPopup) {
       document.body.style.overflow = "hidden";
     }
@@ -216,13 +220,13 @@ export const Register = () => {
       className="min-h-screen w-full  bg-white font-medium"
       // style={{ fontFamily: "IBM Plex Sans sans-serif Arial" }}
     >
-      <div className=" p-[24px_0px_0px_40px] text-black flex items-center gap-3 cursor-pointer w-fit" onClick={() => {
-            navigate(-1);
-          }}>
-        <FaArrowLeftLong
-          className="size-6"
-          
-        />
+      <div
+        className=" p-[24px_0px_0px_40px] text-black flex items-center gap-3 cursor-pointer w-fit"
+        onClick={() => {
+          navigate(-1);
+        }}
+      >
+        <FaArrowLeftLong className="size-6" />
         <div className="text-[20px] font-normal">Back</div>
       </div>
       <div className="w-full flex justify-center items-center mt-10 md:mt-20">
@@ -266,19 +270,22 @@ export const Register = () => {
               </label>
               <div
                 className="flex  w-full  rounded-lg bg-[#D9D9D940]
-            h-[3rem] p-4 text-[1rem] text-[#757575]
+            h-[3rem] p-[0px_16px_0px_16px] text-[1rem] text-[#757575]
             focus:outline-none  
              transition-colors duration-300 delay-200 gap-2"
               >
-                <input
-                  type="text"
-                  value={"+ " + countryCode}
-                  // onChange={handleChange}
-                  onClick={handlePopupOpen}
-                  maxLength={3}
-                  // placeholder="+91"
-                  className="  outline-none w-[20%] focus:outline-none border-r-1 border-[#757575] relative cursor-pointer"
-                />
+                <div className="w-[4rem] flex items-center ">
+                  <img src={flag} className="h-5 w-5" />
+                  <input
+                    type="text"
+                    value={"+ " + countryCode}
+                    // onChange={handleChange}
+                    onClick={handlePopupOpen}
+                    maxLength={3}
+                    // placeholder="+91"
+                    className="  outline-none text-center w-min focus:outline-none border-r-1 border-[#757575] relative cursor-pointer"
+                  />
+                </div>
                 {isOpenPopup && (
                   <div
                     className="sm:h-[25rem] h-[20rem] p-3 flex flex-col gap-1.5 sm:w-[20rem] w-[15rem] transition-transform duration-500 delay-200  bottom-0 left-0 sm:-bottom-20 sm:-right-5 absolute bg-white z-50  rounded-lg"
@@ -314,8 +321,10 @@ export const Register = () => {
                             onClick={() => {
                               setCountryCode(item?.phonecode);
                               handlePopupOpen();
+                              setFlag(item?.flag);
                             }}
                           >
+                            <img src={item?.flag} className="h-5 w-5" />
                             <div className="min-w-max">
                               {"+ " + item?.phonecode}
                             </div>

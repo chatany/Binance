@@ -38,8 +38,10 @@ export const SidePopup = ({
       dispatch(setIsFav(isFav));
     }
   }, [searchQuery, faverateData]);
-  const filteredData = searchData.filter((item) =>
-    item.pair_symbol?.toLowerCase().includes(searchInput.toLowerCase())
+  const filteredData = searchData.filter(
+    (item) =>
+      item.pair_symbol?.toLowerCase().includes(searchInput.toLowerCase()) ||
+      item.coin_name?.toLowerCase().includes(searchInput.toLocaleLowerCase())
   );
   const handleChange = async (pairId, fav) => {
     const faverae = !fav;
