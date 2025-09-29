@@ -41,7 +41,10 @@ export const SearchData = async ({ dispatch, setIsLoading }) => {
       method: "get",
       url: `https://server-yo1d.onrender.com/binance-exchange`,
     });
-    dispatch(setSearchData(response1?.data));
+    const formattedData = response1?.data.filter(
+      (item) => item?.pair_symbol.toLowerCase() !== "coreumusdt"
+    );
+    dispatch(setSearchData(formattedData));
   } catch (err) {
     console.error("Failed to fetch data", err);
   } finally {
