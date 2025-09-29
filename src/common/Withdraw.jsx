@@ -303,7 +303,7 @@ export default function Withdrawal() {
                 header={({ open }) => (
                   <div
                     className="flex w-full items-center p-2"
-                    onClick={() => setOpenCoin(true)}
+                    onClick={() => !lockedTime &&setOpenCoin(true)}
                   >
                     {" "}
                     {!query && <BsSearch />}

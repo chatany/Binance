@@ -132,6 +132,7 @@ export const ResetPassword = () => {
                      transition-colors duration-300 delay-200"
                 placeholder="New Password"
                 onChange={(e) => handle("newPassword", e)}
+                value={userData.newPassword}
               />
             </div>
             <div>
@@ -143,6 +144,7 @@ export const ResetPassword = () => {
                      transition-colors duration-300 delay-200"
                 onChange={(e) => handle("confirmPassword", e)}
                 placeholder="Confirm Password"
+                value={userData.confirmPassword}
               />
             </div>
 
@@ -155,6 +157,7 @@ export const ResetPassword = () => {
                       duration-300 delay-200"
                 placeholder="Enter Otp"
                 onChange={(e) => handle("otp", e)}
+                value={userData.otp}
               />
             </div>
             <div className="flex justify-center text-[16px]">

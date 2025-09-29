@@ -70,6 +70,7 @@ export const Overview = () => {
                 <input
                   name="Search"
                   onChange={(e) => setSearchQuery(e.target.value)}
+                  value={searchQuery}
                   className={`border
                 hover:border-[#2EDBAD] w-[2rem] hover:w-[6rem] pl-6
                 rounded-[6px] ${searchQuery !== "" ? "w-[6rem]" : ""}
@@ -107,6 +108,7 @@ export const Overview = () => {
                   <input
                     name="Search"
                     onChange={(e) => setSearchQuery(e.target.value)}
+                    value={searchQuery}
                     className={`border
                 hover:border-[#2EDBAD] w-[2rem] hover:w-[6rem] pl-6
                 rounded-[6px] ${searchQuery !== "" ? "w-[6rem]" : ""}

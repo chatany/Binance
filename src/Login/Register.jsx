@@ -243,6 +243,7 @@ export const Register = () => {
               </label>
               <input
                 name="name"
+                value={userData.name}
                 className=" w-full  rounded-lg bg-[#D9D9D940]
             h-[3rem] p-4 text-[1rem] text-[#757575]
             focus:outline-none 
@@ -260,6 +261,7 @@ export const Register = () => {
             h-[3rem] p-4 text-[1rem] text-gray-400
             focus:outline-none 
              transition-colors duration-300 delay-200"
+             value={userData.email}
                 onChange={(e) => handle("email", e)}
               />
             </div>
@@ -311,6 +313,7 @@ export const Register = () => {
             bg-[#D9D9D940] outline-none focus:outline-none
               duration-300 delay-200"
                         onChange={(e) => SetSearchQuery(e.target.value)}
+                        value={searchQuery}
                         placeholder="Select country"
                       />
                     </div>
@@ -343,8 +346,16 @@ export const Register = () => {
                 )}
                 <input
                   name="phone number"
+                  value={userData?.phone}
+                  pattern="[0-9]*"
                   className="outline-none w-full bg-transparent focus:outline-none "
-                  onChange={(e) => handle("phone", e)}
+                  onChange={(e) => {
+                    const value = e.target.value;
+                    // Allow only digits
+                    if (/^\d*$/.test(value)) {
+                      handle("phone", e);
+                    }
+                  }}
                 />
               </div>
             </div>
@@ -361,6 +372,7 @@ export const Register = () => {
               duration-300 delay-200"
                 type={showPassword ? "password" : "text"}
                 onChange={(e) => handle("password", e)}
+                value={userData.password}
               />
               <div className="cursor-pointer" onClick={handlePassword}>
                 {showPassword ? (
@@ -388,6 +400,7 @@ export const Register = () => {
             h-[3rem] p-4 text-[1rem] text-[#757575]
             focus:outline-none 
              transition-colors duration-300 delay-200"
+             value={userData.referral_id}
                   onChange={(e) => handle("referral_id", e)}
                 />
               )}

@@ -221,6 +221,7 @@ export const Login = () => {
     focus:outline-none 
      transition-colors duration-300 delay-200"
                 onChange={(e) => handle("email", e)}
+                value={userData.email}
                 onFocus={() => setError("")}
               />
             </div>
@@ -235,6 +236,7 @@ export const Login = () => {
     h-[3rem] p-4 text-[1rem] text-[#757575]
      transition-colors duration-300 delay-200"
                 onFocus={() => setError("")}
+                value={userData.password}
                 onChange={(e) => handle("password", e)}
                 type={showPassword ? "password" : "text"}
               />

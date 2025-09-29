@@ -117,6 +117,7 @@ export const Forgotpass = () => {
             focus:outline-none 
              transition-colors duration-300 delay-200"
                 onChange={(e) => handle("email", e)}
+                value={userData.email}
               />
             </div>
 

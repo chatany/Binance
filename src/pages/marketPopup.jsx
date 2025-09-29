@@ -118,6 +118,7 @@ export const MarketPopup = ({ handleClose, openMarketPopup }) => {
                     `}
             placeholder="search"
             onChange={(e) => setSearchInput(e.target.value)}
+            value={searchInput}
           />
         </div>
         <div

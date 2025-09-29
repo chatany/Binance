@@ -58,6 +58,7 @@ export const Spot = () => {
               <input
                 name="Search"
                 onChange={(e) => setSearchQuery(e.target.value)}
+                value={searchQuery}
                 className={`border
     hover:border-[#2EDBAD] w-[2rem] hover:min-w-[6rem] pl-6
     rounded-[6px]  ${searchQuery !== "" ? "min-w-[6rem] " : ""}
@@ -96,6 +97,7 @@ export const Spot = () => {
                 <input
                   name="Search"
                   onChange={(e) => setSearchQuery(e.target.value)}
+                  value={searchQuery}
                   className={`border
     hover:border-[#2EDBAD] w-[2rem] hover:min-w-[6rem] pl-6
     rounded-[6px] ${searchQuery !== "" ? "min-w-[6rem]" : ""}

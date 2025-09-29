@@ -120,6 +120,7 @@ export const SidePopup = ({
             `}
             placeholder="search"
             onChange={(e) => setSearchInput(e.target.value)}
+            value={searchInput}
           />
           <div className="text-[16px] text-[#2EDBAD]" onClick={handleClose}>
             cancel
