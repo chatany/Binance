@@ -105,7 +105,7 @@ export const TopIconBar1 = () => {
             formatDecimal(tikerData?.lastPrice, priceDecimal)
           )}
         </div>
-        <div className="text-[12px]  text-[8px] leading-4 min-w-max ">
+        <div className="text-[12px] leading-4 min-w-max ">
           $
           {formatToKMBWithCommas(
             formatDecimal(tikerData?.lastPrice, priceDecimal)
@@ -113,18 +113,18 @@ export const TopIconBar1 = () => {
         </div>
       </div>
       <div className="flex flex-col">
-        <div className="text-gray-400 text-[12px] text-[8px] min-w-max">
+        <div className="text-gray-400 text-[12px] min-w-max">
           24h Change
         </div>
         <div
           className={`${
             tikerData?.priceChange > 0 ? "text-[#2EBD85]" : "text-[#F6465D]"
-          } text-[12px] text-[8px] min-w-max`}
+          } text-[12px]  min-w-max`}
         >
           {tikerData?.priceChange
             ? parseFloat(tikerData?.priceChange).toString()
             : 0}
-          {tikerData?.priceChange > 0 ? " +" : " "}
+          {/* {tikerData?.priceChange > 0 ? " +" : " "} */}
           {tikerData?.priceChangePercent
             ? parseFloat(tikerData?.priceChangePercent).toString()
             : 0}{" "}
@@ -295,11 +295,13 @@ export const TopIconBar2 = () => {
                 <div className="text-gray-400 md:text-[12px] text-[10px]">
                   24h Change
                 </div>
-                <div className="text-green-500 md:text-[12px] text-[10px]">
+                <div className={`${
+            tikerData?.priceChange > 0 ? "text-[#2EBD85]" : "text-[#F6465D]"
+          } text-[12px]  min-w-max`}>
                   {tikerData?.priceChange
                     ? parseFloat(tikerData?.priceChange).toString()
                     : 0}{" "}
-                  +{" "}
+                  {/* +{" "} */}
                   {tikerData?.priceChangePercent
                     ? parseFloat(tikerData?.priceChangePercent).toString()
                     : 0}{" "}
@@ -484,11 +486,13 @@ export const TopIconBar3 = () => {
                   <div className="text-gray-400 md:text-[12px] text-[10px]">
                     24h Change
                   </div>
-                  <div className="text-green-500 md:text-[12px] text-[10px]">
+                  <div className={`${
+            tikerData?.priceChange > 0 ? "text-[#2EBD85]" : "text-[#F6465D]"
+          } text-[12px]  min-w-max`}>
                     {tikerData?.priceChange
                       ? parseFloat(tikerData?.priceChange).toString()
                       : 0}{" "}
-                    +{" "}
+                    {/* +{" "} */}
                     {tikerData?.priceChangePercent
                       ? parseFloat(tikerData?.priceChangePercent).toString()
                       : 0}{" "}
@@ -619,7 +623,9 @@ export const TopIconBar4 = ({ setOpenMarketPopup }) => {
                   formatDecimal(tikerData?.lastPrice, priceDecimal)
                 )}
               </div>
-              <div className="text-green-500 text-[12px]  min-w-max">
+              <div className={`${
+            tikerData?.priceChange > 0 ? "text-[#2EBD85]" : "text-[#F6465D]"
+          } text-[12px]  min-w-max`}>
                 {tikerData?.priceChangePercent
                   ? parseFloat(tikerData?.priceChangePercent).toString()
                   : 0}{" "}

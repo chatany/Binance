@@ -92,8 +92,8 @@ export const Socket = () => {
                 lastPrice: data?.data[0]?.lastPr,
                 highPrice: data?.data[0].high24h,
                 lowPrice: data?.data[0].low24h,
-                priceChange: data?.data[0].changeUtc24h,
-                priceChangePercent: data?.data[0].change24h,
+                priceChange: data?.data[0].change24h,
+                priceChangePercent: data?.data[0].changeUtc24h,
                 quoteVolume: data?.data[0].quoteVolume,
                 volume: data?.data[0].baseVolume,
               })
@@ -149,13 +149,13 @@ export const Socket = () => {
                 lastPrice: data.data[0]?.lastPr,
                 highPrice: data.data[0]?.high24h,
                 lowPrice: data.data[0]?.low24h,
-                priceChange: data.data[0]?.change24h,
-                priceChangePercent: data.data[0]?.changeUtc24h,
+                priceChange: data.data[0]?.changeUtc24h,
+                priceChangePercent: data.data[0]?.change24h,
                 quoteVolume: data.data[0]?.quoteVolume,
                 volume: data.data[0]?.baseVolume,
               })
             );
-          } else {
+          } else {change24h
             dispatch(
               incrementByAmount({
                 symbol: data?.s,
