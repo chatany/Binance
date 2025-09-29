@@ -19,7 +19,9 @@ export const Register = () => {
   const [disable, setDisable] = useState(false);
   const [verifyPopup, setVerifyPopup] = useState(false);
   const [isRefferal, setIsRefferal] = useState(false);
-  const [flag, setFlag] = useState("");
+  const [flag, setFlag] = useState(
+    "https://bitzupimgs.sgp1.cdn.digitaloceanspaces.com/flags/um.png"
+  );
   const [timer, setTimer] = useState(0);
   const [searchQuery, SetSearchQuery] = useState("");
   const handlePopupOpen = () => {
