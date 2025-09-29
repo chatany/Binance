@@ -284,7 +284,7 @@ export const Security = () => {
                 } p-[6px_12px_6px_12px] rounded-[8px]`}
                 onClick={() => navigate("/security/anti-phishing-code")}
               >
-                Enable
+                {userProfile?.anti_phishing_code?"Update":"Enable"}
               </button>
             </div>
           </div>
@@ -349,7 +349,7 @@ export const Security = () => {
                   } p-[6px_12px_6px_12px] rounded-[8px]`}
                   onClick={() => navigate("/security/manage-withdraw-password")}
                 >
-                  Enable
+                  {!userProfile?.withdrawal_password?"Enable":"Update Password"}
                 </button>
               </div>
             </div>

@@ -119,16 +119,19 @@ export const TopIconBar1 = () => {
         <div
           className={`${
             tikerData?.priceChange > 0 ? "text-[#2EBD85]" : "text-[#F6465D]"
-          } text-[12px]  min-w-max`}
+          } text-[12px]  min-w-max flex`}
         >
           {tikerData?.priceChange
             ? parseFloat(tikerData?.priceChange).toString()
-            : 0}
+            : 0}{"  "}
           {/* {tikerData?.priceChange > 0 ? " +" : " "} */}
+          <div className="ml-2">
+
           {tikerData?.priceChangePercent
             ? parseFloat(tikerData?.priceChangePercent).toString()
             : 0}{" "}
           %
+          </div>
         </div>
       </div>
       <div className="flex flex-col">
@@ -297,14 +300,17 @@ export const TopIconBar2 = () => {
                 </div>
                 <div className={`${
             tikerData?.priceChange > 0 ? "text-[#2EBD85]" : "text-[#F6465D]"
-          } text-[12px]  min-w-max`}>
+          } text-[12px]  min-w-max flex`}>
                   {tikerData?.priceChange
                     ? parseFloat(tikerData?.priceChange).toString()
                     : 0}{" "}
                   {/* +{" "} */}
+                  <div className="ml-2">
+
                   {tikerData?.priceChangePercent
                     ? parseFloat(tikerData?.priceChangePercent).toString()
                     : 0}{" "}
+                  </div>
                   %
                 </div>
               </div>
@@ -488,14 +494,17 @@ export const TopIconBar3 = () => {
                   </div>
                   <div className={`${
             tikerData?.priceChange > 0 ? "text-[#2EBD85]" : "text-[#F6465D]"
-          } text-[12px]  min-w-max`}>
+          } text-[12px]  min-w-max flex`}>
                     {tikerData?.priceChange
                       ? parseFloat(tikerData?.priceChange).toString()
                       : 0}{" "}
                     {/* +{" "} */}
+                    <div className="ml-2">
+
                     {tikerData?.priceChangePercent
                       ? parseFloat(tikerData?.priceChangePercent).toString()
                       : 0}{" "}
+                    </div>
                     %
                   </div>
                 </div>
