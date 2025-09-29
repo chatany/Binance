@@ -1,15 +1,19 @@
 // App.js ya index.js me ek baar lagao
 import { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 function AppWrapper({ children }) {
   const navigate = useNavigate();
+  const location = useLocation();
 
   useEffect(() => {
     const handleUserDataChange = () => {
       const userData = localStorage.getItem("userData");
-      if (!userData) {
-        navigate("/login");
+     if (!userData) {
+        // ✅ अगर पहली बार load हुआ और login पर नहीं हैं तो login पर भेजो
+        if (location.pathname !== "/login") {
+          navigate("/login", { replace: true });
+        }
       }
     };
 
@@ -24,7 +28,22 @@ function AppWrapper({ children }) {
       window.removeEventListener("storage", handleUserDataChange);
       window.removeEventListener("userDataChanged", handleUserDataChange);
     };
-  }, [navigate]);
+  }, [navigate,location.pathname]);
+  useEffect(() => {
+    const userData = localStorage.getItem("userData");
+
+    if (!userData && location.pathname === "/login") {
+      const handlePopState = () => {
+        navigate("/spot", { replace: true });
+      };
+
+      window.addEventListener("popstate", handlePopState);
+
+      return () => {
+        window.removeEventListener("popstate", handlePopState);
+      };
+    }
+  }, [location.pathname, navigate]);
 
   return children;
 }
