@@ -1,12 +1,16 @@
 import { useEffect, useRef, useState } from "react";
-import { IoIosCloseCircle, IoMdEyeOff } from "react-icons/io";
-import { IoEye } from "react-icons/io5";
+import {
+  IoIosCloseCircle,
+  IoMdEyeOff,
+} from "react-icons/io";
+import {  IoEye } from "react-icons/io5";
 import { useNavigate } from "react-router-dom";
 import { apiRequest } from "../Helper";
 import { showError, showSuccess } from "../Toastify/toastServices";
 import { useDispatch, useSelector } from "react-redux";
 import CircularIndeterminate from "../common/LoderComponent";
 import { Loder } from "../common/Loder";
+import { FaArrowLeftLong } from "react-icons/fa6";
 export const Login = () => {
   const [showPassword, setShowPassword] = useState(true);
   const navigate = useNavigate();
@@ -195,74 +199,83 @@ export const Login = () => {
     };
   }, [verifyPopup]);
   return (
-    <div className="min-h-screen w-full flex justify-center items-center bg-white font-medium">
-      <div className="w-[400px] h-[30rem] md:border-1 border-[#EDEDED] rounded-2xl p-4 sm:shadow-[0px_0px_40px_0px_rgba(0,0,0,0.06)]">
-        <div className="p-4 flex flex-col h-full gap-8">
-          <div className=" text-black text-[20px] capitalize font-bold">
-            BitzUp Account Login
-          </div>
-          <div>
-            <label htmlFor="Email" className="capitalize text-[#757575]">
-              Email
-            </label>
-            <input
-              name="Email"
-              className=" w-full  rounded-lg bg-[#D9D9D940]
+    <div className="min-h-screen  bg-white font-medium w-full ">
+      <div className="w-fit p-[24px_0px_0px_40px] text-black flex items-center gap-3 cursor-pointer" onClick={()=>{navigate(-1)}}>
+        <FaArrowLeftLong className="size-6"  />
+        <div className="text-[20px] font-normal">Back</div>
+      </div>
+      <div className="w-full flex justify-center items-center mt-20 max-md:mt-10">
+        <div className="w-[400px] h-[30rem] md:border-1 border-[#EDEDED] rounded-2xl p-4 sm:shadow-[0px_0px_40px_0px_rgba(0,0,0,0.06)]">
+          <div className="p-4 flex flex-col h-full gap-8">
+            <div className=" text-black text-[20px] capitalize font-bold">
+              BitzUp Account Login
+            </div>
+            <div>
+              <label htmlFor="Email" className="capitalize text-[#757575]">
+                Email
+              </label>
+              <input
+                name="Email"
+                className=" w-full  rounded-lg bg-[#D9D9D940]
     h-[3rem] p-4 text-[1rem] text-[#757575]
     focus:outline-none 
      transition-colors duration-300 delay-200"
-              onChange={(e) => handle("email", e)}
-              onFocus={() => setError("")}
-            />
-          </div>
-          <div className="relative text-black">
-            <label htmlFor="Email" className="capitalize text-[#757575]">
-              Password
-            </label>
-            <input
-              name="Email"
-              className=" w-full  rounded-lg bg-[#D9D9D940]
+                onChange={(e) => handle("email", e)}
+                onFocus={() => setError("")}
+              />
+            </div>
+            <div className="relative text-black">
+              <label htmlFor="Email" className="capitalize text-[#757575]">
+                Password
+              </label>
+              <input
+                name="Email"
+                className=" w-full  rounded-lg bg-[#D9D9D940]
                focus:outline-none outline-none
     h-[3rem] p-4 text-[1rem] text-[#757575]
      transition-colors duration-300 delay-200"
-              onFocus={() => setError("")}
-              onChange={(e) => handle("password", e)}
-              type={showPassword ? "password" : "text"}
-            />
-            <div className="cursor-pointer " onClick={handlePassword}>
-              {showPassword ? (
-                <IoEye className="absolute right-3 top-9 h-6 w-6" />
-              ) : (
-                <IoMdEyeOff className="absolute right-3 top-9 h-6 w-6" />
+                onFocus={() => setError("")}
+                onChange={(e) => handle("password", e)}
+                type={showPassword ? "password" : "text"}
+              />
+              <div className="cursor-pointer " onClick={handlePassword}>
+                {showPassword ? (
+                  <IoEye className="absolute right-3 top-9 h-6 w-6" />
+                ) : (
+                  <IoMdEyeOff className="absolute right-3 top-9 h-6 w-6" />
+                )}
+              </div>
+            </div>
+            <div className="flex flex-col gap-2.0">
+              <div className=" text-[12px] flex flex-col gap-2 leading-3 text-[#2EDBAD] cursor-pointer">
+                <div onClick={handleForgotNavigate} className="hover:underline">
+                  Forgot Password
+                </div>
+                <div
+                  onClick={handleRegisterNavigate}
+                  className="hover:underline"
+                >
+                  Create a BitzUp Account
+                </div>
+              </div>
+              {error && (
+                <div className="text-[14px] leading-4 text-[#F6465D] flex justify-center font-medium">
+                  {error}
+                </div>
               )}
             </div>
-          </div>
-          <div className="flex flex-col gap-2.0">
-            <div className=" text-[12px] flex flex-col gap-2 leading-3 text-[#2EDBAD] cursor-pointer">
-              <div onClick={handleForgotNavigate} className="hover:underline">
-                Forgot Password
-              </div>
-              <div onClick={handleRegisterNavigate} className="hover:underline">
-                Create a BitzUp Account
-              </div>
+            <div className="flex w-full justify-center">
+              <button
+                onClick={handleSubmit}
+                disabled={disable}
+                name="login"
+                className={`${
+                  !disable ? "bg-[#2EDBAD] hover:bg-[#2EDBAD]" : "bg-[#e7eeec]"
+                }  rounded-xl w-[60%]  h-[2.2rem]  text-black cursor-pointer capitalize`}
+              >
+                Log in
+              </button>
             </div>
-            {error && (
-              <div className="text-[14px] leading-4 text-[#F6465D] flex justify-center font-medium">
-                {error}
-              </div>
-            )}
-          </div>
-          <div className="flex w-full justify-center">
-            <button
-              onClick={handleSubmit}
-              disabled={disable}
-              name="login"
-              className={`${
-                !disable ? "bg-[#2EDBAD] hover:bg-[#2EDBAD]" : "bg-[#e7eeec]"
-              }  rounded-xl w-[60%]  h-[2.2rem]  text-black cursor-pointer capitalize`}
-            >
-              Log in
-            </button>
           </div>
         </div>
       </div>

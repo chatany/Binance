@@ -3,6 +3,7 @@ import { showError } from "../Toastify/toastServices";
 import { apiRequest } from "../Helper";
 import { useNavigate } from "react-router-dom";
 import { Loder } from "../common/Loder";
+import { FaArrowLeftLong } from "react-icons/fa6";
 
 export const Forgotpass = () => {
   const [timer, setTimer] = useState(0);
@@ -69,7 +70,7 @@ export const Forgotpass = () => {
       return;
     }
     try {
-      setDisable(true)
+      setDisable(true);
       const { data, status } = await apiRequest({
         method: "post",
         url: `https://test.bitzup.com/onboarding/user/forgot-password`,
@@ -85,39 +86,52 @@ export const Forgotpass = () => {
       }
     } catch (err) {
     } finally {
-      setDisable(false)
+      setDisable(false);
     }
   };
   return (
-    <div className="min-h-screen w-full flex justify-center items-center bg-white font-medium">
-      <div className="w-[400px] h-[20rem] md:border-1 border-[#EDEDED] rounded-2xl p-4 sm:shadow-[0px_0px_40px_0px_rgba(0,0,0,0.06)]">
-        <div className="p-4 flex flex-col h-full justify-between">
-          <div className=" text-black text-[20px] capitalize font-bold">
-            Forgot Password
-          </div>
-          <div>
-            <label htmlFor="Email" className="capitalize text-[#757575]">
-              Email
-            </label>
-            <input
-              name="Email"
-              className=" w-full  rounded-lg bg-[#D9D9D940]
+    <div className="min-h-screen w-full  bg-white font-medium">
+      <div
+        className="w-fit p-[24px_0px_0px_40px] text-black flex items-center gap-3 cursor-pointer"
+        onClick={() => {
+          navigate(-1);
+        }}
+      >
+        <FaArrowLeftLong className="size-6" />
+        <div className="text-[20px] font-normal">Back</div>
+      </div>
+      <div className="w-full flex justify-center items-center mt-10 md:mt-20">
+        <div className="w-[400px] h-[20rem] md:border-1 border-[#EDEDED] rounded-2xl p-4 sm:shadow-[0px_0px_40px_0px_rgba(0,0,0,0.06)]">
+          <div className="p-4 flex flex-col h-full justify-between">
+            <div className=" text-black text-[20px] capitalize font-bold">
+              Forgot Password
+            </div>
+            <div>
+              <label htmlFor="Email" className="capitalize text-[#757575]">
+                Email
+              </label>
+              <input
+                name="Email"
+                className=" w-full  rounded-lg bg-[#D9D9D940]
             h-[3rem] p-4 text-[1rem] text-[#757575]
             focus:outline-none 
              transition-colors duration-300 delay-200"
-              onChange={(e) => handle("email", e)}
-            />
-          </div>
+                onChange={(e) => handle("email", e)}
+              />
+            </div>
 
-          <div className="flex w-full justify-center">
-            <button
-              onClick={handleSubmit}
-              disabled={disable}
-              name="submit"
-              className={`${!disable?"bg-[#2EDBAD] hover:bg-[#2EDBAD]":"bg-[#e7eeec]"} rounded-xl w-[60%]  h-[2.2rem]  text-black cursor-pointer capitalize`}
-            >
-              Next
-            </button>
+            <div className="flex w-full justify-center">
+              <button
+                onClick={handleSubmit}
+                disabled={disable}
+                name="submit"
+                className={`${
+                  !disable ? "bg-[#2EDBAD] hover:bg-[#2EDBAD]" : "bg-[#e7eeec]"
+                } rounded-xl w-[60%]  h-[2.2rem]  text-black cursor-pointer capitalize`}
+              >
+                Next
+              </button>
+            </div>
           </div>
         </div>
       </div>

@@ -6,11 +6,11 @@ const ToastProvider = () => {
   return (
     <ToastContainer
       position="top-right" // top-left, top-right, bottom-left, bottom-right
-      autoClose={3000} // auto close after 3 sec
+      autoClose={1500} // auto close after 3 sec
       hideProgressBar    
       newestOnTop={false}
       closeOnClick
-      closeButton={true}
+      closeButton={false}
       toastClassName={"text-[12px] p-3"}
       rtl={false}
       pauseOnFocusLoss
