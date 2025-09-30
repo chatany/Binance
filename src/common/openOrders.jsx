@@ -206,10 +206,13 @@ export const OpenOrders = () => {
                               {Array.isArray(openOrder) &&
                                 openOrder?.map((item, index) => {
                                   const date = formatDate(item?.created_at);
-                                  const percentage =
-                                    (item?.executed_base_quantity /
-                                      item?.base_quantity) *
-                                    100;
+                                  const percentage = parseFloat(
+                                    (
+                                      (Number(item?.executed_base_quantity) /
+                                        Number(item?.base_quantity)) *
+                                      100
+                                    ).toFixed(2)
+                                  );
                                   return (
                                     <tr key={index}>
                                       <td className="text-[12px]  pl-1 pr-1 p-[4px] text-center capitalize ">
@@ -258,7 +261,7 @@ export const OpenOrders = () => {
                                           />
                                         </div>
                                       </td>
-                                    
+
                                       <td className="text-[12px]  pl-1 pr-1 p-[4px] text-center capitalize">
                                         {percentage}%
                                       </td>

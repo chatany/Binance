@@ -347,7 +347,7 @@ export const Form = () => {
         //   ...prev,
         //   marketBuy: data?.message,
         // }));
-        openOrders(item?.pair_id, userData?.user_id, dispatch);
+        // openOrders(item?.pair_id, userData?.user_id, dispatch);
         OrderHistory(dispatch);
 
         setBuyMarketSliderValue(0);
@@ -409,7 +409,7 @@ export const Form = () => {
         //   ...prev,
         //   marketSell: data?.message,
         // }));
-        openOrders(item?.pair_id, userData?.user_id, dispatch);
+        // openOrders(item?.pair_id, userData?.user_id, dispatch);
         OrderHistory(dispatch);
 
         setSellMarketSliderValue(0);

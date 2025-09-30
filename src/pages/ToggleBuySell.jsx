@@ -319,7 +319,7 @@ export const ToggleButSell = ({
       if (status === 200 && data?.status == 1) {
         showSuccess(data?.message);
         buysellBalance(item?.pair_id, dispatch);
-        openOrders(item?.pair_id, userData?.user_id, dispatch);
+        // openOrders(item?.pair_id, userData?.user_id, dispatch);
         OrderHistory(dispatch);
         setBuyMarketSliderValue(0);
         setFormValues((prev) => ({
@@ -377,7 +377,7 @@ export const ToggleButSell = ({
         showSuccess(data?.message);
 
         buysellBalance(item?.pair_id, dispatch);
-        openOrders(item?.pair_id, userData?.user_id, dispatch);
+        // openOrders(item?.pair_id, userData?.user_id, dispatch);
         OrderHistory(dispatch);
         setSellMarketSliderValue(0);
         setFormValues((prev) => ({

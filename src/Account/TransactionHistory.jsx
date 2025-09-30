@@ -328,13 +328,13 @@ export const TransactionHistory = () => {
                           </td>
                           <td className="text-left p-[12px_16px_12px_16px]">
                             {" "}
-                            {ele?.final_amount}
+                            {ele?.amount}
                           </td>
                           <td className="text-left p-[12px_16px_12px_16px]">
                             --
                           </td>
                           <td className="text-left p-[12px_16px_12px_16px]">
-                            {ele?.address}
+                            {ele?.transaction_id}
                           </td>
                           <td className="text-left p-[12px_16px_12px_16px]">
                             {ele?.status}
@@ -395,7 +395,7 @@ export const TransactionHistory = () => {
                     </div>
                     <div className="flex flex-col items-end">
                       <div className="text-[14px] font-medium leading-[22px] ">
-                        {ele?.final_amount}
+                        {ele?.amount}
                       </div>
                       <div className="text-[14px] font-medium leading-[22px] ">
                         {ele?.status}
@@ -574,13 +574,13 @@ export const TransactionHistory = () => {
                           </td>
                           <td className="text-left p-[12px_16px_12px_16px]">
                             {" "}
-                            {ele?.final_amount}
+                            {ele?.amount}
                           </td>
                           <td className="text-left p-[12px_16px_12px_16px]">
                             --
                           </td>
                           <td className="text-left p-[12px_16px_12px_16px]">
-                            {ele?.address}
+                            {ele?.transaction_id}
                           </td>
                           <td className="text-left p-[12px_16px_12px_16px]">
                             {ele?.status}
@@ -641,7 +641,7 @@ export const TransactionHistory = () => {
                     </div>
                     <div className="flex flex-col items-end">
                       <div className="text-[14px] font-medium leading-[22px] ">
-                        {ele?.final_amount}
+                        {ele?.amount}
                       </div>
                       <div className="text-[14px] font-medium leading-[22px] ">
                         {ele?.status}

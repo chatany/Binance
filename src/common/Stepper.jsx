@@ -507,7 +507,7 @@ export default function VerticalLinearStepper() {
                   </div>
                   <div className="flex flex-col items-end">
                     <div className="text-[14px] font-medium leading-[22px] ">
-                      {ele?.final_amount}
+                      {ele?.amount}
                     </div>
                     <div className="text-[14px] font-medium leading-[22px] ">
                       {ele?.status}
