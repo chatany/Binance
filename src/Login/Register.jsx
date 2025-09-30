@@ -212,7 +212,10 @@ export const Register = () => {
     if (verifyPopup) {
       document.body.style.overflow = "hidden";
     }
-
+    setUserData((prev) => ({
+      ...prev,
+      otp: "",
+    }));
     return () => {
       document.body.style.overflow = "auto";
     };
@@ -261,7 +264,7 @@ export const Register = () => {
             h-[3rem] p-4 text-[1rem] text-gray-400
             focus:outline-none 
              transition-colors duration-300 delay-200"
-             value={userData.email}
+                value={userData.email}
                 onChange={(e) => handle("email", e)}
               />
             </div>
@@ -400,7 +403,7 @@ export const Register = () => {
             h-[3rem] p-4 text-[1rem] text-[#757575]
             focus:outline-none 
              transition-colors duration-300 delay-200"
-             value={userData.referral_id}
+                  value={userData.referral_id}
                   onChange={(e) => handle("referral_id", e)}
                 />
               )}

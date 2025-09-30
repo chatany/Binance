@@ -1,9 +1,6 @@
 import { useEffect, useRef, useState } from "react";
-import {
-  IoIosCloseCircle,
-  IoMdEyeOff,
-} from "react-icons/io";
-import {  IoEye } from "react-icons/io5";
+import { IoIosCloseCircle, IoMdEyeOff } from "react-icons/io";
+import { IoEye } from "react-icons/io5";
 import { useNavigate } from "react-router-dom";
 import { apiRequest } from "../Helper";
 import { showError, showSuccess } from "../Toastify/toastServices";
@@ -193,15 +190,24 @@ export const Login = () => {
     if (verifyPopup) {
       document.body.style.overflow = "hidden";
     }
-
+    setUserData((prev) => ({
+      ...prev,
+      authCode: "",
+      otp: "",
+    }));
     return () => {
       document.body.style.overflow = "auto";
     };
   }, [verifyPopup]);
   return (
     <div className="min-h-screen  bg-white font-medium w-full ">
-      <div className="w-fit p-[24px_0px_0px_40px] text-black flex items-center gap-3 cursor-pointer" onClick={()=>{navigate(-1)}}>
-        <FaArrowLeftLong className="size-6"  />
+      <div
+        className="w-fit p-[24px_0px_0px_40px] text-black flex items-center gap-3 cursor-pointer"
+        onClick={() => {
+          navigate(-1);
+        }}
+      >
+        <FaArrowLeftLong className="size-6" />
         <div className="text-[20px] font-normal">Back</div>
       </div>
       <div className="w-full flex justify-center items-center mt-20 max-md:mt-10">
