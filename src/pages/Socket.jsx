@@ -65,10 +65,10 @@ export const Socket = () => {
         });
         if (status === 200 && !hasInitialPrice.current) {
           if (apiId === "bitget") {
-              dispatch(setCurrentPrice(data?.data[0]?.lastPr));
-            } else {
-              dispatch(setCurrentPrice(data?.lastPrice));
-            }
+            dispatch(setCurrentPrice(data?.data[0]?.lastPr));
+          } else {
+            dispatch(setCurrentPrice(data?.lastPrice));
+          }
           hasInitialPrice.current = true;
         }
         if (status === 200) {
@@ -155,7 +155,7 @@ export const Socket = () => {
                 volume: data.data[0]?.baseVolume,
               })
             );
-          } else {change24h
+          } else {
             dispatch(
               incrementByAmount({
                 symbol: data?.s,
@@ -454,36 +454,40 @@ export const Socket = () => {
       };
 
       wsRef1.current.onmessage = (event) => {
-        const messageData = JSON.parse(event.data);
+        if (event.data === "ping") {
+          wsRef1.current.send("pong");
+        } else {
+          const messageData = JSON.parse(event.data);
 
-        if (!messageData?.status || !messageData?.data) return;
+          if (!messageData?.status || !messageData?.data) return;
 
-        const orderId = messageData.data.order_id;
+          const orderId = messageData.data.order_id;
 
-        if (messageData.status === "1") {
-          const orderExists = openOrder.some((o) => o.order_id === orderId);
+          if (messageData.status === "1") {
+            const orderExists = openOrder.some((o) => o.order_id === orderId);
 
-          if (!orderExists) {
-            dispatch(setOpenOrderData([messageData.data, ...openOrder]));
+            if (!orderExists) {
+              dispatch(setOpenOrderData([messageData.data, ...openOrder]));
+            }
           }
-        }
 
-        if (messageData.status === "2") {
-          const updated = openOrder.map((o) =>
-            o.order_id === orderId ? messageData.data : o
-          );
-          dispatch(setOpenOrderData(updated));
-        }
-
-        if (messageData.status === "3" || messageData.status === "4") {
-          const filtered = openOrder.filter((o) => o.order_id !== orderId);
-          dispatch(setOpenOrderData(filtered));
-          if (messageData.status === "3") {
-            buysellBalance(pairId, dispatch);
-            OrderHistory(dispatch);
+          if (messageData.status === "2") {
+            const updated = openOrder.map((o) =>
+              o.order_id === orderId ? messageData.data : o
+            );
+            dispatch(setOpenOrderData(updated));
           }
+
+          if (messageData.status === "3" || messageData.status === "4") {
+            const filtered = openOrder.filter((o) => o.order_id !== orderId);
+            dispatch(setOpenOrderData(filtered));
+            if (messageData.status === "3") {
+              buysellBalance(pairId, dispatch);
+              OrderHistory(dispatch);
+            }
+          }
+          console.log("📩 Message:", messageData);
         }
-        console.log("📩 Message:", messageData);
       };
 
       wsRef1.current.onerror = (error) => {
@@ -491,9 +495,9 @@ export const Socket = () => {
       };
 
       wsRef1.current.onclose = () => {
-        reconnectTimerRef4.current = setTimeout(() => {
-          startWebSocket();
-        }, 1000);
+        // reconnectTimerRef4.current = setTimeout(() => {
+        //   startWebSocket();
+        // }, 1000);
       };
     };
     startWebSocket();
