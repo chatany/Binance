@@ -7,7 +7,7 @@ import { IoIosCloseCircle, IoMdEyeOff } from "react-icons/io";
 import { apiRequest } from "../../../Helper";
 import { TopNav } from "../../../Spot/Navbar/TopNavBar";
 import { Loder } from "../../../Common/Loder";
-// import { ConfirmationPopup } from "/src/common/ConfirmationPopup.jsx";
+import { ConfirmationPopup } from "../../../common/ConfirmationPopup.jsx";
 import { formatTime } from "../../../Constant";
 import { showError, showSuccess } from "../../../Toastify/toastServices";
 
@@ -351,14 +351,14 @@ export const ChangePassword = () => {
         </div>
       )}
       {popup && (
-        {/* <ConfirmationPopup
+        <ConfirmationPopup
           handleSubmit={() => setPopup(false)}
           handleClose={() => navigate(-1)}
           subTitle="In order to protect your account, withdrawals, P2P selling and payment services
            might be disabled for 24 hours after you change your password."
           check={false}
           title="Account Restrictions"
-        /> */}
+        />
       )}
       {isDisable && <Loder className="bg-[#00000080]" />}
     </div>

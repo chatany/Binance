@@ -5,13 +5,13 @@ import { RiArrowLeftSLine } from "react-icons/ri";
 import { FiEdit } from "react-icons/fi";
 import { IoEye } from "react-icons/io5";
 import { useNavigate } from "react-router-dom";
-import { Loder } from "../../../Common/Loder";
 import { formatTime } from "../../../Constant";
 import { showError } from "../../../Toastify/toastServices";
 import { apiRequest } from "../../../Helper";
 import { TopNav } from "../../../Spot/Navbar/TopNavBar";
-// import { ConfirmationPopup } from "/src/common/ConfirmationPopup.jsx";
 import { AuthIcon } from "../../../icons";
+import { Loder } from "../../../Common/Loder";
+import { ConfirmationPopup } from "../../../common/ConfirmationPopup";
 
 export const ChangeEmail = () => {
   const userProfile = useSelector((state) => state.counter.userProfile);
@@ -135,7 +135,7 @@ export const ChangeEmail = () => {
         </div>
       </div>
       {popup && (
-        {/* <ConfirmationPopup
+        <ConfirmationPopup
           handleSubmit={handlePopup}
           handleClose={() => setPopup(false)}
           checkBox2=" The old email address cannot be used to re-register for 30 days
@@ -144,7 +144,7 @@ export const ChangeEmail = () => {
                 after changing your email verification to ensure the safety of
                 your assets."
           title="Are You Sure You Want to Change Your Email Address?"
-        /> */}
+        />
       )}
       {showPopup && (
         <div className="w-full h-full   flex justify-center items-center fixed inset-0 z-50 bg-[#00000080] overflow-hidden">
