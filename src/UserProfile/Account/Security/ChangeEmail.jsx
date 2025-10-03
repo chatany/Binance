@@ -10,8 +10,8 @@ import { showError } from "../../../Toastify/toastServices";
 import { apiRequest } from "../../../Helper";
 import { TopNav } from "../../../Spot/Navbar/TopNavBar";
 import { AuthIcon } from "../../../icons";
-import { Loder } from "../../../Common/Loder";
-import { ConfirmationPopup } from "../../../common/ConfirmationPopup";
+import { Loder } from "../../../common/Loder";
+import { ConfirmationPopup } from "../../../common/confirmationPopup";
 
 export const ChangeEmail = () => {
   const userProfile = useSelector((state) => state.counter.userProfile);

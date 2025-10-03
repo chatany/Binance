@@ -9,8 +9,8 @@ import { apiRequest } from "../../../Helper";
 import { showError, showSuccess } from "../../../Toastify/toastServices";
 import { formatTime } from "../../../Constant";
 import { getUserProfile } from "../../../Spot/Apis/apiCall";
-import { Loder } from "../../../Common/Loder";
-import { ConfirmationPopup } from "../../../common/ConfirmationPopup";
+import { Loder } from "../../../common/Loder";
+import { ConfirmationPopup } from "../../../common/confirmationPopup";
 
 export const WithdrawPassword = () => {
   const dark = useSelector((state) => state.counter.dark);

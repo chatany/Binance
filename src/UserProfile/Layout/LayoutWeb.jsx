@@ -4,7 +4,7 @@ import { getActivity, getAuth, getAuthenticationKey, getFundsData, getUserProfil
 import { TopNav } from "../../Spot/Navbar/TopNavBar";
 import { Menu } from "../Menubar/menu";
 import { Footer } from "../../Spot/Footer/Footer";
-import { Loder } from "../../Common/Loder";
+import { Loder } from "../../common/Loder";
 
 export const LayoutWeb = ({ component }) => {
   const dark = useSelector((state) => state.counter.dark);

@@ -9,10 +9,10 @@ import { deleteOpenOrder, OrderHistory, SearchData } from "../../Spot/Apis/apiCa
 import { setIsSuccess, setLoading, setShowPopup } from "../../store/webSocket";
 import { useDeviceInfo } from "../../hooks/useDeviceInfo";
 import { ModifyPopup } from "../../Spot/Orders/Modify/popup";
-import { ConfirmationBox } from "/src/common/DeletePopup.jsx";
 import { formatDate, spotTab } from "../../Constant";
 import BinanceDatePicker from "../../Common/picker";
 import { SelectBox } from "../../Common/SelectBox";
+import { ConfirmationBox } from "../../common/deletePopup";
 
 export const SpotOrders = () => {
   const openOrder = useSelector((state) => state.counter.openOrder);

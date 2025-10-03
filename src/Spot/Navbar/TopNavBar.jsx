@@ -13,7 +13,6 @@ import { CgProfile } from "react-icons/cg";
 import { useDispatch, useSelector } from "react-redux";
 import { HiDownload } from "react-icons/hi";
 import { RiLogoutBoxRLine } from "react-icons/ri";
-import { ConfirmationBox } from "/src/common/DeletePopup.jsx";
 import { Tooltip } from "@mui/material";
 import {
   setBalance,
@@ -26,6 +25,7 @@ import { useAuth } from "../../hooks/useAuth";
 import { BsMoon } from "react-icons/bs";
 import { DepositPopup } from "../Deposit & WithDraw/Deposit/depositPopup";
 import { SidePopup } from "../Market/sidePopup";
+import { ConfirmationBox } from "../../common/deletePopup";
 
 export const TopNav = () => {
   const navigate = useNavigate();

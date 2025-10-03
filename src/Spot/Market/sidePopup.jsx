@@ -8,7 +8,7 @@ import { FaStar } from "react-icons/fa";
 import { apiRequest } from "../../Helper";
 import { formatToKMB } from "../../Constant";
 import { showSuccess } from "../../Toastify/toastServices";
-import { Loder } from "../../Common/Loder";
+import { Loder } from "../../common/Loder";
 
 export const SidePopup = ({
   setSearchQuery,
