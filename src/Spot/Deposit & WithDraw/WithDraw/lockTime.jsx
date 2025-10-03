@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { ConfirmationPopup } from "/src/common/ConfirmationPopup.jsx";
+// import { ConfirmationPopup } from "/src/common/ConfirmationPopup.jsx";
 
 export const WithdrawalCountdown = ({ lockoutTime, setPopup, popup }) => {
   const [timeLeft, setTimeLeft] = useState("");
@@ -31,21 +31,24 @@ export const WithdrawalCountdown = ({ lockoutTime, setPopup, popup }) => {
   }, [lockoutTime]);
 
   return (
-    <ConfirmationPopup
-      handleSubmit={() => setPopup(false)}
-      subTitle={`For your security,withdrawals are on hold.you will be able to withdraw again at ${timeLeft}`}
-      check={false}
-      title="withdrawal Temporarily Disabled"
-      bottom={false}
-      submit={
-        <button
-          onClick={handleSubmit}
-          className={`rounded-[12px] p-2 w-full text-[#000000]  bg-[#2EDBAD] `}
-        >
-          {" "}
-          I understand
-        </button>
-      }
-    />
+    // <ConfirmationPopup
+    //   handleSubmit={() => setPopup(false)}
+    //   subTitle={`For your security,withdrawals are on hold.you will be able to withdraw again at ${timeLeft}`}
+    //   check={false}
+    //   title="withdrawal Temporarily Disabled"
+    //   bottom={false}
+    //   submit={
+    //     <button
+    //       onClick={handleSubmit}
+    //       className={`rounded-[12px] p-2 w-full text-[#000000]  bg-[#2EDBAD] `}
+    //     >
+    //       {" "}
+    //       I understand
+    //     </button>
+    //   }
+    // />
+    <>
+      
+    </>
   );
 };
