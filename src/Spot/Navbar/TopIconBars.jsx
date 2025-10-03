@@ -9,7 +9,7 @@ import { useEffect, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useAuth } from "../../hooks/useAuth";
 import { showError, showSuccess } from "../../Toastify/toastServices";
-import { Loder } from "../../Common/Loder";
+import { Loder } from "../../common/Loder";
 export const TopIconBar1 = () => {
   const tikerData = useSelector((state) => state.counter.tikerData);
   const iconURL = useSelector((state) => state.counter.iconURL);

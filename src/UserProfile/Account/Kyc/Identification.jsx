@@ -4,7 +4,7 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { showError } from "../../../Toastify/toastServices";
 import { apiRequest } from "../../../Helper";
-// import { Loder } from "../../../Common/Loder";
+// import { Loder } from "../../../common/Loder";
 export const Identification = () => {
   const dark = useSelector((state) => state.counter.dark);
   const userProfile = useSelector((state) => state.counter.userProfile);

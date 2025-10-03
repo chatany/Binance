@@ -18,7 +18,7 @@ import { formatDecimal, formatToKMBWithCommas } from "../../Constant";
 import { Tooltip } from "@mui/material";
 import { showError, showSuccess } from "../../Toastify/toastServices";
 import { useAuth } from "../../hooks/useAuth";
-import { Loder } from "../../Common/Loder";
+import { Loder } from "../../common/Loder";
 import { IoIosCloseCircle } from "react-icons/io";
 export const MarketCom = () => {
   const [activeTab, setActiveTab] = useState("Market Trade");

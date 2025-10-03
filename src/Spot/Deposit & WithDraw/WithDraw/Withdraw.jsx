@@ -22,7 +22,7 @@ import { useNavigate } from "react-router-dom";
 import { NotFound } from "../../../icons";
 import { getLockedTime } from "../../Apis/apiCall";
 import { WithdrawalCountdown } from "./lockTime";
-import { Loder } from "../../../Common/Loder";
+import { Loder } from "../../../common/Loder";
 import { showError } from "../../../Toastify/toastServices";
 import { formatDate } from "../../../Constant";
 

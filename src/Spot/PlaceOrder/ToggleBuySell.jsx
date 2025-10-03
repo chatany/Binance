@@ -12,7 +12,7 @@ import { BuySellToggle } from "../../Common/ToggleButton";
 import { IoCloseSharp } from "react-icons/io5";
 import { useNavigate } from "react-router-dom";
 import { showError, showSuccess } from "../../Toastify/toastServices";
-import { Loder } from "../../Common/Loder";
+import { Loder } from "../../common/Loder";
 
 export const ToggleButSell = ({
   activeItem,

@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { NotFound } from "../../../icons";
 import { getBonus } from "../../../Spot/Apis/apiCall";
 import { formatDate } from "../../../Constant";
-import { Loder } from "../../../Common/Loder";
+import { Loder } from "../../../common/Loder";
 
 export const Bonus = () => {
   const dark = useSelector((state) => state.counter.dark);

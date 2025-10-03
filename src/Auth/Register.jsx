@@ -7,7 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { IoIosCloseCircle } from "react-icons/io";
 import { showError, showSuccess } from "../Toastify/toastServices";
 import { useNavigate } from "react-router-dom";
-import { Loder } from "../Common/Loder";
+import { Loder } from "../common/Loder";
 import { FaArrowLeftLong } from "react-icons/fa6";
 import { country } from "../Spot/Apis/apiCall";
 import { apiRequest } from "../Helper";

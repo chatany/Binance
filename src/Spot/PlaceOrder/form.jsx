@@ -18,7 +18,7 @@ import {
 import { useDeviceInfo } from "../../hooks/useDeviceInfo";
 import { showError, showSuccess } from "../../Toastify/toastServices";
 import { useAuth } from "../../hooks/useAuth";
-import { Loder } from "../../Common/Loder";
+import { Loder } from "../../common/Loder";
 export const Form = () => {
   const searchData = useSelector((state) => state.counter.searchData);
   const currentPrice = useSelector((state) => state.counter.currentPrice);

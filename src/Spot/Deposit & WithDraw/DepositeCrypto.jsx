@@ -6,7 +6,7 @@ import { PiDownloadSimpleBold, PiUploadSimpleBold } from "react-icons/pi";
 import { useEffect, useState } from "react";
 import { FaChevronDown } from "react-icons/fa";
 import { getDepositHistory, getWithdrawHistory } from "../Apis/apiCall";
-import { Loder } from "../../Common/Loder";
+import { Loder } from "../../common/Loder";
 import VerticalLinearStepper from "./Deposit/Deposit";
 
 export const Crypto = ({}) => {

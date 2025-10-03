@@ -2,7 +2,7 @@ import { useSelector } from "react-redux";
 import { NotFound } from "../../icons";
 import { useEffect, useState } from "react";
 import { getBonus } from "../Apis/apiCall";
-import { Loder } from "../../Common/Loder";
+import { Loder } from "../../common/Loder";
 import { formatDate } from "../../Constant";
 
 export const Bonus = () => {
