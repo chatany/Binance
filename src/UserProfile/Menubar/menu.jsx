@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { FaChevronDown } from "react-icons/fa";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { setActiveItem } from "../../store/webSocket";
+import { setActiveItem } from "../../Store/webSocket";
 import { menu } from "../../Constant";
 
 export const Menu = () => {

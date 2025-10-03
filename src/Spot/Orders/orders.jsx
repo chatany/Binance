@@ -3,11 +3,11 @@ import { formatDate, tabs } from "../../Constant";
 import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { deleteOpenOrder } from "../Apis/apiCall";
-import { setIsSuccess, setShowPopup } from "../../store/webSocket";
+import { setIsSuccess, setShowPopup } from "../../Store/webSocket";
 import { ScaleLoader } from "react-spinners";
 import { ModifyPopup } from "./Modify/popup";
 import { FaRegEdit } from "react-icons/fa";
-import { useDeviceInfo } from "../../hooks/useDeviceInfo";
+import { useDeviceInfo } from "../../Hooks/useDeviceInfo";
 import { Loder } from "../../Common/Loder";
 import { ConfirmationBox } from "../../Common/DeletePopup";
 
@@ -199,8 +199,8 @@ export const OpenOrders = () => {
                       </tr>
                     </thead>
                     <tbody>
-                      {!loading ? (
-                        <>
+                      {/* {!loading ? ( */}
+                        {/* <> */}
                           {Array.isArray(openOrder) && openOrder?.length > 0 ? (
                             <>
                               {Array.isArray(openOrder) &&
@@ -314,7 +314,7 @@ export const OpenOrders = () => {
                               </td>
                             </tr>
                           )}
-                        </>
+                        {/* </>
                       ) : (
                         <tr>
                           <td colSpan={13}>
@@ -323,7 +323,7 @@ export const OpenOrders = () => {
                             </div>
                           </td>
                         </tr>
-                      )}
+                      )} */}
                     </tbody>
                   </table>
                   {isSuccess && <Loder className="bg-[#00000010]" />}

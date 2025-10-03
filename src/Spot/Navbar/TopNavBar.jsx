@@ -20,8 +20,8 @@ import {
   setFundData,
   setSearchQuery,
   setShow,
-} from "../../store/webSocket";
-import { useAuth } from "../../hooks/useAuth";
+} from "../../Store/webSocket";
+import { useAuth } from "../../Hooks/useAuth";
 import { BsMoon } from "react-icons/bs";
 import { DepositPopup } from "../Deposit & WithDraw/Deposit/depositPopup";
 import { SidePopup } from "../Market/sidePopup";

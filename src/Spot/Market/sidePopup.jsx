@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { getFaverateData, SearchData } from "../Apis/apiCall";
 import { useDispatch, useSelector } from "react-redux";
-import { setIconUrl, setIsFav, setPairId } from "../../store/webSocket";
+import { setIconUrl, setIsFav, setPairId } from "../../Store/webSocket";
 import { useNavigate } from "react-router-dom";
 import { CiRepeat } from "react-icons/ci";
 import { FaStar } from "react-icons/fa";

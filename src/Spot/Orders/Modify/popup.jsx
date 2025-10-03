@@ -6,7 +6,7 @@ import {
   openOrders,
   OrderHistory,
 } from "../../Apis/apiCall";
-import { setShowPopup } from "../../../store/webSocket";
+import { setShowPopup } from "../../../Store/webSocket";
 import { useEffect, useRef, useState } from "react";
 import { apiRequest } from "../../../Helper";
 import { IoCloseSharp } from "react-icons/io5";

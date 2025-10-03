@@ -19,7 +19,7 @@ import {
   setTopMovers,
   setUserProfile,
   setWithdrawHistory,
-} from "../../store/webSocket";
+} from "../../Store/webSocket";
 import { showError, showSuccess } from "../../Toastify/toastServices";
 
 export const fetchData = async () => {

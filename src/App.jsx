@@ -38,7 +38,7 @@ import { ResetPassword } from "./Auth/ResetPassword";
 import { Forgotpass } from "./Auth/ForgotPassword";
 import AppWrapper from "./AppWraper";
 import { Subscription } from "./Spot/Suscription/Suscription";
-import { useAuth } from "./hooks/useAuth.jsx";
+import { useAuth } from "./Hooks/useAuth.jsx";
 function App() {
   const last = JSON.parse(localStorage.getItem("lastPair")) || "BTCUSDT";
   const userData = useAuth();

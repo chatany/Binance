@@ -8,7 +8,7 @@ import {
   setOrderData,
   setTopMovers,
   setTradeData,
-} from "../../store/webSocket";
+} from "../../Store/webSocket";
 import {
   allMover,
   buysellBalance,
@@ -18,7 +18,7 @@ import {
 } from "../Apis/apiCall";
 import { io } from "socket.io-client";
 import { apiRequest } from "../../Helper";
-import { useAuth } from "../../hooks/useAuth";
+import { useAuth } from "../../Hooks/useAuth";
 const socket = io("https://socket.bitzup.com");
 export const Socket = () => {
   const dispatch = useDispatch();
