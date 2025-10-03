@@ -8,7 +8,6 @@ import { TopNav } from "../../../Spot/Navbar/TopNavBar";
 import { apiRequest } from "../../../Helper";
 import { showError, showSuccess } from "../../../Toastify/toastServices";
 import { formatTime } from "../../../Constant";
-import { ConfirmationPopup } from "/src/common/ConfirmationPopup";
 import { Loder } from "../../../common/Loder";
 import { getUserProfile } from "../../../Spot/Apis/apiCall";
 
@@ -269,7 +268,7 @@ export const WithdrawPassword = () => {
         </div>
       )}
       {popup && (
-        <ConfirmationPopup
+        {/* <ConfirmationPopup
           handleSubmit={() => setPopup(false)}
           handleClose={() => navigate(-1)}
           subTitle={`In order to protect your account, withdrawals, P2P selling and payment services
@@ -278,7 +277,7 @@ export const WithdrawPassword = () => {
            } hours after you change your password.`}
           check={false}
           title="Account Restrictions"
-        />
+        /> */}
       )}
       {isDisable && <Loder className="bg-[#00000080]" />}
     </div>
