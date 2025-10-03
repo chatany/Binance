@@ -15,7 +15,7 @@ import { useDeviceInfo } from "../../../hooks/useDeviceInfo";
 import { apiRequest } from "../../../Helper";
 import { showError, showSuccess } from "../../../Toastify/toastServices";
 import { Loder } from "../../../common/Loder";
-import { ConfirmationPopup } from "../../../common/ConfirmationPopup.jsx";
+import { ConfirmationPopup } from "@/common/ConfirmationPopup.jsx";
 import { TopNav } from "../../../Spot/Navbar/TopNavBar";
 import { copyToClipboard } from "../../../Constant";
 export const Authenticator = () => {

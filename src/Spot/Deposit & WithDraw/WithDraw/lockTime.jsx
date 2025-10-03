@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { ConfirmationPopup } from "../../../common/ConfirmationPopup.jsx";
+import { ConfirmationPopup } from "@/common/ConfirmationPopup.jsx";
 
 export const WithdrawalCountdown = ({ lockoutTime, setPopup, popup }) => {
   const [timeLeft, setTimeLeft] = useState("");
