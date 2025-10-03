@@ -7,9 +7,9 @@ import { setIsSuccess, setShowPopup } from "../../store/webSocket";
 import { ScaleLoader } from "react-spinners";
 import { ModifyPopup } from "./Modify/popup";
 import { FaRegEdit } from "react-icons/fa";
-import { ConfirmationBox } from "/src/common/DeletePopup.jsx";
 import { useDeviceInfo } from "../../hooks/useDeviceInfo";
 import { Loder } from "../../common/Loder";
+import { ConfirmationBox } from "../../common/deletePopup";
 
 export const OpenOrders = () => {
   const openOrder = useSelector((state) => state.counter.openOrder);
