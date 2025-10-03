@@ -8,7 +8,7 @@ import { useNavigate } from "react-router-dom";
 import { deleteOpenOrder } from "../Apis/apiCall";
 import { setIsSuccess, setShowPopup } from "../../store/webSocket";
 import { ModifyPopup } from "../Orders/Modify/popup";
-import { ConfirmationBox } from "../../common/DeletePopup.jsx";
+import { ConfirmationBox } from "/src/common/DeletePopup.jsx";
 
 export const Funds = () => {
   const fundData = useSelector((state) => state.counter.fundData);

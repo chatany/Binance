@@ -13,7 +13,7 @@ import { CgProfile } from "react-icons/cg";
 import { useDispatch, useSelector } from "react-redux";
 import { HiDownload } from "react-icons/hi";
 import { RiLogoutBoxRLine } from "react-icons/ri";
-import { ConfirmationBox } from "../../common/DeletePopup.jsx";
+import { ConfirmationBox } from "/src/common/DeletePopup.jsx";
 import { Tooltip } from "@mui/material";
 import {
   setBalance,
