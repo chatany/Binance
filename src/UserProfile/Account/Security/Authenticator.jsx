@@ -15,7 +15,6 @@ import { useDeviceInfo } from "../../../hooks/useDeviceInfo";
 import { apiRequest } from "../../../Helper";
 import { showError, showSuccess } from "../../../Toastify/toastServices";
 import { Loder } from "../../../Common/Loder";
-// import { ConfirmationPopup } from "/src/Common/ConfirmationPopup.jsx";
 import { TopNav } from "../../../Spot/Navbar/TopNavBar";
 import { copyToClipboard } from "../../../Constant";
 import { ConfirmationPopup } from "../../../Common/ConfirmationPopup";
@@ -249,7 +248,7 @@ export const Authenticator = () => {
           title="Are You Sure You Want to Remove Authenticator App Verification?"
           handleClose={() => setPopup(false)}
           handleSubmit={handleRemove}
-          checkBox1="Withdrawals and P2P transactions will be disabled for
+          checkBox1="For your Security,Withdrawals will be disabled for
            24 hours after removing your authenticator app verification to ensure the safety of your assets."
           checkBox2="Two security verification methods are required for withdrawals and other actions. 
            Using only one verification method will put your account at greater risk."

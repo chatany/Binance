@@ -354,7 +354,7 @@ export const ChangePassword = () => {
         <ConfirmationPopup
           handleSubmit={() => setPopup(false)}
           handleClose={() => navigate(-1)}
-          subTitle="In order to protect your account, withdrawals, P2P selling and payment services
+          subTitle="In order to protect your account, withdrawals services
            might be disabled for 24 hours after you change your password."
           check={false}
           title="Account Restrictions"

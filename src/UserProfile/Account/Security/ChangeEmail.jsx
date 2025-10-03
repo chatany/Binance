@@ -140,7 +140,7 @@ export const ChangeEmail = () => {
           handleClose={() => setPopup(false)}
           checkBox2=" The old email address cannot be used to re-register for 30 days
                 after updating it."
-          checkBox1=" Withdrawals and P2P transactions will be disabled for 24 hours
+          checkBox1="for your security, Withdrawals  will be disabled for 24 hours
                 after changing your email verification to ensure the safety of
                 your assets."
           title="Are You Sure You Want to Change Your Email Address?"
