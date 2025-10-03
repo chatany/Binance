@@ -9,7 +9,7 @@ import { ModifyPopup } from "./Modify/popup";
 import { FaRegEdit } from "react-icons/fa";
 import { ConfirmationBox } from "/src/common/DeletePopup.jsx";
 import { useDeviceInfo } from "../../hooks/useDeviceInfo";
-import { Loder } from "../../common/Loder";
+import { Loder } from "../../Common/Loder";
 
 export const OpenOrders = () => {
   const openOrder = useSelector((state) => state.counter.openOrder);

@@ -5,7 +5,7 @@ import { RiArrowLeftSLine } from "react-icons/ri";
 import { FiEdit } from "react-icons/fi";
 import { IoEye } from "react-icons/io5";
 import { useNavigate } from "react-router-dom";
-import { Loder } from "../../../common/Loder";
+import { Loder } from "../../../Common/Loder";
 import { formatTime } from "../../../Constant";
 import { showError } from "../../../Toastify/toastServices";
 import { apiRequest } from "../../../Helper";

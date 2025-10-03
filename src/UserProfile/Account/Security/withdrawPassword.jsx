@@ -9,7 +9,7 @@ import { apiRequest } from "../../../Helper";
 import { showError, showSuccess } from "../../../Toastify/toastServices";
 import { formatTime } from "../../../Constant";
 // import { ConfirmationPopup } from "@/common/ConfirmationPopup.jsx";
-import { Loder } from "../../../common/Loder";
+import { Loder } from "../../../Common/Loder";
 import { getUserProfile } from "../../../Spot/Apis/apiCall";
 
 export const WithdrawPassword = () => {

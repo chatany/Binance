@@ -11,7 +11,7 @@ import {
   getRunningSubscription,
   getWithdrawHistory,
 } from "../Apis/apiCall";
-import { Loder } from "../../common/Loder";
+import { Loder } from "../../Common/Loder";
 import { formatDate } from "../../Constant";
 import { apiRequest } from "../../Helper";
 import { showError, showSuccess } from "../../Toastify/toastServices";

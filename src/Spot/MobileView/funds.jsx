@@ -1,7 +1,7 @@
 import { useDispatch, useSelector } from "react-redux";
 import { RiFileHistoryFill } from "react-icons/ri";
 import { useEffect, useRef, useState } from "react";
-import { Progressbar } from "../../common/CircularBar";
+import { Progressbar } from "../../Common/CircularBar";
 import { formatDate } from "../../Constant";
 import { FaRegEdit } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";

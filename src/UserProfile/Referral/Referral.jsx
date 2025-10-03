@@ -6,7 +6,7 @@ import { useEffect, useRef, useState } from "react";
 import { TopNav } from "../../Spot/Navbar/TopNavBar";
 import { getReferralData } from "../../Spot/Apis/apiCall";
 import { showError, showSuccess } from "../../Toastify/toastServices";
-import { Loder } from "../../common/Loder";
+import { Loder } from "../../Common/Loder";
 import { Footer } from "../../Spot/Footer/Footer";
 export const Referral = () => {
   const dark = useSelector((state) => state.counter.dark);

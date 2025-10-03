@@ -10,7 +10,7 @@ import { formatToKMB } from "../../Constant";
 import { IoCloseSharp } from "react-icons/io5";
 import { showError, showSuccess } from "../../Toastify/toastServices";
 import { useAuth } from "../../hooks/useAuth";
-import { Loder } from "../../common/Loder";
+import { Loder } from "../../Common/Loder";
 export const MarketPopup = ({ handleClose, openMarketPopup }) => {
   const faverateData = useSelector((state) => state.counter.faverateData);
   const searchData = useSelector((state) => state.counter.searchData);

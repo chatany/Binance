@@ -3,7 +3,7 @@ import { TopNav } from "../Navbar/TopNavBar";
 import { NotFound } from "../../icons";
 import { useEffect, useState } from "react";
 import { getStakingCoin } from "../Apis/apiCall";
-import { Loder } from "../../common/Loder";
+import { Loder } from "../../Common/Loder";
 import { IoMdClose } from "react-icons/io";
 import { apiRequest } from "../../Helper";
 import { showError, showSuccess } from "../../Toastify/toastServices";

@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { formatDate } from "../../../Constant";
 import { TopNav } from "../../../Spot/Navbar/TopNavBar";
-import { Loder } from "../../../common/Loder";
+import { Loder } from "../../../Common/Loder";
 
 export const Activity = () => {
   const activity = useSelector((state) => state.counter.activity);

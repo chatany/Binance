@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { apiRequest } from "../Helper";
 import { showError, showSuccess } from "../Toastify/toastServices";
 import { useDispatch, useSelector } from "react-redux";
-import { Loder } from "../common/Loder";
+import { Loder } from "../Common/Loder";
 import { FaArrowLeftLong } from "react-icons/fa6";
 export const Login = () => {
   const [showPassword, setShowPassword] = useState(true);

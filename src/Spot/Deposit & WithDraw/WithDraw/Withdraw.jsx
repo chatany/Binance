@@ -1,7 +1,7 @@
 import Stepper from "@mui/material/Stepper";
 import Step from "@mui/material/Step";
 import StepLabel from "@mui/material/StepLabel";
-import CoinSelect from "../../../common/CoinSelect";
+import CoinSelect from "../../../Common/CoinSelect";
 import { apiRequest } from "../../../Helper";
 import { useEffect, useState } from "react";
 import { styled, stepConnectorClasses, StepConnector } from "@mui/material";
@@ -22,7 +22,7 @@ import { useNavigate } from "react-router-dom";
 import { NotFound } from "../../../icons";
 import { getLockedTime } from "../../Apis/apiCall";
 import { WithdrawalCountdown } from "./lockTime";
-import { Loder } from "../../../common/Loder";
+import { Loder } from "../../../Common/Loder";
 import { showError } from "../../../Toastify/toastServices";
 import { formatDate } from "../../../Constant";
 
