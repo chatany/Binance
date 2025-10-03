@@ -18,6 +18,7 @@ import { Loder } from "../../../Common/Loder";
 // import { ConfirmationPopup } from "/src/common/ConfirmationPopup.jsx";
 import { TopNav } from "../../../Spot/Navbar/TopNavBar";
 import { copyToClipboard } from "../../../Constant";
+import { ConfirmationPopup } from "../../../common/ConfirmationPopup";
 export const Authenticator = () => {
   const [showQr, setShowQr] = useState(false);
   const [opt, setOtp] = useState(false);
@@ -244,7 +245,7 @@ export const Authenticator = () => {
         )}
       </div>
       {popup && (
-        {/* <ConfirmationPopup
+        <ConfirmationPopup
           title="Are You Sure You Want to Remove Authenticator App Verification?"
           handleClose={() => setPopup(false)}
           handleSubmit={handleRemove}
@@ -252,7 +253,7 @@ export const Authenticator = () => {
            24 hours after removing your authenticator app verification to ensure the safety of your assets."
           checkBox2="Two security verification methods are required for withdrawals and other actions. 
            Using only one verification method will put your account at greater risk."
-        /> */}
+        /> 
       )}
       {showQr && !auth && (
         <div className="w-full h-full   flex justify-center items-center fixed inset-0 z-50 bg-[#00000080] overflow-hidden">
