@@ -14,10 +14,10 @@ import {
   setCoinName,
   setPriceDecimal,
   setQuantityDecimal,
-} from "../../store/webSocket";
+} from "../../Store/webSocket";
 import { useDeviceInfo } from "../../hooks/useDeviceInfo";
 import { showError, showSuccess } from "../../Toastify/toastServices";
-import { useAuth } from "../../hooks/useAuth";
+import { useAuth } from "../../Hooks/useAuth";
 import { Loder } from "../../Common/Loder";
 export const Form = () => {
   const searchData = useSelector((state) => state.counter.searchData);

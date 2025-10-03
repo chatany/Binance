@@ -10,14 +10,14 @@ import {
   setPairId,
   setRoundingVal,
   setSearchQuery,
-} from "../../store/webSocket";
+} from "../../Store/webSocket";
 import { ScaleLoader } from "react-spinners";
 import { FaStar } from "react-icons/fa";
 import { apiRequest } from "../../Helper";
 import { formatDecimal, formatToKMBWithCommas } from "../../Constant";
 import { Tooltip } from "@mui/material";
 import { showError, showSuccess } from "../../Toastify/toastServices";
-import { useAuth } from "../../hooks/useAuth";
+import { useAuth } from "../../Hooks/useAuth";
 import { Loder } from "../../Common/Loder";
 import { IoIosCloseCircle } from "react-icons/io";
 export const MarketCom = () => {

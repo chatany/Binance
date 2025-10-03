@@ -2,7 +2,7 @@ import { useState, useRef } from "react";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import { RiArrowUpDoubleLine } from "react-icons/ri";
 import { useDispatch, useSelector } from "react-redux";
-import { setOpen, setSearchQuery } from "../../store/webSocket";
+import { setOpen, setSearchQuery } from "../../Store/webSocket";
 import { useNavigate } from "react-router-dom";
 import { ScaleLoader } from "react-spinners";
 

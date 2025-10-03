@@ -4,7 +4,7 @@ import { ScaleLoader } from "react-spinners";
 import { useNavigate } from "react-router-dom";
 import { allMover } from "../../Spot/Apis/apiCall";
 import { HeroSection } from "../EstimateBalance/heroCard";
-import { setSearchQuery } from "../../store/webSocket";
+import { setSearchQuery } from "../../Store/webSocket";
 
 export const Dashboard = () => {
   const dark = JSON.parse(localStorage.getItem("theme"));

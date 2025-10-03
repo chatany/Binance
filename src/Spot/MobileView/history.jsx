@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import { OrderHistory } from "../Apis/apiCall";
 import { ScaleLoader } from "react-spinners";
-import { useAuth } from "../../hooks/useAuth";
+import { useAuth } from "../../Hooks/useAuth";
 
 export const History = () => {
   const orderHistory = useSelector((state) => state.counter.orderHistory);

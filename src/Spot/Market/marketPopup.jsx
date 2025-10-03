@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { getFaverateData, SearchData } from "../Apis/apiCall";
 import { useDispatch, useSelector } from "react-redux";
-import { setSearchQuery } from "../../store/webSocket";
+import { setSearchQuery } from "../../Store/webSocket";
 import { useNavigate } from "react-router-dom";
 import { CiRepeat } from "react-icons/ci";
 import { FaStar } from "react-icons/fa";
@@ -9,7 +9,7 @@ import { apiRequest } from "../../Helper";
 import { formatToKMB } from "../../Constant";
 import { IoCloseSharp } from "react-icons/io5";
 import { showError, showSuccess } from "../../Toastify/toastServices";
-import { useAuth } from "../../hooks/useAuth";
+import { useAuth } from "../../Hooks/useAuth";
 import { Loder } from "../../Common/Loder";
 export const MarketPopup = ({ handleClose, openMarketPopup }) => {
   const faverateData = useSelector((state) => state.counter.faverateData);

@@ -6,7 +6,7 @@ import { formatDate } from "../../Constant";
 import { FaRegEdit } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import { deleteOpenOrder } from "../Apis/apiCall";
-import { setIsSuccess, setShowPopup } from "../../store/webSocket";
+import { setIsSuccess, setShowPopup } from "../../Store/webSocket";
 import { ModifyPopup } from "../Orders/Modify/popup";
 import { ConfirmationBox } from "../../Common/DeletePopup";
 

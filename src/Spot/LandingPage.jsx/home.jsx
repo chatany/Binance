@@ -19,7 +19,7 @@ import { Funds } from "../MobileView/funds";
 import { MobileChartBar } from "../MobileView/mobileChart";
 import { getUserProfile } from "../Apis/apiCall";
 import { Loder } from "../../Common/Loder";
-import { setSearchQuery } from "../../store/webSocket";
+import { setSearchQuery } from "../../Store/webSocket";
 import { MarketCom } from "../Market/market";
 import { MarketPopup } from "../Market/marketPopup";
 export const Home = () => {

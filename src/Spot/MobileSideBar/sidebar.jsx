@@ -4,9 +4,9 @@ import { FaChevronDown } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
 import styled from "@emotion/styled";
 import { Switch, Tooltip } from "@mui/material";
-import { useAuth } from "../../hooks/useAuth";
+import { useAuth } from "../../Hooks/useAuth";
 import { useDispatch, useSelector } from "react-redux";
-import { setDark, setShow } from "../../store/webSocket";
+import { setDark, setShow } from "../../Store/webSocket";
 
 export default function MobileSidebar() {
   const dark = useSelector((state) => state.counter.dark);

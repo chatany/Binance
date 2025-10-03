@@ -7,7 +7,7 @@ import { formatDecimal, formatToKMB, formatToKMBWithCommas } from "../../Constan
 import { RiArrowDownSFill } from "react-icons/ri";
 import { useEffect, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
-import { useAuth } from "../../hooks/useAuth";
+import { useAuth } from "../../Hooks/useAuth";
 import { showError, showSuccess } from "../../Toastify/toastServices";
 import { Loder } from "../../Common/Loder";
 export const TopIconBar1 = () => {

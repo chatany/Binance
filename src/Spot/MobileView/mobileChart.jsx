@@ -4,7 +4,7 @@ import { ScaleLoader } from "react-spinners";
 import { useDispatch, useSelector } from "react-redux";
 import { Tooltip } from "@mui/material";
 import { formatDecimal, formatToKMBWithCommas } from "../../Constant";
-import { setCurrentPrice } from "../../store/webSocket";
+import { setCurrentPrice } from "../../Store/webSocket";
 import { BuyOrder, CommonOrder, SellOrder } from "../../icons";
 
 export const MobileChartBar = () => {

@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from "react-redux";
-import { setCurrentPrice } from "../../store/webSocket";
+import { setCurrentPrice } from "../../Store/webSocket";
 import {
   FaAngleDown,
   FaAngleRight,

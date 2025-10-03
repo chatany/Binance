@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { FaAngleRight, FaArrowDown, FaArrowUp } from "react-icons/fa";
 import { HiDotsHorizontal } from "react-icons/hi";
 import { useDispatch, useSelector } from "react-redux";
-import { setCurrentPrice, setRoundingVal } from "../../store/webSocket";
+import { setCurrentPrice, setRoundingVal } from "../../Store/webSocket";
 import { formatDecimal, formatToKMBWithCommas } from "../../Constant";
 import { ScaleLoader } from "react-spinners";
 import { Tooltip } from "@mui/material";
