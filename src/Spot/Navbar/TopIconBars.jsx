@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from "react-redux";
-import ScrollStatsBar from "../../Common/TopIconBar";
+import ScrollStatsBar from "../../common/TopIconBar";
 import { FaStar } from "react-icons/fa6";
 import { apiRequest } from "../../Helper";
 import { getFaverateData } from "../Apis/apiCall";
@@ -9,7 +9,7 @@ import { useEffect, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useAuth } from "../../hooks/useAuth";
 import { showError, showSuccess } from "../../Toastify/toastServices";
-import { Loder } from "../../Common/Loder";
+import { Loder } from "../../common/Loder";
 export const TopIconBar1 = () => {
   const tikerData = useSelector((state) => state.counter.tikerData);
   const iconURL = useSelector((state) => state.counter.iconURL);

@@ -5,12 +5,12 @@ import { RiArrowLeftSLine } from "react-icons/ri";
 import { FiEdit } from "react-icons/fi";
 import { IoEye } from "react-icons/io5";
 import { useNavigate } from "react-router-dom";
-import { Loder } from "../../../Common/Loder";
+import { Loder } from "../../../common/Loder";
 import { formatTime } from "../../../Constant";
 import { showError } from "../../../Toastify/toastServices";
 import { apiRequest } from "../../../Helper";
 import { TopNav } from "../../../Spot/Navbar/TopNavBar";
-import { ConfirmationPopup } from "../../../Common/ConfirmationPopup";
+import { ConfirmationPopup } from "../../../common/ConfirmationPopup";
 import { AuthIcon } from "../../../icons";
 
 export const ChangeEmail = () => {

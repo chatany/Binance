@@ -11,12 +11,12 @@ import {
   getRunningSubscription,
   getWithdrawHistory,
 } from "../Apis/apiCall";
-import { Loder } from "../../Common/Loder";
+import { Loder } from "../../common/Loder";
 import { formatDate } from "../../Constant";
 import { apiRequest } from "../../Helper";
 import { showError, showSuccess } from "../../Toastify/toastServices";
 import { NotFound } from "../../icons";
-import { ConfirmationBox } from "../../Common/DeletePopup";
+import { ConfirmationBox } from "../../common/DeletePopup";
 
 export const SubscriptionHistory = () => {
   const dark = useSelector((state) => state.counter.dark);

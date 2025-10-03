@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { showError, showSuccess } from "../Toastify/toastServices";
 import { useNavigate, useParams } from "react-router-dom";
-import { Loder } from "../Common/Loder";
+import { Loder } from "../common/Loder";
 import { FaArrowLeftLong } from "react-icons/fa6";
 import { apiRequest } from "../Helper";
 

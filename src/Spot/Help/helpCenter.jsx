@@ -4,7 +4,7 @@ import { helpCenterApi } from "../Apis/apiCall";
 import { Link } from "react-router-dom";
 import { MdOutlineKeyboardArrowRight } from "react-icons/md";
 import { IoClose } from "react-icons/io5";
-import { Loder } from "../../Common/Loder";
+import { Loder } from "../../common/Loder";
 
 export const HelpCenter = ({ dark, setShowHelpPopup, showHelpPopup }) => {
   const helpCenter = useSelector((state) => state.counter.helpCenter);

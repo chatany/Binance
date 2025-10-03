@@ -8,8 +8,8 @@ import { TopNav } from "../../../Spot/Navbar/TopNavBar";
 import { apiRequest } from "../../../Helper";
 import { showError, showSuccess } from "../../../Toastify/toastServices";
 import { formatTime } from "../../../Constant";
-import { ConfirmationPopup } from "../../../Common/ConfirmationPopup";
-import { Loder } from "../../../Common/Loder";
+import { ConfirmationPopup } from "../../../common/ConfirmationPopup";
+import { Loder } from "../../../common/Loder";
 import { getUserProfile } from "../../../Spot/Apis/apiCall";
 
 export const WithdrawPassword = () => {

@@ -14,8 +14,8 @@ import { getAuth, getUserProfile } from "../../../Spot/Apis/apiCall";
 import { useDeviceInfo } from "../../../hooks/useDeviceInfo";
 import { apiRequest } from "../../../Helper";
 import { showError, showSuccess } from "../../../Toastify/toastServices";
-import { Loder } from "../../../Common/Loder";
-import { ConfirmationPopup } from "../../../Common/ConfirmationPopup";
+import { Loder } from "../../../common/Loder";
+import { ConfirmationPopup } from "../../../common/ConfirmationPopup";
 import { TopNav } from "../../../Spot/Navbar/TopNavBar";
 import { copyToClipboard } from "../../../Constant";
 export const Authenticator = () => {

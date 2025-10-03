@@ -18,7 +18,7 @@ import { TopNav } from "../Navbar/TopNavBar";
 import { Funds } from "../MobileView/funds";
 import { MobileChartBar } from "../MobileView/mobileChart";
 import { getUserProfile } from "../Apis/apiCall";
-import { Loder } from "../../Common/Loder";
+import { Loder } from "../../common/Loder";
 import { setSearchQuery } from "../../store/webSocket";
 import { MarketCom } from "../Market/market";
 import { MarketPopup } from "../Market/marketPopup";
