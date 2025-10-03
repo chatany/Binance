@@ -1,7 +1,7 @@
 import Stepper from "@mui/material/Stepper";
 import Step from "@mui/material/Step";
 import StepLabel from "@mui/material/StepLabel";
-import CoinSelect from "../../../Common/CoinSelect";
+import CoinSelect from "../../../common/CoinSelect";
 import { apiRequest } from "../../../Helper";
 import { useEffect, useState } from "react";
 import { showError } from "../../../Toastify/toastServices";

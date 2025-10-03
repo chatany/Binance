@@ -1,14 +1,14 @@
 import Box from "@mui/material/Box";
 import Slider from "@mui/material/Slider";
 import { styled } from "@mui/material/styles";
-import CryptoInput from "../../Common/CryptoInput";
+import CryptoInput from "../../common/CryptoInput";
 import { useDispatch, useSelector } from "react-redux";
 import { marketTabs, RenderLabel, tab } from "../../Constant";
 import { useEffect, useState } from "react";
-import { MarketInput } from "../../Common/MarketInputBox";
+import { MarketInput } from "../../common/MarketInputBox";
 import { buysellBalance, openOrders, OrderHistory } from "../Apis/apiCall";
 import { apiRequest } from "../../Helper";
-import { BuySellToggle } from "../../Common/ToggleButton";
+import { BuySellToggle } from "../../common/ToggleButton";
 import { IoCloseSharp } from "react-icons/io5";
 import { useNavigate } from "react-router-dom";
 import { showError, showSuccess } from "../../Toastify/toastServices";

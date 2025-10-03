@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from "react-redux";
-import ScrollStatsBar from "../../Common/TopIconBar";
+import ScrollStatsBar from "../../common/TopIconBar";
 import { FaStar } from "react-icons/fa6";
 import { apiRequest } from "../../Helper";
 import { getFaverateData } from "../Apis/apiCall";
