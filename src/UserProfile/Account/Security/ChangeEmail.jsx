@@ -10,7 +10,7 @@ import { formatTime } from "../../../Constant";
 import { showError } from "../../../Toastify/toastServices";
 import { apiRequest } from "../../../Helper";
 import { TopNav } from "../../../Spot/Navbar/TopNavBar";
-import { ConfirmationPopup } from "../../../common/ConfirmationPopup";
+import { ConfirmationPopup } from "../../../common/ConfirmationPopup.jsx";
 import { AuthIcon } from "../../../icons";
 
 export const ChangeEmail = () => {
