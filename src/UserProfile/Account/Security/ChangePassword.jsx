@@ -7,7 +7,7 @@ import { IoIosCloseCircle, IoMdEyeOff } from "react-icons/io";
 import { apiRequest } from "../../../Helper";
 import { TopNav } from "../../../Spot/Navbar/TopNavBar";
 import { Loder } from "../../../common/Loder";
-import { ConfirmationPopup } from "../../../common/ConfirmationPopup.jsx";
+import { ConfirmationPopup } from "/src/common/ConfirmationPopup";
 import { formatTime } from "../../../Constant";
 import { showError, showSuccess } from "../../../Toastify/toastServices";
 
