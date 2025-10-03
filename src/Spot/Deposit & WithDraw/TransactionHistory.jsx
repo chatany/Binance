@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
-import { SelectBox } from "../../common/SelectBox";
+import { SelectBox } from "../../Common/SelectBox";
 import { getDepositHistory, getWithdrawHistory } from "../Apis/apiCall";
 import { apiRequest } from "../../Helper";
 import { formatDate } from "../../Constant";

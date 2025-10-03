@@ -9,7 +9,7 @@ import { TopNav } from "../../../Spot/Navbar/TopNavBar";
 import { apiRequest } from "../../../Helper";
 import { showError } from "../../../Toastify/toastServices";
 import { getUserProfile } from "../../../Spot/Apis/apiCall";
-// import { Loder } from "../../../common/Loder";
+// import { Loder } from "../../../Common/Loder";
 
 export const AntiPhishing = () => {
   const dark = useSelector((state) => state.counter.dark);

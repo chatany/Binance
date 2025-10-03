@@ -14,11 +14,11 @@ import { getAuth, getUserProfile } from "../../../Spot/Apis/apiCall";
 import { useDeviceInfo } from "../../../hooks/useDeviceInfo";
 import { apiRequest } from "../../../Helper";
 import { showError, showSuccess } from "../../../Toastify/toastServices";
-import { Loder } from "../../../common/Loder";
-// import { ConfirmationPopup } from "/src/common/ConfirmationPopup.jsx";
+import { Loder } from "../../../Common/Loder";
+// import { ConfirmationPopup } from "/src/Common/ConfirmationPopup.jsx";
 import { TopNav } from "../../../Spot/Navbar/TopNavBar";
 import { copyToClipboard } from "../../../Constant";
-import { ConfirmationPopup } from "../../../common/confirmationPopup";
+import { ConfirmationPopup } from "../../../Common/ConfirmationPopup";
 export const Authenticator = () => {
   const [showQr, setShowQr] = useState(false);
   const [opt, setOtp] = useState(false);

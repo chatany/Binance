@@ -8,8 +8,8 @@ import { ScaleLoader } from "react-spinners";
 import { ModifyPopup } from "./Modify/popup";
 import { FaRegEdit } from "react-icons/fa";
 import { useDeviceInfo } from "../../hooks/useDeviceInfo";
-import { Loder } from "../../common/Loder";
-import { ConfirmationBox } from "../../common/deletePopup";
+import { Loder } from "../../Common/Loder";
+import { ConfirmationBox } from "../../Common/DeletePopup";
 
 export const OpenOrders = () => {
   const openOrder = useSelector((state) => state.counter.openOrder);

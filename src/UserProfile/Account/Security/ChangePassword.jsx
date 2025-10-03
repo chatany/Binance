@@ -6,8 +6,8 @@ import { IoEye } from "react-icons/io5";
 import { IoIosCloseCircle, IoMdEyeOff } from "react-icons/io";
 import { apiRequest } from "../../../Helper";
 import { TopNav } from "../../../Spot/Navbar/TopNavBar";
-import { Loder } from "../../../common/Loder.jsx";
-import { ConfirmationPopup } from "../../../common/confirmationPopup.jsx";
+import { Loder } from "../../../Common/Loder.jsx";
+import { ConfirmationPopup } from "../../../Common/ConfirmationPopup.jsx";
 import { formatTime } from "../../../Constant";
 import { showError, showSuccess } from "../../../Toastify/toastServices";
 

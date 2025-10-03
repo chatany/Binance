@@ -25,7 +25,7 @@ import { useAuth } from "../../hooks/useAuth";
 import { BsMoon } from "react-icons/bs";
 import { DepositPopup } from "../Deposit & WithDraw/Deposit/depositPopup";
 import { SidePopup } from "../Market/sidePopup";
-import { ConfirmationBox } from "../../common/deletePopup";
+import { ConfirmationBox } from "../../Common/DeletePopup";
 
 export const TopNav = () => {
   const navigate = useNavigate();

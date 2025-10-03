@@ -15,8 +15,8 @@ import { formatDate } from "../../Constant";
 import { apiRequest } from "../../Helper";
 import { showError, showSuccess } from "../../Toastify/toastServices";
 import { NotFound } from "../../icons";
-import { Loder } from "../../common/Loder";
-import { ConfirmationBox } from "../../common/deletePopup";
+import { Loder } from "../../Common/Loder";
+import { ConfirmationBox } from "../../Common/DeletePopup";
 
 export const SubscriptionHistory = () => {
   const dark = useSelector((state) => state.counter.dark);

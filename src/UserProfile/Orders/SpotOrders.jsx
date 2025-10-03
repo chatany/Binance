@@ -10,9 +10,9 @@ import { setIsSuccess, setLoading, setShowPopup } from "../../store/webSocket";
 import { useDeviceInfo } from "../../hooks/useDeviceInfo";
 import { ModifyPopup } from "../../Spot/Orders/Modify/popup";
 import { formatDate, spotTab } from "../../Constant";
-import BinanceDatePicker from "../../common/picker";
-import { SelectBox } from "../../common/SelectBox";
-import { ConfirmationBox } from "../../common/deletePopup";
+import BinanceDatePicker from "../../Common/picker";
+import { SelectBox } from "../../Common/SelectBox";
+import { ConfirmationBox } from "../../Common/DeletePopup";
 
 export const SpotOrders = () => {
   const openOrder = useSelector((state) => state.counter.openOrder);

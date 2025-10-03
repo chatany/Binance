@@ -11,7 +11,7 @@ import { useEffect, useRef, useState } from "react";
 import { apiRequest } from "../../../Helper";
 import { IoCloseSharp } from "react-icons/io5";
 import { useParams } from "react-router-dom";
-import { Loder } from "../../../common/Loder";
+import { Loder } from "../../../Common/Loder";
 
 export const ModifyPopup = ({ orderId }) => {
   const openOrder = useSelector((state) => state.counter.openOrder);

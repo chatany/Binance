@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { showError } from "../Toastify/toastServices";
 import { apiRequest } from "../Helper";
 import { useNavigate } from "react-router-dom";
-import { Loder } from "../common/Loder";
+import { Loder } from "../Common/Loder";
 import { FaArrowLeftLong } from "react-icons/fa6";
 
 export const Forgotpass = () => {
