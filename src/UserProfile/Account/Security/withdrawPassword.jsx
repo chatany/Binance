@@ -8,7 +8,7 @@ import { TopNav } from "../../../Spot/Navbar/TopNavBar";
 import { apiRequest } from "../../../Helper";
 import { showError, showSuccess } from "../../../Toastify/toastServices";
 import { formatTime } from "../../../Constant";
-import { ConfirmationPopup } from "/src/common/ConfirmationPopup.jsx";
+import { ConfirmationPopup } from "@/common/ConfirmationPopup.jsx";
 import { Loder } from "../../../common/Loder";
 import { getUserProfile } from "../../../Spot/Apis/apiCall";
 
