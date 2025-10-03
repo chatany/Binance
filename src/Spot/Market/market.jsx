@@ -17,7 +17,7 @@ import { apiRequest } from "../../Helper";
 import { formatDecimal, formatToKMBWithCommas } from "../../Constant";
 import { Tooltip } from "@mui/material";
 import { showError, showSuccess } from "../../Toastify/toastServices";
-import { useAuth } from "../../Hooks/useAuth";
+import { useAuth } from "../../hooks/useAuth";
 import { Loder } from "../../Common/Loder";
 import { IoIosCloseCircle } from "react-icons/io";
 export const MarketCom = () => {

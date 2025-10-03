@@ -11,7 +11,7 @@ import { ScaleLoader } from "react-spinners";
 import { PiCopyLight } from "react-icons/pi";
 import { Auth, AuthIcon } from "../../../icons";
 import { getAuth, getUserProfile } from "../../../Spot/Apis/apiCall";
-import { useDeviceInfo } from "../../../Hooks/useDeviceInfo";
+import { useDeviceInfo } from "../../../hooks/useDeviceInfo";
 import { apiRequest } from "../../../Helper";
 import { showError, showSuccess } from "../../../Toastify/toastServices";
 import { Loder } from "../../../Common/Loder";

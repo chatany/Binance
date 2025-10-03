@@ -8,7 +8,7 @@ import { ScaleLoader } from "react-spinners";
 import { ModifyPopup } from "./Modify/popup";
 import { FaRegEdit } from "react-icons/fa";
 import { ConfirmationBox } from "../../Common/DeletePopup";
-import { useDeviceInfo } from "../../Hooks/useDeviceInfo";
+import { useDeviceInfo } from "../../hooks/useDeviceInfo";
 import { Loder } from "../../Common/Loder";
 
 export const OpenOrders = () => {

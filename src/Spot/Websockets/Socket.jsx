@@ -18,7 +18,7 @@ import {
 } from "../Apis/apiCall";
 import { io } from "socket.io-client";
 import { apiRequest } from "../../Helper";
-import { useAuth } from "../../Hooks/useAuth";
+import { useAuth } from "../../hooks/useAuth";
 const socket = io("https://socket.bitzup.com");
 export const Socket = () => {
   const dispatch = useDispatch();

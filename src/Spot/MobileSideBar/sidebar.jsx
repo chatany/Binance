@@ -4,7 +4,7 @@ import { FaChevronDown } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
 import styled from "@emotion/styled";
 import { Switch, Tooltip } from "@mui/material";
-import { useAuth } from "../../Hooks/useAuth";
+import { useAuth } from "../../hooks/useAuth";
 import { useDispatch, useSelector } from "react-redux";
 import { setDark, setShow } from "../../store/webSocket";
 

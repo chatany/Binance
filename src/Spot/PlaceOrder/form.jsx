@@ -15,9 +15,9 @@ import {
   setPriceDecimal,
   setQuantityDecimal,
 } from "../../store/webSocket";
-import { useDeviceInfo } from "../../Hooks/useDeviceInfo";
+import { useDeviceInfo } from "../../hooks/useDeviceInfo";
 import { showError, showSuccess } from "../../Toastify/toastServices";
-import { useAuth } from "../../Hooks/useAuth";
+import { useAuth } from "../../hooks/useAuth";
 import { Loder } from "../../Common/Loder";
 export const Form = () => {
   const searchData = useSelector((state) => state.counter.searchData);

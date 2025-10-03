@@ -22,7 +22,7 @@ import {
   setSearchQuery,
   setShow,
 } from "../../store/webSocket";
-import { useAuth } from "../../Hooks/useAuth";
+import { useAuth } from "../../hooks/useAuth";
 import { BsMoon } from "react-icons/bs";
 import { DepositPopup } from "../Deposit & WithDraw/Deposit/depositPopup";
 import { SidePopup } from "../Market/sidePopup";
