@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { formatDate } from "../../../Constant";
 import { TopNav } from "../../../Spot/Navbar/TopNavBar";
 import { Loder } from "../../../Common/Loder";
+import { NotFound } from "../../../icons";
 // import { Loder } from "../../../Common/Loder";
 
 export const Activity = () => {
@@ -21,7 +22,7 @@ export const Activity = () => {
     <div
       className={`${
         dark ? "bg-[#181A20] text-[#EAECEF]" : "bg-[#FFFFFF] text-[#282828]"
-      } h-screen overflow-hidden`}
+      } min-h-screen overflow-hidden`}
     >
       <div className="fixed inset-0 z-50 h-fit">
         <TopNav />
@@ -37,14 +38,14 @@ export const Activity = () => {
         <RiArrowLeftSLine className="size-6 font-light" />
         Security
       </div>
-      <div className="p-[40px] flex flex-col gap-10">
+      <div className="md:p-[40px] flex flex-col gap-10">
         <div
-          className={`text-[32px] font-semibold
+          className={`md:text-[32px] text-[20px] p-2 font-semibold
         leading-[40px] ${dark ? "text-[#EAECEF]" : "text-[#000000]"}`}
         >
           Account Activity Records
         </div>
-        <div>
+        <div className="max-md:hidden">
           <table className={`w-full`}>
             <thead>
               <tr
@@ -91,6 +92,57 @@ export const Activity = () => {
               })}
             </tbody>
           </table>
+        </div>
+        <div className="w-full overflow-x-auto custom-scroll h-[700px] overflow-y-auto md:hidden">
+          {Array.isArray(activity) && activity?.length > 0 ? (
+            activity?.map((ele, index) => {
+              const date = formatDate(ele?.timestamp);
+              return (
+                <div
+                  className={`text-[14px]  ${
+                    dark
+                      ? "text-[#EAECEF] border-[#474d57] hover:bg-[#2B3139]"
+                      : "text-[#1e2329] border-[#eaecef] hover:bg-[#F5F5F5]"
+                  } font-normal leading-[20px] border-b-[1px] w-full flex justify-between`}
+                  key={index}
+                >
+                  <div>
+                    <div className="text-left p-[12px_16px_12px_16px]">
+                      Date
+                    </div>
+                    <div className="text-left p-[12px_16px_12px_16px]">
+                      Location
+                    </div>
+                    <div className="text-left p-[12px_16px_12px_16px]">
+                      IP Address
+                    </div>
+                  </div>
+                  <div className="flex flex-col justify-end">
+                    <div
+                      className={`text-end p-[12px_16px_12px_16px]`}
+                    >
+                      {date}
+                    </div>
+                    <div className="text-end  p-[12px_16px_12px_16px]">
+                      {ele?.location}
+                    </div>
+                    <div className="text-end  p-[12px_16px_12px_16px]">
+                      {ele?.ip_address}
+                    </div>
+                  </div>
+                </div>
+              );
+            })
+          ) : (
+            <div className="h-[200px] flex items-center justify-center">
+              <div className="flex flex-col gap-0.5 items-center justify-center">
+                <NotFound className="max-md:size-16 size-10" />
+                <div className="text-[12px] max-md:text-[14px]">
+                  No Data Found
+                </div>
+              </div>
+            </div>
+          )}
         </div>
       </div>
       {isLoading && <Loder className="bg-[#00000080]" />}

@@ -7,7 +7,7 @@ import { setIsSuccess, setShowPopup } from "../../Store/webSocket";
 import { ScaleLoader } from "react-spinners";
 import { ModifyPopup } from "./Modify/popup";
 import { FaRegEdit } from "react-icons/fa";
-import { useDeviceInfo } from "../../Hooks/useDeviceInfo";
+import { useDeviceInfo } from "../../Hooks/useDeviceInfo"
 import { Loder } from "../../Common/Loder";
 import { ConfirmationBox } from "../../Common/DeletePopup";
 
@@ -252,7 +252,7 @@ export const OpenOrders = () => {
                                       </td>
                                       <td className="text-[12px]  pl-1 pr-1 p-[4px] text-center capitalize">
                                         <div className="flex gap-2 items-center justify-center cursor-pointer">
-                                          {item?.base_quantity}
+                                          {item?.executed_base_quantity}
                                           <FaRegEdit
                                             onClick={() => {
                                               handleDispatch();
@@ -347,7 +347,8 @@ export const OpenOrders = () => {
                             "Type",
                             "Side",
                             "Price",
-                            "Amount",
+                            "Quantity",
+                            "Amount (USDT)",
                             "Status",
                           ].map((header, idx) => (
                             <th
@@ -401,7 +402,10 @@ export const OpenOrders = () => {
                                   {item?.order_price}
                                 </td>
                                 <td className="p-1 text-center whitespace-nowrap">
-                                  {item?.base_quantity}
+                                  {item?.executed_base_quantity}
+                                </td>
+                                <td className="p-1 text-center whitespace-nowrap">
+                                  {item?.executed_quote_quantity}
                                 </td>
                                 <td
                                   className={`p-1 text-center capitalize whitespace-nowrap ${

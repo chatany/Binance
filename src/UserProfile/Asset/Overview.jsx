@@ -66,7 +66,12 @@ export const Overview = () => {
               </div>
             </div>
             <div className="gap-2 md:flex hidden">
-              <div className="relative flex  items-center focus-within:justify-start hover:justify-start justify-center">
+              <div className={`relative flex  items-center focus-within:justify-start hover:justify-start justify-center ${
+                  searchQuery !== "" &&
+                  `justify-start ${
+                    dark ? "border-[#2EDBAD]" : "border-[#2EDBAD]"
+                  }`
+                }`}>
                 <input
                   name="Search"
                   onChange={(e) => setSearchQuery(e.target.value)}
@@ -104,7 +109,12 @@ export const Overview = () => {
                 {"Hide assets < 1 USD"}
               </div>
               <div className="flex gap-2">
-                <div className="relative flex  items-center  focus-within:justify-start  hover:justify-start justify-center focus:w-[8rem]">
+                <div className={`relative ${
+                  searchQuery !== "" &&
+                  `justify-start ${
+                    dark ? "border-[#2EDBAD]" : "border-[#2EDBAD]"
+                  }`
+                } flex  items-center  focus-within:justify-start  hover:justify-start justify-center focus:w-[8rem]`}>
                   <input
                     name="Search"
                     onChange={(e) => setSearchQuery(e.target.value)}
@@ -145,46 +155,56 @@ export const Overview = () => {
                 </tr>
               </thead>
               <tbody>
-                {Array.isArray(filteredData) &&
+                {Array.isArray(filteredData) && filteredData?.length > 0 ? (
                   filteredData?.map((item, index) => (
-                    <>
-                      {item?.balance > 0 && (
-                        <tr key={index} className="p-[20px]">
-                          <td className="text-[12px]  p-[20px] text-left capitalize ">
-                            <div className="flex gap-3 items-center w-full ">
-                              <div>
-                                <div className="font-medium text-xs">
-                                  {item?.symbol}
-                                </div>
-                                <div className="text-xs text-gray-400">
-                                  {item?.coin}
-                                </div>
-                              </div>
+                    <tr key={index} className="p-[20px]">
+                      <td className="text-[12px]  p-[20px] text-left capitalize ">
+                        <div className="flex gap-3 items-center w-full ">
+                          <div>
+                            <div className="font-medium text-xs">
+                              {item?.symbol}
                             </div>
-                          </td>
-                          <td className="text-[12px]  text-right uppercase p-[20px]">
-                            {Number(item?.balance) +
-                              Number(item?.unavailable_balance)}
-                          </td>
-                          <td className="text-[12px]   text-right capitalize p-[20px]  max-md:hidden">
-                            {item?.balance}
-                          </td>
-                          <td className="text-[12px]   text-right   capitalize">
-                            {/* {item?.usdtprice} */}
-                            <div className="flex gap-2 justify-end items-center p-[8px_16px_8px_0px]">
-                              <div
-                                className={`${
-                                  dark ? "text-[#2EDBAD]" : " text-[#2EDBAD]"
-                                } cursor-pointer underline hidden md:flex`}
-                              >
-                                cash In
-                              </div>
+                            <div className="text-xs text-gray-400">
+                              {item?.coin}
                             </div>
-                          </td>
-                        </tr>
-                      )}
-                    </>
-                  ))}
+                          </div>
+                        </div>
+                      </td>
+                      <td className="text-[12px]  text-right uppercase p-[20px]">
+                        {Number(item?.balance) +
+                          Number(item?.unavailable_balance)}
+                      </td>
+                      <td className="text-[12px]   text-right capitalize p-[20px]  max-md:hidden">
+                        {item?.balance}
+                      </td>
+                      <td className="text-[12px]   text-right   capitalize">
+                        {/* {item?.usdtprice} */}
+                        <div className="flex gap-2 justify-end items-center p-[8px_16px_8px_0px]">
+                          <div
+                            className={`${
+                              dark ? "text-[#2EDBAD]" : " text-[#2EDBAD]"
+                            } cursor-pointer underline hidden md:flex`}
+                          >
+                            cash In
+                          </div>
+                        </div>
+                      </td>
+                    </tr>
+                  ))
+                ) : (
+                  <tr>
+                    <td colSpan={8}>
+                      <div className="h-[200px] flex items-center justify-center">
+                        <div className="flex flex-col gap-0.5 items-center justify-center">
+                          <NotFound className="max-md:size-16 size-10" />
+                          <div className="text-[12px] max-md:text-[14px]">
+                            No Data Found
+                          </div>
+                        </div>
+                      </div>
+                    </td>
+                  </tr>
+                )}
               </tbody>
             </table>
           </div>

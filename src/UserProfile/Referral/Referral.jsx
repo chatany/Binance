@@ -576,7 +576,7 @@ export const Referral = () => {
           </div>
         </div>
       </div>
-      <div className="p-10">
+      <div className="md:p-10 p-4 ">
         <Footer />
       </div>
       {isLoading && <Loder className="bg-[#00000080]" />}

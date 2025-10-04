@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { getFundsData } from "../../Spot/Apis/apiCall";
 import { HeroSection } from "../EstimateBalance/heroCard";
+import { NotFound } from "../../icons";
 
 export const Spot = () => {
   const fundData = useSelector((state) => state.counter.fundData);
@@ -60,14 +61,15 @@ export const Spot = () => {
                 onChange={(e) => setSearchQuery(e.target.value)}
                 value={searchQuery}
                 className={`border
-    hover:border-[#2EDBAD] w-[2rem] hover:min-w-[6rem] pl-6
-    rounded-[6px]  ${searchQuery !== "" ? "min-w-[6rem] " : ""}
-    ${
-      dark
-        ? "border-[#474D57] focus:border-[#2EDBAD] focus:min-w-[6rem]"
-        : "border-[#D8DCE1] focus:border-[#2EDBAD] focus:min-w-[6rem]"
-    }
-    focus:outline-none `}
+                hover:border-[#2EDBAD] w-[2rem] hover:w-[6rem] pl-6
+                rounded-[6px] ${searchQuery !== "" ? "w-[6rem]" : ""}
+                ${
+                  dark
+                    ? "border-[#474D57] focus:border-[#2EDBAD] focus:w-[6rem]"
+                    : "border-[#D8DCE1] focus:border-[#2EDBAD] focus:w-[6rem]"
+                }
+                focus:outline-none 
+                 transition-colors duration-300 delay-200`}
               />
               <CgSearch className="absolute" />
             </div>
@@ -93,18 +95,25 @@ export const Spot = () => {
               {"Hide assets < 1 USD"}
             </div>
             <div className="flex gap-2">
-              <div className="relative flex  items-center  focus-within:justify-start  hover:justify-start justify-center focus:min-w-[8rem]">
+              <div
+                className={`relative flex  items-center  focus-within:justify-start   hover:justify-start justify-center focus:w-[8rem] ${
+                  searchQuery !== "" &&
+                  `justify-start ${
+                    dark ? "border-[#2EDBAD]" : "border-[#2EDBAD]"
+                  }`
+                }`}
+              >
                 <input
                   name="Search"
                   onChange={(e) => setSearchQuery(e.target.value)}
                   value={searchQuery}
                   className={`border
-    hover:border-[#2EDBAD] w-[2rem] hover:min-w-[6rem] pl-6
-    rounded-[6px] ${searchQuery !== "" ? "min-w-[6rem]" : ""}
+    hover:border-[#2EDBAD] w-[2rem] hover:w-[6rem] pl-6
+    rounded-[6px] ${searchQuery !== "" ? "w-[6rem]" : ""}
     ${
       dark
-        ? "border-[#474D57] focus:border-[#2EDBAD] focus:min-w-[6rem]"
-        : "border-[#D8DCE1] focus:border-[#2EDBAD] focus:min-w-[6rem]"
+        ? "border-[#474D57] focus:border-[#2EDBAD] focus:w-[6rem]"
+        : "border-[#D8DCE1] focus:border-[#2EDBAD] focus:w-[6rem]"
     }
     focus:outline-none 
      transition-colors duration-300 delay-200`}
@@ -119,7 +128,7 @@ export const Spot = () => {
             </div>
           </div>
         </div>
-        <div className="max-h-[400px] overflow-y-auto">
+        <div >
           <table className="w-full">
             <thead className="max-md:hidden">
               <tr
@@ -134,54 +143,52 @@ export const Spot = () => {
                 <th className="text-right p-[20px]">Action</th>
               </tr>
             </thead>
-            <tbody>
-              {Array.isArray(filteredData) &&
+            <tbody className="max-h-[400px] overflow-y-auto">
+              {Array.isArray(filteredData) && filteredData.length > 0 ? (
                 filteredData?.map((item, index) => (
-                  <>
-                    {item?.balance > 0 && (
-                      <tr key={index} className="p-[20px]">
-                        <td className="text-[12px]  p-[20px] text-left capitalize ">
-                          <div className="flex gap-3 items-center w-full ">
-                            <div>
-                              <div className="font-medium text-xs">
-                                {item?.symbol}
-                              </div>
-                              <div className="text-xs text-gray-400">
-                                {item?.coin}
-                              </div>
-                            </div>
+                  <tr key={index} className="p-[20px_0px_20px_0px]">
+                    <td className="text-[12px]  p-[20px_0px_20px_0px] text-left capitalize w-fit">
+                      <div className="flex gap-3 items-center w-fit ">
+                        <div>
+                          <div className="font-medium text-xs">
+                            {item?.symbol}
                           </div>
-                        </td>
-                        <td className="text-[12px]  text-right uppercase p-[20px]">
-                          {Number(item?.balance) +
-                            Number(item?.unavailable_balance)}
-                        </td>
-                        <td className="text-[12px]   text-right capitalize p-[20px]  max-md:hidden">
-                          {item?.balance}
-                        </td>
-                        <td className="text-[12px]  text-right capitalize p-[20px]  max-md:hidden">
-                          {item?.unavailable_balance}
-                        </td>
-                        <td className="text-[12px]   text-right   capitalize">
-                          {/* {item?.usdtprice} */}
-                          <div className="flex gap-2 justify-end items-center">
-                            <div
-                              className={`${
-                                dark ? "text-[#2EDBAD]" : " text-[#2EDBAD]"
-                              } cursor-pointer underline hidden md:flex`}
-                              onClick={() => navigate("/crypto/deposit")}
-                            >
-                              deposit
-                            </div>
-                            <div
-                              className={`${
-                                dark ? "text-[#2EDBAD]" : " text-[#2EDBAD]"
-                              } cursor-pointer underline hidden md:flex`}
-                              onClick={() => navigate("/crypto/withdraw")}
-                            >
-                              withdraw
-                            </div>
-                            {/* <div
+                          <div className="text-xs text-gray-400">
+                            {item?.coin}
+                          </div>
+                        </div>
+                      </div>
+                    </td>
+                    <td className="text-[12px]  text-right uppercase p-[20px_0px_20px_0px]">
+                      {Number(item?.balance) +
+                        Number(item?.unavailable_balance)}
+                    </td>
+                    <td className="text-[12px]   text-right capitalize p-[20px]  max-md:hidden">
+                      {item?.balance}
+                    </td>
+                    <td className="text-[12px]  text-right capitalize p-[20px]  max-md:hidden">
+                      {item?.unavailable_balance}
+                    </td>
+                    <td className="text-[12px]   text-right   capitalize">
+                      {/* {item?.usdtprice} */}
+                      <div className="flex gap-2 justify-end items-center">
+                        <div
+                          className={`${
+                            dark ? "text-[#2EDBAD]" : " text-[#2EDBAD]"
+                          } cursor-pointer underline hidden md:flex`}
+                          onClick={() => navigate("/crypto/deposit")}
+                        >
+                          deposit
+                        </div>
+                        <div
+                          className={`${
+                            dark ? "text-[#2EDBAD]" : " text-[#2EDBAD]"
+                          } cursor-pointer underline hidden md:flex`}
+                          onClick={() => navigate("/crypto/withdraw")}
+                        >
+                          withdraw
+                        </div>
+                        {/* <div
                               className="relative cursor-pointer"
                               onMouseEnter={() => setShowIndex(index)}
                               onMouseLeave={() => setShowIndex(null)}
@@ -234,12 +241,24 @@ export const Spot = () => {
                                 </div>
                               )}
                             </div> */}
-                          </div>
-                        </td>
-                      </tr>
-                    )}
-                  </>
-                ))}
+                      </div>
+                    </td>
+                  </tr>
+                ))
+              ) : (
+                <tr>
+                  <td colSpan={8}>
+                    <div className="h-[200px] flex items-center justify-center">
+                      <div className="flex flex-col gap-0.5 items-center justify-center">
+                        <NotFound className="max-md:size-16 size-10" />
+                        <div className="text-[12px] max-md:text-[14px]">
+                          No Data Found
+                        </div>
+                      </div>
+                    </div>
+                  </td>
+                </tr>
+              )}
             </tbody>
           </table>
         </div>

@@ -62,7 +62,7 @@ export const SelectBox = ({ title, value, children,show,setShow }) => {
       </div>
       {show && (
         <div
-          className={`w-full rounded-lg absolute z-70 top-11 border-1 ${
+          className={`w-full rounded-lg absolute z-80 top-11 border-1 ${
             dark ? "bg-[#1E2329] text-white" : "bg-white text-black"
           }   ${dark ? "border-[#2B3139]" : "border-[#EAECEF]"} `}
         >

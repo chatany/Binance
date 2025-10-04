@@ -5,14 +5,19 @@ import { useNavigate } from "react-router-dom";
 // import { setIsSuccess, setLoading, setShowPopup } from "../Store/webSocket";
 import { ScaleLoader } from "react-spinners";
 import { FaRegEdit } from "react-icons/fa";
-import { deleteOpenOrder, OrderHistory, SearchData } from "../../Spot/Apis/apiCall";
+import {
+  deleteOpenOrder,
+  OrderHistory,
+  SearchData,
+} from "../../Spot/Apis/apiCall";
 import { setIsSuccess, setLoading, setShowPopup } from "../../Store/webSocket";
-import { useDeviceInfo } from "../../hooks/useDeviceInfo";
+import { useDeviceInfo } from "../../Hooks/useDeviceInfo";
 import { ModifyPopup } from "../../Spot/Orders/Modify/popup";
 import { formatDate, spotTab } from "../../Constant";
 import BinanceDatePicker from "../../Common/picker";
 import { SelectBox } from "../../Common/SelectBox";
 import { ConfirmationBox } from "../../Common/DeletePopup";
+import { Progressbar } from "../../Common/CircularBar";
 
 export const SpotOrders = () => {
   const openOrder = useSelector((state) => state.counter.openOrder);
@@ -37,6 +42,8 @@ export const SpotOrders = () => {
   const [filteredData, setFilteredData] = useState(orderHistory);
   const [filteredData1, setFilteredData1] = useState(openOrder);
   const [isPopup, setIsPopup] = useState(false);
+  const [filterSearchData, setFilterSearchData] = useState([]);
+  const [filterSearchData1, setFilterSearchData1] = useState([]);
   const dispatch = useDispatch();
   const deviceInfo = useDeviceInfo();
   const userData = JSON.parse(localStorage.getItem("userData"));
@@ -145,11 +152,11 @@ export const SpotOrders = () => {
   useEffect(() => {
     let filtered = openOrder;
 
-    // if (pair !== "" && pair !== "All") {
-    //   filtered = filtered?.filter(
-    //     (item) => item?.pair_symbol.toLowerCase() === pair.toLowerCase()
-    //   );
-    // }
+    if (pair !== "" && pair !== "All") {
+      filtered = filtered?.filter(
+        (item) => item?.pair_symbol.toLowerCase() === pair.toLowerCase()
+      );
+    }
 
     if (direction !== "" && direction !== "All") {
       filtered = filtered?.filter(
@@ -184,496 +191,628 @@ export const SpotOrders = () => {
       },
     ]);
   };
+  useEffect(() => {
+    const orders = [...orderHistory];
+    const pairs = [...searchData];
+
+    const orderSymbols = orders.map((item) => item.pair_symbol);
+
+    const filteredPairs = pairs.filter((item) =>
+      orderSymbols.includes(item.pair_symbol)
+    );
+    setFilterSearchData(filteredPairs);
+  }, [orderHistory,searchData]);
+  useEffect(() => {
+    const orders = [...openOrder];
+    const pairs = [...searchData];
+
+    const orderSymbols = orders.map((item) => item.pair_symbol);
+
+    const filteredPairs = pairs.filter((item) =>
+      orderSymbols.includes(item.pair_symbol)
+    );
+    setFilterSearchData1(filteredPairs);
+  }, [orderHistory,searchData]);
   return (
-    <div
-      className={`h-fit relative mb-5 w-full ${
-        dark ? " bg-[#181A20]" : " bg-white "
-      } `}
-    >
-      <div
-        className={`${
-          dark ? " bg-[#181A20] border-[#333B47]" : "border-[#EDEDED] bg-white"
-        } border-b-[1px]`}
-      >
-        <div className="flex   gap-5 items-center text-[14px] leading-4  w-full font-medium p-1 pb-0 ">
-          {spotTab.map((tab) => (
-            <div className="flex flex-col gap-1" key={tab}>
-              <button
-                onClick={() => setActiveTab(tab)}
-                className={`flex-1 text-center py-2 font-medium transition-colors min-w-max cursor-pointer duration-300 ${
-                  activeTab === tab
-                    ? "text-[#2EDBAD]"
-                    : "text-gray-600 hover:text-[#2EDBAD]"
-                }`}
-                name="items"
-              >
-                {tab}
-                {`${
-                  tab === "Open Orders"
-                    ? ` (${openOrder?.length ? openOrder?.length : 0})`
-                    : ""
-                }`}
-              </button>
-              {activeTab === tab && (
-                <div className="flex justify-center w-full">
-                  <div className="w-[30%] border-b-2 border-[#2EDBAD]"></div>
-                </div>
-              )}
-            </div>
-          ))}
+    <>
+      {showPopup && (
+        <div className="w-full h-screen  fixed inset-0  z-40 bg-[#00000080] overflow-hidden">
+          <ModifyPopup orderId={orderId} />
         </div>
-      </div>
-      <div className="h-[500px] w-full  custom-scroll overflow-x-auto text-[12px] leading-4 flex-nowrap font-medium">
-        {userData?.token ? (
-          <>
-            {" "}
-            {activeTab === "Open Orders" && (
-              <>
-                <div className="w-full p-3">
-                  <div className="w-full grid lg:grid-cols-4 md:grid-cols-2 grid-cols-1  gap-5 p-3">
-                    <SelectBox
-                      value={pair}
-                      title={"Pair"}
-                      show={show.pair}
-                      setShow={() => handleShow("pair")}
-                    >
-                      <div className="h-[200px] overflow-y-auto custom-scroll ">
-                        <div
-                          className={`text-[14px] font-normal leading-[22px] p-[10px]   ${
-                            dark
-                              ? "hover:bg-[#2B3139] text-[#929AA5]"
-                              : "hover:bg-[#EAECEF] text-[#757575] hover:text-[#000000]"
-                          }`}
-                          onClick={() => {
-                            setPair("All");
-                            handleShow("pair");
-                          }}
-                        >
-                          {"All"}
+      )}
+      <div
+        className={`h-fit relative mb-5 w-full ${
+          dark ? " bg-[#181A20]" : " bg-white "
+        } `}
+      >
+        <div
+          className={`${
+            dark
+              ? " bg-[#181A20] border-[#333B47]"
+              : "border-[#EDEDED] bg-white"
+          } border-b-[1px]`}
+        >
+          <div className="flex   gap-5 items-center text-[14px] leading-4  w-full font-medium p-1 pb-0 ">
+            {spotTab.map((tab) => (
+              <div className="flex flex-col gap-1" key={tab}>
+                <button
+                  onClick={() => setActiveTab(tab)}
+                  className={`flex-1 text-center py-2 font-medium transition-colors min-w-max cursor-pointer duration-300 ${
+                    activeTab === tab
+                      ? "text-[#2EDBAD]"
+                      : "text-gray-600 hover:text-[#2EDBAD]"
+                  }`}
+                  name="items"
+                >
+                  {tab}
+                  {`${
+                    tab === "Open Orders"
+                      ? ` (${openOrder?.length ? openOrder?.length : 0})`
+                      : ""
+                  }`}
+                </button>
+                {activeTab === tab && (
+                  <div className="flex justify-center w-full">
+                    <div className="w-[30%] border-b-2 border-[#2EDBAD]"></div>
+                  </div>
+                )}
+              </div>
+            ))}
+          </div>
+        </div>
+        <div className="h-[500px] w-full  custom-scroll overflow-x-auto text-[12px] leading-4 flex-nowrap font-medium">
+          {userData?.token ? (
+            <>
+              {" "}
+              {activeTab === "Open Orders" && (
+                <>
+                  <div className="w-full p-3 max-md:hidden">
+                    <div className="w-full grid lg:grid-cols-4 md:grid-cols-2 grid-cols-1  gap-5 p-3">
+                      <SelectBox
+                        value={pair}
+                        title={"Pair"}
+                        show={show.pair}
+                        setShow={() => handleShow("pair")}
+                      >
+                        <div className="max-h-[200px] overflow-y-auto custom-scroll ">
+                          <div
+                            className={`text-[14px] font-normal leading-[22px] p-[10px]   ${
+                              dark
+                                ? "hover:bg-[#2B3139] text-[#929AA5]"
+                                : "hover:bg-[#EAECEF] text-[#757575] hover:text-[#000000]"
+                            }`}
+                            onClick={() => {
+                              setPair("All");
+                              handleShow("pair");
+                            }}
+                          >
+                            {"All"}
+                          </div>
+                          {Array.isArray(filterSearchData1) &&
+                            filterSearchData1?.map((item, index) => (
+                              <div
+                                key={index}
+                                className={`text-[14px] font-normal leading-[22px] p-[10px]   ${
+                                  dark
+                                    ? "hover:bg-[#2B3139] text-[#929AA5]"
+                                    : "hover:bg-[#EAECEF] text-[#757575] hover:text-[#000000]"
+                                }`}
+                                onClick={() => {
+                                  setPair(item?.pair_symbol);
+                                  handleShow("pair");
+                                }}
+                              >
+                                {item?.pair_symbol}
+                              </div>
+                            ))}{" "}
                         </div>
-                        {Array.isArray(searchData) &&
-                          searchData?.map((item, index) => (
-                            <div
-                              key={index}
-                              className={`text-[14px] font-normal leading-[22px] p-[10px]   ${
-                                dark
-                                  ? "hover:bg-[#2B3139] text-[#929AA5]"
-                                  : "hover:bg-[#EAECEF] text-[#757575] hover:text-[#000000]"
-                              }`}
-                              onClick={() => {
-                                setPair(item?.pair_symbol);
-                                handleShow("pair");
-                              }}
-                            >
-                              {item?.pair_symbol}
-                            </div>
-                          ))}{" "}
-                      </div>
-                    </SelectBox>
-                    <SelectBox
-                      value={direction}
-                      title={"Direction"}
-                      show={show.status}
-                      setShow={() => handleShow("status")}
-                    >
-                      <div>
-                        <div
-                          className={`text-[14px] font-normal leading-[22px] p-[10px]   ${
-                            dark
-                              ? "hover:bg-[#2B3139] text-[#929AA5]"
-                              : "hover:bg-[#EAECEF] text-[#757575] hover:text-[#000000]"
-                          }`}
-                          onClick={() => {
-                            setDirection("All");
-                            handleShow("status");
-                          }}
-                        >
-                          All
+                      </SelectBox>
+                      <SelectBox
+                        value={direction}
+                        title={"Direction"}
+                        show={show.status}
+                        setShow={() => handleShow("status")}
+                      >
+                        <div>
+                          <div
+                            className={`text-[14px] font-normal leading-[22px] p-[10px]   ${
+                              dark
+                                ? "hover:bg-[#2B3139] text-[#929AA5]"
+                                : "hover:bg-[#EAECEF] text-[#757575] hover:text-[#000000]"
+                            }`}
+                            onClick={() => {
+                              setDirection("All");
+                              handleShow("status");
+                            }}
+                          >
+                            All
+                          </div>
+                          <div
+                            className={`text-[14px] font-normal leading-[22px] p-[10px]   ${
+                              dark
+                                ? "hover:bg-[#2B3139] text-[#929AA5]"
+                                : "hover:bg-[#EAECEF] text-[#757575] hover:text-[#000000]"
+                            }`}
+                            onClick={() => {
+                              setDirection("Buy");
+                              handleShow("status");
+                            }}
+                          >
+                            Buy
+                          </div>
+                          <div
+                            className={`text-[14px] font-normal leading-[22px] p-[10px]   ${
+                              dark
+                                ? "hover:bg-[#2B3139] text-[#929AA5]"
+                                : "hover:bg-[#EAECEF] text-[#757575] hover:text-[#000000]"
+                            }`}
+                            onClick={() => {
+                              setDirection("Sell");
+                              handleShow("status");
+                            }}
+                          >
+                            Sell
+                          </div>
                         </div>
-                        <div
-                          className={`text-[14px] font-normal leading-[22px] p-[10px]   ${
-                            dark
-                              ? "hover:bg-[#2B3139] text-[#929AA5]"
-                              : "hover:bg-[#EAECEF] text-[#757575] hover:text-[#000000]"
-                          }`}
-                          onClick={() => {
-                            setDirection("Buy");
-                            handleShow("status");
-                          }}
-                        >
-                          Buy
-                        </div>
-                        <div
-                          className={`text-[14px] font-normal leading-[22px] p-[10px]   ${
-                            dark
-                              ? "hover:bg-[#2B3139] text-[#929AA5]"
-                              : "hover:bg-[#EAECEF] text-[#757575] hover:text-[#000000]"
-                          }`}
-                          onClick={() => {
-                            setDirection("Sell");
-                            handleShow("status");
-                          }}
-                        >
-                          Sell
-                        </div>
-                      </div>
-                    </SelectBox>
-                    <BinanceDatePicker
-                      onChange={(e) => setRange(e)}
-                      value={range}
-                    />
-                    <button
-                      className={`text-[16px] w-[40%] font-semibold
+                      </SelectBox>
+                      <BinanceDatePicker
+                        onChange={(e) => setRange(e)}
+                        value={range}
+                      />
+                      <button
+                        className={`text-[16px] w-[40%] font-semibold
         leading-[24px] ${
           dark ? "bg-[#333B47]" : "bg-[#EDEDED]"
         } p-2 rounded-[8px]`}
-                      onClick={orderReset}
-                    >
-                      Reset
-                    </button>
-                  </div>
-                  <table className="w-full">
-                    <thead className="h-[3rem]">
-                      <tr className="">
-                        <th
-                          className={`text-[12px] pl-1 pr-1 p-[4px]
+                        onClick={orderReset}
+                      >
+                        Reset
+                      </button>
+                    </div>
+                    <table className="w-full">
+                      <thead className="h-[3rem]">
+                        <tr className="">
+                          <th
+                            className={`text-[12px] pl-1 pr-1 p-[4px]
                           ${
                             dark ? "bg-[#181A20]" : " bg-white"
                           } z-10 sticky top-0
                            text-center text-[#707A8A] capitalize min-w-[8rem]`}
-                        >
-                          Date
-                        </th>
-                        <th
-                          className={`text-[12px] pl-1 pr-1 p-[4px] text-center text-[#707A8A]   ${
-                            dark ? "bg-[#181A20]" : " bg-white"
-                          } z-10 sticky top-0 min-w-[8rem] capitalize`}
-                        >
-                          Pair
-                        </th>
-                        <th
-                          className={`text-[12px] pl-1 pr-1 p-[4px] text-center ${
-                            dark ? "bg-[#181A20]" : " bg-white"
-                          } z-10 sticky top-0 text-[#707A8A] min-w-[8rem] capitalize`}
-                        >
-                          Type
-                        </th>
-                        <th
-                          className={`text-[12px] pl-1 pr-1 p-[4px] ${
-                            dark ? "bg-[#181A20]" : " bg-white"
-                          } z-10 sticky top-0 text-center text-[#707A8A] min-w-[8rem] capitalize`}
-                        >
-                          side
-                        </th>
-                        <th
-                          className={`text-[12px] pl-1 pr-1 p-[4px] ${
-                            dark ? "bg-[#181A20]" : " bg-white"
-                          } z-10 sticky top-0 text-center text-[#707A8A] min-w-[8rem] capitalize`}
-                        >
-                          price
-                        </th>
-                        <th
-                          className={`text-[12px] pl-1 pr-1 p-[4px] ${
-                            dark ? "bg-[#181A20]" : " bg-white"
-                          } z-10 sticky top-0 text-center text-[#707A8A] min-w-[8rem] capitalize`}
-                        >
-                          amount
-                        </th>
-                        <th
-                          className={`text-[12px] pl-1 pr-1 p-[4px] text-center ${
-                            dark ? "bg-[#181A20]" : " bg-white"
-                          } z-10 sticky top-0 text-[#707A8A] min-w-[8rem] capitalize`}
-                        >
-                          Filled
-                        </th>
-                        <th
-                          className={`text-[12px] pl-1 pr-1 p-[4px] ${
-                            dark ? "bg-[#181A20]" : " bg-white"
-                          } z-10 sticky top-0 text-center text-[#707A8A] min-w-[8rem] capitalize`}
-                        >
-                          status
-                        </th>
-                        <th
-                          className={`text-[12px] pl-1 pr-1 p-[4px] ${
-                            dark ? "bg-[#181A20]" : " bg-white"
-                          } z-10 sticky top-0 text-center text-[#707A8A] min-w-[8rem] capitalize`}
-                        >
-                          cancel
-                        </th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {!loading ? (
-                        <>
-                          {Array.isArray(filteredData1) &&
-                          filteredData1?.length > 0 ? (
-                            <>
-                              {Array.isArray(filteredData1) &&
-                                filteredData1?.map((item, index) => {
-                                  const date = formatDate(item?.created_at);
-                                  const percentage =
-                                    (item?.executed_base_quantity /
-                                      item?.base_quantity) *
-                                    100;
-                                  return (
-                                    <tr key={index}>
-                                      <td className="text-[12px]  pl-1 pr-1 p-[4px] text-center capitalize ">
-                                        {date}
-                                      </td>
-                                      <td className="text-[12px]  pl-1 pr-1 p-[4px] text-center uppercase">
-                                        {currentItem}
-                                      </td>
-                                      <td className="text-[12px]  pl-1 pr-1 p-[4px] text-center capitalize">
-                                        {item?.order_type}
-                                      </td>
-                                      <td className="text-[12px]  pl-1 pr-1 p-[4px] text-center capitalize">
-                                        {item?.type}
-                                      </td>
-                                      <td className="text-[12px]  pl-1 pr-1 p-[4px] text-center capitalize">
-                                        <div className="flex gap-2 items-center  justify-center cursor-pointer">
-                                          {item?.order_price}
-                                          <FaRegEdit
-                                            className="h-3 w-3"
-                                            onClick={() => {
-                                              handleDispatch();
-                                              setOrderId(item?.order_id);
-                                            }}
-                                          />
-                                        </div>
-                                        {orderId && showPopup && (
-                                          <div
-                                            className="absolute bottom-0  z-50"
-                                            ref={popupRef}
-                                          >
-                                            <ModifyPopup
-                                              orderId={orderId}
-                                              dark={dark}
-                                            />
-                                          </div>
-                                        )}
-                                      </td>
-                                      <td className="text-[12px]  pl-1 pr-1 p-[4px] text-center capitalize">
-                                        <div className="flex gap-2 items-center justify-center cursor-pointer">
-                                          {item?.base_quantity}
-                                          <FaRegEdit
-                                            onClick={() => {
-                                              handleDispatch();
-                                              setOrderId(item?.order_id);
-                                            }}
-                                          />
-                                        </div>
-                                      </td>
-                                      <td className="text-[12px]  pl-1 pr-1 p-[4px] text-center capitalize">
-                                        {percentage}%
-                                      </td>
-                                      <td className="text-[12px]  pl-1 pr-1 p-[4px] text-center capitalize">
-                                        {item?.status}
-                                      </td>
-                                      <td
-                                        className="text-[12px]  pl-1 pr-1 p-[4px] text-center capitalize cursor-pointer"
-                                        onClick={() => {
-                                          if (item?.order_id === pendingOrderId)
-                                            return;
-                                          setIsPopup(!isPopup);
-                                          setOrderId(item?.order_id);
-                                        }}
-                                      >
-                                        cancel
-                                        {isPopup && (
-                                          <ConfirmationBox
-                                            handleCancel={() =>
-                                              setIsPopup(!isPopup)
-                                            }
-                                            handleSubmit={() => {
-                                              deleteOrder(
-                                                orderId,
-                                                item?.pair_id
-                                              );
-                                              setIsPopup(!isPopup);
-                                            }}
-                                            message={
-                                              "Are you Sure you want to Delete this order?"
-                                            }
-                                            dark={dark}
-                                          />
-                                        )}
-                                      </td>
-                                    </tr>
-                                  );
-                                })}
-                            </>
-                          ) : (
-                            <tr>
-                              <td
-                                colSpan={13}
-                                rowSpan={6}
-                                className="text-center text-sm py-4"
-                              >
-                                <div className="flex items-center justify-center h-[300px] text-sm text-gray-400">
-                                  No Data found
-                                </div>
-                              </td>
-                            </tr>
-                          )}
-                        </>
-                      ) : (
-                        <tr>
-                          <td colSpan={13}>
-                            <div className="h-[10rem] w-full flex justify-center items-center">
-                              <ScaleLoader color="#FCD535" />
-                            </div>
-                          </td>
-                        </tr>
-                      )}
-                    </tbody>
-                  </table>
-                </div>
-              </>
-            )}
-            {activeTab === "Order History" && (
-              <>
-                <div className="p-3">
-                  <div className="w-full grid lg:grid-cols-4 md:grid-cols-2 grid-cols-1  gap-5 p-3">
-                    <SelectBox
-                      value={pair}
-                      title={"Pair"}
-                      show={show.date}
-                      setShow={() => handleShow("date")}
-                    >
-                      <div className="h-[200px] overflow-y-auto custom-scroll ">
-                        <div
-                          className={`text-[14px] font-normal leading-[22px] p-[10px]   ${
-                            dark
-                              ? "hover:bg-[#2B3139] text-[#929AA5]"
-                              : "hover:bg-[#EAECEF] text-[#757575] hover:text-[#000000]"
-                          }`}
-                          onClick={() => {
-                            setPair("All");
-                            handleShow("date");
-                          }}
-                        >
-                          {"All"}
-                        </div>
-                        {Array.isArray(searchData) &&
-                          searchData?.map((item, index) => (
-                            <div
-                              key={index}
-                              className={`text-[14px] font-normal leading-[22px] p-[10px]   ${
-                                dark
-                                  ? "hover:bg-[#2B3139] text-[#929AA5]"
-                                  : "hover:bg-[#EAECEF] text-[#757575] hover:text-[#000000]"
-                              }`}
-                              onClick={() => {
-                                setPair(item?.pair_symbol);
-                                handleShow("date");
-                              }}
-                            >
-                              {item?.pair_symbol}
-                            </div>
-                          ))}{" "}
-                      </div>
-                    </SelectBox>
-                    <SelectBox
-                      value={direction}
-                      title={"Direction"}
-                      setShow={() => handleShow("direction")}
-                      show={show.direction}
-                    >
-                      <div>
-                        <div
-                          className={`text-[14px] font-normal leading-[22px] p-[10px]   ${
-                            dark
-                              ? "hover:bg-[#2B3139] text-[#929AA5]"
-                              : "hover:bg-[#EAECEF] text-[#757575] hover:text-[#000000]"
-                          }`}
-                          onClick={() => {
-                            setDirection("All");
-                            handleShow("direction");
-                          }}
-                        >
-                          All
-                        </div>
-                        <div
-                          className={`text-[14px] font-normal leading-[22px] p-[10px]   ${
-                            dark
-                              ? "hover:bg-[#2B3139] text-[#929AA5]"
-                              : "hover:bg-[#EAECEF] text-[#757575] hover:text-[#000000]"
-                          }`}
-                          onClick={() => {
-                            setDirection("Buy");
-                            handleShow("direction");
-                          }}
-                        >
-                          Buy
-                        </div>
-                        <div
-                          className={`text-[14px] font-normal leading-[22px] p-[10px]   ${
-                            dark
-                              ? "hover:bg-[#2B3139] text-[#929AA5]"
-                              : "hover:bg-[#EAECEF] text-[#757575] hover:text-[#000000]"
-                          }`}
-                          onClick={() => {
-                            setDirection("Sell");
-                            handleShow("direction");
-                          }}
-                        >
-                          Sell
-                        </div>
-                      </div>
-                    </SelectBox>
-                    <BinanceDatePicker
-                      onChange={(e) => setRange(e)}
-                      value={range}
-                    />
-                    <button
-                      className={`text-[16px] w-[40%] font-semibold
-        leading-[24px] ${
-          dark ? "bg-[#333B47]" : "bg-[#EDEDED]"
-        } p-2 rounded-[8px]`}
-                      onClick={orderReset}
-                    >
-                      Reset
-                    </button>
-                  </div>
-                  <div className="w-full">
-                    <table className="min-w-[700px] w-full text-[12px] border-separate border-spacing-0">
-                      <thead>
-                        <tr
-                          className={`${
-                            dark ? "bg-[#2a2e39] text-white" : "bg-zinc-100 "
-                          }`}
-                        >
-                          {[
-                            "Date",
-                            "Pair",
-                            "Type",
-                            "Side",
-                            "Price",
-                            "Amount",
-                            "Status",
-                          ].map((header, idx) => (
-                            <th
-                              key={idx}
-                              className={`text-[12px] pl-1 pr-1 p-[4px] ${
-                                dark ? "bg-[#181A20]" : " bg-white"
-                              } z-10 sticky top-0 text-center text-[#707A8A] min-w-[8rem] capitalize`}
-                            >
-                              {header}
-                            </th>
-                          ))}
+                          >
+                            Date
+                          </th>
+                          <th
+                            className={`text-[12px] pl-1 pr-1 p-[4px] text-center text-[#707A8A]   ${
+                              dark ? "bg-[#181A20]" : " bg-white"
+                            } z-10 sticky top-0 min-w-[8rem] capitalize`}
+                          >
+                            Pair
+                          </th>
+                          <th
+                            className={`text-[12px] pl-1 pr-1 p-[4px] text-center ${
+                              dark ? "bg-[#181A20]" : " bg-white"
+                            } z-10 sticky top-0 text-[#707A8A] min-w-[8rem] capitalize`}
+                          >
+                            Type
+                          </th>
+                          <th
+                            className={`text-[12px] pl-1 pr-1 p-[4px] ${
+                              dark ? "bg-[#181A20]" : " bg-white"
+                            } z-10 sticky top-0 text-center text-[#707A8A] min-w-[8rem] capitalize`}
+                          >
+                            side
+                          </th>
+                          <th
+                            className={`text-[12px] pl-1 pr-1 p-[4px] ${
+                              dark ? "bg-[#181A20]" : " bg-white"
+                            } z-10 sticky top-0 text-center text-[#707A8A] min-w-[8rem] capitalize`}
+                          >
+                            price
+                          </th>
+                          <th
+                            className={`text-[12px] pl-1 pr-1 p-[4px] ${
+                              dark ? "bg-[#181A20]" : " bg-white"
+                            } z-10 sticky top-0 text-center text-[#707A8A] min-w-[8rem] capitalize`}
+                          >
+                            amount
+                          </th>
+                          <th
+                            className={`text-[12px] pl-1 pr-1 p-[4px] text-center ${
+                              dark ? "bg-[#181A20]" : " bg-white"
+                            } z-10 sticky top-0 text-[#707A8A] min-w-[8rem] capitalize`}
+                          >
+                            Filled
+                          </th>
+                          <th
+                            className={`text-[12px] pl-1 pr-1 p-[4px] ${
+                              dark ? "bg-[#181A20]" : " bg-white"
+                            } z-10 sticky top-0 text-center text-[#707A8A] min-w-[8rem] capitalize`}
+                          >
+                            status
+                          </th>
+                          <th
+                            className={`text-[12px] pl-1 pr-1 p-[4px] ${
+                              dark ? "bg-[#181A20]" : " bg-white"
+                            } z-10 sticky top-0 text-center text-[#707A8A] min-w-[8rem] capitalize`}
+                          >
+                            cancel
+                          </th>
                         </tr>
                       </thead>
                       <tbody>
-                        <>
-                          {Array.isArray(filteredData) &&
-                          filteredData.length > 0 ? (
-                            filteredData.map((item, index) => {
-                              const date = formatDate(item?.date_time);
-                              const isEven = index % 2 === 0;
-                              return (
-                                <tr
-                                  key={index}
-                                  className={`
+                        {!loading ? (
+                          <>
+                            {Array.isArray(filteredData1) &&
+                            filteredData1?.length > 0 ? (
+                              <>
+                                {Array.isArray(filteredData1) &&
+                                  filteredData1?.map((item, index) => {
+                                    const date = formatDate(item?.created_at);
+                                    const percentage =
+                                      (item?.executed_base_quantity /
+                                        item?.base_quantity) *
+                                      100;
+                                    return (
+                                      <tr key={index}>
+                                        <td className="text-[12px]  pl-1 pr-1 p-[4px] text-center capitalize ">
+                                          {date}
+                                        </td>
+                                        <td className="text-[12px]  pl-1 pr-1 p-[4px] text-center uppercase">
+                                          {currentItem}
+                                        </td>
+                                        <td className="text-[12px]  pl-1 pr-1 p-[4px] text-center capitalize">
+                                          {item?.order_type}
+                                        </td>
+                                        <td className="text-[12px]  pl-1 pr-1 p-[4px] text-center capitalize">
+                                          {item?.type}
+                                        </td>
+                                        <td className="text-[12px]  pl-1 pr-1 p-[4px] text-center capitalize">
+                                          <div className="flex gap-2 items-center  justify-center cursor-pointer">
+                                            {item?.order_price}
+                                            <FaRegEdit
+                                              className="h-3 w-3"
+                                              onClick={() => {
+                                                handleDispatch();
+                                                setOrderId(item?.order_id);
+                                              }}
+                                            />
+                                          </div>
+                                          {orderId && showPopup && (
+                                            <div
+                                              className="absolute bottom-0  z-50"
+                                              ref={popupRef}
+                                            >
+                                              <ModifyPopup
+                                                orderId={orderId}
+                                                dark={dark}
+                                              />
+                                            </div>
+                                          )}
+                                        </td>
+                                        <td className="text-[12px]  pl-1 pr-1 p-[4px] text-center capitalize">
+                                          <div className="flex gap-2 items-center justify-center cursor-pointer">
+                                            {item?.base_quantity}
+                                            <FaRegEdit
+                                              onClick={() => {
+                                                handleDispatch();
+                                                setOrderId(item?.order_id);
+                                              }}
+                                            />
+                                          </div>
+                                        </td>
+                                        <td className="text-[12px]  pl-1 pr-1 p-[4px] text-center capitalize">
+                                          {percentage}%
+                                        </td>
+                                        <td className="text-[12px]  pl-1 pr-1 p-[4px] text-center capitalize">
+                                          {item?.status}
+                                        </td>
+                                        <td
+                                          className="text-[12px]  pl-1 pr-1 p-[4px] text-center capitalize cursor-pointer"
+                                          onClick={() => {
+                                            if (
+                                              item?.order_id === pendingOrderId
+                                            )
+                                              return;
+                                            setIsPopup(!isPopup);
+                                            setOrderId(item?.order_id);
+                                          }}
+                                        >
+                                          cancel
+                                          {isPopup && (
+                                            <ConfirmationBox
+                                              handleCancel={() =>
+                                                setIsPopup(!isPopup)
+                                              }
+                                              handleSubmit={() => {
+                                                deleteOrder(
+                                                  orderId,
+                                                  item?.pair_id
+                                                );
+                                                setIsPopup(!isPopup);
+                                              }}
+                                              message={
+                                                "Are you Sure you want to Delete this order?"
+                                              }
+                                              dark={dark}
+                                            />
+                                          )}
+                                        </td>
+                                      </tr>
+                                    );
+                                  })}
+                              </>
+                            ) : (
+                              <tr>
+                                <td
+                                  colSpan={13}
+                                  rowSpan={6}
+                                  className="text-center text-sm py-4"
+                                >
+                                  <div className="flex items-center justify-center h-[300px] text-sm text-gray-400">
+                                    No Data found
+                                  </div>
+                                </td>
+                              </tr>
+                            )}
+                          </>
+                        ) : (
+                          <tr>
+                            <td colSpan={13}>
+                              <div className="h-[10rem] w-full flex justify-center items-center">
+                                <ScaleLoader color="#FCD535" />
+                              </div>
+                            </td>
+                          </tr>
+                        )}
+                      </tbody>
+                    </table>
+                  </div>
+                  <div
+                    className={`h-full ${
+                      dark
+                        ? "border-[#333B47] bg-[#181A20] "
+                        : "border-[#EAECEF] bg-white"
+                    } w-full md:hidden`}
+                  >
+                    {Array.isArray(openOrder) && openOrder?.length > 0 ? (
+                      <div className="p-2">
+                        {Array.isArray(openOrder) &&
+                          openOrder?.map((item, index) => {
+                            const date = formatDate(item?.created_at);
+                            const percentage =
+                              (item?.executed_base_quantity /
+                                item?.base_quantity) *
+                              100;
+                            return (
+                              <div
+                                className={`flex justify-between  ${
+                                  dark
+                                    ? "border-[#333B47] bg-[#181A20] "
+                                    : "border-[#EAECEF] bg-white"
+                                } p-3 border-b-1 `}
+                                key={index}
+                              >
+                                <div className="flex gap-6">
+                                  <div className="flex flex-col gap-2 justify-center items-center">
+                                    <div>
+                                      {item?.order_type}/{item?.type}
+                                    </div>
+                                    <div className="h-14 w-14 rounded-full">
+                                      <Progressbar value={percentage} />
+                                    </div>
+                                  </div>
+                                  <div className="flex flex-col justify-between">
+                                    <div>BTCUSDT</div>
+                                    <div className="flex gap-4">
+                                      <div className="flex flex-col gap-2">
+                                        <div>Amount</div>
+                                        <div>price</div>
+                                      </div>
+                                      <div className="flex flex-col gap-2">
+                                        <div>{item?.base_quantity}</div>
+                                        <div>{item?.order_price}</div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                                <div className="flex flex-col justify-between">
+                                  <div className="min-w-max">{date}</div>
+                                  <div className="justify-end flex">
+                                    <FaRegEdit
+                                      onClick={() => {
+                                        handleDispatch();
+                                        setOrderId(item?.order_id);
+                                      }}
+                                    />
+                                  </div>
+                                  <div
+                                    className="flex justify-end"
+                                    onClick={() => {
+                                      setIsPopup(!isPopup);
+                                      setOrderId(item?.order_id);
+                                    }}
+                                  >
+                                    Cancel
+                                    {isPopup && (
+                                      <ConfirmationBox
+                                        handleCancel={() =>
+                                          setIsPopup(!isPopup)
+                                        }
+                                        handleSubmit={() => {
+                                          deleteOrder(orderId, item?.pair_id);
+                                          setIsPopup(!isPopup);
+                                        }}
+                                        message={
+                                          "Are you Sure you want to Delete this order?"
+                                        }
+                                        dark={dark}
+                                      />
+                                    )}
+                                  </div>
+                                </div>
+                              </div>
+                            );
+                          })}
+                      </div>
+                    ) : (
+                      <div
+                        className={`flex ${
+                          dark
+                            ? "border-[#333B47] bg-[#181A20] "
+                            : "border-[#EAECEF] bg-white"
+                        } justify-center text-gray-400 items-center text-sm h-full w-full`}
+                      >
+                        No Data found
+                      </div>
+                    )}
+                  </div>
+                </>
+              )}
+              {activeTab === "Order History" && (
+                <>
+                  <div className="p-3 max-md:hidden">
+                    <div className="w-full grid lg:grid-cols-4 md:grid-cols-2 grid-cols-1  gap-5 p-3">
+                      <SelectBox
+                        value={pair}
+                        title={"Pair"}
+                        show={show.date}
+                        setShow={() => handleShow("date")}
+                      >
+                        <div className="h-[200px] overflow-y-auto custom-scroll ">
+                          <div
+                            className={`text-[14px] font-normal leading-[22px] p-[10px]   ${
+                              dark
+                                ? "hover:bg-[#2B3139] text-[#929AA5]"
+                                : "hover:bg-[#EAECEF] text-[#757575] hover:text-[#000000]"
+                            }`}
+                            onClick={() => {
+                              setPair("All");
+                              handleShow("date");
+                            }}
+                          >
+                            {"All"}
+                          </div>
+                          {Array.isArray(filterSearchData) &&
+                            filterSearchData?.map((item, index) => (
+                              <div
+                                key={index}
+                                className={`text-[14px] font-normal leading-[22px] p-[10px]   ${
+                                  dark
+                                    ? "hover:bg-[#2B3139] text-[#929AA5]"
+                                    : "hover:bg-[#EAECEF] text-[#757575] hover:text-[#000000]"
+                                }`}
+                                onClick={() => {
+                                  setPair(item?.pair_symbol);
+                                  handleShow("date");
+                                }}
+                              >
+                                {item?.pair_symbol}
+                              </div>
+                            ))}{" "}
+                        </div>
+                      </SelectBox>
+                      <SelectBox
+                        value={direction}
+                        title={"Direction"}
+                        setShow={() => handleShow("direction")}
+                        show={show.direction}
+                      >
+                        <div>
+                          <div
+                            className={`text-[14px] font-normal leading-[22px] p-[10px]   ${
+                              dark
+                                ? "hover:bg-[#2B3139] text-[#929AA5]"
+                                : "hover:bg-[#EAECEF] text-[#757575] hover:text-[#000000]"
+                            }`}
+                            onClick={() => {
+                              setDirection("All");
+                              handleShow("direction");
+                            }}
+                          >
+                            All
+                          </div>
+                          <div
+                            className={`text-[14px] font-normal leading-[22px] p-[10px]   ${
+                              dark
+                                ? "hover:bg-[#2B3139] text-[#929AA5]"
+                                : "hover:bg-[#EAECEF] text-[#757575] hover:text-[#000000]"
+                            }`}
+                            onClick={() => {
+                              setDirection("Buy");
+                              handleShow("direction");
+                            }}
+                          >
+                            Buy
+                          </div>
+                          <div
+                            className={`text-[14px] font-normal leading-[22px] p-[10px]   ${
+                              dark
+                                ? "hover:bg-[#2B3139] text-[#929AA5]"
+                                : "hover:bg-[#EAECEF] text-[#757575] hover:text-[#000000]"
+                            }`}
+                            onClick={() => {
+                              setDirection("Sell");
+                              handleShow("direction");
+                            }}
+                          >
+                            Sell
+                          </div>
+                        </div>
+                      </SelectBox>
+                      <BinanceDatePicker
+                        onChange={(e) => setRange(e)}
+                        value={range}
+                      />
+                      <button
+                        className={`text-[16px] w-[40%] font-semibold
+        leading-[24px] ${
+          dark ? "bg-[#333B47]" : "bg-[#EDEDED]"
+        } p-2 rounded-[8px]`}
+                        onClick={orderReset}
+                      >
+                        Reset
+                      </button>
+                    </div>
+                    <div className="w-full">
+                      <table className="min-w-[700px] w-full text-[12px] border-separate border-spacing-0">
+                        <thead>
+                          <tr
+                            className={`${
+                              dark ? "bg-[#2a2e39] text-white" : "bg-zinc-100 "
+                            }`}
+                          >
+                            {[
+                              "Date",
+                              "Pair",
+                              "Type",
+                              "Side",
+                              "Price",
+                              "Quantity",
+                              "Amount (USDT)",
+                              "Status",
+                            ].map((header, idx) => (
+                              <th
+                                key={idx}
+                                className={`text-[12px] pl-1 pr-1 p-[4px] ${
+                                  dark ? "bg-[#181A20]" : " bg-white"
+                                } z-10 sticky top-0 text-center text-[#707A8A] min-w-[8rem] capitalize`}
+                              >
+                                {header}
+                              </th>
+                            ))}
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <>
+                            {Array.isArray(filteredData) &&
+                            filteredData.length > 0 ? (
+                              filteredData.map((item, index) => {
+                                const date = formatDate(item?.date_time);
+                                const isEven = index % 2 === 0;
+                                return (
+                                  <tr
+                                    key={index}
+                                    className={`
                                 ${
                                   dark
                                     ? "bg-[#1e1f25]"
@@ -681,88 +820,257 @@ export const SpotOrders = () => {
                                       "bg-white "
                                   // : "bg-zinc-100"
                                 } transition-all duration-200`}
+                                  >
+                                    <td className="p-1 text-center whitespace-nowrap">
+                                      {date}
+                                    </td>
+                                    <td className="p-1 text-center uppercase whitespace-nowrap">
+                                      {item?.pair_symbol}
+                                    </td>
+                                    <td className="p-1 text-center capitalize text-blue-400 whitespace-nowrap">
+                                      {item?.order_type}
+                                    </td>
+                                    <td
+                                      className={`p-1 text-center capitalize whitespace-nowrap ${
+                                        item?.type?.toLowerCase() === "buy"
+                                          ? "text-green-400"
+                                          : "text-red-400"
+                                      }`}
+                                    >
+                                      {item?.type}
+                                    </td>
+                                    <td className="p-1 text-center  whitespace-nowrap">
+                                      {item?.order_price}
+                                    </td>
+                                    <td className="p-1 text-center whitespace-nowrap">
+                                      {item?.executed_base_quantity}
+                                    </td>
+                                    <td className="p-1 text-center whitespace-nowrap">
+                                      {item?.executed_quote_quantity}
+                                    </td>
+                                    <td
+                                      className={`p-1 text-center capitalize whitespace-nowrap ${
+                                        item?.status === "FILLED"
+                                          ? "text-green-400"
+                                          : item?.status === "pending"
+                                          ? "text-yellow-400"
+                                          : "text-red-400"
+                                      }`}
+                                    >
+                                      {item?.status}
+                                    </td>
+                                  </tr>
+                                );
+                              })
+                            ) : (
+                              <tr>
+                                <td
+                                  colSpan={8}
+                                  className="text-center py-10 text-gray-400"
                                 >
-                                  <td className="p-1 text-center whitespace-nowrap">
-                                    {date}
-                                  </td>
-                                  <td className="p-1 text-center uppercase whitespace-nowrap">
-                                    {item?.pair_symbol}
-                                  </td>
-                                  <td className="p-1 text-center capitalize text-blue-400 whitespace-nowrap">
-                                    {item?.order_type}
-                                  </td>
-                                  <td
-                                    className={`p-1 text-center capitalize whitespace-nowrap ${
-                                      item?.type?.toLowerCase() === "buy"
-                                        ? "text-green-400"
-                                        : "text-red-400"
-                                    }`}
-                                  >
-                                    {item?.type}
-                                  </td>
-                                  <td className="p-1 text-center  whitespace-nowrap">
-                                    {item?.order_price}
-                                  </td>
-                                  <td className="p-1 text-center whitespace-nowrap">
-                                    {item?.base_quantity}
-                                  </td>
-                                  <td
-                                    className={`p-1 text-center capitalize whitespace-nowrap ${
-                                      item?.status === "FILLED"
-                                        ? "text-green-400"
-                                        : item?.status === "pending"
-                                        ? "text-yellow-400"
-                                        : "text-red-400"
-                                    }`}
-                                  >
-                                    {item?.status}
-                                  </td>
-                                </tr>
-                              );
-                            })
-                          ) : (
-                            <tr>
-                              <td
-                                colSpan={8}
-                                className="text-center py-10 text-gray-400"
+                                  No Data Found
+                                </td>
+                              </tr>
+                            )}
+                          </>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                  <div className="md:hidden">
+                    {Array.isArray(orderHistory) && orderHistory?.length > 0 ? (
+                      <>
+                        {Array.isArray(orderHistory) &&
+                          orderHistory?.map((item, index) => {
+                            const date = formatDate(item?.date_time);
+                            return (
+                              <div
+                                className={`flex justify-between border-b-1 ${
+                                  dark ? "border-[#333B47]" : "border-[#EAECEF]"
+                                } p-[16px_0px_16px_0px]`}
+                                key={index}
                               >
-                                No Data Found
-                              </td>
-                            </tr>
+                                <div className="flex flex-col justify-between gap-3">
+                                  <div className="flex flex-col gap-1">
+                                    <div>{item?.pair_symbol}</div>
+                                    <div
+                                      className={`${
+                                        item?.type === "BUY"
+                                          ? "text-[#2EBD85] "
+                                          : "text-[#F6465D] "
+                                      }`}
+                                    >
+                                      {item?.order_type}/{item?.type}
+                                    </div>
+                                  </div>
+                                  <div className="flex flex-col gap-1">
+                                    <div>Amount</div>
+                                    <div>Price</div>
+                                  </div>
+                                </div>
+                                <div className="flex flex-col justify-between gap-3">
+                                  <div className="flex flex-col gap-1 items-end">
+                                    <div>{date}</div>
+                                    <div>{item?.status}</div>
+                                  </div>
+                                  <div className="flex flex-col gap-1 items-end">
+                                    <div>
+                                      {item?.executed_base_quantity}/
+                                      {item?.base_quantity}
+                                    </div>
+                                    <div>{item?.order_price}</div>
+                                  </div>
+                                </div>
+                              </div>
+                            );
+                          })}
+                      </>
+                    ) : (
+                      <div className="h-full w-full flex justify-center items-center">
+                        No Data Found
+                      </div>
+                    )}
+                  </div>
+                </>
+              )}
+              {/* <div className="h-[400px] overflow-y-auto md:hidden"> */}
+              {/* {activeTab === "Order History" && (
+                <div
+                  className={`p-4 ${
+                    dark
+                      ? "border-[#333B47] bg-[#181A20] "
+                      : "border-[#EAECEF] bg-white"
+                  }`}
+                >
+                  {Array.isArray(fundData?.data) &&
+                  fundData?.data?.length > 0 ? (
+                    <>
+                      {fundData?.data?.map((item, index) => (
+                        <>
+                          {item?.balance > 0 && (
+                            <div
+                              key={index}
+                              className={` border-b-1 flex flex-col gap-2 p-2 ${
+                                dark
+                                  ? "border-[#333B47] bg-[#181A20] "
+                                  : "border-[#EAECEF] bg-white"
+                              }`}
+                            >
+                              <div
+                                className={`${
+                                  dark ? "text-[#EAECEF]" : "text-[#202630]"
+                                }`}
+                              >
+                                {item?.symbol}
+                              </div>
+                              <div className={`flex flex-col gap-2 `}>
+                                <div className="flex justify-between">
+                                  <div
+                                    className={`${
+                                      dark ? "text-[#4F5867]" : "text-[#B7BDC6]"
+                                    }`}
+                                  >
+                                    Total Balance
+                                  </div>
+                                  <div
+                                    className={`${
+                                      dark ? "text-[#EAECEF]" : "text-[#202630]"
+                                    }`}
+                                  >
+                                    {item?.balance}
+                                  </div>
+                                </div>
+                                <div className="flex justify-between">
+                                  <div
+                                    className={`${
+                                      dark ? "text-[#4F5867]" : "text-[#B7BDC6]"
+                                    }`}
+                                  >
+                                    Available Balance
+                                  </div>
+                                  <div
+                                    className={`${
+                                      dark ? "text-[#EAECEF]" : "text-[#202630]"
+                                    }`}
+                                  >
+                                    {item?.balance}
+                                  </div>
+                                </div>
+                                <div className="flex justify-between">
+                                  <div
+                                    className={`${
+                                      dark ? "text-[#4F5867]" : "text-[#B7BDC6]"
+                                    }`}
+                                  >
+                                    In Order
+                                  </div>
+                                  <div
+                                    className={`${
+                                      dark ? "text-[#EAECEF]" : "text-[#202630]"
+                                    }`}
+                                  >
+                                    {0}
+                                  </div>
+                                </div>
+                                <div className="flex justify-between">
+                                  <div
+                                    className={`${
+                                      dark ? "text-[#4F5867]" : "text-[#B7BDC6]"
+                                    }`}
+                                  >
+                                    BTC Value
+                                  </div>
+                                  <div
+                                    className={`${
+                                      dark ? "text-[#EAECEF]" : "text-[#202630]"
+                                    }`}
+                                  >
+                                    {0}
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
                           )}
                         </>
-                      </tbody>
-                    </table>
-                  </div>
+                      ))}
+                    </>
+                  ) : (
+                    <div
+                      className={`flex items-center justify-center h-[300px] text-sm text-gray-400`}
+                    >
+                      No Data found
+                    </div>
+                  )}
                 </div>
-              </>
-            )}
-          </>
-        ) : (
-          <div className="h-full w-full flex justify-center items-center">
-            <button
-              className="flex  items-center cursor-pointer"
-              name="login_singup"
-            >
-              <pre
-                className="text-[#2EDBAD]"
-                onClick={() => navigate("/login")}
+              )} */}
+              {/* </div> */}
+            </>
+          ) : (
+            <div className="h-full w-full flex justify-center items-center">
+              <button
+                className="flex  items-center cursor-pointer"
+                name="login_singup"
               >
-                Log In{" "}
-              </pre>
-              or
-              <pre
-                className="text-[#2EDBAD]"
-                onClick={() => navigate("/register")}
-              >
-                {" "}
-                Register Now{" "}
-              </pre>
-              to trade
-            </button>
-          </div>
-        )}
+                <pre
+                  className="text-[#2EDBAD]"
+                  onClick={() => navigate("/login")}
+                >
+                  Log In{" "}
+                </pre>
+                or
+                <pre
+                  className="text-[#2EDBAD]"
+                  onClick={() => navigate("/register")}
+                >
+                  {" "}
+                  Register Now{" "}
+                </pre>
+                to trade
+              </button>
+            </div>
+          )}
+        </div>
       </div>
-    </div>
+    </>
   );
 };

@@ -75,17 +75,17 @@ const CryptoInput = ({
             }`}
           >
             <button
-              className="up-btn"
+              className="up-btn flex justify-center items-center"
               onClick={increase}
               name="up-btn"
               style={{
                 borderBottom: `1px solid ${dark ? "#474D57" : "#474D57"}`,
               }}
             >
-              <RiArrowUpSFill />
+              <RiArrowUpSFill className="size-[22px] "/>
             </button>
-            <button className="down-btn" onClick={decrease} name="down-btn">
-              <RiArrowDownSFill  />
+            <button className="down-btn flex justify-center items-center" onClick={decrease} name="down-btn">
+              <RiArrowDownSFill className="size-[22px]" />
             </button>
           </div>
         </div>

@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { ScaleLoader } from "react-spinners";
 import { useNavigate } from "react-router-dom";
-import { allMover } from "../../Spot/Apis/apiCall";
+import { allMover, TopMoves } from "../../Spot/Apis/apiCall";
 import { HeroSection } from "../EstimateBalance/heroCard";
 import { setSearchQuery } from "../../Store/webSocket";
 
@@ -33,7 +33,7 @@ export const Dashboard = () => {
     }
   }, []);
   return (
-    <div className="w-full p-5 flex flex-col gap-3">
+    <div className="w-full md:p-5 flex flex-col gap-3">
       <div className="flex justify-between w-full p-5">
         <div className="flex gap-4">
           <div className="h-14 w-14 rounded-full overflow-hidden">
@@ -79,14 +79,14 @@ export const Dashboard = () => {
       <div
         className={` h-[500px]  ${
           dark ? "border-[#333B47]" : "border-[#EDEDED]"
-        } border-1 w-full justify-between p-5 rounded-2xl`}
+        } md:border-1 w-full justify-between md:p-5 rounded-2xl`}
       >
         <div className="w-full flex justify-between">
           <div>Markets</div>
           <div>More</div>
         </div>
         <div>
-          <div className="flex gap-4">
+          <div className="flex gap-1">
             {tabs.map((tab) => (
               <button
                 name="item1"
@@ -106,7 +106,7 @@ export const Dashboard = () => {
           </div>
           <div className="overflow-y-auto h-[400px]">
             <table className="w-full">
-              <thead>
+              <thead className="max-md:hidden">
                 <tr className="font-light text-[16px]">
                   <th className="text-left p-[20px] text-[14px] font-light">
                     Coin
@@ -171,7 +171,7 @@ export const Dashboard = () => {
                           </div>
                         </td>
                         <td
-                          className={`text-right ${
+                          className={`text-right max-md:hidden ${
                             dark ? "text-[#2EDBAD]" : " text-[#2EDBAD]"
                           } underline`}
                         >

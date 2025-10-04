@@ -40,7 +40,11 @@ export const Security = () => {
               <div>Two-Factor Authentication (2FA)</div>
             </div>
             <div className="flex gap-3 items-center">
-              <RxCrossCircled />
+              {userProfile?.kyc_level !== 0 ? (
+                <IoIosCheckmarkCircleOutline className=" text-green-400 size-[18px]" />
+              ) : (
+                <RxCrossCircled />
+              )}
               <div>Identity Verification</div>
             </div>
             <div className="flex gap-3 items-center">
@@ -53,15 +57,15 @@ export const Security = () => {
             </div>
             <div className="flex gap-3 items-center">
               {!userProfile?.withdrawal_password ? (
-                    <>
-                      <RxCrossCircled />
-                    </>
-                  ) : (
-                    <>
-                      <IoIosCheckmarkCircleOutline className=" text-green-400 size-[18px]" />{" "}
-                    </>
-                  )}
-              <div>Withdrawal Whitelist</div>
+                <>
+                  <RxCrossCircled />
+                </>
+              ) : (
+                <>
+                  <IoIosCheckmarkCircleOutline className=" text-green-400 size-[18px]" />{" "}
+                </>
+              )}
+              <div>Withdrawal Password</div>
             </div>
           </div>
         </div>
@@ -284,7 +288,7 @@ export const Security = () => {
                 } p-[6px_12px_6px_12px] rounded-[8px]`}
                 onClick={() => navigate("/security/anti-phishing-code")}
               >
-                {userProfile?.anti_phishing_code?"Update":"Enable"}
+                {userProfile?.anti_phishing_code ? "Update" : "Enable"}
               </button>
             </div>
           </div>
@@ -320,9 +324,11 @@ export const Security = () => {
           </div>
           <div className="flex justify-between flex-col md:flex-row  gap-2">
             <div className="flex gap-5">
-               <CgPassword className="size-6" />
+              <CgPassword className="size-6" />
               <div className="flex flex-col gap-1 md:w-1/2">
-                <div className="text-[16px] whitespace-nowrap">Withdrawal Password</div>
+                <div className="text-[16px] whitespace-nowrap">
+                  Withdrawal Password
+                </div>
                 <div className="text-[#707A8A] text-[14px] font-normal leading-[20px]">
                   Once this function is enabled, your account will be able to
                   withdraw to addresses.
@@ -349,7 +355,9 @@ export const Security = () => {
                   } p-[6px_12px_6px_12px] rounded-[8px]`}
                   onClick={() => navigate("/security/manage-withdraw-password")}
                 >
-                  {!userProfile?.withdrawal_password?"Enable":"Update Password"}
+                  {!userProfile?.withdrawal_password
+                    ? "Enable"
+                    : "Update Password"}
                 </button>
               </div>
             </div>

@@ -48,7 +48,7 @@ export const LayoutWeb = ({ component }) => {
         )}
       </div>
       {!activeItem && (
-        <footer className="mt-[100px] p-10">
+        <footer className="mt-[100px] md:p-10 p-4">
           <Footer />
         </footer>
       )}
