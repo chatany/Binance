@@ -124,7 +124,7 @@ export const MenuItem = [
   { icon: <FaUserPlus className="size-5"/>, name: "Referral", path: "/Referral" },
   { icon: <PiTicketBold className="size-5"/> , name: "Rewards Hub", path: "/Reward" },
   // { icon: <RiAccountCircle2Line />, name: "Sub Accounts" },
-  { icon: <IoSettings className="size-5" />, name: "Settings", path: "/settings" },
+  // { icon: <IoSettings className="size-5" />, name: "Settings", path: "/settings" },
   // { icon: <CgArrowsExchangeV />, name: "Switch Account" },
   { icon: <CiLogout className="size-5" />, name: "Log Out" },
 ];
@@ -161,7 +161,7 @@ export const menu = [
     ],
   },
   // { icon: <RiAccountCircle2Line />, name: "Sub Accounts", path: "#" },
-  { icon: <IoSettings className="size-5" />, name: "Settings", path: "/settings" },
+  // { icon: <IoSettings className="size-5" />, name: "Settings", path: "/settings" },
 ];
 export const formatDecimal = (value, decimalPlaces) => {
   const num = Number(value);

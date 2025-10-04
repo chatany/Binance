@@ -255,7 +255,7 @@ export const ModifyPopup = ({ orderId }) => {
       style={{ boxShadow: "0px 0px 40px 0px rgb(0,0,0,0.10)" }}
       ref={popupRef}
     >
-      <div className=" flex flex-col gap-4 mb-8 pb-5">
+      <div className=" flex flex-col gap-4 max-md:mb-8 max-md:pb-5">
         <div className="text-[16px]  flex justify-between w-full items-center p-2">
           Modify Order
           <IoCloseSharp

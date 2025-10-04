@@ -1,6 +1,13 @@
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
-import { getActivity, getAuth, getAuthenticationKey, getFundsData, getUserProfile } from "../../Spot/Apis/apiCall";
+import {
+  getActivity,
+  getAllOpenOrders,
+  getAuth,
+  getAuthenticationKey,
+  getFundsData,
+  getUserProfile,
+} from "../../Spot/Apis/apiCall";
 import { TopNav } from "../../Spot/Navbar/TopNavBar";
 import { Menu } from "../Menubar/menu";
 import { Footer } from "../../Spot/Footer/Footer";
@@ -22,6 +29,7 @@ export const LayoutWeb = ({ component }) => {
       getActivity(dispatch);
       getUserProfile(dispatch);
       getFundsData(dispatch);
+      getAllOpenOrders(dispatch);
     }
     setTimeout(() => {
       setIsLoading(false);

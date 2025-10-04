@@ -7,7 +7,7 @@ import { setIsSuccess, setShowPopup } from "../../Store/webSocket";
 import { ScaleLoader } from "react-spinners";
 import { ModifyPopup } from "./Modify/popup";
 import { FaRegEdit } from "react-icons/fa";
-import { useDeviceInfo } from "../../Hooks/useDeviceInfo"
+import { useDeviceInfo } from "../../Hooks/useDeviceInfo";
 import { Loder } from "../../Common/Loder";
 import { ConfirmationBox } from "../../Common/DeletePopup";
 
@@ -173,7 +173,14 @@ export const OpenOrders = () => {
                             dark ? "bg-[#181A20]" : " bg-white"
                           } z-10 sticky top-0 text-center text-[#707A8A] min-w-[8rem] capitalize`}
                         >
-                          amount
+                          Executed Quantity
+                        </th>
+                        <th
+                          className={`text-[12px] pl-1 pr-1 p-[4px] ${
+                            dark ? "bg-[#181A20]" : " bg-white"
+                          } z-10 sticky top-0 text-center text-[#707A8A] min-w-[8rem] capitalize`}
+                        >
+                          Order Quantity
                         </th>
                         <th
                           className={`text-[12px] pl-1 pr-1 p-[4px] text-center ${
@@ -200,121 +207,129 @@ export const OpenOrders = () => {
                     </thead>
                     <tbody>
                       {/* {!loading ? ( */}
-                        {/* <> */}
-                          {Array.isArray(openOrder) && openOrder?.length > 0 ? (
-                            <>
-                              {Array.isArray(openOrder) &&
-                                openOrder?.map((item, index) => {
-                                  const date = formatDate(item?.created_at);
-                                  const percentage = parseFloat(
-                                    (
-                                      (Number(item?.executed_base_quantity) /
-                                        Number(item?.base_quantity)) *
-                                      100
-                                    ).toFixed(2)
-                                  );
-                                  return (
-                                    <tr key={index}>
-                                      <td className="text-[12px]  pl-1 pr-1 p-[4px] text-center capitalize ">
-                                        {date}
-                                      </td>
-                                      <td className="text-[12px]  pl-1 pr-1 p-[4px] text-center uppercase">
-                                        {currentItem}
-                                      </td>
-                                      <td className="text-[12px]  pl-1 pr-1 p-[4px] text-center capitalize">
-                                        {item?.order_type}
-                                      </td>
-                                      <td className="text-[12px]  pl-1 pr-1 p-[4px] text-center capitalize">
-                                        {item?.type}
-                                      </td>
-                                      <td className="text-[12px]  pl-1 pr-1 p-[4px] text-center capitalize">
-                                        <div className="flex gap-2 items-center  justify-center cursor-pointer">
-                                          {item?.order_price}
-                                          <FaRegEdit
-                                            className="h-3 w-3"
-                                            onClick={() => {
-                                              handleDispatch();
-                                              setOrderId(item?.order_id);
-                                            }}
-                                          />
-                                        </div>
-                                        {orderId && showPopup && (
-                                          <div
-                                            className="absolute -top-[150px]  z-50"
-                                            ref={popupRef}
-                                          >
-                                            <ModifyPopup
-                                              orderId={orderId}
-                                              dark={dark}
-                                            />
-                                          </div>
-                                        )}
-                                      </td>
-                                      <td className="text-[12px]  pl-1 pr-1 p-[4px] text-center capitalize">
-                                        <div className="flex gap-2 items-center justify-center cursor-pointer">
-                                          {item?.executed_base_quantity}
-                                          <FaRegEdit
-                                            onClick={() => {
-                                              handleDispatch();
-                                              setOrderId(item?.order_id);
-                                            }}
-                                          />
-                                        </div>
-                                      </td>
-
-                                      <td className="text-[12px]  pl-1 pr-1 p-[4px] text-center capitalize">
-                                        {percentage}%
-                                      </td>
-                                      <td className="text-[12px]  pl-1 pr-1 p-[4px] text-center capitalize">
-                                        {item?.status}
-                                      </td>
-                                      <td
-                                        className="text-[12px]  pl-1 pr-1 p-[4px] text-center capitalize cursor-pointer"
+                      {/* <> */}
+                      {Array.isArray(openOrder) && openOrder?.length > 0 ? (
+                        <>
+                          {Array.isArray(openOrder) &&
+                            openOrder?.map((item, index) => {
+                              const date = formatDate(item?.created_at);
+                              const percentage = parseFloat(
+                                (
+                                  (Number(item?.executed_base_quantity) /
+                                    Number(item?.base_quantity)) *
+                                  100
+                                ).toFixed(2)
+                              );
+                              return (
+                                <tr key={index}>
+                                  <td className="text-[12px]  pl-1 pr-1 p-[4px] text-center capitalize ">
+                                    {date}
+                                  </td>
+                                  <td className="text-[12px]  pl-1 pr-1 p-[4px] text-center uppercase">
+                                    {currentItem}
+                                  </td>
+                                  <td className="text-[12px]  pl-1 pr-1 p-[4px] text-center capitalize">
+                                    {item?.order_type}
+                                  </td>
+                                  <td className="text-[12px]  pl-1 pr-1 p-[4px] text-center capitalize">
+                                    {item?.type}
+                                  </td>
+                                  <td className="text-[12px]  pl-1 pr-1 p-[4px] text-center capitalize">
+                                    <div className="flex gap-2 items-center  justify-center cursor-pointer">
+                                      {item?.order_price}
+                                      <FaRegEdit
+                                        className="h-3 w-3"
                                         onClick={() => {
-                                          if (item?.order_id === pendingOrderId)
-                                            return;
-                                          setIsPopup(!isPopup);
+                                          handleDispatch();
                                           setOrderId(item?.order_id);
                                         }}
+                                      />
+                                    </div>
+                                    {orderId && showPopup && (
+                                      <div
+                                        className="absolute -top-[220px]  z-50"
+                                        ref={popupRef}
                                       >
-                                        cancel
-                                        {isPopup && (
-                                          <ConfirmationBox
-                                            handleCancel={() =>
-                                              setIsPopup(!isPopup)
-                                            }
-                                            handleSubmit={() => {
-                                              deleteOrder(
-                                                orderId,
-                                                item?.pair_id
-                                              );
-                                              setIsPopup(!isPopup);
-                                            }}
-                                            message={
-                                              "Are you Sure you want to Delete this order?"
-                                            }
-                                            dark={dark}
-                                          />
-                                        )}
-                                      </td>
-                                    </tr>
-                                  );
-                                })}
-                            </>
-                          ) : (
-                            <tr>
-                              <td
-                                colSpan={13}
-                                rowSpan={6}
-                                className="text-center text-sm py-4"
-                              >
-                                <div className="flex items-center justify-center h-[300px] text-sm text-gray-400">
-                                  No Data found
-                                </div>
-                              </td>
-                            </tr>
-                          )}
-                        {/* </>
+                                        <ModifyPopup
+                                          orderId={orderId}
+                                          dark={dark}
+                                        />
+                                      </div>
+                                    )}
+                                  </td>
+                                  <td className="text-[12px]  pl-1 pr-1 p-[4px] text-center capitalize">
+                                    <div className="flex gap-2 items-center justify-center cursor-pointer">
+                                      {item?.executed_base_quantity}
+                                      <FaRegEdit
+                                        onClick={() => {
+                                          handleDispatch();
+                                          setOrderId(item?.order_id);
+                                        }}
+                                      />
+                                    </div>
+                                  </td>
+                                  <td className="text-[12px]  pl-1 pr-1 p-[4px] text-center capitalize">
+                                    <div className="flex gap-2 items-center justify-center cursor-pointer">
+                                      {item?.base_quantity}
+                                      <FaRegEdit
+                                        onClick={() => {
+                                          handleDispatch();
+                                          setOrderId(item?.order_id);
+                                        }}
+                                      />
+                                    </div>
+                                  </td>
+
+                                  <td className="text-[12px]  pl-1 pr-1 p-[4px] text-center capitalize">
+                                    {percentage}%
+                                  </td>
+                                  <td className="text-[12px]  pl-1 pr-1 p-[4px] text-center capitalize">
+                                    {item?.status}
+                                  </td>
+                                  <td
+                                    className="text-[12px]  pl-1 pr-1 p-[4px] text-center capitalize cursor-pointer"
+                                    onClick={() => {
+                                      if (item?.order_id === pendingOrderId)
+                                        return;
+                                      setIsPopup(!isPopup);
+                                      setOrderId(item?.order_id);
+                                    }}
+                                  >
+                                    cancel
+                                    {isPopup && (
+                                      <ConfirmationBox
+                                        handleCancel={() =>
+                                          setIsPopup(!isPopup)
+                                        }
+                                        handleSubmit={() => {
+                                          deleteOrder(orderId, item?.pair_id);
+                                          setIsPopup(!isPopup);
+                                        }}
+                                        message={
+                                          "Are you Sure you want to Delete this order?"
+                                        }
+                                        dark={dark}
+                                      />
+                                    )}
+                                  </td>
+                                </tr>
+                              );
+                            })}
+                        </>
+                      ) : (
+                        <tr>
+                          <td
+                            colSpan={13}
+                            rowSpan={6}
+                            className="text-center text-sm py-4"
+                          >
+                            <div className="flex items-center justify-center h-[300px] text-sm text-gray-400">
+                              No Data found
+                            </div>
+                          </td>
+                        </tr>
+                      )}
+                      {/* </>
                       ) : (
                         <tr>
                           <td colSpan={13}>
@@ -466,30 +481,38 @@ export const OpenOrders = () => {
                         fundData?.data?.length > 0 ? (
                           <>
                             {Array.isArray(fundData?.data) &&
-                              fundData?.data?.map((item, index) => (
-                                <>
-                                  {item?.balance > 0 && (
-                                    <tr key={index}>
-                                      <td className="text-[12px]  pl-1 pr-1 p-[4px] text-center capitalize ">
-                                        {item?.symbol}
-                                      </td>
-                                      <td className="text-[12px]  pl-1 pr-1 p-[4px] text-center uppercase">
-                                        {Number(item?.balance) +
-                                          Number(item?.unavailable_balance)}
-                                      </td>
-                                      <td className="text-[12px]  pl-1 pr-1 p-[4px] text-center capitalize">
-                                        {item?.balance}
-                                      </td>
-                                      <td className="text-[12px]  pl-1 pr-1 p-[4px] text-center capitalize">
-                                        {item?.unavailable_balance}
-                                      </td>
-                                      <td className="text-[12px]  pl-1 pr-1 p-[4px] text-center   capitalize">
-                                        {item?.usdtprice}
-                                      </td>
-                                    </tr>
-                                  )}
-                                </>
-                              ))}
+                              fundData?.data?.map((item, index) => {
+                                const totalBalance =
+                                  Number(item?.balance) +
+                                  Number(
+                                    item?.unavailable_balance <= 0
+                                      ? 0
+                                      : item?.unavailable_balance
+                                  );
+                                return (
+                                  <>
+                                    {item?.balance > 0 && (
+                                      <tr key={index}>
+                                        <td className="text-[12px]  pl-1 pr-1 p-[4px] text-center capitalize ">
+                                          {item?.symbol}
+                                        </td>
+                                        <td className="text-[12px]  pl-1 pr-1 p-[4px] text-center uppercase">
+                                          {totalBalance.toString()}
+                                        </td>
+                                        <td className="text-[12px]  pl-1 pr-1 p-[4px] text-center capitalize">
+                                          {item?.balance}
+                                        </td>
+                                        <td className="text-[12px]  pl-1 pr-1 p-[4px] text-center capitalize">
+                                          {item?.unavailable_balance<=0?0:item?.unavailable_balance}
+                                        </td>
+                                        <td className="text-[12px]  pl-1 pr-1 p-[4px] text-center   capitalize">
+                                          {item?.usdtprice}
+                                        </td>
+                                      </tr>
+                                    )}
+                                  </>
+                                );
+                              })}
                           </>
                         ) : (
                           <tr>

@@ -39,7 +39,7 @@ export const SearchData = async ({ dispatch, setIsLoading }) => {
   try {
     const response1 = await apiRequest({
       method: "get",
-      url: `https://server-yo1d.onrender.com/binance-exchange`,
+      url: `https://test.bitzup.com/market/exchangeinfoall`,
     });
     const formattedData = response1?.data.filter(
       (item) => item?.pair_symbol.toLowerCase() !== "coreumusdt"
@@ -103,7 +103,7 @@ export const TopMoves = async (dispatch) => {
   try {
     const { data, status } = await apiRequest({
       method: "get",
-      url: `https://server-yo1d.onrender.com/binance-Movers`,
+      url: `https://test.bitzup.com/market/exchangeinfo`,
     });
     if (status === 200) {
       dispatch(setTopMovers(data));
@@ -117,7 +117,7 @@ export const allMover = async (dispatch) => {
   try {
     const { data, status } = await apiRequest({
       method: "get",
-      url: `https://server-yo1d.onrender.com/binance-allMovers`,
+      url: `https://test.bitzup.com/market/exchangeinfoall`,
     });
     if (status === 200) {
       dispatch(setAllMovers(data));
@@ -168,6 +168,27 @@ export const openOrders = async (pairId, userId, dispatch) => {
     const { data, status } = await apiRequest({
       method: "get",
       url: `https://test.bitzup.com/order/user/get-open-orders?user_id=${userI}&pair_id=${pairId}`,
+    });
+    if (status === 200 && data?.status == 1) {
+      dispatch(setOpenOrderData(data?.data));
+    }
+    if (status === 400 && data?.status == 3) {
+      // window.location.href = "/login";
+      localStorage.removeItem("userData");
+      window.dispatchEvent(new Event("userDataChanged"));
+    }
+  } catch (err) {
+    console.error("Failed to fetch second API", err);
+  } finally {
+    dispatch(setLoading(false));
+  }
+};
+export const getAllOpenOrders = async (dispatch) => {
+  dispatch(setLoading(true));
+  try {
+    const { data, status } = await apiRequest({
+      method: "get",
+      url: `https://test.bitzup.com/order/user/get-open-orders`,
     });
     if (status === 200 && data?.status == 1) {
       dispatch(setOpenOrderData(data?.data));

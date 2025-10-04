@@ -216,7 +216,7 @@ export const SpotOrders = () => {
   return (
     <>
       {showPopup && (
-        <div className="w-full h-screen  fixed inset-0  z-40 bg-[#00000080] overflow-hidden">
+        <div className="w-full h-screen  fixed inset-0  z-40 bg-[#00000080] overflow-hidden md:hidden">
           <ModifyPopup orderId={orderId} />
         </div>
       )}

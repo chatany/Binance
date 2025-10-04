@@ -56,8 +56,8 @@ export const Socket = () => {
     const fetchRestData = async () => {
       const url =
         apiId === "binance"
-          ? `https://server-yo1d.onrender.com/binance-ticker?url=${searchQuery.toUpperCase()}`
-          : `https://server-yo1d.onrender.com/bitget-ticker?url=${searchQuery.toUpperCase()}`;
+          ? `https://test.bitzup.com/market/v1-ticker?symbol=${searchQuery.toUpperCase()}`
+          : `https://test.bitzup.com/market/v2-ticker?symbol=${searchQuery.toUpperCase()}`;
       try {
         const { data, status } = await apiRequest({
           method: "get",
@@ -204,8 +204,8 @@ export const Socket = () => {
     const fetchRestData = async () => {
       const url =
         apiId === "binance"
-          ? `https://server-yo1d.onrender.com/binance-order?url=${searchQuery.toUpperCase()}`
-          : `https://server-yo1d.onrender.com/bitget-order?url=${searchQuery.toUpperCase()}`;
+          ? `https://test.bitzup.com/market/v1-order?symbol=${searchQuery.toUpperCase()}`
+          : `https://test.bitzup.com/market/v2-order?symbol=${searchQuery.toUpperCase()}`;
       try {
         const { data, status } = await apiRequest({
           method: "get",
@@ -287,8 +287,8 @@ export const Socket = () => {
     const fetchRestData = async () => {
       const url =
         apiId === "binance"
-          ? `https://server-yo1d.onrender.com/binance-Trades?url=${searchQuery.toUpperCase()}`
-          : `https://server-yo1d.onrender.com/bitget-Trades?url=${searchQuery.toUpperCase()}`;
+          ? `https://test.bitzup.com/market/v1-Trades?symbol=${searchQuery.toUpperCase()}`
+          : `https://test.bitzup.com/market/v2-Trades?symbol=${searchQuery.toUpperCase()}`;
       try {
         const { data, status } = await apiRequest({
           method: "get",

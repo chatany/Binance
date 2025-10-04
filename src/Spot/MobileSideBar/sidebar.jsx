@@ -11,7 +11,11 @@ import { setDark, setShow } from "../../Store/webSocket";
 export default function MobileSidebar() {
   const dark = useSelector((state) => state.counter.dark);
   const show = useSelector((state) => state.counter.show);
-  const [openMenus, setOpenMenus] = useState({ trade: false, earn: false });
+  const [openMenus, setOpenMenus] = useState({
+    trade: false,
+    earn: false,
+    more: false,
+  });
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const token = useAuth();
@@ -128,11 +132,23 @@ export default function MobileSidebar() {
         </div>
 
         <div className=" flex flex-col gap-10 text-lg p-2 text-gray-400">
-          <div className="font-semibold hover:" onClick={() => navigate("/")}>
+          <div
+            className="font-semibold hover:"
+            onClick={() => {
+              handleClose();
+              navigate("/");
+            }}
+          >
             Buy Crypto
           </div>
 
-          <div className="font-semibold" onClick={() => navigate("/")}>
+          <div
+            className="font-semibold"
+            onClick={() => {
+              handleClose();
+              navigate("/");
+            }}
+          >
             Markets
           </div>
 
@@ -149,11 +165,14 @@ export default function MobileSidebar() {
               />
             </div>
             {openMenus.trade && (
-              <ul className="flex flex-col pl-4 text-md gap-2 ">
-                <li>Convert</li>
-                <li>Spot Exchange</li>
-                <li>Margin Exchange</li>
-                <li>Trading Bots</li>
+              <ul
+                className="flex flex-col mt-3 text-md gap-2 cursor-pointer"
+                onClick={() => {
+                  navigate("/spot");
+                  handleClose();
+                }}
+              >
+                <li>Spot</li>
               </ul>
             )}
           </div>
@@ -161,7 +180,7 @@ export default function MobileSidebar() {
           <div>
             <div
               onClick={() => toggleMenu("earn")}
-              className="flex justify-between items-center cursor-pointer font-semibold"
+              className="flex justify-between items-center cursor-pointer font-semibold cursor-pointer"
             >
               <span>Earn</span>
               <FaChevronDown
@@ -170,13 +189,49 @@ export default function MobileSidebar() {
                 }`}
               />
             </div>
+            {openMenus.earn && (
+              <ul
+                className="flex flex-col mt-3 text-md gap-2 cursor-pointer"
+                onClick={() => {
+                  handleClose();
+                  navigate("/subscription");
+                }}
+              >
+                <li>Staking</li>
+              </ul>
+            )}
           </div>
-
+          <div>
+            <div
+              onClick={() => toggleMenu("more")}
+              className="flex justify-between items-center cursor-pointer font-semibold"
+            >
+              <span>More</span>
+              <FaChevronDown
+                className={`transition-transform h-3 w-3 ${
+                  openMenus.trade ? "rotate-180" : ""
+                }`}
+              />
+            </div>
+            {openMenus.more && (
+              <ul
+                className="flex flex-col mt-3 text-md gap-2 cursor-pointer "
+                onClick={() => {
+                  handleClose();
+                  navigate("/Referral");
+                }}
+              >
+                <li>Referral</li>
+              </ul>
+            )}
+          </div>
           <Link
             to={"https://bitzup.freshdesk.com/support/home"}
             target="_blank"
+            onClick={handleClose}
+            className="cursor-pointer"
           >
-            <div className="font-semibold">24/7 Chat Support</div>
+            <div className="font-semibold">Help Support</div>
           </Link>
           <div className="justify-between flex items-center">
             <div className="text-gray-400 font-semibold text-lg">Dark Mode</div>
